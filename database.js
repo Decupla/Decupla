@@ -1,3 +1,6 @@
+const fs = require('fs');
+const sqlite = require('sqlite3');
+
 const connectDatabase = () => {
     if (fs.existsSync('./database/sql.db')) {
         return new sqlite.Database('./database/sql.db', sqlite.OPEN_READWRITE, (error) => {
@@ -36,5 +39,35 @@ const createTables = (database) => {
     `);
 }
 
-const db = connectDatabase();
-module.exports = db;
+const connection = connectDatabase();
+
+const databaseAPI = {
+    selectAll (table) {
+        connection.all(`select * from ${table}`,(error,rows)=>{
+            if(error){
+                console.log('Error: ' + error);
+                return false;
+            }
+            return(rows);
+        })
+    },
+
+    insert (table,data) {
+        const columns = Object.keys(data);
+        const values = Object.values(data); 
+
+        const placeholders = columns.map(() => '?').join(', ');
+        const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`;
+
+        connection.run(query,values, (error) => {
+            if(error){
+                console.log('Error: ' + error);
+                return false;
+            }
+            return true
+        })
+    }
+
+}
+
+module.exports = databaseAPI;
