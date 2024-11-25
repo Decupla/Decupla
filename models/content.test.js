@@ -1,0 +1,1 @@
+const {getAll, add} = require('./content');
