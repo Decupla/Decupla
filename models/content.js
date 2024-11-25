@@ -1,7 +1,12 @@
 const db = require('../database');
 
-const getAll = () => {
-    console.log(db.selectAll('content'))
+const getAll = async () => {
+    try {
+        const rows = await db.selectAll('content');
+        return rows;
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Daten:', error);
+    }
 }
 
 const add = () => {

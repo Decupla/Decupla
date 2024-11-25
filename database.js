@@ -43,13 +43,16 @@ const connection = connectDatabase();
 
 const databaseAPI = {
     selectAll (table) {
-        connection.all(`select * from ${table}`,(error,rows)=>{
-            if(error){
-                console.log('Error: ' + error);
-                return false;
-            }
-            return(rows);
-        })
+        return new Promise((resolve, reject) => {
+            connection.all(`SELECT * FROM ${table}`, (error, rows) => {
+                if (error) {
+                    console.log('Error: ' + error);
+                    reject(error);
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
     },
 
     insert (table,data) {

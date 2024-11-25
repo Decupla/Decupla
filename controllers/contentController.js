@@ -1,10 +1,11 @@
 const Content = require('../models/content');
 
-const index = (req,res) => {
-    const content = Content.getAll();
+const index = async (req,res) => {
+    const content = await Content.getAll();
 
     res.render('content',{
-        title: 'Content'
+        title: 'Content',
+        content
     });
 }
 

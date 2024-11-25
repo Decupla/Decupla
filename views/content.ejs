@@ -1,2 +1,8 @@
 <%- include('layout/layoutStart.ejs') %>
+    <h1>Content</h1>
+    <% for(var i=0; i<content.length; i++) {%>
+        <div class="content">
+            <%= content[i].title %>
+        </div>
+     <% } %>
 <%- include('layout/layoutEnd.ejs') %>
