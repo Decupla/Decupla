@@ -2,8 +2,11 @@
     <h1>Content</h1>
     <a href="/content/create"><button>add new</button></a>
     <% for(var i=0; i<content.length; i++) {%>
-        <div class="content">
-            <%= content[i].title %>
+        <div class="content" style="display: flex">
+            <div class="title">
+                <%= content[i].title %>
+            </div>
+            <a href="/content/edit/<%= content[i].id %>"><button>edit</button></a>
         </div>
      <% } %>
 <%- include('layout/layoutEnd.ejs') %>

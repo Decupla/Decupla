@@ -12,7 +12,17 @@ const index = async (req,res) => {
 
 const create = (req,res) => {
     res.render('addContent',{
-        title: 'Create new content'
+        title: 'Create Content'
+    });
+}
+
+const edit = async (req,res) => {
+    const { id } = req.params;
+    // get content data by id
+    const data = await Content.get(id);
+    res.render('editContent',{
+        title: 'Edit Content',
+        data
     });
 }
 
@@ -36,5 +46,6 @@ const saveNew = (req,res) => {
 module.exports = {
     index,
     create,
+    edit,
     saveNew
 }

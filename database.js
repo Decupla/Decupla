@@ -56,6 +56,20 @@ const databaseAPI = {
         });
     },
 
+    selectWhere(table, identifier, value) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT * FROM ${table} WHERE ${identifier} = ?`;
+            connection.get(query, [value], (error, result) => {
+                if (error) {
+                    console.log('Error: ' + error);
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+
     insert(table, data) {
         const columns = Object.keys(data);
         const values = Object.values(data);

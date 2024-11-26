@@ -1,0 +1,15 @@
+<h1>Edit Content</h1>
+<form action="/content/save" method="POST">
+    <div>
+        <label for="title">Title</label>
+        <input name="title" id="title" type="text" value="<%= data.title %>">
+    </div>
+    <div>
+        <label for="status">Status</label>
+        <select name="status" id="status">
+            <option value="0">Draft</option>
+            <option value="1">Published</option>
+        </select>
+    </div>
+    <input type="submit" value="save">
+</form>
