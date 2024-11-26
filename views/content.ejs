@@ -1,5 +1,6 @@
 <%- include('layout/layoutStart.ejs') %>
     <h1>Content</h1>
+    <a href="/content/create"><button>add new</button></a>
     <% for(var i=0; i<content.length; i++) {%>
         <div class="content">
             <%= content[i].title %>

@@ -10,7 +10,13 @@ const index = async (req,res) => {
     });
 }
 
-const add = (req,res) => {
+const create = (req,res) => {
+    res.render('addContent',{
+        title: 'Create new content'
+    });
+}
+
+const saveNew = (req,res) => {
     const data = {
         title: req.body.title,
         status: req.body.status
@@ -22,11 +28,13 @@ const add = (req,res) => {
     if(validation.hasErrors()){
         res.status(400).send(validation.errors);
     } else {
-        res.status(300).send('Alles ok');
+        Content.add(data)
+        res.status(201).redirect('/');
     }
 }
 
 module.exports = {
     index,
-    add
+    create,
+    saveNew
 }

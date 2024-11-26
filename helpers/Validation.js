@@ -8,12 +8,12 @@ class Validation {
 
     required(field) {
         if( this.inputData[field] === undefined || this.inputData[field] === null || this.inputData[field] === '' ){
-            this.errors.push(`${field} is required`);
+            this.addError(field,`${field} is required`);
         }
     }
     string(field) {
         if(typeof(this.inputData[field]) !== "string"){
-            this.errors.push(`${field} must be type string`);
+            this.addError(field,`${field} must be type string`);
         }
     }
     // minLength(value,satisfier){
@@ -33,6 +33,13 @@ class Validation {
         });
     }
     
+    addError(field,message) {
+        this.errors.push({
+            field,
+            message
+        })
+    }
+
     hasErrors() {
         return this.errors.length > 0;
     }
