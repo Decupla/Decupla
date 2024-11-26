@@ -4,17 +4,20 @@ const Content = require('../models/content');
 jest.mock('../models/content');
 
 describe('index',()=>{
-    it('should render content dashboard',()=>{
+    it('should render content dashboard',async ()=>{
         const req = {};
         const res = {
             render: jest.fn()
         }
         Content.getAll.mockReturnValue([]);
 
-        index(req, res);
+        const content = await Content.getAll();
+
+        await index(req, res);
 
         expect(res.render).toHaveBeenCalledWith('content', {
-            title: 'Content'
+            title: 'Content',
+            content
         });
         expect(Content.getAll).toHaveBeenCalled();
     })

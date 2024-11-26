@@ -24,25 +24,26 @@ const connectDatabase = () => {
 const createTables = (database) => {
     database.exec(`
         create table users (
-            id int primary key not null,
-            email string UNIQUE not null,
-            name string not null,
-            password string not null,
-            role int not null
+            id INTEGER primary key,
+            email TEXT UNIQUE not null,
+            name TEXT not null,
+            password TEXT not null,
+            role INTEGER not null
         );
 
-        create table content (
-            id int primary key not null,
-            title string not null,
-            status int not null
+        CREATE TABLE content (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            status INTEGER NOT NULL
         );
+
     `);
 }
 
 const connection = connectDatabase();
 
 const databaseAPI = {
-    selectAll (table) {
+    selectAll(table) {
         return new Promise((resolve, reject) => {
             connection.all(`SELECT * FROM ${table}`, (error, rows) => {
                 if (error) {
@@ -55,15 +56,15 @@ const databaseAPI = {
         });
     },
 
-    insert (table,data) {
+    insert(table, data) {
         const columns = Object.keys(data);
-        const values = Object.values(data); 
+        const values = Object.values(data);
 
         const placeholders = columns.map(() => '?').join(', ');
         const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`;
 
-        connection.run(query,values, (error) => {
-            if(error){
+        connection.run(query, values, (error) => {
+            if (error) {
                 console.log('Error: ' + error);
                 return false;
             }

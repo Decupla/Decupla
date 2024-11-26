@@ -9,12 +9,8 @@ const getAll = async () => {
     }
 }
 
-const add = () => {
-    db.insert('content',{
-        ID: 1,
-        title: 'Home',
-        status: 1
-    });
+const add = (data) => {
+    return db.insert('content',data);
 }
 
 module.exports = {

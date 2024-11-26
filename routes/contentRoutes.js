@@ -3,6 +3,6 @@ const contentController = require("../controllers/contentController");
 
 const contentRouter = Router();
 contentRouter.get('/',contentController.index);
-contentRouter.get('/add',contentController.add);
+contentRouter.post('/add',contentController.add);
 
 module.exports = contentRouter;
