@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-
+const methodOverride = require('method-override');
 
 const contentRouter = require('./routes/contentRoutes');
 
@@ -9,7 +9,13 @@ const app = express();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      var method = req.body._method;
+      delete req.body._method;
+      return method;
+    }
+  }));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));

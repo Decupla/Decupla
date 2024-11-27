@@ -6,7 +6,12 @@
             <div class="title">
                 <%= content[i].title %>
             </div>
+            <form action="/content/delete/<%= content[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">delete</button>
+            </form>
             <a href="/content/edit/<%= content[i].id %>"><button>edit</button></a>
+
         </div>
      <% } %>
 <%- include('layout/layoutEnd.ejs') %>

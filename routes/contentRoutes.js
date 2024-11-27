@@ -5,7 +5,7 @@ const contentRouter = Router();
 contentRouter.get('/',contentController.index);
 contentRouter.get('/create',contentController.create);
 contentRouter.get('/edit/:id',contentController.edit);
-contentRouter.get('/delete/:id',contentController.edit);
+contentRouter.delete('/delete/:id',contentController.edit);
 contentRouter.post('/saveNew',contentController.saveNew);
 contentRouter.post('/save/:id',contentController.save);
 
