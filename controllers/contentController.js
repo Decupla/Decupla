@@ -43,9 +43,30 @@ const saveNew = (req,res) => {
     }
 }
 
+const save = (req,res) => {
+    const { id } = req.params;
+    const data = {
+        title: req.body.title,
+        status: req.body.status,
+        id
+    } 
+
+    const validation = new Validation(data);
+    validation.validate("title","required|string");
+    validation.validate("status","required");
+    validation.validate("id","required|numeric");
+    if(validation.hasErrors()){
+        res.status(400).send(validation.errors);
+    } else {
+        Content.update(id,data);
+        res.status(201).redirect('/');
+    }
+}
+
 module.exports = {
     index,
     create,
     edit,
-    saveNew
+    saveNew,
+    save
 }

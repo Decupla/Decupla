@@ -70,6 +70,26 @@ const databaseAPI = {
         });
     },
 
+    updateWhere(table, data, identifier, value) {
+        const columns = Object.keys(data);
+        const values = Object.values(data);
+
+        const placeholders = columns.map((column) => `${column} = ?`).join(', ');
+
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE ${table} SET ${placeholders} WHERE ${identifier} = ?`;
+            values.push(value);
+            connection.run(query, values, (error) => {
+                if (error) {
+                    console.log('Error: ' + error);
+                    reject(error);
+                } else {
+                    resolve(true);
+                }
+            })
+        })
+    },
+
     insert(table, data) {
         const columns = Object.keys(data);
         const values = Object.values(data);
