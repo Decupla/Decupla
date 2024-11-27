@@ -1,4 +1,4 @@
-const db = require('../database');
+const db = require('../database/database');
 
 //ToDo: translate errors to english
 
@@ -26,9 +26,17 @@ const add = (data) => {
 
 const update = async (id,data) => {
     try {
-        const result = await db.updateWhere('content',data,'id',id)
+        await db.updateWhere('content',data,'id',id)
     } catch (error) {
-        console.error('Fehler beim Aktualisieren der Daten: '. error);
+        console.error('Fehler beim Aktualisieren der Daten: ', error);
+    }
+}
+
+const remove = async (id) => {
+    try {
+        await db.deleteWhere('content','id',id);
+    } catch (error) {   
+        console.error('Fehler beim Löschen der Daten: ', error);
     }
 }
 
@@ -36,5 +44,6 @@ module.exports = {
     getAll,
     get,
     add,
-    update
+    update,
+    remove
 }

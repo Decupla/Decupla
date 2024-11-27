@@ -63,10 +63,16 @@ const save = (req,res) => {
     }
 }
 
+const remove = (req,res) => {
+    const { id } = req.params;
+    Content.remove(id);
+}
+
 module.exports = {
     index,
     create,
     edit,
     saveNew,
-    save
+    save,
+    remove
 }

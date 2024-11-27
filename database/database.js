@@ -23,12 +23,18 @@ const connectDatabase = () => {
 
 const createTables = (database) => {
     database.exec(`
-        create table users (
+        CREATE TABLE users (
             id INTEGER primary key,
             email TEXT UNIQUE not null,
             name TEXT not null,
             password TEXT not null,
             role INTEGER not null
+        );
+        
+        CREATE TABLE roles (
+            id INTEGER primary key,
+            name TEXT not null,
+            perms TEXT not null
         );
 
         CREATE TABLE content (
@@ -37,6 +43,22 @@ const createTables = (database) => {
             status INTEGER NOT NULL
         );
 
+        CREATE TABLE blocks (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            input TEXT NOT NULL
+        );
+
+        CREATE TABLE blockInstances (
+            id INTEGER PRIMARY KEY,
+            blockId INTEGER NOT NULL,
+            output TEXT NOT NULL
+        );
+
+        CREATE TABLE media (
+            id INTEGER PRIMARY KEY,
+            file TEXT NOT NULL
+        );
     `);
 }
 
@@ -88,6 +110,20 @@ const databaseAPI = {
                 }
             })
         })
+    },
+
+    deleteWhere(table, identifier, value) {
+        return new Promise((resolve, reject)=>{
+            const query = `DELETE FROM ${table} WHERE ${identifier} = ?`;
+            connection.run(query, [value], (error) => {
+                if (error) {
+                    console.log('Error: ' + error);
+                    reject(error);
+                } else {
+                    resolve(true);
+                }
+            })
+        })  
     },
 
     insert(table, data) {
