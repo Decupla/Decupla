@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
 const contentRouter = require('./routes/contentRoutes');
+const blocksRouter = require('./routes/blocksRoutes');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get('/',(req, res) => {
 })
 
 app.use('/content',contentRouter);
+app.use('/blocks',blocksRouter);
 
 app.listen(5500, () => {
     console.log(`Decupla running on port 5500`);

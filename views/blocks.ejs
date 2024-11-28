@@ -1,0 +1,20 @@
+<%- include('layout/layoutStart.ejs') %>
+    <h1>Blocks</h1>
+    <a href="/blocks/add"><button>add new</button></a>
+    <% if (query.message==="deleted") { %>
+        <div class="alert alert-success mt-4">Block was deleted!</div>
+    <% } %>
+    <% for(var i=0; i<blocks.length; i++) {%>
+        <div class="block" style="display: flex">
+            <div class="title">
+                <%= blocks[i].title %>
+            </div>
+            <form action="/blocks/delete/<%= blocks[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">delete</button>
+            </form>
+            <a href="/blocks/edit/<%= blocks[i].id %>"><button>edit</button></a>
+
+        </div>
+     <% } %>
+<%- include('layout/layoutEnd.ejs') %>

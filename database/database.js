@@ -46,7 +46,8 @@ const createTables = (database) => {
         CREATE TABLE blocks (
             id INTEGER PRIMARY KEY,
             title TEXT NOT NULL,
-            input TEXT NOT NULL
+            input TEXT NOT NULL,
+            status INTEGER NOT NULL
         );
 
         CREATE TABLE blockInstances (
