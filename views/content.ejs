@@ -1,6 +1,9 @@
 <%- include('layout/layoutStart.ejs') %>
     <h1>Content</h1>
     <a href="/content/create"><button>add new</button></a>
+    <% if (query.message==="deleted") { %>
+        <div class="alert alert-success mt-4">Content was deleted!</div>
+    <% } %>
     <% for(var i=0; i<content.length; i++) {%>
         <div class="content" style="display: flex">
             <div class="title">

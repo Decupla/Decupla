@@ -6,7 +6,8 @@ const index = async (req,res) => {
 
     res.render('content',{
         title: 'Content',
-        content
+        content,
+        query: req.query
     });
 }
 
@@ -22,11 +23,12 @@ const edit = async (req,res) => {
     const data = await Content.get(id);
     res.render('editContent',{
         title: 'Edit Content',
-        data
+        data,
+        query: req.query
     });
 }
 
-const saveNew = (req,res) => {
+const saveNew = async (req,res) => {
     const data = {
         title: req.body.title,
         status: req.body.status
@@ -38,8 +40,8 @@ const saveNew = (req,res) => {
     if(validation.hasErrors()){
         res.status(400).send(validation.errors);
     } else {
-        Content.add(data)
-        res.status(201).redirect('/');
+        const newID = await Content.add(data);
+        res.status(201).redirect(`/content/edit/${newID}?message=saved`);
     }
 }
 
@@ -59,13 +61,14 @@ const save = (req,res) => {
         res.status(400).send(validation.errors);
     } else {
         Content.update(id,data);
-        res.status(201).redirect('/');
+        res.status(201).redirect(`/content/edit/${id}?message=saved`);
     }
 }
 
-const remove = (req,res) => {
+const remove = async (req,res) => {
     const { id } = req.params;
-    Content.remove(id);
+    await Content.remove(id);
+    res.status(201).redirect('/content?message=deleted');
 }
 
 module.exports = {

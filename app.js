@@ -8,6 +8,7 @@ const contentRouter = require('./routes/contentRoutes');
 const app = express();
 
 app.use(express.json());
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {

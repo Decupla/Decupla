@@ -20,8 +20,13 @@ const get = async (id) => {
     }
 }
 
-const add = (data) => {
-    return db.insert('content',data);
+const add = async (data) => {
+    try {
+        const newId = await db.insert('content',data);
+        return newId;
+    } catch (error) {
+        console.error('Fehler beim Einfügen der Daten: ', error);
+    }
 }
 
 const update = async (id,data) => {

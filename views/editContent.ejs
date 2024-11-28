@@ -1,4 +1,10 @@
+<%- include('layout/layoutStart.ejs') %>
 <h1>Edit Content</h1>
+<% if(query.message==="saved"){ %>
+    <div class="alert alert-success my-4">
+        Content was successfully saved
+    </div>
+<% } %>
 <form action="/content/save/<%= data.id %>" method="POST">
     <div>
         <label for="title">Title</label>
@@ -13,3 +19,4 @@
     </div>
     <input type="submit" value="save">
 </form>
+<%- include('layout/layoutEnd.ejs') %>

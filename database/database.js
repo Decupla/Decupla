@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { resolve } = require('path');
 const sqlite = require('sqlite3');
 
 const connectDatabase = () => {
@@ -127,18 +128,21 @@ const databaseAPI = {
     },
 
     insert(table, data) {
-        const columns = Object.keys(data);
-        const values = Object.values(data);
-
-        const placeholders = columns.map(() => '?').join(', ');
-        const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`;
-
-        connection.run(query, values, (error) => {
-            if (error) {
-                console.log('Error: ' + error);
-                return false;
-            }
-            return true
+        return new Promise((resolve,reject)=>{
+            const columns = Object.keys(data);
+            const values = Object.values(data);
+    
+            const placeholders = columns.map(() => '?').join(', ');
+            const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`;
+    
+            connection.run(query, values, function (error) {
+                if (error) {
+                    console.log('Error: ' + error);
+                    reject(error);
+                } else {
+                    resolve(this.lastID);
+                }
+            })
         })
     }
 
