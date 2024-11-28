@@ -19,7 +19,26 @@ const getAll = async (data) => {
     }
 }
 
+const get = async (id) => {
+    try {
+        const result = await db.selectWhere('blocks','id',id);
+        return result;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+    }
+}
+
+const update = async (id,data) => {
+    try {
+        await db.updateWhere('blocks',data,'id',id);
+    } catch (error) {
+        console.error('Error updating data: ', error)
+    }
+}
+
 module.exports = {
     add,
-    getAll
+    getAll,
+    get,
+    update
 }

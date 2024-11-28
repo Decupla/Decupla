@@ -17,6 +17,15 @@ const create = async (req,res) => {
     });
 }
 
+const edit = async (req,res) => {
+    const { id } = req.params;
+    const data = await Block.get(id);
+    res.render('editBlock',{
+        title: 'Edit Block',
+        data
+    })
+}
+
 const saveNew = async (req,res) => {
     const data = {
         title: req.body.title,
@@ -36,8 +45,31 @@ const saveNew = async (req,res) => {
     }
 }
 
+const save = async (req,res) => {
+    const { id } = req.params;
+    const data = {
+        title: req.body.title,
+        status: req.body.status,
+        id
+    }
+
+    const validation = new Validation(data);
+    validation.validate("title","required|string");
+    validation.validate("status","required");
+    validation.validate("id","required|numeric");
+
+    if(validation.hasErrors()){
+        res.status(400).send(validation.errors);
+    } else {
+        Block.update(id,data);
+        res.status(201).redirect(`/blocks/edit/${id}?message=saved`);
+    }
+}
+
 module.exports = {
     index,
     create,
-    saveNew
+    saveNew,
+    save,
+    edit
 }
