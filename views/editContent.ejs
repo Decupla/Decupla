@@ -6,6 +6,7 @@
     </div>
 <% } %>
 <form action="/content/save/<%= data.id %>" method="POST">
+    <input type="hidden" name="_method" value="PUT">
     <div>
         <label for="title">Title</label>
         <input name="title" id="title" type="text" value="<%= data.title %>">

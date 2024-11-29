@@ -1,0 +1,24 @@
+<%- include('layout/layoutStart.ejs') %>
+<h1>Create New User</h1>
+<form action="/users/save" method="POST">
+    <div>
+        <label for="name">Name</label>
+        <input name="name" id="name" type="text">
+    </div>
+    <div>
+        <label for="email">E-Mail</label>
+        <input name="email" id="email" type="email">
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input name="password" id="password" type="password">
+    </div>
+    <div>
+        <select name="role" id="role">
+            <option value="0">Administrator</option>
+            <option value="1">Author</option>
+        </select>
+    </div>
+    <input type="submit" value="save">
+</form>
+<%- include('layout/layoutEnd.ejs') %>

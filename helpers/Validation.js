@@ -26,13 +26,22 @@ class Validation {
         }
     }
 
-    // minLength(value,satisfier){
-    //      return value.length>=satisfier;
-    // }
+    min(value,satisfier){
+         return value.length>=satisfier;
+    }
+
+    max(value,satisfier){
+        return value.length>=satisfier;
+    }
 
     validate (field,fieldRules) {
         const rulesSplit = fieldRules.split('|');
         rulesSplit.forEach(fieldRule => {
+            if(typeof this[fieldRule] === "undefined"){
+                console.log(fieldRule + ' is not defined');
+                return;
+            }
+
             if(fieldRule.includes(':')){
                 const ruleSplit = fieldRule.split(':');
                 const rule = ruleSplit[0];

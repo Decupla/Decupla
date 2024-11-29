@@ -1,5 +1,10 @@
 <%- include('layout/layoutStart.ejs') %>
-<h1>Create Edit Block</h1>
+<h1>Edit Block</h1>
+<% if(query.message==="saved"){ %>
+    <div class="alert alert-success my-4">
+        Block was successfully saved
+    </div>
+<% } %>
 <form action="/blocks/save/<%= data.id %>" method="POST">
     <input type="hidden" name="_method" value="PUT">
     <div>

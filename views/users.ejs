@@ -1,0 +1,20 @@
+<%- include('layout/layoutStart.ejs') %>
+    <h1>Users</h1>
+    <a href="/users/create"><button>add new</button></a>
+    <% if (query.message==="deleted") { %>
+        <div class="alert alert-success mt-4">Content was deleted!</div>
+    <% } %>
+    <% for(var i=0; i<users.length; i++) {%>
+        <div class="user" style="display: flex">
+            <div class="title">
+                <%= users[i].name %>
+            </div>
+            <form action="/users/delete/<%= users[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">delete</button>
+            </form>
+            <a href="/users/edit/<%= users[i].id %>"><button>edit</button></a>
+
+        </div>
+     <% } %>
+<%- include('layout/layoutEnd.ejs') %>

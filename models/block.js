@@ -10,7 +10,7 @@ const add = async (data) => {
     }
 }
 
-const getAll = async (data) => {
+const getAll = async () => {
     try {
         const rows = await db.selectAll('blocks');
         return rows;
@@ -32,7 +32,15 @@ const update = async (id,data) => {
     try {
         await db.updateWhere('blocks',data,'id',id);
     } catch (error) {
-        console.error('Error updating data: ', error)
+        console.error('Error updating data: ', error);
+    }
+}
+
+const remove = async (id) => {
+    try {
+        await db.deleteWhere('blocks','id',id);
+    } catch (error) {   
+        console.error('Error deleting data: ', error);
     }
 }
 
@@ -40,5 +48,6 @@ module.exports = {
     add,
     getAll,
     get,
-    update
+    update,
+    remove
 }
