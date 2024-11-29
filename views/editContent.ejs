@@ -5,7 +5,7 @@
         Content was successfully saved
     </div>
 <% } %>
-<form action="/content/save/<%= data.id %>" method="POST">
+<form action="/content/<%= data.id %>" method="POST">
     <input type="hidden" name="_method" value="PUT">
     <div>
         <label for="title">Title</label>

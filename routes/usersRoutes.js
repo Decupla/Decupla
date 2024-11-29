@@ -5,8 +5,8 @@ const usersRouter = Router();
 usersRouter.get('/',usersController.index);
 usersRouter.get('/create',usersController.create);
 usersRouter.get('/edit/:id',usersController.edit);
-usersRouter.post('/save',usersController.saveNew);
-usersRouter.put('/save/:id',usersController.save);
+usersRouter.post('/',usersController.saveNew);
+usersRouter.put('/:id',usersController.save);
 usersRouter.delete('/:id',usersController.remove)
 
 module.exports = usersRouter;

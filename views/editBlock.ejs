@@ -5,7 +5,7 @@
         Block was successfully saved
     </div>
 <% } %>
-<form action="/blocks/save/<%= data.id %>" method="POST">
+<form action="/blocks/<%= data.id %>" method="POST">
     <input type="hidden" name="_method" value="PUT">
     <div>
         <label for="title">Title</label>

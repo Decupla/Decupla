@@ -9,7 +9,7 @@
             <div class="title">
                 <%= blocks[i].title %>
             </div>
-            <form action="/blocks/delete/<%= blocks[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+            <form action="/blocks/<%= blocks[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
                 <input type="hidden" name="_method" value="DELETE">
                 <button type="submit">delete</button>
             </form>
