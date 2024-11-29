@@ -1,8 +1,8 @@
 const User = require('../models/user');
 const Validation = require('../helpers/Validation');
 
-const index = (req,res) => {
-    const users = [];
+const index = async (req,res) => {
+    const users = await User.getAll();
 
     res.render('users',{
         title: 'Users',

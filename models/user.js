@@ -9,6 +9,16 @@ const add = async (data) => {
     }
 }
 
+const getAll = async () => {
+    try {
+        const rows = await db.selectAll('users');
+        return rows;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+    }
+}
+
 module.exports = {
-    add
+    add,
+    getAll
 }

@@ -26,12 +26,19 @@ class Validation {
         }
     }
 
-    min(value,satisfier){
-         return value.length>=satisfier;
+    min(field,satisfier){
+         return this.inputData[field].length>=satisfier;
     }
 
-    max(value,satisfier){
-        return value.length>=satisfier;
+    max(field,satisfier){
+        return this.inputData[field].length>=satisfier;
+    }
+
+    email(field) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(this.inputData[field])){
+            this.addError(field,`${field} must be a valid email`);
+        }
     }
 
     validate (field,fieldRules) {
