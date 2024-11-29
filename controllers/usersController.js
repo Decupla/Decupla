@@ -17,6 +17,17 @@ const create = (req,res) => {
     })
 }
 
+const edit = async (req,res) => {
+    const { id } = req.params;
+    // get content data by id
+    const data = await User.get(id);
+    res.render('editUser',{
+        title: 'Edit User',
+        data,
+        query: req.query
+    });
+}
+
 const saveNew = async (req,res) => {
     const data = {
         email: req.body.email,
@@ -39,8 +50,41 @@ const saveNew = async (req,res) => {
     }
 }
 
+const save = (req,res) => {
+    const { id } = req.params;
+    const data = {
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.password,
+        role: req.body.role,
+        id
+    };
+
+    const validation = new Validation(data);
+    validation.validate("email","required|email");
+    validation.validate("name","required|string|max:25|min:3");
+    validation.validate("password","required|max:30|min:8");
+    validation.validate("role","required|numeric");
+    validation.validate("id","required|numeric");
+    if(validation.hasErrors()){
+        res.status(400).send(validation.errors);
+    } else {
+        User.update(id,data);
+        res.status(201).redirect(`/users/edit/${id}?message=saved`);
+    }
+}
+const remove = async (req,res) => {
+    const { id } = req.params;
+    await User.remove(id);
+    res.status(201).redirect('/users?message=deleted');
+}
+
+
 module.exports = {
     index,
     create,
-    saveNew
+    saveNew,
+    save,
+    edit,
+    remove
 }
