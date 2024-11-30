@@ -4,6 +4,9 @@
     <div>
         <label for="title">Title</label>
         <input name="title" id="title" type="text">
+        <% if (typeof messages !== 'undefined' && messages.title) { %>
+            <div class="alert alert-danger p-3"><%= messages.title %></div>
+        <% } %>
     </div>
     <div>
         <label for="status">Status</label>

@@ -38,7 +38,11 @@ const saveNew = async (req,res) => {
     validation.validate("title","required|string");
     validation.validate("status","required");
     if(validation.hasErrors()){
-        res.status(400).send(validation.errors);
+        messages = validation.getErrors();
+        res.render('addContent',{
+            title: 'Create Content',
+            messages
+        })
     } else {
         const newID = await Content.add(data);
         res.status(201).redirect(`/content/edit/${newID}?message=saved`);
