@@ -1,0 +1,43 @@
+<%- include('layout/layoutStart.ejs') %>
+<h1>Edit Role</h1>
+<% if(query.message==="saved"){ %>
+    <div class="alert alert-success my-4">
+        Role was successfully saved
+    </div>
+<% } %>
+<form action="/roles/<%= data.id  %>" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <div>
+        <label for="name">Name</label>
+        <input name="name" id="name" type="text" value="<%= data.name %>">
+    </div>
+    <fieldset>
+        <legend>Permissions</legend>
+        <div>    
+            <input type="checkbox" id="editContent" name="permissions" value="editContent" <%= (perms.includes('editContent')) ? 'checked' : '' %>/>
+            <label for="editContent">Edit Content</label>
+        </div>
+        <div>    
+            <input type="checkbox" id="editBlockInstances" name="permissions" value="editBlockInstances" <%= (perms.includes('editBlockInstances')) ? 'checked' : '' %> />
+            <label for="editBlockInstances">Edit Blocks in Content</label>
+        </div>
+        <div>    
+            <input type="checkbox" id="manageMenus" name="permissions" value="manageMenus" <%= (perms.includes('manageMenus')) ? 'checked' : '' %> />
+            <label for="manageMenus">Manage Menus</label>
+        </div>
+        <div>    
+            <input type="checkbox" id="manageBlocks" name="permissions" value="manageBlocks" <%= (perms.includes('manageBlocks')) ? 'checked' : '' %> />
+            <label for="manageBlocks">Manage Blocks</label>
+        </div>
+        <div>    
+            <input type="checkbox" id="manageUsers" name="permissions" value="manageUsers" <%= (perms.includes('manageUsers')) ? 'checked' : '' %> />
+            <label for="manageUsers">Manage Users</label>
+        </div>
+        <div>    
+            <input type="checkbox" id="manageSettings" name="permissions" value="manageSettings" <%= (perms.includes('manageSettings')) ? 'checked' : '' %> />
+            <label for="manageSettings">Manage Settings</label>
+        </div>
+    </fieldset>
+    <input type="submit" value="save">
+</form>
+<%- include('layout/layoutEnd.ejs') %>

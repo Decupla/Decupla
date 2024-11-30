@@ -19,7 +19,7 @@ const create = (req,res) => {
 
 const edit = async (req,res) => {
     const { id } = req.params;
-    // get content data by id
+
     const data = await Content.get(id);
     res.render('editContent',{
         title: 'Edit Content',

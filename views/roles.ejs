@@ -1,0 +1,20 @@
+<%- include('layout/layoutStart.ejs') %>
+    <h1>Roles</h1>
+    <a href="/roles/create"><button>add new</button></a>
+    <% if (query.message==="deleted") { %>
+        <div class="alert alert-success mt-4">Role was deleted!</div>
+    <% } %>
+    <% for(var i=0; i<roles.length; i++) {%>
+        <div class="role" style="display: flex">
+            <div class="title">
+                <%= roles[i].name %>
+            </div>
+            <form action="/roles/<%= roles[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">delete</button>
+            </form>
+            <a href="/roles/edit/<%= roles[i].id %>"><button>edit</button></a>
+
+        </div>
+     <% } %>
+<%- include('layout/layoutEnd.ejs') %>
