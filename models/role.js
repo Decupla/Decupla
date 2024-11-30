@@ -35,9 +35,18 @@ const update = async (id,data) => {
     }
 }
 
+const remove = async (id) => {
+    try {
+        await db.deleteWhere('roles','id',id);
+    } catch (error) {   
+        console.error('Error deleting data: ', error);
+    }
+}
+
 module.exports = {
     add,
     getAll,
     get,
-    update
+    update,
+    remove
 }

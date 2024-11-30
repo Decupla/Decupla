@@ -71,10 +71,17 @@ const save = (req,res) => {
     }
 }
 
+const remove = async (req,res) => {
+    const { id } = req.params;
+    await Role.remove(id);
+    res.status(201).redirect('/roles?message=deleted');
+}
+
 module.exports = {
     index,
     create,
     edit,
     saveNew,
-    save
+    save,
+    remove
 }

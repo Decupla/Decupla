@@ -7,4 +7,5 @@ contentRouter.get('/create',rolesController.create);
 contentRouter.get('/edit/:id',rolesController.edit);
 contentRouter.post('/',rolesController.saveNew);
 contentRouter.put('/:id',rolesController.save);
+contentRouter.delete('/:id',rolesController.remove);
 module.exports = contentRouter;
