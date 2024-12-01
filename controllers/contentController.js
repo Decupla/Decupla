@@ -21,6 +21,9 @@ const edit = async (req,res) => {
     const { id } = req.params;
 
     const data = await Content.get(id);
+    if(data===null){
+        res.status(404).redirect('/content');
+    }
     res.render('editContent',{
         title: 'Edit Content',
         data,

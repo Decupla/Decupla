@@ -20,11 +20,15 @@ const create = async (req,res) => {
 const edit = async (req,res) => {
     const { id } = req.params;
     const data = await Block.get(id);
-    res.render('editBlock',{
-        title: 'Edit Block',
-        data,
-        query: req.query
-    })
+    if(data===null){
+        res.status(404).redirect('/blocks');
+    } else {
+        res.render('editBlock',{
+            title: 'Edit Block',
+            data,
+            query: req.query
+        })
+    }
 }
 
 const saveNew = async (req,res) => {
@@ -79,11 +83,17 @@ const remove = async (req,res) => {
     res.status(201).redirect('/blocks?message=deleted');
 }
 
+const get = async (req,res) => {
+    const { id } = req.params;
+    const block = await Block.get(id);
+}
+
 module.exports = {
     index,
     create,
     saveNew,
     save,
     edit,
-    remove
+    remove,
+    get
 }

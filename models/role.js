@@ -24,6 +24,7 @@ const get = async (id) => {
         return result;
     } catch (error) {
         console.error('Error retrieving data: ', error);
+        return null;
     }
 }
 

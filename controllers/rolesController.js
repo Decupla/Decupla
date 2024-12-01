@@ -22,13 +22,17 @@ const edit = async (req,res) => {
     const { id } = req.params;
 
     const data = await Role.get(id);
-    const perms = data.perms.split(',');
-    res.render('editRole',{
-        title: 'Edit Role',
-        data,
-        perms,
-        query: req.query
-    });
+    if(data===null){
+        res.status(404).redirect('/roles');
+    } else {
+        const perms = data.perms.split(',');
+        res.render('editRole',{
+            title: 'Edit Role',
+            data,
+            perms,
+            query: req.query
+        });
+    }
 }
 
 const saveNew = async (req,res) => {

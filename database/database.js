@@ -86,12 +86,15 @@ const databaseAPI = {
                 if (error) {
                     console.log('Error: ' + error);
                     reject(error);
+                } else if (!result) {
+                    reject(new Error(`Kein Datensatz in Tabelle "${table}" gefunden, wo ${identifier} = ${value}`));
                 } else {
                     resolve(result);
                 }
             });
         });
     },
+    
 
     updateWhere(table, data, identifier, value) {
         const columns = Object.keys(data);
