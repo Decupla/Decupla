@@ -43,7 +43,12 @@ const saveNew = async (req,res) => {
         res.status(400).send(validation.errors);
     } else {
         const newID = await Block.add(data);
-        res.status(201).redirect(`/blocks/edit/${newID}?message=saved`);
+        //to do: change response for fetch
+        // res.status(201).redirect(`/blocks/edit/${newID}?message=saved`);
+        res.status(201).send({
+            success: true,
+            newID
+        })
     }
 }
 

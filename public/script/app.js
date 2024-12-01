@@ -31,23 +31,38 @@ const handleInputSubmit = (event) => {
     toggleInputPopup();
 }
 
-const handleBlockSubmit = (event) => {
+const handleBlockSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
     data['input'] = JSON.stringify(inputData);
-    console.log(data);
-    console.log(JSON.stringify(data));
-    fetch('/blocks',{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(()=>{console.log('erfolg')})
-    .catch((error)=>{console.log('error: ' + error)});
-}
+
+    try {
+        const response = await fetch('/blocks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
+
+        const responseData = await response.json(); // Antwort als JSON parsen
+        console.log(responseData);
+
+        if (responseData.success) {
+            window.location.replace(`/blocks/edit/${responseData.newID}`);
+        } else {
+            console.error('Something went wrong while trying to save the block');
+        }
+    } catch (error) {
+        console.error('Something went wrong:', error);
+    }
+};
+
 
 // === FUNCTIONS ====
 const setupBlockForm = () => {
