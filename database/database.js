@@ -87,7 +87,7 @@ const databaseAPI = {
                     console.log('Error: ' + error);
                     reject(error);
                 } else if (!result) {
-                    reject(new Error(`Kein Datensatz in Tabelle "${table}" gefunden, wo ${identifier} = ${value}`));
+                    reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
                 } else {
                     resolve(result);
                 }
@@ -99,23 +99,27 @@ const databaseAPI = {
     updateWhere(table, data, identifier, value) {
         const columns = Object.keys(data);
         const values = Object.values(data);
-
         const placeholders = columns.map((column) => `${column} = ?`).join(', ');
-
+    
         return new Promise((resolve, reject) => {
             const query = `UPDATE ${table} SET ${placeholders} WHERE ${identifier} = ?`;
             values.push(value);
-            connection.run(query, values, (error) => {
+    
+            connection.run(query, values, function(error) {
                 if (error) {
                     console.log('Error: ' + error);
                     reject(error);
                 } else {
-                    resolve(true);
+                    if (this.changes === 0) {
+                        reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
+                    } else {
+                        resolve(true);
+                    }
                 }
-            })
-        })
+            });
+        });
     },
-
+    
     deleteWhere(table, identifier, value) {
         return new Promise((resolve, reject)=>{
             const query = `DELETE FROM ${table} WHERE ${identifier} = ?`;

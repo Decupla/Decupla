@@ -30,9 +30,11 @@ const add = async (data) => {
 
 const update = async (id,data) => {
     try {
-        await db.updateWhere('content',data,'id',id)
+        await db.updateWhere('content',data,'id',id);
+        return true;
     } catch (error) {
         console.error('Error updating data: ', error);
+        return false;
     }
 }
 

@@ -31,8 +31,10 @@ const get = async (id) => {
 const update = async (id,data) => {
     try {
         await db.updateWhere('roles',data,'id',id);
+        return true;
     } catch (error) {
         console.error('Error updating data: ', error);
+        return false;
     }
 }
 

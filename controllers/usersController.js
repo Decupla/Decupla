@@ -1,37 +1,37 @@
 const User = require('../models/user');
 const Validation = require('../helpers/Validation');
 
-const index = async (req,res) => {
+const index = async (req, res) => {
     const users = await User.getAll();
 
-    res.render('users',{
+    res.render('users', {
         title: 'Users',
         users,
         query: req.query
     })
 }
 
-const create = (req,res) => {
-    res.render('addUser',{
+const create = (req, res) => {
+    res.render('addUser', {
         title: 'Create User'
     })
 }
 
-const edit = async (req,res) => {
+const edit = async (req, res) => {
     const { id } = req.params;
     // get content data by id
     const data = await User.get(id);
-    if(data===null){
+    if (data === null) {
         res.status(404).redirect('/users');
     }
-    res.render('editUser',{
+    res.render('editUser', {
         title: 'Edit User',
         data,
         query: req.query
     });
 }
 
-const saveNew = async (req,res) => {
+const saveNew = async (req, res) => {
     const data = {
         email: req.body.email,
         name: req.body.name,
@@ -40,12 +40,12 @@ const saveNew = async (req,res) => {
     };
 
     const validation = new Validation(data);
-    validation.validate("email","required|email");
-    validation.validate("name","required|string|max:25|min:3");
-    validation.validate("password","required|max:30|min:8");
-    validation.validate("role","required|numeric");
+    validation.validate("email", "required|email");
+    validation.validate("name", "required|string|max:25|min:3");
+    validation.validate("password", "required|max:30|min:8");
+    validation.validate("role", "required|numeric");
 
-    if(validation.hasErrors()){
+    if (validation.hasErrors()) {
         res.status(400).send(validation.errors);
     } else {
         const newID = await User.add(data);
@@ -53,7 +53,7 @@ const saveNew = async (req,res) => {
     }
 }
 
-const save = (req,res) => {
+const save = async (req, res) => {
     const { id } = req.params;
     const data = {
         email: req.body.email,
@@ -64,19 +64,23 @@ const save = (req,res) => {
     };
 
     const validation = new Validation(data);
-    validation.validate("email","required|email");
-    validation.validate("name","required|string|max:25|min:3");
-    validation.validate("password","required|max:30|min:8");
-    validation.validate("role","required|numeric");
-    validation.validate("id","required|numeric");
-    if(validation.hasErrors()){
+    validation.validate("email", "required|email");
+    validation.validate("name", "required|string|max:25|min:3");
+    validation.validate("password", "required|max:30|min:8");
+    validation.validate("role", "required|numeric");
+    validation.validate("id", "required|numeric");
+    if (validation.hasErrors()) {
         res.status(400).send(validation.errors);
-    } else {
-        User.update(id,data);
+    }
+    const success = await User.update(id, data);
+    if(success){
         res.status(201).redirect(`/users/edit/${id}?message=saved`);
+    } else {
+        //to do: error page
+        res.status(404).send('users to update not found');
     }
 }
-const remove = async (req,res) => {
+const remove = async (req, res) => {
     const { id } = req.params;
     await User.remove(id);
     res.status(201).redirect('/users?message=deleted');

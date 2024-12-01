@@ -1,29 +1,29 @@
 const Block = require('../models/block');
 const Validation = require('../helpers/Validation');
 
-const index = async (req,res) => {
+const index = async (req, res) => {
     const blocks = await Block.getAll();
 
-    res.render('Blocks',{
+    res.render('Blocks', {
         title: 'Blocks',
         blocks,
         query: req.query
     })
 }
 
-const create = async (req,res) => {
-    res.render('addBlock',{
+const create = async (req, res) => {
+    res.render('addBlock', {
         title: 'Create Block'
     });
 }
 
-const edit = async (req,res) => {
+const edit = async (req, res) => {
     const { id } = req.params;
     const data = await Block.get(id);
-    if(data===null){
+    if (data === null) {
         res.status(404).redirect('/blocks');
     } else {
-        res.render('editBlock',{
+        res.render('editBlock', {
             title: 'Edit Block',
             data,
             query: req.query
@@ -31,7 +31,7 @@ const edit = async (req,res) => {
     }
 }
 
-const saveNew = async (req,res) => {
+const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
         input: req.body.input,
@@ -39,11 +39,11 @@ const saveNew = async (req,res) => {
     }
 
     const validation = new Validation(data);
-    validation.validate("title","required|string");
-    validation.validate("status","required");
-    validation.validate("input","string")
+    validation.validate("title", "required|string");
+    validation.validate("status", "required");
+    validation.validate("input", "string")
 
-    if(validation.hasErrors()){
+    if (validation.hasErrors()) {
         res.status(400).send(validation.errors);
     } else {
         const newID = await Block.add(data);
@@ -56,7 +56,7 @@ const saveNew = async (req,res) => {
     }
 }
 
-const save = async (req,res) => {
+const save = async (req, res) => {
     const { id } = req.params;
     const data = {
         title: req.body.title,
@@ -65,25 +65,29 @@ const save = async (req,res) => {
     }
 
     const validation = new Validation(data);
-    validation.validate("title","required|string");
-    validation.validate("status","required");
-    validation.validate("id","required|numeric");
+    validation.validate("title", "required|string");
+    validation.validate("status", "required");
+    validation.validate("id", "required|numeric");
 
-    if(validation.hasErrors()){
-        res.status(400).send(validation.errors);
-    } else {
-        Block.update(id,data);
+    if (validation.hasErrors()) {
+        return res.status(400).send(validation.errors);
+    }
+    const success = await Block.update(id, data);
+    if(success){
         res.status(201).redirect(`/blocks/edit/${id}?message=saved`);
+    } else {
+        //to do: error page
+        res.status(404).send('block to update not found');
     }
 }
 
-const remove = async (req,res) => {
+const remove = async (req, res) => {
     const { id } = req.params;
     await Block.remove(id);
     res.status(201).redirect('/blocks?message=deleted');
 }
 
-const get = async (req,res) => {
+const get = async (req, res) => {
     const { id } = req.params;
     const block = await Block.get(id);
 }

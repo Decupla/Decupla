@@ -1,48 +1,48 @@
 const Content = require('../models/content');
 const Validation = require('../helpers/Validation');
 
-const index = async (req,res) => {
+const index = async (req, res) => {
     const content = await Content.getAll();
 
-    res.render('content',{
+    res.render('content', {
         title: 'Content',
         content,
         query: req.query
     });
 }
 
-const create = (req,res) => {
-    res.render('addContent',{
+const create = (req, res) => {
+    res.render('addContent', {
         title: 'Create Content'
     });
 }
 
-const edit = async (req,res) => {
+const edit = async (req, res) => {
     const { id } = req.params;
 
     const data = await Content.get(id);
-    if(data===null){
+    if (data === null) {
         res.status(404).redirect('/content');
     }
-    res.render('editContent',{
+    res.render('editContent', {
         title: 'Edit Content',
         data,
         query: req.query
     });
 }
 
-const saveNew = async (req,res) => {
+const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status
     }
 
     const validation = new Validation(data);
-    validation.validate("title","required|string");
-    validation.validate("status","required");
-    if(validation.hasErrors()){
+    validation.validate("title", "required|string");
+    validation.validate("status", "required");
+    if (validation.hasErrors()) {
         messages = validation.getErrors();
-        res.render('addContent',{
+        res.render('addContent', {
             title: 'Create Content',
             messages
         })
@@ -52,27 +52,32 @@ const saveNew = async (req,res) => {
     }
 }
 
-const save = (req,res) => {
+const save = async (req, res) => {
     const { id } = req.params;
     const data = {
         title: req.body.title,
         status: req.body.status,
         id
-    } 
+    }
 
     const validation = new Validation(data);
-    validation.validate("title","required|string");
-    validation.validate("status","required");
-    validation.validate("id","required|numeric");
-    if(validation.hasErrors()){
-        res.status(400).send(validation.errors);
-    } else {
-        Content.update(id,data);
-        res.status(201).redirect(`/content/edit/${id}?message=saved`);
+    validation.validate("title", "required|string");
+    validation.validate("status", "required");
+    validation.validate("id", "required|numeric");
+    if (validation.hasErrors()) {
+        return res.status(400).send(validation.errors);
     }
+    const success = await Content.update(id, data);
+    if(success){
+        res.status(201).redirect(`/content/edit/${id}?message=saved`);
+    } else {
+        //to do: error page
+        res.status(404).send('content to update not found');
+    }
+
 }
 
-const remove = async (req,res) => {
+const remove = async (req, res) => {
     const { id } = req.params;
     await Content.remove(id);
     res.status(201).redirect('/content?message=deleted');
