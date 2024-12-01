@@ -1,17 +1,48 @@
 <%- include('layout/layoutStart.ejs') %>
-<h1>Create New Block</h1>
-<form action="/blocks" method="POST">
-    <div>
-        <label for="title">Title</label>
-        <input name="title" id="title" type="text">
+    <h1>Create New Block</h1>
+    <form action="/blocks" method="POST" id="createBlock">
+        <div>
+            <label for="title">Title</label>
+            <input name="title" id="title" type="text">
+        </div>
+        <div>
+            <label class="d-block">Input Fields</label>
+            <button id="addInput" type="button">Add input field</button>
+        </div>
+        <div>
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option value="0">Draft</option>
+                <option value="1">Published</option>
+            </select>
+        </div>
+        <input type="submit" value="save">
+    </form>
+
+    <div id="inputFields"></div>
+
+    <div id="inputPopupWrapper">
+        <div id="inputPopup">
+            <form id="addInputForm">
+                <label for="type">Type</label>
+                <select name="type" id="type">
+                    <option value="shortText">Short Text</option>
+                    <option value="longText">Long Text</option>
+                </select>
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" title="name" name="name">
+                </div>
+                <div>
+                    <label for="label">Label</label>
+                    <input type="text" title="label" name="label">
+                </div>
+                <div>
+                    <label for="maxLength">maxLegth</label>
+                    <input type="text" title="maxLength" name="maxLegth">
+                </div>
+                <button id="submitInput">add input</button>
+            </form>
+        </div>
     </div>
-    <div>
-        <label for="status">Status</label>
-        <select name="status" id="status">
-            <option value="0">Draft</option>
-            <option value="1">Published</option>
-        </select>
-    </div>
-    <input type="submit" value="save">
-</form>
-<%- include('layout/layoutEnd.ejs') %>
+    <%- include('layout/layoutEnd.ejs') %>

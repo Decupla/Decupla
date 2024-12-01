@@ -30,13 +30,14 @@ const edit = async (req,res) => {
 const saveNew = async (req,res) => {
     const data = {
         title: req.body.title,
-        input: '',
+        input: req.body.input,
         status: req.body.status
     }
 
     const validation = new Validation(data);
     validation.validate("title","required|string");
     validation.validate("status","required");
+    validation.validate("input","string")
 
     if(validation.hasErrors()){
         res.status(400).send(validation.errors);

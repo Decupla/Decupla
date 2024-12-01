@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
+    "develope": "nodemon app.js & sass --watch public/style/scss/main.scss public/style/main.css",
     "test": "jest --coverage"
   },
   "author": "",
