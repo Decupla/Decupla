@@ -10,6 +10,7 @@ DOM.inputPopupWrapper = document.querySelector('#inputPopupWrapper');
 DOM.inputForm = document.querySelector('#addInputForm');
 DOM.fieldsArea = document.querySelector('#inputFields');
 DOM.errorMessage = document.querySelector('#message-error');
+DOM.nameError = document.querySelector('#name-error');
 const inputData = [];
 
 // === INIT =========
@@ -25,11 +26,16 @@ const handleInputSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-    inputData.push(data);
-    event.target.reset();
-    console.log(inputData);
-    addInputVisualization(data);
-    toggleInputPopup();
+    if(nameExists(data.name)){
+        DOM.nameError.innerText = `Input with name "${data.name}" already exists.`;
+        DOM.nameError.classList = 'visible';
+    } else {
+        inputData.push(data);
+        event.target.reset();
+        addInputVisualization(data);
+        toggleInputPopup();
+        DOM.nameError.classList = '';
+    }
 }
 
 const handleBlockSubmit = async (event) => {
@@ -68,6 +74,10 @@ const handleBlockSubmit = async (event) => {
 
 
 // === FUNCTIONS ====
+const nameExists = (name) => {
+    return inputData.some(obj => obj.name === name);
+}
+
 const setupBlockForm = () => {
     DOM.addInputButton.addEventListener('click',toggleInputPopup);
     DOM.inputForm.addEventListener('submit',handleInputSubmit);

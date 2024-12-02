@@ -26,10 +26,10 @@
   display: block;
 }
 
-#message {
+#message, #name-error {
   display: none;
 }
-#message.visible {
+#message.visible, #name-error.visible {
   display: block;
 }
 

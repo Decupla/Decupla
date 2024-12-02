@@ -29,7 +29,7 @@
 }
 
 // Edit Block Page
-#message {
+#message,#name-error {
     display: none;
 
     &.visible {

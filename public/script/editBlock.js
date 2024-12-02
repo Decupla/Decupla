@@ -10,6 +10,7 @@
     DOM.inputForm = document.querySelector('#addInputForm');
     DOM.fieldsArea = document.querySelector('#inputFields');
     DOM.message = document.querySelector('#message');
+    DOM.nameError = document.querySelector('#name-error');
     const inputData = [];
     let id;
 
@@ -26,10 +27,16 @@
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
-        inputData.push(data);
-        event.target.reset();
-        addInputVisualization(data);
-        toggleInputPopup();
+        if(nameExists(data.name)){
+            DOM.nameError.innerText = `Input with name "${data.name}" already exists.`;
+            DOM.nameError.classList = 'visible';
+        } else {
+            inputData.push(data);
+            event.target.reset();
+            addInputVisualization(data);
+            toggleInputPopup();
+            DOM.nameError.classList = '';
+        }
     }
 
     const handleBlockSubmit = async (event) => {
@@ -65,6 +72,10 @@
 
 
     // === FUNCTIONS ====
+    const nameExists = (name) => {
+        return inputData.some(obj => obj.name === name);
+    }
+    
     const showMessage= (type,message) => {
         DOM.message.classList = `alert alert-${type} visible`;
         DOM.message.innerText = message;
