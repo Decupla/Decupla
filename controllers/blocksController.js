@@ -64,6 +64,7 @@ const save = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status,
+        input: req.body.input,
         id
     }
 
@@ -77,10 +78,12 @@ const save = async (req, res) => {
     }
     const success = await Block.update(id, data);
     if(success){
-        res.status(201).redirect(`/blocks/edit/${id}?message=saved`);
+        res.status(201).send({
+            success: true,
+        })
     } else {
-        res.status(404).render('error',{
-            title: 'Error',
+        res.status(404).send({
+            success: false,
             message: 'Something went wrong while trying to update the block. Please check the console for more information.'
         });
     }
@@ -102,6 +105,16 @@ const remove = async (req, res) => {
 const get = async (req, res) => {
     const { id } = req.params;
     const block = await Block.get(id);
+    if(block===null){
+        return res.status(500).send({
+            success: false,
+            message: 'Something went wrong while trying to get the block. Please check the console for more information.'
+        })
+    }
+    res.status(200).send({
+        success: true,
+        block
+    })
 }
 
 module.exports = {

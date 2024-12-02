@@ -19,6 +19,7 @@ const create = (req, res) => {
 
 const edit = async (req, res) => {
     const { id } = req.params;
+    console.log('ID: '+id);
 
     const data = await Content.get(id);
     if (data === null) {

@@ -9,6 +9,7 @@ DOM.addInputButton = document.querySelector('button#addInput');
 DOM.inputPopupWrapper = document.querySelector('#inputPopupWrapper');
 DOM.inputForm = document.querySelector('#addInputForm');
 DOM.fieldsArea = document.querySelector('#inputFields');
+DOM.errorMessage = document.querySelector('#message-error');
 const inputData = [];
 
 // === INIT =========
@@ -54,12 +55,14 @@ const handleBlockSubmit = async (event) => {
         console.log(responseData);
 
         if (responseData.success) {
-            window.location.replace(`/blocks/edit/${responseData.newID}`);
+            window.location.replace(`/blocks/edit/${responseData.newID}?message=success`);
         } else {
             console.error('Something went wrong while trying to save the block');
+            DOM.errorMessage.classList.add('visible');
         }
     } catch (error) {
         console.error('Something went wrong:', error);
+        DOM.errorMessage.classList.add('visible');
     }
 };
 

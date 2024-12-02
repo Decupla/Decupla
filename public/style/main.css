@@ -19,4 +19,18 @@
   background-color: #fefefe;
 }
 
+#message-error {
+  display: none;
+}
+#message-error.visible {
+  display: block;
+}
+
+#message {
+  display: none;
+}
+#message.visible {
+  display: block;
+}
+
 /*# sourceMappingURL=main.css.map */

@@ -19,6 +19,10 @@
         <input type="submit" value="save">
     </form>
 
+    <div id="message-error">
+        <div class="alert alert-danger">Something went wrong while trying to save the block. Please check the console for more informations</div>
+    </div>
+
     <div id="inputFields"></div>
 
     <div id="inputPopupWrapper">
@@ -45,4 +49,5 @@
             </form>
         </div>
     </div>
+    <script src="/script/createBlock.js" defer></script>
     <%- include('layout/layoutEnd.ejs') %>
