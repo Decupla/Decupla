@@ -48,6 +48,12 @@ const saveNew = async (req, res) => {
         })
     } else {
         const newID = await Content.add(data);
+        if(newID===null){
+            return res.status(500).render('error',{
+                title: 'Error',
+                message: 'Something went wrong while trying to save the content. Please check the console for more information.'
+            })
+        }
         res.status(201).redirect(`/content/edit/${newID}?message=saved`);
     }
 }
@@ -71,16 +77,26 @@ const save = async (req, res) => {
     if(success){
         res.status(201).redirect(`/content/edit/${id}?message=saved`);
     } else {
-        //to do: error page
-        res.status(404).send('content to update not found');
+        res.status(404).render('error',{
+            title: 'Error',
+            message: 'Something went wrong while trying to update the content. Please check the console for more information.'
+        });
     }
 
 }
 
 const remove = async (req, res) => {
     const { id } = req.params;
-    await Content.remove(id);
-    res.status(201).redirect('/content?message=deleted');
+    const success = await Content.remove(id);
+    if(success){
+        res.status(201).redirect('/content?message=deleted');
+    } else {
+        res.status(404).render('error',{
+            title: 'Error',
+            message: 'Something went wrong while trying to delete the content. Please check the console for more information.'
+        });
+    }
+
 }
 
 module.exports = {

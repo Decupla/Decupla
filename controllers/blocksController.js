@@ -47,8 +47,11 @@ const saveNew = async (req, res) => {
         res.status(400).send(validation.errors);
     } else {
         const newID = await Block.add(data);
-        //to do: change response for fetch
-        // res.status(201).redirect(`/blocks/edit/${newID}?message=saved`);
+        if(newID===null){
+            return res.status(500).send({
+                success: false
+            })
+        }
         res.status(201).send({
             success: true,
             newID
@@ -76,15 +79,24 @@ const save = async (req, res) => {
     if(success){
         res.status(201).redirect(`/blocks/edit/${id}?message=saved`);
     } else {
-        //to do: error page
-        res.status(404).send('block to update not found');
+        res.status(404).render('error',{
+            title: 'Error',
+            message: 'Something went wrong while trying to update the block. Please check the console for more information.'
+        });
     }
 }
 
 const remove = async (req, res) => {
     const { id } = req.params;
-    await Block.remove(id);
-    res.status(201).redirect('/blocks?message=deleted');
+    const success = await Block.remove(id);
+    if(success){
+        res.status(201).redirect('/blocks?message=deleted');
+    } else {
+        res.status(404).render('error',{
+            title: 'Error',
+            message: 'Something went wrong while trying to delete the block. Please check the console for more information.'
+        });
+    }
 }
 
 const get = async (req, res) => {

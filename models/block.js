@@ -7,6 +7,7 @@ const add = async (data) => {
         return newId;
     } catch (error) {
         console.error('Error inserting data: ', error);
+        return null;
     }
 }
 
@@ -42,8 +43,10 @@ const update = async (id,data) => {
 const remove = async (id) => {
     try {
         await db.deleteWhere('blocks','id',id);
+        return true;
     } catch (error) {   
         console.error('Error deleting data: ', error);
+        return false;
     }
 }
 

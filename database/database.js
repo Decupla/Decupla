@@ -123,12 +123,16 @@ const databaseAPI = {
     deleteWhere(table, identifier, value) {
         return new Promise((resolve, reject)=>{
             const query = `DELETE FROM ${table} WHERE ${identifier} = ?`;
-            connection.run(query, [value], (error) => {
+            connection.run(query, [value], function(error) {
                 if (error) {
                     console.log('Error: ' + error);
                     reject(error);
                 } else {
-                    resolve(true);
+                    if (this.changes === 0) {
+                        reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
+                    } else {
+                        resolve(true);
+                    }
                 }
             })
         })  

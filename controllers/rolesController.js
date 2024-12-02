@@ -36,6 +36,7 @@ const edit = async (req, res) => {
 }
 
 const saveNew = async (req, res) => {
+    // to do: fix error when no perms are given
     const perms = req.body.permissions.toString()
     const data = {
         name: req.body.name,
@@ -49,6 +50,12 @@ const saveNew = async (req, res) => {
         res.status(400).send(validation.errors);
     } else {
         const newID = await Role.add(data);
+        if(newID===null){
+            return res.status(500).render('error',{
+                title: 'Error',
+                message: 'Something went wrong while trying to save the role. Please check the console for more information.'
+            })
+        }
         res.status(201).redirect(`/roles/edit/${newID}?message=saved`);
     }
 }
@@ -75,16 +82,25 @@ const save = async (req, res) => {
     if (success) {
         res.status(201).redirect(`/roles/edit/${id}?message=saved`);
     } else {
-        //to do: error page
-        res.status(404).send('role to update not found');
+        res.status(404).render('error',{
+            title: 'Error',
+            message: 'Something went wrong while trying to update the role. Please check the console for more information.'
+        });
     }
 
 }
 
 const remove = async (req, res) => {
     const { id } = req.params;
-    await Role.remove(id);
-    res.status(201).redirect('/roles?message=deleted');
+    const success = await Role.remove(id);
+    if (success) {
+        res.status(201).redirect('/roles?message=deleted');
+    } else {
+        res.status(404).render('error', {
+            title: 'Error',
+            message: 'Something went wrong while trying to delete the role. Please check the console for more information.'
+        });
+    }
 }
 
 module.exports = {
