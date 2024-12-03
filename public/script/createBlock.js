@@ -18,8 +18,6 @@
     DOM.inputFormFields.label = DOM.inputForm.querySelector('input#label');
     DOM.inputFormFields.maxLength = DOM.inputForm.querySelector('input#maxLength');
 
-    console.log(DOM.inputFormFields);
-
     const inputData = [];
     let inputMethod = "create";
     let inputID = 0;
@@ -78,6 +76,18 @@
             console.error('Something went wrong:', error);
         }
     };
+
+    const handleTypeChange = (type) => {
+        switch(type) {
+            case 'shortText':
+                setVisible(['name', 'label', 'type', 'maxLength']);
+                break;
+            case 'LongText':
+                setVisible(['name', 'label', 'type']);
+            default: 
+                setVisible(['name', 'label', 'type']);
+        }
+    }
 
     // === FUNCTIONS ====
     const saveNewInput = (data) => {
@@ -142,6 +152,9 @@
         DOM.addInputButton.addEventListener('click', createInput);
         DOM.inputForm.addEventListener('submit', handleInputSubmit);
         DOM.blockForm.addEventListener('submit', handleBlockSubmit);
+        DOM.inputFormFields.type.addEventListener('change', ()=>{
+            handleTypeChange(event.target.value);
+        });
     };
 
     const toggleInputPopup = () => {
@@ -150,6 +163,7 @@
 
     const createInput = () => {
         inputMethod = "create";
+        handleTypeChange(DOM.inputForm.type.value);
         toggleInputPopup();
     }
 
@@ -170,6 +184,7 @@
         }
 
         inputID = id;
+        handleTypeChange(data.type);
         toggleInputPopup();
     }
 
@@ -218,7 +233,7 @@
         inputParams.innerHTML = "";
 
         Object.entries(data).forEach(([key, value]) => {
-            if (key !== 'label' && key !== 'id') {
+            if (key !== 'label' && key !== 'id' && value !== "") {
                 const param = `<strong>${key}</strong>: ${value}<br>`;
                 inputParams.innerHTML += param;
             }
@@ -235,8 +250,6 @@
             }
         }
     }
-
-    setVisible(['name', 'label', 'type']);
 
     init();
 
