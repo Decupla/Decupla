@@ -8,6 +8,8 @@ const blocksRouter = require('./routes/blocksRoutes');
 const usersRouter = require('./routes/usersRoutes');
 const rolesRouter = require('./routes/rolesRoutes');
 
+const invalidRouteHandler = require('./middleware/invalidRouteHandler');
+
 const app = express();
 
 app.use(express.json());
@@ -34,6 +36,8 @@ app.use('/content',contentRouter);
 app.use('/blocks',blocksRouter);
 app.use('/users',usersRouter);
 app.use('/roles',rolesRouter);
+
+app.use(invalidRouteHandler);
 
 app.listen(5500, () => {
     console.log(`Decupla running on port 5500`);

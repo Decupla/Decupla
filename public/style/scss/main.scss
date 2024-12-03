@@ -36,3 +36,11 @@
         display: block;
     }
 }
+
+.inputSetting {
+    display: none;
+
+    &.visible {
+        display: block;
+    }
+}

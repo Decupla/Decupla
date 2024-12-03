@@ -28,25 +28,27 @@
     <div id="inputPopupWrapper">
         <div id="inputPopup">
             <form id="addInputForm">
-                <label for="type">Type</label>
-                <select name="type" id="type">
-                    <option value="shortText">Short Text</option>
-                    <option value="longText">Long Text</option>
-                </select>
-                <div>
+                <div class="inputSetting visible">
+                    <label for="type">Type</label>
+                    <select name="type" id="type">
+                        <option value="shortText">Short Text</option>
+                        <option value="longText">Long Text</option>
+                    </select>
+                </div>
+                <div class="inputSetting visible">
                     <label for="name">Name</label>
-                    <input type="text" title="name" name="name">
+                    <input type="text" id="name" title="name" name="name">
                     <div id="name-error"></div>
                 </div>
-                <div>
+                <div class="inputSetting visible">
                     <label for="label">Label</label>
-                    <input type="text" title="label" name="label">
+                    <input type="text" id="label" title="label" name="label">
                 </div>
-                <div>
-                    <label for="maxLength">maxLegth</label>
-                    <input type="text" title="maxLength" name="maxLegth">
+                <div class="inputSetting visible">
+                    <label for="maxLength">maxLength</label>
+                    <input type="text" id="maxLength" title="maxLength" name="maxLength">
                 </div>
-                <button id="submitInput">add input</button>
+                <button id="submitInput">save input</button>
             </form>
         </div>
     </div>

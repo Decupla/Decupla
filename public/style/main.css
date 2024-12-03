@@ -33,4 +33,11 @@
   display: block;
 }
 
+.inputSetting {
+  display: none;
+}
+.inputSetting.visible {
+  display: block;
+}
+
 /*# sourceMappingURL=main.css.map */
