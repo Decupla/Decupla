@@ -40,4 +40,11 @@
   display: block;
 }
 
+#message-success {
+  display: none;
+}
+#message-success.visible {
+  display: block;
+}
+
 /*# sourceMappingURL=main.css.map */

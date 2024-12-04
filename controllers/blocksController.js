@@ -41,7 +41,9 @@ const saveNew = async (req, res) => {
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("status", "required");
-    validation.validate("input", "string")
+    validation.validate("input", "string");
+
+    console.log(validation.errors);
 
     if (validation.hasErrors()) {
         res.status(400).send(validation.errors);

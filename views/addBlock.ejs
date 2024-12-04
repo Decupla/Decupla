@@ -4,6 +4,7 @@
         <div>
             <label for="title">Title</label>
             <input name="title" id="title" type="text">
+            <div id="message-title"></div>
         </div>
         <div>
             <label class="d-block">Input Fields</label>
@@ -34,19 +35,22 @@
                         <option value="shortText">Short Text</option>
                         <option value="longText">Long Text</option>
                     </select>
+                    <div id="message-type"></div>
                 </div>
                 <div class="inputSetting visible">
                     <label for="name">Name</label>
                     <input type="text" id="name" title="name" name="name">
-                    <div id="name-error"></div>
+                    <div id="message-name"></div>
                 </div>
                 <div class="inputSetting visible">
                     <label for="label">Label</label>
                     <input type="text" id="label" title="label" name="label">
+                    <div id="message-label"></div>
                 </div>
                 <div class="inputSetting visible">
                     <label for="maxLength">maxLength</label>
                     <input type="text" id="maxLength" title="maxLength" name="maxLength">
+                    <div id="message-maxLength"></div>
                 </div>
                 <button id="submitInput">save input</button>
             </form>

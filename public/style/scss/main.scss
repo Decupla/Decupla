@@ -44,3 +44,11 @@
         display: block;
     }
 }
+
+#message-success {
+    display: none;
+
+    &.visible {
+        display: block;
+    }
+}

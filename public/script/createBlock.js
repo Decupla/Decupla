@@ -10,7 +10,6 @@
     DOM.inputForm = document.querySelector('#addInputForm');
     DOM.fieldsArea = document.querySelector('#inputFields');
     DOM.message = document.querySelector('#message');
-    DOM.nameError = document.querySelector('#name-error');
 
     DOM.inputFormFields = {};
     DOM.inputFormFields.type = DOM.inputForm.querySelector('select#type');
@@ -18,9 +17,17 @@
     DOM.inputFormFields.label = DOM.inputForm.querySelector('input#label');
     DOM.inputFormFields.maxLength = DOM.inputForm.querySelector('input#maxLength');
 
+    DOM.fieldMessages = {};
+    DOM.fieldMessages.title = DOM.blockForm.querySelector('#message-title');
+    DOM.fieldMessages.type = DOM.inputForm.querySelector('#message-type');
+    DOM.fieldMessages.name = DOM.inputForm.querySelector('#message-name');
+    DOM.fieldMessages.label = DOM.inputForm.querySelector('#message-label');
+    DOM.fieldMessages.maxLength = DOM.inputForm.querySelector('#message-maxLength');
+
     const inputData = [];
     let inputMethod = "create";
     let inputID = 0;
+    let nextInputId = 1;
     // let id;
 
     // === INIT =========
@@ -36,6 +43,7 @@
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
+        if (!validate(data)) return;
 
         if (inputMethod === "create") {
             saveNewInput(data);
@@ -50,6 +58,12 @@
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
+
+        if(data.title===""){
+            setFieldMessage('title','"Title" is required');
+            return;
+        }
+
         data.input = JSON.stringify(inputData);
 
         try {
@@ -60,12 +74,11 @@
                 },
                 body: JSON.stringify(data)
             });
+            const responseData = await response.json(); // Antwort als JSON parsen
 
             if (!response.ok) {
                 throw new Error(`HTTP Error: ${response.status}`);
             }
-
-            const responseData = await response.json(); // Antwort als JSON parsen
 
             if (responseData.success) {
                 window.location.replace(`/blocks/edit/${responseData.newID}`);
@@ -78,30 +91,25 @@
     };
 
     const handleTypeChange = (type) => {
-        switch(type) {
+        switch (type) {
             case 'shortText':
                 setVisible(['name', 'label', 'type', 'maxLength']);
                 break;
             case 'LongText':
                 setVisible(['name', 'label', 'type']);
-            default: 
+                break;
+            default:
                 setVisible(['name', 'label', 'type']);
         }
     }
 
     // === FUNCTIONS ====
     const saveNewInput = (data) => {
-        if (nameExists(data.name)) {
-            DOM.nameError.innerText = `Input with name "${data.name}" already exists.`;
-            DOM.nameError.classList = 'visible';
-        } else {
-            data.id = inputData.length + 1;
-            inputData.push(data);
-            addInputVisualization(data);
-            toggleInputPopup();
-            DOM.inputForm.reset();
-            DOM.nameError.classList = '';
-        }
+        data.id = nextInputId++;
+        inputData.push(data);
+        addInputVisualization(data);
+        toggleInputPopup();
+        DOM.inputForm.reset();
     }
 
     const updateInput = (data) => {
@@ -120,6 +128,16 @@
     const nameExists = (name) => {
         return inputData.some(obj => obj.name === name);
     }
+
+    const setFieldMessage = (field, message) => {
+        const fieldMessageElement = DOM.fieldMessages[field];
+        if (fieldMessageElement) {
+            fieldMessageElement.innerText = message;
+        } else {
+            console.log(`Field "${field}" does not exist.`);
+        }
+    };
+
 
     // const getId = () => {
     //     const url = window.location.pathname;
@@ -152,7 +170,7 @@
         DOM.addInputButton.addEventListener('click', createInput);
         DOM.inputForm.addEventListener('submit', handleInputSubmit);
         DOM.blockForm.addEventListener('submit', handleBlockSubmit);
-        DOM.inputFormFields.type.addEventListener('change', ()=>{
+        DOM.inputFormFields.type.addEventListener('change', (event) => {
             handleTypeChange(event.target.value);
         });
     };
@@ -243,12 +261,38 @@
     const setVisible = (fields) => {
         for (const [name, element] of Object.entries(DOM.inputFormFields)) {
             const parent = element.parentElement;
-            if (fields.includes(name)&&!parent.classList.contains('visible')) {
-                    parent.classList.add('visible');
-            } else if (!fields.includes(name)&&parent.classList.contains('visible')) {
+            if (fields.includes(name) && !parent.classList.contains('visible')) {
+                parent.classList.add('visible');
+            } else if (!fields.includes(name) && parent.classList.contains('visible')) {
                 parent.classList.remove('visible');
             }
         }
+    }
+
+    const validate = (data, newName = false) => {
+        let isValid = true;
+
+
+        console.log(DOM.fieldMessages);
+        for (const [name, element] of Object.entries(DOM.fieldMessages)) {
+            console.log(element);
+            element.innerText = "";
+        }
+
+        if (!data.name) {
+            setFieldMessage('name', '"name" is required.');
+            isValid = false;
+        }
+        if (!data.label) {
+            setFieldMessage('label', '"label" is required.');
+            isValid = false;
+        }
+        if (inputMethod==="create" && nameExists(data.name)) {
+            setFieldMessage('name',`Input with name "${data.name}" already exists`);
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     init();
