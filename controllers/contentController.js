@@ -1,4 +1,5 @@
 const Content = require('../models/content');
+const Block = require('../models/block');
 const Validation = require('../helpers/Validation');
 
 const index = async (req, res) => {
@@ -11,9 +12,13 @@ const index = async (req, res) => {
     });
 }
 
-const create = (req, res) => {
+const create = async (req, res) => {
+    const blocks = await Block.getAll();
+    console.log(blocks);
+
     res.render('addContent', {
-        title: 'Create Content'
+        title: 'Create Content',
+        blocks
     });
 }
 

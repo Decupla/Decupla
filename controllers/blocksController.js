@@ -1,4 +1,5 @@
 const Block = require('../models/block');
+const blockInstance = require('../models/blockInstance');
 const Validation = require('../helpers/Validation');
 
 const index = async (req, res) => {
@@ -119,6 +120,32 @@ const get = async (req, res) => {
     })
 }
 
+const saveNewInstance = async (req,res) => {
+    const data = {
+        blockID: req.body.blockID,
+        output: req.body.output,
+    }
+
+    const validation = new Validation(data);
+    validation.validate("blockID", "required|numeric");
+    validation.validate("output", "required|string");
+
+    if (validation.hasErrors()) {
+        res.status(400).send(validation.errors);
+    } else {
+        const newID = await blockInstance.add(data);
+        if(newID===null){
+            return res.status(500).send({
+                success: false
+            })
+        }
+        res.status(201).send({
+            success: true,
+            newID
+        })
+    }
+}
+
 module.exports = {
     index,
     create,
@@ -126,5 +153,6 @@ module.exports = {
     save,
     edit,
     remove,
-    get
+    get,
+    saveNewInstance
 }

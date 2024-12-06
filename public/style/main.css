@@ -47,4 +47,33 @@
   display: block;
 }
 
+.addBlockDropdown {
+  display: none;
+}
+.addBlockDropdown.visible {
+  display: block;
+}
+
+#blockFormWrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+#blockFormWrapper.visible {
+  display: block;
+}
+#blockFormWrapper #blockFormContainer {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+}
+
 /*# sourceMappingURL=main.css.map */
