@@ -52,8 +52,8 @@ const createTables = (database) => {
 
         CREATE TABLE blockInstances (
             id INTEGER PRIMARY KEY,
-            block_id INTEGER NOT NULL,
-            content_id INTEGER NOT NULL,
+            blockID INTEGER NOT NULL,
+            contentID INTEGER NOT NULL,
             output TEXT NOT NULL
         );
 
@@ -88,7 +88,23 @@ const databaseAPI = {
                     console.log('Error: ' + error);
                     reject(error);
                 } else if (!result) {
-                    reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
+                    resolve(null);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+
+    selectAllWhere(table, identifier, value) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT * FROM ${table} WHERE ${identifier} = ?`;
+            connection.all(query, [value], (error, result) => {
+                if (error) {
+                    console.log('Error: ' + error);
+                    reject(error);
+                } else if (!result) {
+                    resolve(null);
                 } else {
                     resolve(result);
                 }

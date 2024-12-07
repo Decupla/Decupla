@@ -1,3 +1,11 @@
+
+
+/* 
+==============================
+Warning: Deprecated
+=============================
+*/
+
 'use strict';
 
 (() => {
@@ -6,20 +14,33 @@
     const DOM = {};
     DOM.contentForm = document.querySelector('form#contentForm');
     DOM.blocksArea = document.querySelector('#blocks');
+    DOM.titleMessage = document.querySelector('#message-title');
     DOM.addBlockButtonContainers = document.querySelectorAll('.addBlockContainer');
     DOM.blockFormWrapper = document.querySelector('#blockFormWrapper');
     DOM.blockFormTitle = DOM.blockFormWrapper.querySelector('#blockFormTitle');
     DOM.blockForm = DOM.blockFormWrapper.querySelector('form#blockForm');
     DOM.blockFormInput = DOM.blockForm.querySelector('#blockFormInput');
 
-    const blockData = [];
+    const blocksData = [];
     let currentBlock = {};
     let blockID = 0;
     let nextBlockId = 1;
     let blockMethod = "create";
+    let contentId;
+    let contentExists;
     // === INIT =========
 
     const init = () => {
+        const path = window.location.pathname;
+        contentExists = checkIfExists(path);
+
+        if (contentExists) {
+            contentId = getId(path);
+            getBlocks(contentId);
+        }
+
+        console.log(blocksData);
+
         DOM.addBlockButtonContainers.forEach((container) => {
             setupBlockSelection(container);
         })
@@ -40,15 +61,22 @@
 
         let newID;
 
-        // TODO: Fehlermeldung implementieren, falls kein Titel gesetzt ist
         if (!data.title) {
-            alert('Title is required!');
+            DOM.titleMessage.classList.add('visible');
             return;
         }
 
         try {
-            const response = await fetch(`/content/`, {
-                method: 'POST',
+            let method = "POST";
+            let contentUrl = "/content/";
+
+            if (contentExists) {
+                method = "PUT";
+                contentUrl = `/content/${contentId}`;
+            }
+
+            const response = await fetch(contentUrl, {
+                method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -68,16 +96,24 @@
 
             newID = responseData.newID;
 
-            const blockInstances = blockData.map(({ output, blockID }) => ({
-                block_id: blockID,
+            const blockInstances = blocksData.map(({ output, blockID, databaseID }) => ({
+                blockID,
                 output: JSON.stringify(output),
-                content_id: newID,
+                ...(contentExists ? { 
+                    id: databaseID,
+                    contentID: contentId
+                 } : {
+                    contentID: newID
+                 })
             }));
 
             for (const instance of blockInstances) {
-                try {
-                    const instanceResponse = await fetch(`/blocks/instances/`, {
-                        method: 'POST',
+                    let blockUrl = '/blocks/instances/'
+                    if (contentExists) {
+                        blockUrl = `/blocks/instances/${instance.id}`
+                    }
+                    const instanceResponse = await fetch(blockUrl, {
+                        method,
                         headers: {
                             'Content-Type': 'application/json'
                         },
@@ -87,12 +123,9 @@
                     if (!instanceResponse.ok) {
                         throw new Error(`HTTP Error: ${instanceResponse.status}`);
                     }
-                } catch (blockError) {
-                    console.error('Error saving block instance:', blockError);
-                }
             }
 
-            window.location.replace(`/content/edit/${responseData.newID}`);
+            alert('content saved!');
 
         } catch (error) {
             console.error('An error occurred:', error);
@@ -117,12 +150,58 @@
             saveNewBlock(data);
         } else if (blockMethod === "update") {
             updateBlock(data);
+            console.log('currentBlock:');
+            console.log(currentBlock);
         } else {
             console.log('No block method was given.');
         }
     }
 
     // === FUNCTIONS ====
+    const checkIfExists = (path) => {
+        const regex = /^\/content\/edit\/(\d+)$/;
+        return path.match(regex);
+    }
+
+    const getId = (path) => {
+        const parts = path.split("/");
+        const id = parts[parts.length - 1];
+        return parseInt(id);
+    }
+
+    const getBlocks = async (id) => {
+        try {
+            const response = await fetch(`/content/${id}/blocks`);
+            const data = await response.json();
+
+            if (data.success === true) {
+                const blocks = data.blocks;
+
+                const blocksParsed = blocks.map(({ id, ...block }, index) => ({
+                    id: index + 1,
+                    databaseID: id,
+                    ...block,
+                    output: JSON.parse(block.output),
+                }));
+
+
+
+                blocksData.push(...blocksParsed);
+
+                blocksData.forEach((data) => {
+                    addBlockVisualization(data);
+                });
+
+            } else {
+                // to do: fehlermeldung auf der Seite ausgebe
+                console.log(data.message);
+            }
+
+        } catch (error) {
+            console.error('Something went wrong:', error);
+        }
+    }
+
     const addBlockVisualization = (data) => {
         const block = document.createElement('div');
         const blockTitle = document.createElement('h3');
@@ -171,16 +250,16 @@
 
     const saveNewBlock = (data) => {
         data.id = nextBlockId++,
-            blockData.push(data);
+            blocksData.push(data);
         addBlockVisualization(data);
         closeBlockForm();
     }
 
     const updateBlock = (data) => {
-        const index = blockData.findIndex(block => block.id === blockID);
+        const index = blocksData.findIndex(block => block.id === blockID);
         if (index !== -1 && blockID !== 0) {
             data.id = blockID;
-            blockData[index] = data;
+            blocksData[index] = data;
             updateBlockVisualization(blockID, data);
             closeBlockForm();
         } else {
@@ -193,7 +272,7 @@
         blockMethod = "update";
         blockID = id;
 
-        const data = blockData.find(block => block.id === id) || null;
+        const data = blocksData.find(block => block.id === id) || null;
         if (data === null) {
             console.log('Input to edit could not be found.');
             return;
@@ -224,10 +303,10 @@
 
     const setupBlockForm = async (setOutput = {}) => {
         const response = await fetch(`/blocks/${blockID}`);
-        const blockData = await response.json();
+        const blocksData = await response.json();
 
-        if (blockData.success) {
-            const block = blockData.block;
+        if (blocksData.success) {
+            const block = blocksData.block;
             const inputFields = JSON.parse(block.input);
 
             DOM.blockFormTitle.innerText = block.title;
@@ -302,7 +381,6 @@
 
         return newInput;
     }
-
 
 
     init();

@@ -159,7 +159,7 @@
 
             } else {
                 // to do: fehlermeldung auf der Seite ausgebe
-                console.log('Something went wrong while trying to update the block. Please check the console for more information.');
+                console.log(blockData.message);
             }
         } catch (error) {
             console.error('Something went wrong:', error);

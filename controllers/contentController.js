@@ -1,5 +1,6 @@
 const Content = require('../models/content');
 const Block = require('../models/block');
+const BlockInstance = require('../models/blockInstance');
 const Validation = require('../helpers/Validation');
 
 const index = async (req, res) => {
@@ -17,21 +18,23 @@ const create = async (req, res) => {
 
     res.render('addContent', {
         title: 'Create Content',
-        blocks
+        blocks,
+        data: {}
     });
 }
 
 const edit = async (req, res) => {
     const { id } = req.params;
-    console.log('ID: '+id);
+    const blocks = await Block.getAll();
 
     const data = await Content.get(id);
     if (data === null) {
-        res.status(404).redirect('/content');
+        return res.status(404).redirect('/content');
     }
-    res.render('editContent', {
+    res.render('addContent', {
         title: 'Edit Content',
         data,
+        blocks,
         query: req.query
     });
 }
@@ -40,29 +43,28 @@ const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status
-    }
+    };
 
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("status", "required");
     if (validation.hasErrors()) {
-        messages = validation.getErrors();
-        res.render('addContent', {
-            title: 'Create Content',
-            messages
-        })
+        return res.status(400).send({
+            success: false,
+            message: validation.errors
+        });
     } else {
         const newID = await Content.add(data);
-        if(newID===null){
-            return res.status(500).render('error',{
-                title: 'Error',
+        if (newID === null) {
+            return res.status(500).send({
+                success: false,
                 message: 'Something went wrong while trying to save the content. Please check the console for more information.'
-            })
+            });
         }
-        res.status(201).send({
+        return res.status(201).send({
             success: true,
             newID
-        })
+        });
     }
 }
 
@@ -72,40 +74,71 @@ const save = async (req, res) => {
         title: req.body.title,
         status: req.body.status,
         id
-    }
+    };
 
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("status", "required");
     validation.validate("id", "required|numeric");
     if (validation.hasErrors()) {
-        return res.status(400).send(validation.errors);
+        return res.status(400).send({
+            success: false,
+            message: validation.errors
+        });
     }
     const success = await Content.update(id, data);
-    if(success){
-        res.status(201).redirect(`/content/edit/${id}?message=saved`);
+    if (success) {
+        return res.status(201).send({
+            success: true,
+        });
     } else {
-        res.status(404).render('error',{
-            title: 'Error',
+        return res.status(404).send({
+            success: false,
             message: 'Something went wrong while trying to update the content. Please check the console for more information.'
         });
     }
-
 }
 
 const remove = async (req, res) => {
     const { id } = req.params;
     const success = await Content.remove(id);
-    if(success){
-        res.status(201).redirect('/content?message=deleted');
+    if (success) {
+        return res.status(201).redirect('/content?message=deleted'); 
     } else {
-        res.status(404).render('error',{
+        return res.status(404).render('error', {
             title: 'Error',
             message: 'Something went wrong while trying to delete the content. Please check the console for more information.'
         });
     }
-
 }
+
+const getBlocks = async (req, res) => {
+    const { id } = req.params;
+    const blockInstances = await BlockInstance.getByContent(id);
+
+    if (blockInstances === null) {
+        return res.status(500).send({
+            success: false,
+            message: 'Something went wrong while trying to get the block. Please check the console for more information.'
+        });
+    }
+
+    for (const instance of blockInstances) {
+        const block = await Block.get(instance.blockID);
+        if(block===null){
+            return res.status(500).send({
+                success: false,
+                message: 'Block for BlockInstance not found.'
+            });
+        }
+        instance.title = block.title;
+    }
+
+    return res.status(200).send({
+        success: true,
+        blocks: blockInstances
+    });
+};
 
 module.exports = {
     index,
@@ -113,5 +146,6 @@ module.exports = {
     edit,
     saveNew,
     save,
-    remove
+    remove,
+    getBlocks
 }

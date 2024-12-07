@@ -3,6 +3,7 @@ const contentController = require("../controllers/contentController");
 
 const contentRouter = Router();
 contentRouter.get('/',contentController.index);
+contentRouter.get('/:id/blocks',contentController.getBlocks);
 contentRouter.get('/create',contentController.create);
 contentRouter.get('/edit/:id',contentController.edit);
 contentRouter.delete('/:id',contentController.remove);

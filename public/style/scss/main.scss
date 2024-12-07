@@ -85,3 +85,11 @@
         background-color: white;
     }
 }
+
+#message-title {
+    display: none;
+
+    &.visible {
+        display: block;
+    }
+}

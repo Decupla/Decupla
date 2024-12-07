@@ -76,4 +76,11 @@
   background-color: white;
 }
 
+#message-title {
+  display: none;
+}
+#message-title.visible {
+  display: block;
+}
+
 /*# sourceMappingURL=main.css.map */
