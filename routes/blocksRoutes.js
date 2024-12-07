@@ -7,6 +7,7 @@ blocksRouter.get('/edit/:id', blocksController.edit); // Spezifischere Route vor
 blocksRouter.get('/', blocksController.index);
 blocksRouter.get('/:id', blocksController.get); // Allgemeinere Route zuletzt
 blocksRouter.post('/', blocksController.saveNew);
+blocksRouter.post('/instances', blocksController.saveNewInstance);
 blocksRouter.put('/:id', blocksController.save);
 blocksRouter.delete('/:id', blocksController.remove);
 

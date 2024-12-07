@@ -14,7 +14,6 @@ const index = async (req, res) => {
 
 const create = async (req, res) => {
     const blocks = await Block.getAll();
-    console.log(blocks);
 
     res.render('addContent', {
         title: 'Create Content',
@@ -60,7 +59,10 @@ const saveNew = async (req, res) => {
                 message: 'Something went wrong while trying to save the content. Please check the console for more information.'
             })
         }
-        res.status(201).redirect(`/content/edit/${newID}?message=saved`);
+        res.status(201).send({
+            success: true,
+            newID
+        })
     }
 }
 

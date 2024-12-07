@@ -30,18 +30,73 @@ const init = () => {
 }
 
 // === EVENTS & XHR =======
-const handleContentSubmit = (event) => {
+const handleContentSubmit = async (event) => {
     event.preventDefault();
 
-    const blockInstances = blockData.map(({ id, title, ...data }) => {
-        return {
-            ...data,
-            output: JSON.stringify(data.output)
-        };
-    });
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
 
-    console.log(blockInstances);
-}
+    let newID;
+
+    // TODO: Fehlermeldung implementieren, falls kein Titel gesetzt ist
+    if (!data.title) {
+        alert('Title is required!');
+        return;
+    }
+
+    try {
+        const response = await fetch(`/content/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+
+        if (!responseData.success) {
+            console.error('Error saving content');
+            return;
+        }
+
+        newID = responseData.newID;
+
+        const blockInstances = blockData.map(({ output, blockID }) => ({
+            block_id: blockID,
+            output: JSON.stringify(output),
+            content_id: newID,
+        }));
+
+        for (const instance of blockInstances) {
+            try {
+                const instanceResponse = await fetch(`/blocks/instances/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(instance)
+                });
+
+                if (!instanceResponse.ok) {
+                    throw new Error(`HTTP Error: ${instanceResponse.status}`);
+                }
+            } catch (blockError) {
+                console.error('Error saving block instance:', blockError);
+            }
+        }
+
+        alert('Content saved successfully!');
+
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+};
+
 
 const handleBlockSubmit = (event) => {
     event.preventDefault();

@@ -52,7 +52,8 @@ const createTables = (database) => {
 
         CREATE TABLE blockInstances (
             id INTEGER PRIMARY KEY,
-            blockId INTEGER NOT NULL,
+            block_id INTEGER NOT NULL,
+            content_id INTEGER NOT NULL,
             output TEXT NOT NULL
         );
 

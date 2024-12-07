@@ -122,15 +122,18 @@ const get = async (req, res) => {
 
 const saveNewInstance = async (req,res) => {
     const data = {
-        blockID: req.body.blockID,
+        content_id: req.body.content_id,
         output: req.body.output,
+        block_id: req.body.block_id
     }
 
     const validation = new Validation(data);
-    validation.validate("blockID", "required|numeric");
+    validation.validate("content_id", "required|numeric");
     validation.validate("output", "required|string");
+    validation.validate("block_id", "required|numeric");
 
     if (validation.hasErrors()) {
+        console.log(validation.errors);
         res.status(400).send(validation.errors);
     } else {
         const newID = await blockInstance.add(data);
