@@ -41,19 +41,19 @@
     const init = async () => {
         const path = window.location.pathname;
         blocksExists = checkIfExists(path);
-    
+
         if (blocksExists) {
             blockID = getId(path);
             await getInputData(blockID);
-    
+
             if (inputData.length > 0) {
                 nextInputId = inputData[inputData.length - 1].id + 1;
             }
         }
-    
+
         setupBlockForm();
     };
-    
+
 
     // === EVENTS & XHR =======
     //handles the event when the main form (block) is submitted
@@ -62,8 +62,8 @@
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
 
-        if(data.title===""){
-            setFieldMessage('title','"Title" is required');
+        if (data.title === "") {
+            setFieldMessage('title', '"Title" is required');
             return;
         }
 
@@ -73,7 +73,7 @@
         let url = "/blocks";
 
         // if we are editing a existing block, we need a different method and url
-        if(blocksExists){
+        if (blocksExists) {
             method = "PUT";
             url = `/blocks/${blockID}`;
         }
@@ -95,13 +95,13 @@
             if (responseData.success) {
                 DOM.messageSuccess.classList.add('visible');
 
-                if(!blocksExists && 'newID' in responseData){
+                if (!blocksExists && 'newID' in responseData) {
                     blocksExists = true;
                     blockID = responseData.newID;
-                } else if (!blocksExists){
+                } else if (!blocksExists) {
                     console.error('could not get id of the created block')
                 }
-            
+
             } else {
                 console.error('Something went wrong while trying to save the block');
             }
@@ -149,25 +149,39 @@
         DOM.inputForm.reset();
     };
 
+    // updates existing input in the inputData array
     const updateInput = (data) => {
         const index = inputData.findIndex(input => input.id === inputID);
         if (index === -1 || inputID === 0) {
             console.error('The data of the input field could not be found.');
             return;
         }
-    
+
         if (inputData[index].name !== data.name) {
             if (!validate(data, true)) return;
         } else if (!validate(data)) {
             return;
         }
-    
+
         data.id = inputID;
         inputData[index] = data;
         updateInputVisualization(inputID, data);
         toggleInputPopup();
         DOM.inputForm.reset();
     };
+
+    // deletes existing input from the inputData array
+    const deleteInput = (id) => {
+        const index = inputData.findIndex(input => input.id === id);
+
+        if (index !== -1) {
+            // remove input from the array
+            inputData.splice(index, 1);
+            // delete the visualization
+            deleteInputVisualization(id);
+
+        }
+    }
 
     const setupBlockForm = () => {
         // sets all event listeners needed to interact with the block creation
@@ -185,11 +199,11 @@
         try {
             const response = await fetch(`/blocks/${id}`);
             const blockData = await response.json();
-            if(blockData.success===true){
+            if (blockData.success === true) {
                 const input = JSON.parse(blockData.block.input);
                 inputData.push(...input);
 
-                inputData.forEach((data)=>{
+                inputData.forEach((data) => {
                     addInputVisualization(data);
                 });
 
@@ -200,7 +214,7 @@
         } catch (error) {
             console.error('Something went wrong:', error);
         }
-    };    
+    };
 
     // opens the input form to create a new input
     const createInput = () => {
@@ -209,7 +223,7 @@
         toggleInputPopup();
     }
 
-    // opens the input form to edit a existing input form the inputData array
+    // opens the input form to edit a existing input from the inputData array
     const editInput = (id) => {
         inputMethod = "update";
 
@@ -249,14 +263,17 @@
         const inputTitle = document.createElement('h3');
         const inputParams = document.createElement('div');
         const editButton = document.createElement('button');
+        const deleteButton = document.createElement('button');
 
         input.classList.add('inputVis');
         inputTitle.classList.add('label');
         inputParams.classList.add('params');
         editButton.classList.add('edit');
+        deleteButton.classList.add('delete');
 
         inputTitle.innerText = data.label;
         editButton.innerText = "edit";
+        deleteButton.innerText = "delete";
 
         input.dataset.id = data.id;
 
@@ -270,11 +287,15 @@
         input.appendChild(inputTitle);
         input.appendChild(inputParams);
         input.appendChild(editButton);
+        input.appendChild(deleteButton);
         DOM.fieldsArea.appendChild(input);
 
         editButton.addEventListener('click', () => {
             editInput(data.id);
         });
+        deleteButton.addEventListener('click', () => {
+            deleteInput(data.id);
+        })
     }
 
     // updates a exisiting visualization of a input
@@ -294,6 +315,12 @@
                 inputParams.innerHTML += param;
             }
         });
+    }
+
+    // deletes a exisiting visualization of a input
+    const deleteInputVisualization = (id) => {
+        const vis = document.querySelector(`.inputVis[data-id="${id}"]`);
+        vis.remove();
     }
 
     const toggleInputPopup = () => {
@@ -318,17 +345,17 @@
     //validate input data
     const validate = (data, newName = false) => {
         let isValid = true;
-    
+
         for (const [name, element] of Object.entries(DOM.fieldMessages)) {
             element.innerText = "";
         }
-    
+
         if (!data.name) {
             setFieldMessage('name', '"name" is required.');
             isValid = false;
         }
         if (data.name.includes(" ")) {
-            setFieldMessage('name','"name" cannot contain spaces.')
+            setFieldMessage('name', '"name" cannot contain spaces.')
             isValid = false;
         }
         if (!data.label) {
@@ -339,7 +366,7 @@
             setFieldMessage('name', `Input with name "${data.name}" already exists`);
             isValid = false;
         }
-    
+
         return isValid;
     };
 

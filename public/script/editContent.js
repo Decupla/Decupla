@@ -378,8 +378,6 @@
     // adds a block instance to the deletedBlocks array and removes the visualization
     const deleteBlock = (instanceID) => {
 
-        console.log(blocksData);
-
         // get the index of the block instance in the blocksData array
         const index = blocksData.findIndex(block => block.instanceID === instanceID);
 
