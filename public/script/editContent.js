@@ -1,8 +1,5 @@
 'use strict';
 
-// to do: fix bug when saving two times without reloading
-// maybe just change contentExists and reload blockData
-
 (() => {
 
     // === DOM & VARS ===
@@ -10,13 +7,17 @@
     DOM.contentForm = document.querySelector('form#contentForm');
     DOM.blocksArea = document.querySelector('#blocks');
     DOM.titleMessage = document.querySelector('#message-title');
+    DOM.savedMessage = document.querySelector('#message-saved');
     DOM.addBlockButtonContainers = document.querySelectorAll('.addBlockContainer');
     DOM.blockFormWrapper = document.querySelector('#blockFormWrapper');
     DOM.blockFormTitle = DOM.blockFormWrapper.querySelector('#blockFormTitle');
     DOM.blockForm = DOM.blockFormWrapper.querySelector('form#blockForm');
     DOM.blockFormInput = DOM.blockForm.querySelector('#blockFormInput');
 
-    const blocksData = [];
+    let blocksData = [];
+
+    // if we are deleting existing block instances, the database ids of the blocks will be saved here 
+    let deletedBlocks = [];
 
     // saves the data of the current block which is used to create or edit a instance 
     let currentBlock = {};
@@ -63,6 +64,8 @@
         const formData = new FormData(event.target);
         // the data from the form. No blocks jet.
         const data = Object.fromEntries(formData.entries());
+
+        console.log(data);
 
         // show a error message if no title is set
         if (!data.title) {
@@ -150,7 +153,34 @@
 
             }
 
-            alert('successfully saved');
+            if (contentExists && deletedBlocks.length > 0) {
+                for (const id of deletedBlocks) {
+                    const deletedResponse = await fetch(`/blocks/instances/${id}`, {
+                        method: 'delete'
+                    })
+
+                    const deletedResponseData = await deletedResponse.json();
+
+                    // check if deleting the block data was successfull
+                    if (!deletedResponseData.success) {
+                        console.error(deletedResponseData.message);
+                        return;
+                    } else if (!deletedResponse.ok) {
+                        throw new Error(`HTTP Error: ${deletedResponse.status}`);
+                    }
+                }
+            }
+
+            DOM.savedMessage.classList.add('visible');
+            // if we created new content we are now editing it after the first save
+            if (!contentExists) {
+                contentExists = true;
+                contentID = newID;
+                // reload the blocks after saving so we get the database id for each new instance
+                reloadBlocks(newID);
+            } else {
+                reloadBlocks(contentID);
+            }
 
         } catch (error) {
             console.error('An error occurred:', error);
@@ -262,6 +292,14 @@
         }
     }
 
+    // reloads the blockData array and also reloads the block visualizations
+    const reloadBlocks = async (id) => {
+        blocksData = [];
+        deletedBlocks = [];
+        DOM.blocksArea.innerHTML = "";
+        getBlocks(id);
+    }
+
 
     // sets up the block selection dropdown
     const setupBlockSelection = (container) => {
@@ -337,6 +375,32 @@
         setupBlockForm(blockID, setOutput);
     }
 
+    // adds a block instance to the deletedBlocks array and removes the visualization
+    const deleteBlock = (instanceID) => {
+
+        console.log(blocksData);
+
+        // get the index of the block instance in the blocksData array
+        const index = blocksData.findIndex(block => block.instanceID === instanceID);
+
+        if (index !== -1) {
+
+            // if we are editing existing content, we need to save the database id of the block instance, so we can delete it from the database later
+            if (contentExists) {
+                deletedBlocks.push(blocksData[index].databaseID);
+            }
+
+            // remove instance from the array
+            blocksData.splice(index, 1);
+
+            console.log(blocksData);
+            console.log(deletedBlocks);
+
+            // we also need to remove the visualization
+            deleteBlockVisualization(instanceID);
+
+        }
+    }
 
     // loads the input fields to the block form. Param "value" is used while editing a existing instance
     const createInput = (inputData, value = "") => {
@@ -383,14 +447,17 @@
         const blockTitle = document.createElement('h3');
         const blockOutput = document.createElement('div');
         const editButton = document.createElement('button');
+        const deleteButton = document.createElement('button');
 
         block.classList.add('blockVis');
         blockTitle.classList.add('title');
         blockOutput.classList.add('output');
         editButton.classList.add('edit');
+        deleteButton.classList.add('delete');
 
         blockTitle.innerText = data.title;
         editButton.innerText = "edit";
+        deleteButton.innerText = "delete";
 
         block.dataset.instance = data.instanceID;
 
@@ -402,11 +469,16 @@
         block.appendChild(blockTitle);
         block.appendChild(blockOutput);
         block.appendChild(editButton);
+        block.appendChild(deleteButton);
         DOM.blocksArea.appendChild(block);
 
         editButton.addEventListener('click', () => {
             editBlock(data.instanceID, data.blockID);
         });
+
+        deleteButton.addEventListener('click', () => {
+            deleteBlock(data.instanceID);
+        })
     }
 
     // updates a existing visualization
@@ -423,6 +495,12 @@
             const output = `<strong>${key}</strong>: ${value}<br>`;
             blockOutput.innerHTML += output;
         });
+    }
+
+    // deletes a existing visualization
+    const deleteBlockVisualization = (instanceID) => {
+        const vis = document.querySelector(`.blockVis[data-instance="${instanceID}"]`);
+        vis.remove();
     }
 
 

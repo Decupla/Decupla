@@ -30,6 +30,16 @@ const update = async (id,data) => {
     }
 }
 
+const remove = async (id) => {
+    try {
+        await db.deleteWhere('blockInstances','id',id);
+        return true;
+    } catch (error) {   
+        console.error('Error deleting data: ', error);
+        return false;
+    }
+}
+
 const deleteByContent = async (id) => {
     try {
         await db.deleteAllWhere('blockInstances','contentID',id);
@@ -44,5 +54,6 @@ module.exports = {
     add,
     getByContent,
     update,
+    remove,
     deleteByContent
 }

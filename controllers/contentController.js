@@ -16,7 +16,7 @@ const index = async (req, res) => {
 const create = async (req, res) => {
     const blocks = await Block.getAll();
 
-    res.render('addContent', {
+    res.render('editContent', {
         title: 'Create Content',
         blocks,
         data: {}
@@ -31,7 +31,7 @@ const edit = async (req, res) => {
     if (data === null) {
         return res.status(404).redirect('/content');
     }
-    res.render('addContent', {
+    res.render('editContent', {
         title: 'Edit Content',
         data,
         blocks,

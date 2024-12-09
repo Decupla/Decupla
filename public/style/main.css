@@ -76,10 +76,10 @@
   background-color: white;
 }
 
-#message-title {
+#message-title, #message-saved {
   display: none;
 }
-#message-title.visible {
+#message-title.visible, #message-saved.visible {
   display: block;
 }
 

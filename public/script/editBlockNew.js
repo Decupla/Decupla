@@ -94,6 +94,14 @@
 
             if (responseData.success) {
                 DOM.messageSuccess.classList.add('visible');
+
+                if(!blocksExists && 'newID' in responseData){
+                    blocksExists = true;
+                    blockID = responseData.newID;
+                } else if (!blocksExists){
+                    console.error('could not get id of the created block')
+                }
+            
             } else {
                 console.error('Something went wrong while trying to save the block');
             }
@@ -317,6 +325,10 @@
     
         if (!data.name) {
             setFieldMessage('name', '"name" is required.');
+            isValid = false;
+        }
+        if (data.name.includes(" ")) {
+            setFieldMessage('name','"name" cannot contain spaces.')
             isValid = false;
         }
         if (!data.label) {

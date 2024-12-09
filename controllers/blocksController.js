@@ -1,5 +1,5 @@
 const Block = require('../models/block');
-const blockInstance = require('../models/blockInstance');
+const BlockInstance = require('../models/blockInstance');
 const Validation = require('../helpers/Validation');
 
 const index = async (req, res) => {
@@ -44,8 +44,6 @@ const saveNew = async (req, res) => {
     validation.validate("title", "required|string");
     validation.validate("status", "required");
     validation.validate("input", "string");
-
-    console.log(validation.errors);
 
     if (validation.hasErrors()) {
         res.status(400).send(validation.errors);
@@ -129,8 +127,6 @@ const saveNewInstance = async (req, res) => {
         blockID: req.body.blockID
     }
 
-    console.log(req.body);
-
     const validation = new Validation(data);
     validation.validate("contentID", "required|numeric");
     validation.validate("output", "required|string");
@@ -142,7 +138,7 @@ const saveNewInstance = async (req, res) => {
             message: validation.errors
         });
     } else {
-        const newID = await blockInstance.add(data);
+        const newID = await BlockInstance.add(data);
         if (newID === null) {
             return res.status(500).send({
                 success: false,
@@ -158,8 +154,6 @@ const saveNewInstance = async (req, res) => {
 
 const updateInstance = async (req, res) => {
     const { id } = req.params;
-
-    console.log(req.body);
 
     const data = {
         contentID: req.body.contentID,
@@ -178,7 +172,7 @@ const updateInstance = async (req, res) => {
             message: validation.errors
         });
     }
-    const success = await blockInstance.update(id, data);
+    const success = await BlockInstance.update(id, data);
     if (success) {
         res.status(201).send({
             success: true,
@@ -187,6 +181,22 @@ const updateInstance = async (req, res) => {
         res.status(404).send({
             success: false,
             message: 'Something went wrong while trying to update the block instance. Please check the console for more information.'
+        });
+    }
+}
+
+const removeInstance = async (req, res) => {
+    const { id } = req.params;
+
+    const success = await BlockInstance.remove(id);
+    if (success) {
+        res.status(201).send({
+            success: true,
+        })
+    } else {
+        res.status(404).send({
+            success: false,
+            message: 'Something went wrong while trying to delete the block instance. Please check the console for more information.'
         });
     }
 }
@@ -200,5 +210,6 @@ module.exports = {
     remove,
     get,
     saveNewInstance,
-    updateInstance
+    updateInstance,
+    removeInstance
 }

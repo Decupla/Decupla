@@ -11,5 +11,6 @@ blocksRouter.post('/instances', blocksController.saveNewInstance);
 blocksRouter.put('/:id', blocksController.save);
 blocksRouter.put('/instances/:id', blocksController.updateInstance);
 blocksRouter.delete('/:id', blocksController.remove);
+blocksRouter.delete('/instances/:id', blocksController.removeInstance);
 
 module.exports = blocksRouter;
