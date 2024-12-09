@@ -103,7 +103,15 @@ const remove = async (req, res) => {
     const { id } = req.params;
     const success = await Content.remove(id);
     if (success) {
-        return res.status(201).redirect('/content?message=deleted'); 
+        const blocksSuccess = await BlockInstance.deleteByContent(id);
+        if(blocksSuccess) {
+            res.status(200).redirect('/content?message=deleted')
+        } else {
+            return res.status(404).render('error', {
+                title: 'Error',
+                message: 'Something went wrong while trying to delete the block instances. Please check the console for more information.'
+            });
+        }
     } else {
         return res.status(404).render('error', {
             title: 'Error',

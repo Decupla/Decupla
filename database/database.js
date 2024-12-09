@@ -155,6 +155,24 @@ const databaseAPI = {
         })  
     },
 
+    deleteAllWhere(table, identifier, value) {
+        return new Promise((resolve, reject)=>{
+            const query = `DELETE FROM ${table} WHERE ${identifier} = ?`;
+            connection.all(query, [value], function(error) {
+                if (error) {
+                    console.log('Error: ' + error);
+                    reject(error);
+                } else {
+                    if (this.changes === 0) {
+                        reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
+                    } else {
+                        resolve(true);
+                    }
+                }
+            })
+        })  
+    },
+
     insert(table, data) {
         return new Promise((resolve,reject)=>{
             const columns = Object.keys(data);
