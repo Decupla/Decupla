@@ -1,5 +1,8 @@
 'use strict';
 
+// to do: fix bug when saving two times without reloading
+// maybe just change contentExists and reload blockData
+
 (() => {
 
     // === DOM & VARS ===

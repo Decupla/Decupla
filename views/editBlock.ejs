@@ -3,7 +3,7 @@
     <form action="/blocks" method="POST" id="createBlock">
         <div>
             <label for="title">Title</label>
-            <input name="title" id="title" type="text" value="<%= data.title %>">
+            <input name="title" id="title" type="text" value="<%= data?.title?.trim() || '' %>">
             <div id="message-title"></div>
         </div>
         <div>
@@ -58,5 +58,5 @@
             </form>
         </div>
     </div>
-    <script src="/script/editBlock.js" defer></script>
+    <script src="/script/editBlockNew.js" defer></script>
     <%- include('layout/layoutEnd.ejs') %>

@@ -41,7 +41,7 @@ const update = async (id,data) => {
 
 const remove = async (id) => {
     try {
-        await db.deleteWhere('block','id',id);
+        await db.deleteWhere('blocks','id',id);
         return true;
     } catch (error) {   
         console.error('Error deleting data: ', error);

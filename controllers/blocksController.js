@@ -13,8 +13,9 @@ const index = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    res.render('addBlock', {
-        title: 'Create Block'
+    res.render('editBlock', {
+        title: 'Create Block',
+        data: {}
     });
 }
 
