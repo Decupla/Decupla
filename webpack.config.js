@@ -3,7 +3,7 @@ const scriptDir = path.resolve(__dirname, './public/script');
 
 module.exports = {
     entry: {
-        editBlock: scriptDir + '/editBlock/editBlock.js',
+        editBlock: scriptDir + '/editBlock/main.js',
         editContent: scriptDir + '/editContent/main.js',
         editMenu: scriptDir + '/editMenu/editMenu.js',
     },

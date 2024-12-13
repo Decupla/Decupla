@@ -11,10 +11,12 @@ export let blockExists;
 export let blockID;
 
 export const setInputMethod = (value) =>  inputMethod = value;
-export const setInputID = (id) => setInputID = id;
+export const setInputID = (id) => inputID = id;
 export const setBlockExists = (value) => blockExists = value;
 export const setBlockID = (id) => blockID = id;
 
 export const getInputId = () => {
     return nextInputId++;
 }
+
+export const setNextInputId = (id) => nextInputId = id;
