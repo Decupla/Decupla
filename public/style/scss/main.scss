@@ -93,3 +93,12 @@
         display: block;
     }
 }
+
+// edit menu page
+#contentSelection {
+    display: none;
+
+    &.visible {
+        display: block;
+    }
+}

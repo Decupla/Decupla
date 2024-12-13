@@ -83,4 +83,11 @@
   display: block;
 }
 
+#contentSelection {
+  display: none;
+}
+#contentSelection.visible {
+  display: block;
+}
+
 /*# sourceMappingURL=main.css.map */

@@ -57,6 +57,12 @@ const createTables = (database) => {
             output TEXT NOT NULL
         );
 
+        CREATE Table menus (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            entries TEXT NOT NULL
+        );
+
         CREATE TABLE media (
             id INTEGER PRIMARY KEY,
             file TEXT NOT NULL

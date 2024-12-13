@@ -1,0 +1,32 @@
+<%- include('layout/layoutStart.ejs') %>
+<h1>Create New Content</h1>
+<form method="POST" id="menuForm">
+    <div>
+        <label for="title">Title</label>
+        <input name="title" id="title" type="text" value="<%= data?.title?.trim() || '' %>">
+        <div class="message" id="message-title">"title" is required</div>
+    </div>
+    <input type="submit" value="save">
+</form>
+<div class="alert alert-success" id="message-saved"></div>
+<div id="entries"></div>
+<button id="selectEntry">+ add entry</button>
+<div id="contentSelection">
+    <h3>Add Link</h3>
+    <% if (!content || content.length===0) { %>
+        No content found
+        <% } else { %>
+            <ul id="contentList">
+                <% content.forEach(content=> { %>
+                    <li class="content" data-id="<%= content.id %>">
+                        <div class="contentTitle"><%= content.title %></div>
+                        <button id="addEntry">+ add</button>
+                    </li>
+                    <% }); %>
+            </ul>
+            <% } %>
+    <ul id="contentList">
+    </ul>
+</div>
+<script src="/script/dist/editMenu.bundle.js"></script>
+<%- include('layout/layoutEnd.ejs') %>

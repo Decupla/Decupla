@@ -7,6 +7,7 @@ const contentRouter = require('./routes/contentRoutes');
 const blocksRouter = require('./routes/blocksRoutes');
 const usersRouter = require('./routes/usersRoutes');
 const rolesRouter = require('./routes/rolesRoutes');
+const menusRouter = require('./routes/menusRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 
@@ -36,6 +37,7 @@ app.use('/content',contentRouter);
 app.use('/blocks',blocksRouter);
 app.use('/users',usersRouter);
 app.use('/roles',rolesRouter);
+app.use('/menus',menusRouter);
 
 app.use(invalidRouteHandler);
 
