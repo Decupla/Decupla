@@ -6,14 +6,14 @@ import { setupBlockSelection } from './modules/blockForm';
 import { checkIfExists,getId } from './modules/content';
 
 
-const init = () => {
+const init = async () => {
     const path = window.location.pathname;
     
     setContentExists(checkIfExists(path));
 
     if (contentExists) {
         setContentID(getId(path));
-        getBlocks(contentID);
+        await getBlocks(contentID);
     }
 
     DOM.addBlockButtonContainers.forEach((container) => {

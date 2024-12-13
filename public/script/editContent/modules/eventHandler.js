@@ -1,7 +1,7 @@
 import DOM from './dom';
 import { contentExists, contentID, deletedBlocks, setContentExists, setContentID, blocksData, blockMethod, currentBlock } from './data';
 import { saveContentData, saveBlockData, deleteBlockInstance } from './api';
-import { saveNewBlock, updateBlock } from './blocks';
+import { saveNewBlock, updateBlock, reloadBlocks } from './blocks';
 
 export const handleContentSubmit = async (event) => {
     event.preventDefault();
@@ -89,9 +89,9 @@ export const handleContentSubmit = async (event) => {
         if (!contentExists) {
             setContentExists(true);
             setContentID(newID);
-            // reloadBlocks(newID);
+            reloadBlocks(newID);
         } else {
-            // reloadBlocks(contentID);
+            reloadBlocks(contentID);
         }
 
     } catch (error) {

@@ -1,5 +1,5 @@
 import DOM from './dom';
-import { contentExists, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, nextInstanceId, getInstanceId } from "./data";
+import { contentExists, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks } from "./data";
 import { addBlockVisualization, deleteBlockVisualization, updateBlockVisualization } from "./visualization";
 import { setupBlockForm, closeBlockForm } from './blockForm';
 
@@ -86,8 +86,8 @@ export const deleteBlock = (instanceID) => {
 
 // reloads the blockData array and also reloads the block visualizations
 export const reloadBlocks = async (id) => {
-    blocksData = [];
-    deletedBlocks = [];
+    clearBlocksData();
+    clearDeletedBlocks();
     DOM.blocksArea.innerHTML = "";
     getBlocks(id);
 }

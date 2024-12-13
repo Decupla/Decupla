@@ -21,6 +21,14 @@ export const setContentID = (id) => contentID = id;
 export const setCurrentInstanceID = (id) => currentInstanceID = id;
 export const setCurrentBlock = (data) => currentBlock = data;
 
-export const getInstanceId = (id) => { 
+export const clearBlocksData= () => {
+    blocksData = [];
+}
+
+export const clearDeletedBlocks= () => {
+    deletedBlocks = [];
+}
+
+export const getInstanceId = () => { 
     return nextInstanceId++ 
 };
