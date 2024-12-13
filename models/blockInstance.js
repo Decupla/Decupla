@@ -50,10 +50,21 @@ const deleteByContent = async (id) => {
     }
 }
 
+const deleteByBlock = async (id) => {
+    try {
+        await db.deleteAllWhere('blockInstances','blockID',id);
+        return true;
+    } catch (error) {   
+        console.error('Error deleting data: ', error);
+        return false;
+    }
+}
+
 module.exports = {
     add,
     getByContent,
     update,
     remove,
-    deleteByContent
+    deleteByContent,
+    deleteByBlock
 }
