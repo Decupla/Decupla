@@ -1,24 +1,48 @@
 <%- include('layout/layoutStart.ejs') %>
-<h1>Create New User</h1>
-<form action="/users" method="POST" novalidate>
-    <div>
-        <label for="name">Name</label>
-        <input name="name" id="name" type="text">
-    </div>
-    <div>
-        <label for="email">E-Mail</label>
-        <input name="email" id="email" type="email">
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input name="password" id="password" type="password">
-    </div>
-    <div>
-        <select name="role" id="role">
-            <option value="0">Administrator</option>
-            <option value="1">Author</option>
-        </select>
-    </div>
-    <input type="submit" value="save">
-</form>
-<%- include('layout/layoutEnd.ejs') %>
+    <h1>Create New User</h1>
+    <% if(query.message==="saved"){ %>
+        <div class="alert alert-success my-4">
+            User was successfully saved
+        </div>
+    <% } %>
+    <form action="<%= editingExisting ? `/users/${data.id}` : '/users' %>" method="POST" novalidate>
+        <% if(editingExisting){ %>
+            <input type="hidden" name="_method" value="PUT">
+            <% } %>
+                <div>
+                    <label for="name">Name</label>
+                    <input name="name" id="name" type="text" value="<%= data?.name?.trim() || '' %>">
+                    <% if ('name' in messages) { %>
+                        <div class="alert alert-danger">
+                            <%= messages.name %>
+                        </div>
+                        <% } %>
+                </div>
+                <div>
+                    <label for="email">E-Mail</label>
+                    <input name="email" id="email" type="email" value="<%= data?.email?.trim() || '' %>"">
+        <% if ('email' in messages) { %>
+            <div class=" alert alert-danger">
+                    <%= messages.email %>
+                </div>
+                <% } %>
+                    </div>
+                    <div>
+                        <label for="password">Password</label>
+                        <input name="password" id="password" type="password"
+                            value="<%= data?.password?.trim() || '' %>">
+                        <% if ('password' in messages) { %>
+                            <div class="alert alert-danger">
+                                <%= messages.password %>
+                            </div>
+                            <% } %>
+                    </div>
+                    <div>
+                        <select name="role" id="role">
+                            <option <%=data?.role===0 ? 'selected' : '' %> value="0">Administrator</option>
+                            <option <%=data?.role===1 ? 'selected' : '' %> value="1">Author</option>
+                        </select>
+                    </div>
+                    <input type="submit" value="save">
+    </form>
+    <%- include('layout/layoutEnd.ejs') %>

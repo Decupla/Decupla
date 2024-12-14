@@ -49,10 +49,38 @@ const remove = async (id) => {
     }
 }
 
+const mailExists = async (mail) => {
+    try {
+        const result = await db.selectWhere('users','email',mail);
+        if(result){
+            return true;
+        }
+        return false;
+    } catch (error) {   
+        console.error('Error while checking for email: ', error);
+        return false;
+    }
+}
+
+const emailChanged = async (id,email) => {
+    try {
+        const user = await db.selectWhere('users','id',id);
+        if(user){
+            return user.email!==email;
+        }
+        return false;
+    } catch (error) {   
+        console.error('Error while checking name email: ', error);
+        return false;
+    }
+} 
+
 module.exports = {
     add,
     getAll,
     get,
     update,
-    remove
+    remove,
+    mailExists,
+    emailChanged
 }

@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Validation = require('../helpers/Validation');
+const isEmpty = require('../helpers/isEmpty');
 
 const index = async (req, res) => {
     const users = await User.getAll();
@@ -13,7 +14,11 @@ const index = async (req, res) => {
 
 const create = (req, res) => {
     res.render('addUser', {
-        title: 'Create User'
+        title: 'Create User',
+        data: {},
+        messages: {},
+        editingExisting: false,
+        query: req.query
     })
 }
 
@@ -24,9 +29,12 @@ const edit = async (req, res) => {
     if (data === null) {
         res.status(404).redirect('/users');
     }
-    res.render('editUser', {
+    res.render('addUser', {
         title: 'Edit User',
         data,
+        query: req.query,
+        messages: {},
+        editingExisting: true,
         query: req.query
     });
 }
@@ -36,7 +44,7 @@ const saveNew = async (req, res) => {
         email: req.body.email,
         name: req.body.name,
         password: req.body.password,
-        role: req.body.role
+        role: parseInt(req.body.role)
     };
 
     const validation = new Validation(data);
@@ -45,18 +53,31 @@ const saveNew = async (req, res) => {
     validation.validate("password", "required|max:30|min:8");
     validation.validate("role", "required|numeric");
 
-    if (validation.hasErrors()) {
-        res.status(400).send(validation.errors);
-    } else {
-        const newID = await User.add(data);
-        if(newID===null){
-            return res.status(500).render('error',{
-                title: 'Error',
-                message: 'Something went wrong while trying to save the user. Please check the console for more information.'
-            })
-        }
-        res.status(201).redirect(`/users/edit/${newID}?message=saved`);
+    let messages = {...validation.errors};
+
+    if (!('email' in messages) && await User.mailExists(data.email)) {
+        messages.email = "Mail already in use";
     }
+    
+
+    if(!isEmpty(messages)){
+        return res.status(400).render('addUser',{
+            title: 'Create User',
+            data,
+            messages,
+            editingExisting: false,
+            query: req.query
+        })
+    }
+
+    const newID = await User.add(data);
+    if (newID === null) {
+        return res.status(500).render('error', {
+            title: 'Error',
+            message: 'Something went wrong while trying to save the user. Please check the console for more information.'
+        })
+    }
+    res.status(201).redirect(`/users/edit/${newID}?message=saved`);
 }
 
 const save = async (req, res) => {
@@ -65,7 +86,7 @@ const save = async (req, res) => {
         email: req.body.email,
         name: req.body.name,
         password: req.body.password,
-        role: req.body.role,
+        role: parseInt(req.body.role),
         id
     };
 
@@ -75,14 +96,28 @@ const save = async (req, res) => {
     validation.validate("password", "required|max:30|min:8");
     validation.validate("role", "required|numeric");
     validation.validate("id", "required|numeric");
-    if (validation.hasErrors()) {
-        res.status(400).send(validation.errors);
+
+    let messages = {...validation.errors};
+
+    if(!('email' in messages) && await User.emailChanged(id,data.email) && await User.mailExists(data.email)){
+        messages.email = "Mail already in use";
     }
+    
+    if(!isEmpty(messages)){
+        return res.status(400).render('addUser',{
+            title: 'Edit User',
+            data,
+            messages,
+            editingExisting: true,
+            query: req.query
+        })
+    }
+
     const success = await User.update(id, data);
-    if(success){
+    if (success) {
         res.status(201).redirect(`/users/edit/${id}?message=saved`);
     } else {
-        res.status(404).render('error',{
+        res.status(404).render('error', {
             title: 'Error',
             message: 'Something went wrong while trying to update the user. Please check the console for more information.'
         });
@@ -91,7 +126,7 @@ const save = async (req, res) => {
 const remove = async (req, res) => {
     const { id } = req.params;
     const success = await User.remove(id);
-    if(success){
+    if (success) {
         res.status(201).redirect('/users?message=deleted');
     } else {
         res.status(404).render('error', {

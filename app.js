@@ -8,8 +8,10 @@ const blocksRouter = require('./routes/blocksRoutes');
 const usersRouter = require('./routes/usersRoutes');
 const rolesRouter = require('./routes/rolesRoutes');
 const menusRouter = require('./routes/menusRoutes');
+const loginRouter = require('./routes/loginRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
+const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
 
 const app = express();
 
@@ -33,11 +35,12 @@ app.get('/',(req, res) => {
     }
 })
 
-app.use('/content',contentRouter);
-app.use('/blocks',blocksRouter);
+app.use('/content',authenticateTokenBrowser,contentRouter);
+app.use('/blocks',authenticateTokenBrowser,blocksRouter);
 app.use('/users',usersRouter);
-app.use('/roles',rolesRouter);
-app.use('/menus',menusRouter);
+app.use('/roles',authenticateTokenBrowser,rolesRouter);
+app.use('/menus',authenticateTokenBrowser,menusRouter);
+app.use('/login',loginRouter)
 
 app.use(invalidRouteHandler);
 

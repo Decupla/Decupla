@@ -5,7 +5,7 @@
         User was successfully saved
     </div>
 <% } %>
-<form action="/users/34" method="POST" novalidate>
+<form action="/users/<%= data.id %>" method="POST" novalidate>
     <input type="hidden" name="_method" value="PUT">
     <div>
         <label for="name">Name</label>
