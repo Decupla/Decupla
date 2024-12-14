@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Validation = require('../helpers/Validation');
 const isEmpty = require('../helpers/isEmpty');
+const bcrypt = require('bcrypt');
 
 const index = async (req, res) => {
     const users = await User.getAll();
@@ -29,6 +30,9 @@ const edit = async (req, res) => {
     if (data === null) {
         res.status(404).redirect('/users');
     }
+
+    data.password = "";
+
     res.render('addUser', {
         title: 'Edit User',
         data,
@@ -70,6 +74,8 @@ const saveNew = async (req, res) => {
         })
     }
 
+    data.password = await bcrypt.hash(data.password,10);
+
     const newID = await User.add(data);
     if (newID === null) {
         return res.status(500).render('error', {
@@ -85,17 +91,25 @@ const save = async (req, res) => {
     const data = {
         email: req.body.email,
         name: req.body.name,
-        password: req.body.password,
         role: parseInt(req.body.role),
         id
     };
 
+    const newPasswordSet = req.body.newPassword!=="";
+
+    if(newPasswordSet){
+        data.password = req.body.newPassword
+    }
+
     const validation = new Validation(data);
     validation.validate("email", "required|email");
     validation.validate("name", "required|string|max:25|min:3");
-    validation.validate("password", "required|max:30|min:8");
     validation.validate("role", "required|numeric");
     validation.validate("id", "required|numeric");
+
+    if(newPasswordSet){
+        validation.validate("password", "max:30|min:8");
+    }
 
     let messages = {...validation.errors};
 
@@ -113,6 +127,10 @@ const save = async (req, res) => {
         })
     }
 
+    if(newPasswordSet){
+        data.password = await bcrypt.hash(data.password,10);
+    }
+
     const success = await User.update(id, data);
     if (success) {
         res.status(201).redirect(`/users/edit/${id}?message=saved`);
@@ -123,6 +141,7 @@ const save = async (req, res) => {
         });
     }
 }
+
 const remove = async (req, res) => {
     const { id } = req.params;
     const success = await User.remove(id);
