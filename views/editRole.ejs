@@ -36,6 +36,10 @@
                 <label for="manageUsers">Manage Users</label>
             </div>
             <div>    
+                <input type="checkbox" id="manageRoles" name="permissions" value="manageRoles" <%= (perms.includes('manageRoles')) ? 'checked' : '' %> />
+                <label for="manageRoles">Manage Roles</label>
+            </div>
+            <div>    
                 <input type="checkbox" id="manageSettings" name="permissions" value="manageSettings" <%= (perms.includes('manageSettings')) ? 'checked' : '' %> />
                 <label for="manageSettings">Manage Settings</label>
             </div>

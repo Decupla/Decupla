@@ -46,7 +46,9 @@
         <div>
             <select name="role" id="role">
                 <option <%=data?.role===0 ? 'selected' : '' %> value="0">Administrator</option>
-                <option <%=data?.role===1 ? 'selected' : '' %> value="1">Author</option>
+                <% roles.forEach(role => { %>
+                    <option <%=data?.role===role.id ? 'selected' : '' %> value="<%= role.id %>"><%= role.name %></option>
+                <% }); %>
             </select>
         </div>
         <input type="submit" value="save">

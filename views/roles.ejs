@@ -6,6 +6,9 @@
     <% if (query.message==="deleted") { %>
         <div class="alert alert-success mt-4">Role was deleted!</div>
     <% } %>
+    <div class="role d-flex">
+        <div class="title">Administrator</div>
+    </div>
     <% for(var i=0; i<roles.length; i++) {%>
         <div class="role" style="display: flex">
             <div class="title">

@@ -14,6 +14,7 @@ const loginRouter = require('./routes/loginRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
+const checkRole = require('./middleware/checkRole');
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.use(session({
   saveUninitialized: true
 }))
 
+app.use(authenticateTokenBrowser);
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
@@ -44,11 +47,11 @@ app.get('/', (req, res) => {
   }
 })
 
-app.use('/content', authenticateTokenBrowser, contentRouter);
-app.use('/blocks', authenticateTokenBrowser, blocksRouter);
-app.use('/users', authenticateTokenBrowser, usersRouter);
-app.use('/roles', authenticateTokenBrowser, rolesRouter);
-app.use('/menus', authenticateTokenBrowser, menusRouter);
+app.use('/content', checkRole('editContent'), contentRouter);
+app.use('/blocks', checkRole('manageBlocks'), blocksRouter);
+app.use('/users', checkRole('manageUsers'), usersRouter);
+app.use('/roles', checkRole('manageRoles'), rolesRouter);
+app.use('/menus', checkRole('manageMenus'), menusRouter);
 app.use('/login', loginRouter)
 
 app.use(invalidRouteHandler);

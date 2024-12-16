@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Role = require('../models/role');
 const Validation = require('../helpers/Validation');
 const isEmpty = require('../helpers/isEmpty');
 const bcrypt = require('bcrypt');
@@ -13,18 +14,22 @@ const index = async (req, res) => {
     })
 }
 
-const create = (req, res) => {
+const create = async (req, res) => {
+    const roles = await Role.getAll();
+
     res.render('addUser', {
         title: 'Create User',
         data: {},
         messages: {},
         editingExisting: false,
-        query: req.query
+        query: req.query,
+        roles
     })
 }
 
 const edit = async (req, res) => {
     const { id } = req.params;
+    const roles = await Role.getAll();
     // get content data by id
     const data = await User.get(id);
     if (data === null) {
@@ -39,7 +44,8 @@ const edit = async (req, res) => {
         query: req.query,
         messages: {},
         editingExisting: true,
-        query: req.query
+        query: req.query,
+        roles
     });
 }
 
@@ -65,12 +71,15 @@ const saveNew = async (req, res) => {
     
 
     if(!isEmpty(messages)){
+        const roles = await Role.getAll();
+
         return res.status(400).render('addUser',{
             title: 'Create User',
             data,
             messages,
             editingExisting: false,
-            query: req.query
+            query: req.query,
+            roles
         })
     }
 
@@ -118,12 +127,15 @@ const save = async (req, res) => {
     }
     
     if(!isEmpty(messages)){
+        const roles = await Role.getAll();
+
         return res.status(400).render('addUser',{
             title: 'Edit User',
             data,
             messages,
             editingExisting: true,
-            query: req.query
+            query: req.query,
+            roles
         })
     }
 
@@ -154,7 +166,6 @@ const remove = async (req, res) => {
         });
     }
 }
-
 
 module.exports = {
     index,
