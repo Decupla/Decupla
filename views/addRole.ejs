@@ -1,37 +1,40 @@
 <%- include('layout/layoutStart.ejs') %>
-<h1>Create New Role</h1>
-<form action="/roles" method="POST">
-    <div>
-        <label for="name">Name</label>
-        <input name="name" id="name" type="text">
-    </div>
-    <fieldset>
-        <legend>Permissions</legend>
-        <div>    
-            <input type="checkbox" id="editContent" name="permissions" value="editContent" />
-            <label for="editContent">Edit Content</label>
+<%- include('layout/sidebar.ejs') %>
+<main>
+    <h1>Create New Role</h1>
+    <form action="/roles" method="POST">
+        <div>
+            <label for="name">Name</label>
+            <input name="name" id="name" type="text">
         </div>
-        <div>    
-            <input type="checkbox" id="editBlockInstances" name="permissions" value="editBlockInstances" />
-            <label for="editBlockInstances">Edit Blocks in Content</label>
-        </div>
-        <div>    
-            <input type="checkbox" id="manageMenus" name="permissions" value="manageMenus" />
-            <label for="manageMenus">Manage Menus</label>
-        </div>
-        <div>    
-            <input type="checkbox" id="manageBlocks" name="permissions" value="manageBlocks" />
-            <label for="manageBlocks">Manage Blocks</label>
-        </div>
-        <div>    
-            <input type="checkbox" id="manageUsers" name="permissions" value="manageUsers" />
-            <label for="manageUsers">Manage Users</label>
-        </div>
-        <div>    
-            <input type="checkbox" id="manageSettings" name="permissions" value="manageSettings" />
-            <label for="manageSettings">Manage Settings</label>
-        </div>
-    </fieldset>
-    <input type="submit" value="save">
-</form>
+        <fieldset>
+            <legend>Permissions</legend>
+            <div>    
+                <input type="checkbox" id="editContent" name="permissions" value="editContent" />
+                <label for="editContent">Edit Content</label>
+            </div>
+            <div>    
+                <input type="checkbox" id="editBlockInstances" name="permissions" value="editBlockInstances" />
+                <label for="editBlockInstances">Edit Blocks in Content</label>
+            </div>
+            <div>    
+                <input type="checkbox" id="manageMenus" name="permissions" value="manageMenus" />
+                <label for="manageMenus">Manage Menus</label>
+            </div>
+            <div>    
+                <input type="checkbox" id="manageBlocks" name="permissions" value="manageBlocks" />
+                <label for="manageBlocks">Manage Blocks</label>
+            </div>
+            <div>    
+                <input type="checkbox" id="manageUsers" name="permissions" value="manageUsers" />
+                <label for="manageUsers">Manage Users</label>
+            </div>
+            <div>    
+                <input type="checkbox" id="manageSettings" name="permissions" value="manageSettings" />
+                <label for="manageSettings">Manage Settings</label>
+            </div>
+        </fieldset>
+        <input type="submit" value="save">
+    </form>
+</main>
 <%- include('layout/layoutEnd.ejs') %>

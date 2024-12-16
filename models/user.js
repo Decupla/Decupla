@@ -29,6 +29,16 @@ const get = async (id) => {
     }
 }
 
+const getByMail = async (email) => {
+    try {
+        const result = await db.selectWhere('users','email',email);
+        return result;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return null;
+    }
+}
+
 const update = async (id,data) => {
     try {
         await db.updateWhere('users',data,'id',id)
@@ -79,6 +89,7 @@ module.exports = {
     add,
     getAll,
     get,
+    getByMail,
     update,
     remove,
     mailExists,

@@ -1,4 +1,6 @@
 <%- include('layout/layoutStart.ejs') %>
+<%- include('layout/sidebar.ejs') %>
+<main>
     <h1>Create New User</h1>
     <% if(query.message==="saved" ){ %>
     <div class="alert alert-success my-4">
@@ -49,4 +51,5 @@
         </div>
         <input type="submit" value="save">
     </form>
+</main>
 <%- include('layout/layoutEnd.ejs') %>

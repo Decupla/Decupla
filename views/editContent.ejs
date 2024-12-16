@@ -1,4 +1,6 @@
 <%- include('layout/layoutStart.ejs') %>
+<%- include('layout/sidebar.ejs') %>
+<main>
     <h1>Create New Content</h1>
     <form action="/content" method="POST" id="contentForm">
         <div>
@@ -45,7 +47,7 @@
             </form>
         </div>
     </div>
+</main>
+<script src="/script/dist/editContent.bundle.js"></script>
 
-    <script src="/script/dist/editContent.bundle.js"></script>
-
-    <%- include('layout/layoutEnd.ejs') %>
+<%- include('layout/layoutEnd.ejs') %>

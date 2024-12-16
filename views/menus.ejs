@@ -1,7 +1,10 @@
 <%- include('layout/layoutStart.ejs') %>
-<h1>Menus</h1>
-<a href="/menus/create"><button>add new</button></a>
-<% if (query.message==="deleted") { %>
-    <div class="alert alert-success mt-4">Block was deleted!</div>
-<% } %>
+<%- include('layout/sidebar.ejs') %>
+<main>
+    <h1>Menus</h1>
+    <a href="/menus/create"><button>add new</button></a>
+    <% if (query.message==="deleted") { %>
+        <div class="alert alert-success mt-4">Block was deleted!</div>
+    <% } %>
+</main>
 <%- include('layout/layoutEnd.ejs') %>

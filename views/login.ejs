@@ -1,12 +1,19 @@
-<h1>Login</h1>
-<form action="" id="loginForm">
-    <div>
-        <label for="email">E-Mail</label>
-        <input type="text" name="email" id="email">
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
-    </div>
-    <input type="submit" value="login">
-</form>
+<%- include('layout/layoutStart.ejs') %>
+<main>
+    <h1>Login</h1>
+    <form action="/login" method="POST" id="loginForm">
+        <div>
+            <label for="email">E-Mail</label>
+            <input type="text" name="email" id="email">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+        </div>
+        <input type="submit" value="login">
+        <% if(message!==""){ %>
+            <div class="alert alert-danger"><%= message %></div>
+        <% } %>
+    </form>
+</main>
+<%- include('layout/layoutEnd.ejs') %>
