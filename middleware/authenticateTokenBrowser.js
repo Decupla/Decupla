@@ -10,12 +10,14 @@ const authenticateTokenBrowser = (req, res, next) => {
         return res.status(401).redirect('/login');
     }
 
-    jwt.verify(token,process.env.TOKEN_SECRET, (error)=>{
-        if(error){
-            return res.status(401).redirect('/login');
-        }
+    try {
+        const currentUser = jwt.verify(token,process.env.TOKEN_SECRET);
+        req.user = currentUser;
         next();
-    })
+    } catch(error){
+        console.log(error);
+        return res.status(401).redirect('/login');
+    }
 }
 
 module.exports = authenticateTokenBrowser;

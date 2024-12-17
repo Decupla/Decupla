@@ -2,19 +2,27 @@
     <div class="p-4">
         <a href="/content">Content</a>
     </div>
+    <% if (permissions.includes('manageMenus')){ %>
     <div class="p-4">
         <a href="/menus">Menus</a>
     </div>
+    <% } %>
+    <% if (permissions.includes('manageUsers')){ %>
     <div class="p-4">
         <a href="/users">Users</a>
     </div>
+    <% } %>
+    <% if (permissions.includes('manageRoles')){ %>
     <div class="p-4">
         <a href="/roles">Roles</a>
     </div>
+    <% } %>
+    <% if (permissions.includes('manageBlocks')){ %>
     <div class="p-4">
         <a href="/blocks">Blocks</a>
     </div>
-    <div class="p-4">
+    <% } %>
+    <!-- <div class="p-4">
         <a href="/media">Media</a>
-    </div>
+    </div> -->
 </aside>

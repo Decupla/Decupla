@@ -23,7 +23,7 @@ const create = async (req, res) => {
         messages: {},
         editingExisting: false,
         query: req.query,
-        roles
+        roles,
     })
 }
 
@@ -167,11 +167,35 @@ const remove = async (req, res) => {
     }
 }
 
+// const hasPermission = async (id, permission) => {
+//     const user = User.get(id);
+//     if(user===null){
+//         return false;
+//     }
+//     const role = Role.get(user.role);
+//     if(role===null){
+//         return false;
+//     }
+
+//     const perms = role.perms.split(',');
+//     return perms.contains(permission);
+// }
+
+// const getCurrentID = () => {
+//     try {
+//         const tokenData = jwt.verify(token, process.env.TOKEN_SECRET);   
+//         return tokenData.id;
+//     } catch (error) {
+//         console.error(error);
+//         return null;
+//     }
+// }
+
 module.exports = {
     index,
     create,
     saveNew,
     save,
     edit,
-    remove
+    remove,
 }

@@ -96,7 +96,7 @@ const remove = async (req, res) => {
     const success = await Block.remove(id);
     if (success) {
         const instancesSuccess = await BlockInstance.deleteByBlock(id);
-        if(instancesSuccess){
+        if (instancesSuccess) {
             res.status(201).redirect('/blocks?message=deleted');
         }
     } else {

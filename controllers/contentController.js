@@ -1,6 +1,8 @@
 const Content = require('../models/content');
 const Block = require('../models/block');
 const BlockInstance = require('../models/blockInstance');
+const User = require('../models/user');
+const Role = require('../models/role');
 const Validation = require('../helpers/Validation');
 
 const index = async (req, res) => {
@@ -19,7 +21,7 @@ const create = async (req, res) => {
     res.render('editContent', {
         title: 'Create Content',
         blocks,
-        data: {}
+        data: {},
     });
 }
 
@@ -35,7 +37,7 @@ const edit = async (req, res) => {
         title: 'Edit Content',
         data,
         blocks,
-        query: req.query
+        query: req.query,
     });
 }
 
@@ -147,6 +149,27 @@ const getBlocks = async (req, res) => {
         blocks: blockInstances
     });
 };
+
+// const allowEditingInstances = async () => {
+//     try {
+//         const tokenData = jwt.verify(token, process.env.TOKEN_SECRET);
+//         const currentUserID =  tokenData.id;
+
+//         const user = await User.get(currentUserID);
+//         if(user===null){
+//             return false;
+//         }
+//         const role = await Role.get(user.role)
+//         if(role===null){
+//             return false;
+//         }
+//         const perms = role.perms.split(',');
+//         return perms.includes('manageBlockInstances');
+//     } catch (error) {
+//         console.error(error);
+//         return false;
+//     }
+// }
 
 module.exports = {
     index,

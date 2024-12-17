@@ -59,7 +59,16 @@ const authenticateUser = (user) => {
     return jwt.sign(data,process.env.TOKEN_SECRET);
 }
 
+const getAuthToken = (req,res) => {
+    const token = req.session.authToken;
+    if(token===undefined){
+        return res.status(400).send(null);
+    }
+    res.status(200).send(token);
+}
+
 module.exports = {
     index,
-    validateLogin
+    validateLogin,
+    getAuthToken
 }

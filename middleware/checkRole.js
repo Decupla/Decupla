@@ -1,19 +1,12 @@
-const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Role = require('../models/role');
 
 const checkRole = (role) => {
     return async (req, res, next) => {
-        const token = req.session.authToken;
-
-        if (!token) {
-            return res.status(401).redirect('/login');
-        }
-
         try {
-            const tokenData = jwt.verify(token, process.env.TOKEN_SECRET);
+            const userID = req.user.id;
+            const user = await User.get(userID);
 
-            const user = await User.get(tokenData.id);
             if (!user) {
                 return res.status(401).redirect('/login');
             }
