@@ -12,9 +12,12 @@ const index = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    res.render('addRole', {
+    res.render('editRole', {
         title: 'Create Role',
-        query: req.query
+        query: req.query,
+        data: {},
+        rolePerms: [],
+        editingExisting: false
     })
 }
 
@@ -25,12 +28,13 @@ const edit = async (req, res) => {
     if (data === null) {
         res.status(404).redirect('/roles');
     } else {
-        const perms = data.perms.split(',');
+        const rolePerms = data.perms.split(',');
         res.render('editRole', {
             title: 'Edit Role',
             data,
-            perms,
-            query: req.query
+            query: req.query,
+            rolePerms,
+            editingExisting: true
         });
     }
 }
