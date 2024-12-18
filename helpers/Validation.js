@@ -5,7 +5,7 @@ class Validation {
     inputData = [];
     errors = {};
 
-    constructor(data) {
+    constructor(data=[]) {
         this.inputData = data;
     }
 
