@@ -26,7 +26,7 @@ describe('getAll',()=>{
         const result = await Content.getAll();
 
         expect(result).toBeUndefined();
-        expect(consoleSpy).toHaveBeenCalledWith('Fehler beim Abrufen der Daten: ',mockError);
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
 
         consoleSpy.mockRestore();
     })
@@ -49,8 +49,8 @@ describe('get',()=>{
         const consoleSpy = jest.spyOn(console,'error').mockImplementation(()=>{});
         const result = await Content.get(1);
 
-        expect(result).toBeUndefined();
-        expect(consoleSpy).toHaveBeenCalledWith('Fehler beim Abrufen der Daten: ',mockError);
+        expect(result).toBeNull();
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
 
         consoleSpy.mockRestore();
     })
@@ -76,8 +76,8 @@ describe('add',()=>{
         const data = { title: 'New Mock Content', status: 1};
         const result = await Content.add(data);
 
-        expect(result).toBeUndefined();
-        expect(consoleSpy).toHaveBeenCalledWith('Fehler beim Einfügen der Daten: ',mockError)
+        expect(result).toBeNull();
+        expect(consoleSpy).toHaveBeenCalledWith('Error inserting data: ',mockError)
 
         consoleSpy.mockRestore();
     })
@@ -86,9 +86,10 @@ describe('add',()=>{
 describe('update',()=>{
     it('should call the updateWhere function of the database',async ()=> {
         const data = { title: 'Updated Mock Content', status: 0 };
-        await Content.update(1, data);
+        const answer = await Content.update(1, data);
 
         expect(db.updateWhere).toHaveBeenCalledWith('content', data, 'id', 1);
+        expect(answer).toBe(true);
     })
     it('should log errors',async ()=>{
         const mockError = new Error('Database Mock Error');
@@ -97,9 +98,10 @@ describe('update',()=>{
         const consoleSpy = jest.spyOn(console,'error').mockImplementation(()=>{});
 
         const data = { title: 'Updated Mock Content', status: 0};
-        await Content.update(1, data);
+        const answer = await Content.update(1, data);
 
-        expect(consoleSpy).toHaveBeenCalledWith('Fehler beim Aktualisieren der Daten: ', mockError)
+        expect(consoleSpy).toHaveBeenCalledWith('Error updating data: ', mockError)
+        expect(answer).toBe(false);
 
         consoleSpy.mockRestore();
     })
@@ -107,8 +109,9 @@ describe('update',()=>{
 
 describe('remove',()=>{
     it('should call the deleteWhere function of the database',async ()=>{
-        await Content.remove(1);
+        const answer = await Content.remove(1);
         expect(db.deleteWhere).toHaveBeenCalledWith('content', 'id', 1);
+        expect(answer).toBe(true);
     })
     it('should log errors',async ()=>{
         const mockError = new Error('Database Mock Error');
@@ -116,9 +119,10 @@ describe('remove',()=>{
 
         const consoleSpy = jest.spyOn(console,'error').mockImplementation(()=>{});
 
-        await Content.remove(1);
+        const answer = await Content.remove(1);
 
-        expect(consoleSpy).toHaveBeenCalledWith('Fehler beim Löschen der Daten: ', mockError);
+        expect(consoleSpy).toHaveBeenCalledWith('Error deleting data: ', mockError);
+        expect(answer).toBe(false);
 
         consoleSpy.mockRestore();
     })

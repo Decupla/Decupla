@@ -2,7 +2,7 @@ const db = require('../database/database');
 
 const add = async (data) => {
     try {
-        const newId = await db.insert('blocks',data);
+        const newId = await db.insert('blocks', data);
         return newId;
     } catch (error) {
         console.error('Error inserting data: ', error);
@@ -15,13 +15,14 @@ const getAll = async () => {
         const rows = await db.selectAll('blocks');
         return rows;
     } catch (error) {
+        // to do: return wert bei fehler
         console.error('Error retrieving data: ', error);
     }
 }
 
 const get = async (id) => {
     try {
-        const result = await db.selectWhere('blocks','id',id);
+        const result = await db.selectWhere('blocks', 'id', id);
         return result;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -29,9 +30,9 @@ const get = async (id) => {
     }
 }
 
-const update = async (id,data) => {
+const update = async (id, data) => {
     try {
-        await db.updateWhere('blocks',data,'id',id);
+        await db.updateWhere('blocks', data, 'id', id);
         return true;
     } catch (error) {
         console.error('Error updating data: ', error);
@@ -41,9 +42,9 @@ const update = async (id,data) => {
 
 const remove = async (id) => {
     try {
-        await db.deleteWhere('blocks','id',id);
+        await db.deleteWhere('blocks', 'id', id);
         return true;
-    } catch (error) {   
+    } catch (error) {
         console.error('Error deleting data: ', error);
         return false;
     }
