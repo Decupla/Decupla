@@ -15,6 +15,7 @@ const getAll = async () => {
         const rows = await db.selectAll('roles');
         return rows;
     } catch (error) {
+        // to do: return on error
         console.error('Error retrieving data: ', error);
     }
 }

@@ -1,4 +1,4 @@
-const Block = require('./block');
+const Role = require('./role');
 const db = require('../database/database');
 
 const mockError = new Error('Database Mock Error');
@@ -12,7 +12,6 @@ afterEach(() => {
     jest.clearAllMocks();
     consoleSpy.mockRestore();
 });
-
 
 jest.mock('../database/database', () => ({
     selectAll: jest.fn(),
@@ -28,57 +27,56 @@ describe('add',()=>{
         db.insert.mockResolvedValue(mockNewId);
 
 
-        const data = { id: 1, title: 'New mocked block', input: "", status: 1 };
-        const result = await Block.add(data);
+        const data = { name: 'New mocked role', perms: "editContent,editBlockInstances"};
+        const result = await Role.add(data);
 
         expect(result).toBe(mockNewId);
-        expect(db.insert).toHaveBeenCalledWith('blocks',data);
+        expect(db.insert).toHaveBeenCalledWith('roles',data);
     })
     it('shoud log errors and return null',async()=>{
         db.insert.mockRejectedValue(mockError);
 
-        const data = { id: 1, title: 'New mocked block', input: "", status: 1 };
-        const result = await Block.add(data);
+        const data = { name: 'New mocked role', perms: "editContent,editBlockInstances"};
+        const result = await Role.add(data);
 
         expect(result).toBeNull();
         expect(consoleSpy).toHaveBeenCalledWith('Error inserting data: ',mockError)
     })
-})
+});
 
 describe('getAll',()=>{
-    it('should get all blocks from database',async ()=>{
-        const mockRows = [{ id: 1, title: 'New mocked block', input: "", status: 1 }];
+    it('should call db.selectAll and return found rows',async ()=>{
+        const mockRows = [{ id: 1, name: 'Mocked role', perms: "editContent,editBlockInstances"}];
         db.selectAll.mockResolvedValue(mockRows);
 
-        const result = await Block.getAll();
+        const result = await Role.getAll();
         expect(result).toEqual(mockRows);
-        expect(db.selectAll).toHaveBeenCalledWith('blocks');
+        expect(db.selectAll).toHaveBeenCalledWith('roles');
     })
     it('should log errors',async ()=>{
         db.selectAll.mockRejectedValue(mockError);
 
-        const result = await Block.getAll();
+        const result = await Role.getAll();
 
-        expect(result).toBeUndefined();
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
 
     })
-})
+});
 
 describe('get',()=>{
-    it('should get a single row from database by id', async ()=> {
-        const mockRow = { id: 1, title: 'New mocked block', input: "", status: 1 };
+    it('should call db.selectWhere with correct parameters and return found row', async ()=> {
+        const mockRow = { id: 1, name: 'Mocked role', perms: "editContent,editBlockInstances"};
         db.selectWhere.mockResolvedValue(mockRow);
 
-        const result = await Block.get(1);
+        const result = await Role.get(1);
 
         expect(result).toEqual(mockRow);
-        expect(db.selectWhere).toHaveBeenCalledWith('blocks','id',1)
+        expect(db.selectWhere).toHaveBeenCalledWith('roles','id',1)
     });
-    it('should log errors',async ()=>{
+    it('should log errors and return null',async ()=>{
         db.selectWhere.mockRejectedValue(mockError);
         
-        const result = await Block.get(1);
+        const result = await Role.get(1);
 
         expect(result).toBeNull();
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
@@ -86,20 +84,20 @@ describe('get',()=>{
 })
 
 describe('update',()=>{
-    it('should call the updateWhere function of the database',async ()=> {
+    it('should call db.updateWhere with correct parameters and return true',async ()=> {
         db.updateWhere.mockResolvedValue(true);
 
-        const data = { id: 1, title: 'Updated mocked block', input: "", status: 0 };
-        const answer = await Block.update(1, data);
+        const data = { name: 'Updated mocked role', perms: "editContent,editBlockInstances"};
+        const answer = await Role.update(1, data);
 
-        expect(db.updateWhere).toHaveBeenCalledWith('blocks', data, 'id', 1);
+        expect(db.updateWhere).toHaveBeenCalledWith('roles', data, 'id', 1);
         expect(answer).toBe(true);
     })
-    it('should log errors',async ()=>{
+    it('should log errors and return false',async ()=>{
         db.updateWhere.mockRejectedValue(mockError);
 
-        const data = { id: 1, title: 'Updated mocked block', input: "", status: 0 };
-        const answer = await Block.update(1, data);
+        const data = { name: 'Updated mocked role', perms: "editContent,editBlockInstances"};
+        const answer = await Role.update(1, data);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error updating data: ', mockError)
         expect(answer).toBe(false);
@@ -107,17 +105,17 @@ describe('update',()=>{
 })
 
 describe('remove',()=>{
-    it('should call the deleteWhere function of the database',async ()=>{
+    it('should call db.deleteWhere with correct parameters and return true',async ()=>{
         db.deleteWhere.mockResolvedValue(true);
 
-        const answer = await Block.remove(1);
-        expect(db.deleteWhere).toHaveBeenCalledWith('blocks', 'id', 1);
+        const answer = await Role.remove(1);
+        expect(db.deleteWhere).toHaveBeenCalledWith('roles', 'id', 1);
         expect(answer).toBe(true);
     })
     it('should log errors',async ()=>{
         db.deleteWhere.mockRejectedValue(mockError);
 
-        const answer = await Block.remove(1);
+        const answer = await Role.remove(1);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error deleting data: ', mockError);
         expect(answer).toBe(false);
