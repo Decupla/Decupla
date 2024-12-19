@@ -1,6 +1,7 @@
 const Block = require('./block');
 const db = require('../database/database');
 
+const mockError = new Error('Database Mock Error');
 let consoleSpy;
 
 beforeEach(() => {
@@ -34,7 +35,6 @@ describe('add',()=>{
         expect(db.insert).toHaveBeenCalledWith('blocks',data);
     })
     it('shoud log errors and return null',async()=>{
-        const mockError = new Error('Database Mock Error');
         db.insert.mockRejectedValue(mockError);
 
         const data = { id: 1, title: 'New mocked block', input: "", status: 1 };
@@ -55,7 +55,6 @@ describe('getAll',()=>{
         expect(db.selectAll).toHaveBeenCalledWith('blocks');
     })
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.selectAll.mockRejectedValue(mockError);
 
         const result = await Block.getAll();
@@ -77,7 +76,6 @@ describe('get',()=>{
         expect(db.selectWhere).toHaveBeenCalledWith('blocks','id',1)
     });
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.selectWhere.mockRejectedValue(mockError);
         
         const result = await Block.get(1);
@@ -98,7 +96,6 @@ describe('update',()=>{
         expect(answer).toBe(true);
     })
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.updateWhere.mockRejectedValue(mockError);
 
         const data = { id: 1, title: 'Updated mocked block', input: "", status: 0 };
@@ -118,7 +115,6 @@ describe('remove',()=>{
         expect(answer).toBe(true);
     })
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.deleteWhere.mockRejectedValue(mockError);
 
         const answer = await Block.remove(1);

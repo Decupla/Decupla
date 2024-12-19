@@ -1,6 +1,18 @@
 const Content = require('./content');
 const db = require('../database/database');
 
+const mockError = new Error('Database Mock Error');
+let consoleSpy;
+
+beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
+    consoleSpy.mockRestore();
+});
+
 jest.mock('../database/database', () => ({
     selectAll: jest.fn(),
     selectWhere: jest.fn(),
@@ -19,16 +31,12 @@ describe('getAll',()=>{
         expect(db.selectAll).toHaveBeenCalledWith('content');
     });
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.selectAll.mockRejectedValue(mockError);
 
-        const consoleSpy = jest.spyOn(console,'error').mockImplementation(()=>{});
         const result = await Content.getAll();
 
         expect(result).toBeUndefined();
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
-
-        consoleSpy.mockRestore();
     })
 })
 
@@ -43,16 +51,12 @@ describe('get',()=>{
         expect(db.selectWhere).toHaveBeenCalledWith('content','id',1)
     });
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.selectWhere.mockRejectedValue(mockError);
-        
-        const consoleSpy = jest.spyOn(console,'error').mockImplementation(()=>{});
+    
         const result = await Content.get(1);
 
         expect(result).toBeNull();
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
-
-        consoleSpy.mockRestore();
     })
 })
 
@@ -68,18 +72,13 @@ describe('add',()=>{
         expect(db.insert).toHaveBeenCalledWith('content',data);
     })
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.insert.mockRejectedValue(mockError);
-
-        const consoleSpy = jest.spyOn(console,'error').mockImplementation(()=>{});
 
         const data = { title: 'New Mock Content', status: 1};
         const result = await Content.add(data);
 
         expect(result).toBeNull();
-        expect(consoleSpy).toHaveBeenCalledWith('Error inserting data: ',mockError)
-
-        consoleSpy.mockRestore();
+        expect(consoleSpy).toHaveBeenCalledWith('Error inserting data: ',mockError);
     })
 })
 
@@ -92,18 +91,13 @@ describe('update',()=>{
         expect(answer).toBe(true);
     })
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.updateWhere.mockRejectedValue(mockError);
-
-        const consoleSpy = jest.spyOn(console,'error').mockImplementation(()=>{});
 
         const data = { title: 'Updated Mock Content', status: 0};
         const answer = await Content.update(1, data);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error updating data: ', mockError)
         expect(answer).toBe(false);
-
-        consoleSpy.mockRestore();
     })
 })
 
@@ -114,16 +108,11 @@ describe('remove',()=>{
         expect(answer).toBe(true);
     })
     it('should log errors',async ()=>{
-        const mockError = new Error('Database Mock Error');
         db.deleteWhere.mockRejectedValue(mockError);
-
-        const consoleSpy = jest.spyOn(console,'error').mockImplementation(()=>{});
 
         const answer = await Content.remove(1);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error deleting data: ', mockError);
         expect(answer).toBe(false);
-
-        consoleSpy.mockRestore();
     })
 })
