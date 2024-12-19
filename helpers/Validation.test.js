@@ -145,9 +145,32 @@ describe('Validation Class', () => {
         });
 
         it('should handle invalid rules in validate()', () => {
+            consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
             validation = new Validation({ field: 'value' });
             expect(validation.validate('field', 'undefinedRule')).toBe(true);
             expect(validation.hasErrors()).toBe(false);
+            expect(consoleSpy).toHaveBeenCalledWith('undefinedRule is not defined')
+            consoleSpy.mockRestore();
         });
+
+        it('should handle invalid rules with parameter in validate()', () => {
+            const data = { field: 'value' };
+            const validation = new Validation(data);
+        
+            const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+        
+            const isValid = validation.validate('field', 'unknownRule:5|min:8');
+        
+            expect(consoleSpy).toHaveBeenCalledWith('unknownRule is not defined');
+    
+            expect(isValid).toBe(false);
+            expect(validation.getErrors()).toEqual({
+                field: 'Field has to be at least 8 characters long',
+            });
+        
+            consoleSpy.mockRestore(); 
+        });
+        
     });
 });
