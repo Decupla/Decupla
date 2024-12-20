@@ -58,6 +58,4 @@ app.use('/login', loginRouter)
 
 app.use(invalidRouteHandler);
 
-app.listen(5500, () => {
-  console.log(`Decupla running on port 5500`);
-})
+module.exports = app;

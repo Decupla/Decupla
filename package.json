@@ -2,10 +2,10 @@
   "name": "decupla",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "develope": "nodemon app.js & sass --watch public/style/scss/main.scss public/style/main.css & webpack --watch",
+    "start": "nodemon server.js",
+    "develope": "nodemon server.js & sass --watch public/style/scss/main.scss public/style/main.css & webpack --watch",
     "test": "jest --coverage",
     "build": "webpack"
   },
@@ -20,11 +20,14 @@
     "express-session": "^1.18.1",
     "jsonwebtoken": "^9.0.2",
     "method-override": "^3.0.0",
+    "node-gyp": "^11.0.0",
     "nodemon": "^3.1.7",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "mock-fs": "^5.4.1",
+    "supertest": "^7.0.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4"
   }

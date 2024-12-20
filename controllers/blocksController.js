@@ -5,7 +5,7 @@ const Validation = require('../helpers/Validation');
 const index = async (req, res) => {
     const blocks = await Block.getAll();
 
-    res.render('Blocks', {
+    res.status(200).render('Blocks', {
         title: 'Blocks',
         blocks,
         query: req.query
@@ -13,7 +13,7 @@ const index = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    res.render('editBlock', {
+    res.status(200).render('editBlock', {
         title: 'Create Block',
         data: {}
     });
@@ -25,7 +25,7 @@ const edit = async (req, res) => {
     if (data === null) {
         res.status(404).redirect('/blocks');
     } else {
-        res.render('editBlock', {
+        res.status(200).render('editBlock', {
             title: 'Edit Block',
             data,
             query: req.query
@@ -84,7 +84,7 @@ const save = async (req, res) => {
             success: true,
         })
     } else {
-        res.status(404).send({
+        res.status(500).send({
             success: false,
             message: 'Something went wrong while trying to update the block. Please check the console for more information.'
         });
@@ -97,10 +97,16 @@ const remove = async (req, res) => {
     if (success) {
         const instancesSuccess = await BlockInstance.deleteByBlock(id);
         if (instancesSuccess) {
-            res.status(201).redirect('/blocks?message=deleted');
+            return res.status(201).redirect('/blocks?message=deleted');
+        } else {
+            res.status(500).render('error', {
+                title: 'Error',
+                message: 'Something went wrong while trying to delete the block instance. Please check the console for more information.'
+            });
         }
+        // to do: else?
     } else {
-        res.status(404).render('error', {
+        res.status(500).render('error', {
             title: 'Error',
             message: 'Something went wrong while trying to delete the block. Please check the console for more information.'
         });
@@ -111,7 +117,7 @@ const get = async (req, res) => {
     const { id } = req.params;
     const block = await Block.get(id);
     if (block === null) {
-        return res.status(500).send({
+        return res.status(404).send({
             success: false,
             message: 'Something went wrong while trying to get the block. Please check the console for more information.'
         })
@@ -181,7 +187,7 @@ const updateInstance = async (req, res) => {
             success: true,
         })
     } else {
-        res.status(404).send({
+        res.status(500).send({
             success: false,
             message: 'Something went wrong while trying to update the block instance. Please check the console for more information.'
         });
@@ -197,7 +203,7 @@ const removeInstance = async (req, res) => {
             success: true,
         })
     } else {
-        res.status(404).send({
+        res.status(500).send({
             success: false,
             message: 'Something went wrong while trying to delete the block instance. Please check the console for more information.'
         });
