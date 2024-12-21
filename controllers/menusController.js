@@ -1,7 +1,7 @@
 const Content = require('../models/content');
 
 const index = (req,res) => {
-    res.render('menus', {
+    res.status(200).render('menus', {
         title: 'Menus',
         query: req.query
     })
@@ -10,7 +10,7 @@ const index = (req,res) => {
 const create = async (req,res) => {
     const content = await Content.getAll();
 
-    res.render('editMenu', {
+    res.status(200).render('editMenu', {
         title: 'Create Menu',
         data: {},
         content

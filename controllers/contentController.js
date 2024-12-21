@@ -8,7 +8,7 @@ const Validation = require('../helpers/Validation');
 const index = async (req, res) => {
     const content = await Content.getAll();
 
-    res.render('content', {
+    res.status(200).render('content', {
         title: 'Content',
         content,
         query: req.query
@@ -18,7 +18,7 @@ const index = async (req, res) => {
 const create = async (req, res) => {
     const blocks = await Block.getAll();
 
-    res.render('editContent', {
+    res.status(200).render('editContent', {
         title: 'Create Content',
         blocks,
         data: {},
@@ -33,7 +33,7 @@ const edit = async (req, res) => {
     if (data === null) {
         return res.status(404).redirect('/content');
     }
-    res.render('editContent', {
+    res.status(200).render('editContent', {
         title: 'Edit Content',
         data,
         blocks,
@@ -94,7 +94,7 @@ const save = async (req, res) => {
             success: true,
         });
     } else {
-        return res.status(404).send({
+        return res.status(500).send({
             success: false,
             message: 'Something went wrong while trying to update the content. Please check the console for more information.'
         });
@@ -109,13 +109,13 @@ const remove = async (req, res) => {
         if(blocksSuccess) {
             res.status(200).redirect('/content?message=deleted')
         } else {
-            return res.status(404).render('error', {
+            return res.status(500).render('error', {
                 title: 'Error',
                 message: 'Something went wrong while trying to delete the block instances. Please check the console for more information.'
             });
         }
     } else {
-        return res.status(404).render('error', {
+        return res.status(500).render('error', {
             title: 'Error',
             message: 'Something went wrong while trying to delete the content. Please check the console for more information.'
         });

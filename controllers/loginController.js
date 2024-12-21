@@ -12,7 +12,7 @@ const index = (req, res) => {
 const validateLogin = async (req, res) => {
     try {
         if(req.body.email===""||req.body.password===""){
-            return res.render('login', {
+            return res.status(400).render('login', {
                 title: 'Login',
                 message: 'Please enter email and password'
             });
@@ -20,7 +20,7 @@ const validateLogin = async (req, res) => {
 
         const foundUser = await User.getByMail(req.body.email);
         if(foundUser === null){
-            return res.render('login', {
+            return res.status(400).render('login', {
                 title: 'Login',
                 message: 'E-Mail or Password incorrect'
             });
@@ -30,10 +30,10 @@ const validateLogin = async (req, res) => {
         if(passwordCorrect){
             const token = authenticateUser(foundUser);
             req.session.authToken = token;
-            res.redirect('/content');
+            res.status(200).redirect('/content');
 
         } else {
-            return res.render('login', {
+            return res.status(400).render('login', {
                 title: 'Login',
                 message: 'E-Mail or Password incorrect'
             });
@@ -44,7 +44,7 @@ const validateLogin = async (req, res) => {
         console.log('There was a error while trying to validate the login: ' + error);
         res.status(500).render('login',{
             title: 'Login',
-            message: ''
+            message: 'There was a error while trying to validate the login'
         })
     }
 }
@@ -70,5 +70,6 @@ const getAuthToken = (req,res) => {
 module.exports = {
     index,
     validateLogin,
-    getAuthToken
+    getAuthToken,
+    authenticateUser
 }
