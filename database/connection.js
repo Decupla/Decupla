@@ -1,16 +1,16 @@
 const fs = require('fs');
 const sqlite = require('sqlite3');
 
-const connectDatabase = () => {
-    if (fs.existsSync('./database/sql.db')) {
-        return new sqlite.Database('./database/sql.db', sqlite.OPEN_READWRITE, (error) => {
+const connectDatabase = (file) => {
+    if (fs.existsSync(file)) {
+        return new sqlite.Database(file, sqlite.OPEN_READWRITE, (error) => {
             if (error) {
                 console.log(error);
                 process.exit(1);
             }
         });
     } else {
-        const db = new sqlite.Database('./database/sql.db', (error) => {
+        const db = new sqlite.Database(file, (error) => {
             if (error) {
                 console.log(error);
                 process.exit(1);
@@ -70,6 +70,5 @@ const createTables = (database) => {
     `);
 }
 
-const connection = connectDatabase();
 
-module.export = connection;
+module.exports = connectDatabase;

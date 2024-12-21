@@ -1,6 +1,13 @@
-const connection = require('./connection');
+const connectDatabase = require('./connection');
+
+let connection = connectDatabase('./database/sql.db');
+
+const setConnection = (newConnection) => {
+    connection = newConnection;
+};
 
 const databaseAPI = {
+    setConnection,
     selectAll(table) {
         return new Promise((resolve, reject) => {
             connection.all(`SELECT * FROM ${table}`, (error, rows) => {
@@ -90,22 +97,20 @@ const databaseAPI = {
     },
 
     deleteAllWhere(table, identifier, value) {
-        return new Promise((resolve, reject)=>{
+        return new Promise((resolve, reject) => {
             const query = `DELETE FROM ${table} WHERE ${identifier} = ?`;
-            connection.all(query, [value], function(error) {
+            connection.all(query, [value], function (error, result) {
                 if (error) {
                     console.log('Error: ' + error);
                     reject(error);
+                } else if (result && result.changes === 0) {
+                    reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
                 } else {
-                    if (this.changes === 0) {
-                        reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
-                    } else {
-                        resolve(true);
-                    }
+                    resolve(true);
                 }
-            })
-        })  
-    },
+            });
+        });
+    },    
 
     insert(table, data) {
         return new Promise((resolve,reject)=>{
