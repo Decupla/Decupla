@@ -11,11 +11,13 @@ const usersRouter = require('./routes/usersRoutes');
 const rolesRouter = require('./routes/rolesRoutes');
 const menusRouter = require('./routes/menusRoutes');
 const loginRouter = require('./routes/loginRoutes');
+const APIRouter = require('./routes/APIRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
 const loadPermissions = require('./middleware/loadPermissions');
 const checkRole = require('./middleware/checkRole');
+const invalidJsonHandler = require('./middleware/indvalidJsonHandler');
 
 const app = express();
 
@@ -55,7 +57,9 @@ app.use('/users', checkRole('manageUsers'), usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);
 app.use('/login', loginRouter)
+app.use('/api', APIRouter);
 
 app.use(invalidRouteHandler);
+app.use(invalidJsonHandler);
 
 module.exports = app;

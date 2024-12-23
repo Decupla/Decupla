@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateTokenBrowser = (req, res, next) => {
+
     if (req.path === '/login') {
         return next();
     }

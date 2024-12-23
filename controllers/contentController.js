@@ -150,6 +150,10 @@ const getBlocks = async (req, res) => {
     });
 };
 
+const test = async (req, res) => {
+    console.log('test');
+}
+
 // const allowEditingInstances = async () => {
 //     try {
 //         const tokenData = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -178,5 +182,6 @@ module.exports = {
     saveNew,
     save,
     remove,
-    getBlocks
+    getBlocks,
+    test
 }
