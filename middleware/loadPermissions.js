@@ -1,4 +1,3 @@
-const db = require('../database/database');
 const User = require('../models/user');
 const Role = require('../models/role');
 
@@ -24,7 +23,7 @@ const loadPermissions = async (req, res, next) => {
 
     const userRole = await Role.get(user.role);
 
-    if (userRole === "null"||user.role===undefined) {
+    if (userRole === null||user.role===undefined) {
         // to do: fehlermeldung auf login seite?
         return res.status(401).redirect('/login');
     }

@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const Role = require('../models/role');
 
-const checkRole = (role) => {
+const checkRole = (permission) => {
     return async (req, res, next) => {
         try {
             const userID = req.user.id;
@@ -20,7 +20,7 @@ const checkRole = (role) => {
 
             const perms = userRole.perms.split(',');
 
-            if(perms.includes(role)){
+            if(perms.includes(permission)){
                 next();
             } else {
                 res.status(403).render('notAllowed',{
