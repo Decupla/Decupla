@@ -14,6 +14,7 @@ DOM.inputFormFields.maxLength = DOM.inputForm.querySelector('input#maxLength');
 
 DOM.fieldMessages = {};
 DOM.fieldMessages.title = DOM.blockForm.querySelector('#message-title');
+DOM.fieldMessages.key = DOM.blockForm.querySelector('#message-key');
 DOM.fieldMessages.type = DOM.inputForm.querySelector('#message-type');
 DOM.fieldMessages.name = DOM.inputForm.querySelector('#message-name');
 DOM.fieldMessages.label = DOM.inputForm.querySelector('#message-label');

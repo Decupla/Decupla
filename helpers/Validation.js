@@ -58,6 +58,13 @@ class Validation {
         return true
     }
 
+    noSpaces(field) {
+        if(this.inputData[field].includes(" ")) {
+            this.addError(field, `${ucfirst(field)} cannot contain spaces`);
+            return false;
+        }
+    }
+
     validate(field, fieldRules) {
         const rulesSplit = fieldRules.split('|');
         let valid = true;

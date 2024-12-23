@@ -30,6 +30,16 @@ const get = async (id) => {
     }
 }
 
+// const getByKey = async (key) => {
+//     try {
+//         const result = await db.selectWhere('blocks', 'key', key);
+//         return result;
+//     } catch (error) {
+//         console.error('Error retrieving data: ', error);
+//         return null;
+//     }
+// }
+
 const update = async (id, data) => {
     try {
         await db.updateWhere('blocks', data, 'id', id);
@@ -50,10 +60,24 @@ const remove = async (id) => {
     }
 }
 
+const keyExists = async (key) => {
+    try {
+        const result = await db.selectWhere('blocks', 'key', key);
+        if(result===null){
+            return false
+        }
+        return true;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return false;
+    }
+}
+
 module.exports = {
     add,
     getAll,
     get,
     update,
-    remove
+    remove,
+    keyExists
 }

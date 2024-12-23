@@ -1,9 +1,9 @@
 import DOM from "./dom";
 import { setInputMethod, inputData, getInputId, setInputID, inputID } from "./data";
 import { handleTypeChange } from "./eventHandler";
-import { validate } from "./validation";
+import { validateInput } from "./validation";
 import { addInputVisualization, deleteInputVisualization, updateInputVisualization } from "./visualization";
-import { fetchBlock } from "./api";
+import { getBlockById } from "./api";
 
 // sets which settings should be visible in the input creation, hides all other settings
 export const setVisible = (fields) => {
@@ -31,7 +31,7 @@ const toggleInputPopup = () => {
 // get the existing input fields of the block
 export const getInputData = async (id) => {
     try {
-        const blockData = await fetchBlock(id);
+        const blockData = await getBlockById(id);
         if (blockData.success === true) {
             const input = JSON.parse(blockData.block.input);
             inputData.push(...input);
@@ -85,7 +85,7 @@ export const deleteInput = (id) => {
 }
 
 export const saveNewInput = (data) => {
-    if (!validate(data, true)) return;
+    if (!validateInput(data, true)) return;
     data.id = getInputId();
     inputData.push(data);
     addInputVisualization(data);
@@ -102,8 +102,8 @@ export const updateInput = (data) => {
     }
 
     if (inputData[index].name !== data.name) {
-        if (!validate(data, true)) return;
-    } else if (!validate(data)) {
+        if (!validateInput(data, true)) return;
+    } else if (!validateInput(data)) {
         return;
     }
 

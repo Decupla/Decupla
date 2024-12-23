@@ -1,6 +1,6 @@
 import DOM from "./dom";
 import { saveBlock } from "./api";
-import { inputData,inputMethod,blockExists,setBlockExists,setBlockID, blockID } from "./data";
+import { inputData, inputMethod, blockExists, setBlockExists, setBlockID, blockID } from "./data";
 import { setFieldMessage } from "./validation";
 import { setVisible, updateInput, saveNewInput } from "./input";
 
@@ -38,10 +38,7 @@ export const handleBlockSubmit = async (event) => {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
-    if (data.title.trim() === "") {
-        setFieldMessage('title', '"Title" is required');
-        return;
-    }
+    console.log(data);
 
     data.input = JSON.stringify(inputData);
 
@@ -55,9 +52,19 @@ export const handleBlockSubmit = async (event) => {
     }
 
     try {
-        const response = await saveBlock(url,method,data)
+        console.log(data);
+        const response = await saveBlock(url, method, data)
 
-        if (response.success) {
+        if (!response.validation) {
+            const messages = response.messages;
+            console.log(messages);
+
+            for (const [field, message] of Object.entries(messages)) {
+                setFieldMessage(field,message);
+            }
+
+            return;
+        } else if (response.success) {
             DOM.messageSuccess.classList.add('visible');
 
             if (!blockExists && 'newID' in response) {

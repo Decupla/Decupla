@@ -1,6 +1,7 @@
 const Block = require('../models/block');
 const BlockInstance = require('../models/blockInstance');
 const Validation = require('../helpers/Validation');
+const isEmpty = require('../helpers/isEmpty');
 
 const index = async (req, res) => {
     const blocks = await Block.getAll();
@@ -36,25 +37,41 @@ const edit = async (req, res) => {
 const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
+        key: req.body.key,
         input: req.body.input,
         status: req.body.status
     }
 
     const validation = new Validation(data);
     validation.validate("title", "required|string");
+    validation.validate("key", "required|string|noSpaces");
     validation.validate("status", "required");
     validation.validate("input", "string");
+    
+    let messages = {...validation.errors};
 
-    if (validation.hasErrors()) {
-        res.status(400).send(validation.errors);
+    if (!('key' in messages) && await Block.keyExists(data.key)) {
+        messages.key = "Key already in use";
+    }
+
+    if (!isEmpty(messages)) {
+        res.status(400).send(
+            {
+                validation: false,
+                messages,
+                success: false
+            }
+        );
     } else {
         const newID = await Block.add(data);
         if (newID === null) {
             return res.status(500).send({
+                validation: true,
                 success: false
             })
         }
         res.status(201).send({
+            validation: true,
             success: true,
             newID
         })
@@ -127,6 +144,21 @@ const get = async (req, res) => {
         block
     })
 }
+
+// const getByKey = async (req, res) => {
+//     const { key } =  req.params;
+//     const block = await Block.getByKey(key);
+//     if (block === null) {
+//         return res.status(404).send({
+//             success: false,
+//             message: `Block with key "${key}" not found.`
+//         })
+//     }
+//     res.status(200).send({
+//         success: true,
+//         block
+//     })
+// }
 
 const saveNewInstance = async (req, res) => {
 

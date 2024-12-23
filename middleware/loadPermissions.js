@@ -3,9 +3,9 @@ const Role = require('../models/role');
 
 // loads permissions for renderning the ui. Not critical for the application security
 const loadPermissions = async (req, res, next) => {
-    if (req.path === '/login') {
-        return next();
-    }
+    // if (req.path === '/login') {
+    //     return next();
+    // }
     
     const userID = req.user.id;
     const user = await User.get(userID);

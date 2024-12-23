@@ -1,5 +1,10 @@
-export const fetchBlock = async (id) => {
+export const getBlockById = async (id) => {
     const response = await fetch(`/blocks/${id}`);
+    return response.json();
+}
+
+export const getBlockByKey = async (key) => {
+    const response = await fetch(`/blocks/key/${key}`);
     return response.json();
 }
 

@@ -39,8 +39,6 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.use(authenticateTokenBrowser);
-app.use(loadPermissions);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -51,13 +49,17 @@ app.get('/', (req, res) => {
   }
 })
 
+app.use('/api', APIRouter);
+app.use('/login', loginRouter)
+
+app.use(authenticateTokenBrowser);
+app.use(loadPermissions);
+
 app.use('/content', contentRouter);
 app.use('/blocks', checkRole('manageBlocks'), blocksRouter);
-app.use('/users', checkRole('manageUsers'), usersRouter);
+app.use('/users', usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);
-app.use('/login', loginRouter)
-app.use('/api', APIRouter);
 
 app.use(invalidRouteHandler);
 app.use(invalidJsonHandler);
