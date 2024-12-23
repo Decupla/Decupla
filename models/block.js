@@ -73,11 +73,27 @@ const keyExists = async (key) => {
     }
 }
 
+const keyChanged = async (id,key) => {
+    try {
+        const result = await db.selectWhere('blocks', 'id', id);
+        if(result===null){
+            console.log(`Error while checking if key changed: No Block with id '${id}' found.`);
+            return false
+        }
+        
+        return result.key !== key;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return false;
+    }
+}
+
 module.exports = {
     add,
     getAll,
     get,
     update,
     remove,
-    keyExists
+    keyExists,
+    keyChanged
 }

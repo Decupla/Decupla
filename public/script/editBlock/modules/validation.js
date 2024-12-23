@@ -26,33 +26,6 @@ export const validateInput = (data, newName = false) => {
     return isValid;
 };
 
-// export const validateBlock = async (data) => {
-//     resetMessages();
-
-//     let isValid = true;
-
-//     if (data.title.trim() === "") {
-//         setFieldMessage('title', 'Title is required');
-//         isValid = false;
-//     } 
-
-//     if(data.key.trim() === ""){
-//         setFieldMessage('key', 'Key is required');
-//         isValid = false;
-//     } else if(data.key.includes(" ")) {
-//         setFieldMessage('key', 'Key is cannot contain spaces');
-//         isValid = false;
-//     } else if(await keyExists(data.key)){
-//         setFieldMessage('key', `Key "${data.key}" already exists. Please use a unique key`);
-//         isValid = false;
-//     }
-
-//     console.log(isValid);
-
-//     return isValid;
-// }
-
-// sets a message for a specific field in the block or input form
 export const setFieldMessage = (field, message) => {
 
     const fieldMessageElement = DOM.fieldMessages[field];

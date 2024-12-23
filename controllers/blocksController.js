@@ -67,7 +67,8 @@ const saveNew = async (req, res) => {
         if (newID === null) {
             return res.status(500).send({
                 validation: true,
-                success: false
+                success: false,
+                message: 'Something went wrong while trying to update the block. Please check the console for more information.'
             })
         }
         res.status(201).send({
@@ -82,6 +83,7 @@ const save = async (req, res) => {
     const { id } = req.params;
     const data = {
         title: req.body.title,
+        key: req.body.key,
         status: req.body.status,
         input: req.body.input,
         id
@@ -92,17 +94,37 @@ const save = async (req, res) => {
     validation.validate("status", "required");
     validation.validate("id", "required|numeric");
 
-    if (validation.hasErrors()) {
-        return res.status(400).send(validation.errors);
+    const keyChanged = await Block.keyChanged(id,data.key);
+
+    if(keyChanged){
+        validation.validate("key", "required|string|noSpaces");
+    }
+
+    let messages = {...validation.errors};
+
+    if (!('key' in messages) && keyChanged && await Block.keyExists(data.key)) {
+        messages.key = "Key already in use";
+    }
+
+    if (!isEmpty(messages)) {
+        return res.status(400).send(
+            {
+                validation: false,
+                messages,
+                success: false
+            }
+        );
     }
     const success = await Block.update(id, data);
     if (success) {
-        res.status(201).send({
+        return res.status(201).send({
+            validation: true,
             success: true,
         })
     } else {
-        res.status(500).send({
+        return res.status(500).send({
             success: false,
+            validation: true,
             message: 'Something went wrong while trying to update the block. Please check the console for more information.'
         });
     }
