@@ -1,7 +1,7 @@
-const menusController = require('./menusController');
-const Content = require('../models/content');
+const menusController = require('../menusController');
+const Content = require('../../models/content');
 
-jest.mock('../models/content');
+jest.mock('../../models/content');
 
 let req = {};
 const res = {

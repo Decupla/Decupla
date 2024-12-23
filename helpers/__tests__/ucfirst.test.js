@@ -1,4 +1,4 @@
-const ucfirst = require('./ucfirst');
+const ucfirst = require('../ucfirst');
 
 describe('ucfirst',()=>{
     it('should return the given string with the first letter uppercase',()=>{

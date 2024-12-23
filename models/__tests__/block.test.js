@@ -1,5 +1,5 @@
-const Block = require('./block');
-const db = require('../database/database');
+const Block = require('../block');
+const db = require('../../database/database');
 
 const mockError = new Error('Database Mock Error');
 let consoleSpy;
@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 
-jest.mock('../database/database', () => ({
+jest.mock('../../database/database', () => ({
     selectAll: jest.fn(),
     selectWhere: jest.fn(),
     insert: jest.fn(),

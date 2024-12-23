@@ -1,5 +1,5 @@
-const Menu = require('./menu');
-const db = require('../database/database');
+const Menu = require('../menu');
+const db = require('../../database/database');
 
 const mockError = new Error('Database Mock Error');
 let consoleSpy;
@@ -13,7 +13,7 @@ afterEach(() => {
     consoleSpy.mockRestore();
 });
 
-jest.mock('../database/database', () => ({
+jest.mock('../../database/database', () => ({
     selectAll: jest.fn(),
     insert: jest.fn()
 }));

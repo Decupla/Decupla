@@ -1,4 +1,4 @@
-const isEmpty = require('./isEmpty');
+const isEmpty = require('../isEmpty');
 
 describe('isEmpyt',()=>{
     it('should return false if object or array is not empty',()=>{

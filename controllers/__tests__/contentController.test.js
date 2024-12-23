@@ -1,12 +1,12 @@
-const contentController = require('./contentController');
-const Validation = require('../helpers/Validation');
-const Content = require('../models/content');
-const Block = require('../models/block');
-const BlockInstance = require('../models/blockInstance');
+const contentController = require('../contentController');
+const Validation = require('../../helpers/Validation');
+const Content = require('../../models/content');
+const Block = require('../../models/block');
+const BlockInstance = require('../../models/blockInstance');
 
-jest.mock('../models/content');
-jest.mock('../models/block');
-jest.mock('../models/blockInstance');
+jest.mock('../../models/content');
+jest.mock('../../models/block');
+jest.mock('../../models/blockInstance');
 
 let req = {};
 const res = {
@@ -123,7 +123,7 @@ describe('saveNew', () => {
         }
 
 
-        jest.mock('../helpers/Validation', () => {
+        jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
                 return {
                     validate: jest.fn(),
@@ -150,7 +150,7 @@ describe('saveNew', () => {
             }
         }
 
-        jest.mock('../helpers/Validation', () => {
+        jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
                 return {
                     validate: jest.fn(),
@@ -180,7 +180,7 @@ describe('saveNew', () => {
             }
         }
 
-        jest.mock('../helpers/Validation', () => {
+        jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
                 return {
                     validate: jest.fn(),
@@ -215,7 +215,7 @@ describe('save', () => {
             }
         }
 
-        jest.mock('../helpers/Validation', () => {
+        jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
                 return {
                     validate: jest.fn(),
@@ -245,7 +245,7 @@ describe('save', () => {
             }
         }
 
-        jest.mock('../helpers/Validation', () => {
+        jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
                 return {
                     validate: jest.fn(),
@@ -277,7 +277,7 @@ describe('save', () => {
             }
         }
 
-        jest.mock('../helpers/Validation', () => {
+        jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
                 return {
                     validate: jest.fn(),

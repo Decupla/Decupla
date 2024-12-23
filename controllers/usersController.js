@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const index = async (req, res) => {
     const users = await User.getAll();
 
-    res.render('users', {
+    res.status(200).render('users', {
         title: 'Users',
         users,
         query: req.query
@@ -17,7 +17,7 @@ const index = async (req, res) => {
 const create = async (req, res) => {
     const roles = await Role.getAll();
 
-    res.render('addUser', {
+    res.status(200).render('editUser', {
         title: 'Create User',
         data: {},
         messages: {},
@@ -33,12 +33,12 @@ const edit = async (req, res) => {
     // get content data by id
     const data = await User.get(id);
     if (data === null) {
-        res.status(404).redirect('/users');
+        return res.status(404).redirect('/users');
     }
 
     data.password = "";
 
-    res.render('addUser', {
+    res.status(200).render('editUser', {
         title: 'Edit User',
         data,
         query: req.query,
@@ -54,8 +54,11 @@ const saveNew = async (req, res) => {
         email: req.body.email,
         name: req.body.name,
         password: req.body.password,
-        role: parseInt(req.body.role)
     };
+
+    if('role' in req.body){
+        data.role = parseInt(req.body.role)
+    }
 
     const validation = new Validation(data);
     validation.validate("email", "required|email");
@@ -73,7 +76,7 @@ const saveNew = async (req, res) => {
     if(!isEmpty(messages)){
         const roles = await Role.getAll();
 
-        return res.status(400).render('addUser',{
+        return res.status(400).render('editUser',{
             title: 'Create User',
             data,
             messages,
@@ -100,11 +103,14 @@ const save = async (req, res) => {
     const data = {
         email: req.body.email,
         name: req.body.name,
-        role: parseInt(req.body.role),
         id
     };
 
-    const newPasswordSet = req.body.newPassword!=="";
+    if('role' in req.body){
+        data.role = parseInt(req.body.role)
+    }
+
+    const newPasswordSet = ('newPassword' in req.body) && req.body.newPassword!=="";
 
     if(newPasswordSet){
         data.password = req.body.newPassword
@@ -129,7 +135,7 @@ const save = async (req, res) => {
     if(!isEmpty(messages)){
         const roles = await Role.getAll();
 
-        return res.status(400).render('addUser',{
+        return res.status(400).render('editUser',{
             title: 'Edit User',
             data,
             messages,
@@ -147,7 +153,7 @@ const save = async (req, res) => {
     if (success) {
         res.status(201).redirect(`/users/edit/${id}?message=saved`);
     } else {
-        res.status(404).render('error', {
+        res.status(500).render('error', {
             title: 'Error',
             message: 'Something went wrong while trying to update the user. Please check the console for more information.'
         });
@@ -160,7 +166,7 @@ const remove = async (req, res) => {
     if (success) {
         res.status(201).redirect('/users?message=deleted');
     } else {
-        res.status(404).render('error', {
+        res.status(500).render('error', {
             title: 'Error',
             message: 'Something went wrong while trying to delete the user. Please check the console for more information.'
         });

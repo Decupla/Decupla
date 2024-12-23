@@ -1,9 +1,9 @@
-const loginController = require('./loginController');
-const User = require('../models/user');
+const loginController = require('../loginController');
+const User = require('../../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-jest.mock('../models/user');
+jest.mock('../../models/user');
 jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
 

@@ -1,4 +1,4 @@
-const Validation = require('./Validation');
+const Validation = require('../Validation');
 
 describe('Validation Class', () => {
     let validation;
