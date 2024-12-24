@@ -2,8 +2,8 @@ const db = require('../database/database');
 
 const add = async (data) => {
     try {
-        const newId = await db.insert('menus',data);
-        return newId;
+        const newID = await db.insert('menus',data);
+        return newID;
     } catch (error) {
         console.error('Error inserting data: ', error);
         return null;

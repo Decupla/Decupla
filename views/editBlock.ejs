@@ -17,13 +17,6 @@
             <label class="d-block">Input Fields</label>
             <button id="addInput" type="button">Add input field</button>
         </div>
-        <div>
-            <label for="status">Status</label>
-            <select name="status" id="status">
-                <option <%= (data?.status==0) ? 'selected' : '' %> value="0">Draft</option>
-                <option <%= (data?.status==1) ? 'selected' : '' %> value="1">Published</option>
-            </select>
-        </div>
         <input type="submit" value="save">
     </form>
 

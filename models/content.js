@@ -10,6 +10,16 @@ const getAll = async () => {
     }
 }
 
+const getAllPublished = async () => {
+    try {
+        const rows = await db.selectAllWhere('content','status',1);
+        return rows;
+    } catch (error) {
+        // to do: return wert bei fehler
+        console.error('Error retrieving data: ', error);
+    }
+}
+
 const get = async (id) => {
     try {
         const result = await db.selectWhere('content','id',id);
@@ -52,6 +62,7 @@ const remove = async (id) => {
 
 module.exports = {
     getAll,
+    getAllPublished,
     get,
     add,
     update,

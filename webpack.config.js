@@ -5,7 +5,7 @@ module.exports = {
     entry: {
         editBlock: scriptDir + '/editBlock/main.js',
         editContent: scriptDir + '/editContent/main.js',
-        editMenu: scriptDir + '/editMenu/editMenu.js',
+        editMenu: scriptDir + '/editMenu/main.js',
     },
     output: {
         filename: '[name].bundle.js', // Platzhalter [name] nimmt den Entry-Point-Namen an

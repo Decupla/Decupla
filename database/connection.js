@@ -47,8 +47,7 @@ const createTables = (database) => {
             id INTEGER PRIMARY KEY,
             key TEXT UNIQUE NOT NULL,
             title TEXT NOT NULL,
-            input TEXT NOT NULL,
-            status INTEGER NOT NULL
+            input TEXT NOT NULL
         );
 
         CREATE TABLE blockInstances (
@@ -61,6 +60,7 @@ const createTables = (database) => {
         CREATE Table menus (
             id INTEGER PRIMARY KEY,
             title TEXT NOT NULL,
+            key TEXT UNIQUE NOT NULL,
             entries TEXT NOT NULL
         );
 

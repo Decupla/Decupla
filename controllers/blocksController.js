@@ -39,13 +39,11 @@ const saveNew = async (req, res) => {
         title: req.body.title,
         key: req.body.key,
         input: req.body.input,
-        status: req.body.status
     }
 
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("key", "required|string|noSpaces");
-    validation.validate("status", "required");
     validation.validate("input", "string");
     
     let messages = {...validation.errors};
@@ -68,7 +66,7 @@ const saveNew = async (req, res) => {
             return res.status(500).send({
                 validation: true,
                 success: false,
-                message: 'Something went wrong while trying to update the block. Please check the console for more information.'
+                message: 'Something went wrong while trying to save the block. Please check the console for more information.'
             })
         }
         res.status(201).send({
@@ -84,14 +82,12 @@ const save = async (req, res) => {
     const data = {
         title: req.body.title,
         key: req.body.key,
-        status: req.body.status,
         input: req.body.input,
         id
     }
 
     const validation = new Validation(data);
     validation.validate("title", "required|string");
-    validation.validate("status", "required");
     validation.validate("id", "required|numeric");
 
     const keyChanged = await Block.keyChanged(id,data.key);

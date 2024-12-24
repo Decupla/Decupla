@@ -1,12 +1,17 @@
 <%- include('layout/layoutStart.ejs') %>
 <%- include('layout/sidebar.ejs') %>
 <main>
-    <h1>Create New Content</h1>
+    <h1>Edit Menu</h1>
     <form method="POST" id="menuForm">
         <div>
             <label for="title">Title</label>
             <input name="title" id="title" type="text" value="<%= data?.title?.trim() || '' %>">
-            <div class="message" id="message-title">"title" is required</div>
+            <div class="message" id="message-title"></div>
+        </div>
+        <div>
+            <label for="key">Key</label>
+            <input type="text" name="key" id="key">
+            <div class="message" id="message-key"></div>
         </div>
         <input type="submit" value="save">
     </form>
