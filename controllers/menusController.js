@@ -23,6 +23,22 @@ const create = async (req,res) => {
     });
 }
 
+const edit = async (req,res) => {
+    const { id } = req.params;
+    const data = await Menu.get(id);
+    const content = await Content.getAll();
+    if (data === null) {
+        res.status(404).redirect('/menus');
+    } else {
+        res.status(200).render('editMenu', {
+            title: 'Edit Menu',
+            data,
+            query: req.query,
+            content
+        })
+    }
+}
+
 const saveNew = async (req,res) => {
     const data = {
         title: req.body.title,
@@ -69,11 +85,99 @@ const saveNew = async (req,res) => {
         success: true,
         newID
     })
-
 }
+
+const save = async (req,res) => {
+    const { id } = req.params;
+
+    const data = {
+        title: req.body.title,
+        key: req.body.key,
+        entries: req.body.entries,
+        id
+    };
+
+    const validation = new Validation(data);
+
+    validation.validate("title","required|string");
+    validation.validate("key","required|string|noSpaces");
+    validation.validate("id","required|numeric")
+
+    if(data.entries!==""){
+        validation.validate("entries","string");
+    }
+
+    let messages = {...validation.errors};
+
+    if (!('key' in messages) && await Menu.keyChanged(id,data.key) && await Menu.keyExists(data.key)) {
+        messages.key = "Key already in use";
+    }
+
+    if (!isEmpty(messages)) {
+        return res.status(400).send(
+            {
+                validation: false,
+                messages,
+                success: false
+            }
+        );
+    }
+
+    const success = await Menu.update(id, data);
+
+    if (success) {
+        return res.status(201).send({
+            validation: true,
+            success: true,
+        })
+    } else {
+        return res.status(500).send({
+            success: false,
+            validation: true,
+            message: 'Something went wrong while trying to update the block. Please check the console for more information.'
+        });
+    }
+}
+
+const get = async (req, res) => {
+    const { id } = req.params;
+    const menu = await Menu.get(id);
+
+    if (menu === null) {
+        return res.status(404).send({
+            success: false,
+            message: 'Something went wrong while trying to get the block. Please check the console for more information.'
+        });
+    }
+
+    const entries = [];
+    const entriesArray = menu.entries.split(',');
+
+    for (const id of entriesArray) {
+        const content = await Content.get(id);
+
+        if (content !== null) {
+            const entry = {
+                id,
+                title: content.title
+            };
+            entries.push(entry);
+        }
+    }
+
+    menu.entries = entries;
+
+    res.status(200).send({
+        success: true,
+        menu
+    });
+};
 
 module.exports = {
     index,
     create,
-    saveNew
+    edit,
+    saveNew,
+    save,
+    get
 }

@@ -1,5 +1,5 @@
 import { saveMenu } from "./api";
-import { entries } from "./data"; 
+import { entries, menuExists, menuID, setMenuExists, setMenuID } from "./data"; 
 import { setFieldMessage, resetMessages } from "./validation";
 
 // handles the event when the main form is submitted
@@ -17,7 +17,13 @@ export const handleFormSubmit = async (event) => {
     let method = "POST"
     let url = "/menus";
 
+    if(menuExists){
+        method = "PUT";
+        url = `/menus/${menuID}`;
+    }
+
     try {
+        console.log(url);
         const response = await saveMenu(url,method,data);
 
         if (!response.validation) {
@@ -31,6 +37,11 @@ export const handleFormSubmit = async (event) => {
             return;
         } else if (response.success) {
             setFieldMessage('saved','Menu saved successfully');
+
+            if(!menuExists){
+                setMenuID(response.newID);
+                setMenuExists(true);
+            }
         } else {
             console.error('Something went wrong while trying to save the block');
         }

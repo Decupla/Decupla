@@ -6,3 +6,8 @@ export const saveMenu = async (url, method, data) => {
     });
     return response.json();
 };
+
+export const getMenuById = async (id) => {
+    const response = await fetch(`/menus/${id}`);
+    return response.json();
+}

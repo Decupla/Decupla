@@ -6,11 +6,11 @@
         <div>
             <label for="title">Title</label>
             <input name="title" id="title" type="text" value="<%= data?.title?.trim() || '' %>">
-            <div class="message" id="message-title"></div>
+            <div class="message" id="message-title" ></div>
         </div>
         <div>
             <label for="key">Key</label>
-            <input type="text" name="key" id="key">
+            <input type="text" name="key" id="key" value="<%= data?.key?.trim() || '' %>">
             <div class="message" id="message-key"></div>
         </div>
         <input type="submit" value="save">
@@ -20,7 +20,7 @@
     <button id="selectEntry">+ add entry</button>
     <div id="contentSelection">
         <h3>Add Link</h3>
-        <% if (!content || content.length===0) { %>
+        <% if (content.length===0) { %>
             No content found
             <% } else { %>
                 <ul id="contentList">

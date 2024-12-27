@@ -89,16 +89,11 @@ const save = async (req, res) => {
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("id", "required|numeric");
-
-    const keyChanged = await Block.keyChanged(id,data.key);
-
-    if(keyChanged){
-        validation.validate("key", "required|string|noSpaces");
-    }
+    validation.validate("key", "required|string|noSpaces");
 
     let messages = {...validation.errors};
 
-    if (!('key' in messages) && keyChanged && await Block.keyExists(data.key)) {
+    if (!('key' in messages) && await Block.keyChanged(id,data.key) && await Block.keyExists(data.key)) {
         messages.key = "Key already in use";
     }
 
