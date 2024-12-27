@@ -1,6 +1,5 @@
-import { entries } from "./data";
 import DOM from './dom';
-import { createEntryVisualization } from "./visualization";
+import { addEntry } from './entries';
 
 //sets up the popup for adding new menu entries
 export const setupcontentSelection = () => {
@@ -18,10 +17,3 @@ export const toggleContentSelection = () => {
     DOM.contentSelection.classList.toggle('visible');
 }
 
-// adds a new entry to the entries array and creates a visualization
-export const addEntry = (content) => {
-    const title = content.querySelector('.contentTitle').innerText;
-
-    entries.push(content.dataset.id)
-    createEntryVisualization(content.dataset.id,title);
-}

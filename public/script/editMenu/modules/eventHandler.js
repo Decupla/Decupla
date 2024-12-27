@@ -10,7 +10,7 @@ export const handleFormSubmit = async (event) => {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
-    data.entries = entries.toString();
+    data.entries = JSON.stringify(entries);
 
     console.log(data);
 

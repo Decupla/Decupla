@@ -134,7 +134,7 @@ const save = async (req,res) => {
         return res.status(500).send({
             success: false,
             validation: true,
-            message: 'Something went wrong while trying to update the block. Please check the console for more information.'
+            message: 'Something went wrong while trying to update the menu. Please check the console for more information.'
         });
     }
 }
@@ -146,26 +146,9 @@ const get = async (req, res) => {
     if (menu === null) {
         return res.status(404).send({
             success: false,
-            message: 'Something went wrong while trying to get the block. Please check the console for more information.'
+            message: 'Something went wrong while trying to get the menu. Please check the console for more information.'
         });
     }
-
-    const entries = [];
-    const entriesArray = menu.entries.split(',');
-
-    for (const id of entriesArray) {
-        const content = await Content.get(id);
-
-        if (content !== null) {
-            const entry = {
-                id,
-                title: content.title
-            };
-            entries.push(entry);
-        }
-    }
-
-    menu.entries = entries;
 
     res.status(200).send({
         success: true,
@@ -173,11 +156,25 @@ const get = async (req, res) => {
     });
 };
 
+const remove = async (req, res) => {
+    const { id } = req.params;
+    const success = await Menu.remove(id);
+    if (success) {
+        res.status(201).redirect('/menus?message=deleted');
+    } else {
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Something went wrong while trying to delete the menu. Please check the console for more information.'
+        });
+    }
+}
+
 module.exports = {
     index,
     create,
     edit,
     saveNew,
     save,
-    get
+    get,
+    remove
 }

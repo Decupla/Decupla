@@ -40,6 +40,16 @@ const update = async (id, data) => {
     }
 }
 
+const remove = async (id) => {
+    try {
+        await db.deleteWhere('menus', 'id', id);
+        return true;
+    } catch (error) {
+        console.error('Error deleting data: ', error);
+        return false;
+    }
+}
+
 const keyExists = async (key) => {
     try {
         const result = await db.selectWhere('menus', 'key', key);
@@ -73,6 +83,7 @@ module.exports = {
     getAll,
     get,
     update,
+    remove,
     keyExists,
     keyChanged
 }
