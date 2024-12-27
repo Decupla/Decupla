@@ -6,5 +6,17 @@
     <% if (query.message==="deleted") { %>
         <div class="alert alert-success mt-4">Block was deleted!</div>
     <% } %>
+    <% for(var i=0; i<menus.length; i++) {%>
+        <div class="menu" style="display: flex">
+            <div class="title">
+                <%= menus[i].title %>
+            </div>
+            <form action="/menus/<%= menus[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">delete</button>
+            </form>
+            <a href="/menus/edit/<%= menus[i].id %>"><button>edit</button></a>
+        </div>
+    <% } %>
 </main>
 <%- include('layout/layoutEnd.ejs') %>

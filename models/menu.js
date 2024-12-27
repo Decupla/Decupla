@@ -20,7 +20,21 @@ const getAll = async () => {
     }
 }
 
+const keyExists = async (key) => {
+    try {
+        const result = await db.selectWhere('menus', 'key', key);
+        if(result===null){
+            return false
+        }
+        return true;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return false;
+    }
+}
+
 module.exports = {
     add,
-    getAll
+    getAll,
+    keyExists
 }

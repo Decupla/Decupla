@@ -1,10 +1,14 @@
 const Menu = require('../models/menu');
 const Content = require('../models/content');
 const Validation = require('../helpers/Validation');
+const isEmpty = require('../helpers/isEmpty');
 
-const index = (req,res) => {
+const index = async (req,res) => {
+    const menus = await Menu.getAll();
+
     res.status(200).render('menus', {
         title: 'Menus',
+        menus,
         query: req.query
     })
 }
@@ -35,12 +39,18 @@ const saveNew = async (req,res) => {
         validation.validate("entries","string");
     }
 
+    let messages = {...validation.errors};
+
+    if (!('key' in messages) && await Menu.keyExists(data.key)) {
+        messages.key = "Key already in use";
+    }
+
     // to do: validate if key is unique
 
-    if (validation.hasErrors()) {
+    if (!isEmpty(messages)) {
         return res.status(400).send({
             validation: false,
-            messages: validation.errors,
+            messages,
             success: false
         });
     }

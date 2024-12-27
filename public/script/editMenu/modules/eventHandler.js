@@ -1,10 +1,12 @@
 import { saveMenu } from "./api";
 import { entries } from "./data"; 
-import { setFieldMessage } from "./validation";
+import { setFieldMessage, resetMessages } from "./validation";
 
 // handles the event when the main form is submitted
 export const handleFormSubmit = async (event) => {
     event.preventDefault();
+    resetMessages();
+
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
@@ -28,7 +30,7 @@ export const handleFormSubmit = async (event) => {
 
             return;
         } else if (response.success) {
-            console.log(response.newID);
+            setFieldMessage('saved','Menu saved successfully');
         } else {
             console.error('Something went wrong while trying to save the block');
         }

@@ -10,3 +10,11 @@ export const setFieldMessage = (field, message) => {
         console.log(`Field "${field}" does not exist.`);
     }
 };
+
+export const resetMessages = () => {
+    for (const [name, element] of Object.entries(DOM.fieldMessages)) {
+        if(element.classList.contains('visible')){
+            element.classList.remove('visible');
+        }
+      }
+}
