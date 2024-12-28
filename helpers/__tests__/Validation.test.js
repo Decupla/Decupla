@@ -68,6 +68,20 @@ describe('Validation Class', () => {
         });
     });
 
+    describe('notNumericOnly Validation', () => {
+        it('should fail if value is only numeric', () => {
+            validation = new Validation({ key: testData.validNumber });
+            expect(validation.notNumericOnly('key')).toBe(false);
+            expect(validation.getErrors()).toEqual({key: 'Key cannot only contain numbers'});
+        })
+
+        it('should pass if value is not only numeric', () => {
+            validation = new Validation({ key: testData.validString });
+            expect(validation.notNumericOnly('key')).toBe(true);
+            expect(validation.getErrors()).toEqual({});
+        })
+    })
+
     describe('Min Length Validation', () => {
         it('should fail if string is shorter than minimum length', () => {
             validation = new Validation({ name: testData.shortName });

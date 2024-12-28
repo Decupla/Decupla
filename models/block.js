@@ -77,7 +77,7 @@ const keyChanged = async (id,key) => {
     try {
         const result = await db.selectWhere('blocks', 'id', id);
         if(result===null){
-            console.log(`Error while checking if key changed: No Block with id '${id}' found.`);
+            // console.log(`Error while checking if key changed: No Block with id '${id}' found.`);
             return false
         }
         

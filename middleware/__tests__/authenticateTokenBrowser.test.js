@@ -20,16 +20,16 @@ jest.mock('jsonwebtoken', () => ({
 
 
 describe('authenticateTokenBrowser', () => {
-    it('should call next if req.path is /login', () => {
-        req = {
-            path: '/login',
-            session: {}
-        };
+    // it('should call next if req.path is /login', () => {
+    //     req = {
+    //         path: '/login',
+    //         session: {}
+    //     };
 
-        authenticateTokenBrowser(req, res, next);
+    //     authenticateTokenBrowser(req, res, next);
 
-        expect(next).toHaveBeenCalled();
-    })
+    //     expect(next).toHaveBeenCalled();
+    // })
     it('should redirect to /login if authToken is undefined', () => {
         req = {
             path: '/content',

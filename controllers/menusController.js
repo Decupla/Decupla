@@ -28,7 +28,7 @@ const edit = async (req,res) => {
     const data = await Menu.get(id);
     const content = await Content.getAll();
     if (data === null) {
-        res.status(404).redirect('/menus');
+        res.status(400).redirect('/menus');
     } else {
         res.status(200).render('editMenu', {
             title: 'Edit Menu',
@@ -144,7 +144,7 @@ const get = async (req, res) => {
     const menu = await Menu.get(id);
 
     if (menu === null) {
-        return res.status(404).send({
+        return res.status(400).send({
             success: false,
             message: 'Something went wrong while trying to get the menu. Please check the console for more information.'
         });

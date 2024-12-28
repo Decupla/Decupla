@@ -2,6 +2,7 @@ const blocksController = require('../blocksController');
 const Block = require('../../models/block');
 const BlockInstance = require('../../models/blockInstance');
 const Validation = require('../../helpers/Validation');
+const { validate } = require('webpack');
 
 jest.mock('../../models/block');
 jest.mock('../../models/blockInstance');
@@ -85,7 +86,7 @@ describe('edit', () => {
     })
 })
 
-describe('save new', () => {
+describe('saveNew', () => {
     it('should validate input and send errors', async () => {
         req = {
             body: {
@@ -107,13 +108,49 @@ describe('save new', () => {
         await blocksController.saveNew(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.send).toHaveBeenCalledWith({ title: 'Title is required' });
+        expect(res.send).toHaveBeenCalledWith({
+            validation: false,
+            messages: { title: 'Title is required', key: 'Key is required' },
+            success: false
+        });
+    })
+    it('should send error if key already exists', async () => {
+        req = {
+            body: {
+                title: 'Test',
+                input: '',
+                key: 'existing-key'
+            }
+        }
+
+        Block.keyExists.mockReturnValue(true);
+
+        jest.mock('../../helpers/Validation', () => {
+            return jest.fn().mockImplementation(() => {
+                return {
+                    validate: jest.fn(),
+                    hasErrors: jest.fn().mockReturnValue(false),
+                    errors: {}
+                };
+            });
+        });
+
+        await blocksController.saveNew(req,res);
+
+        expect(Block.keyExists).toHaveBeenCalledWith('existing-key');
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.send).toHaveBeenCalledWith({
+            validation: false,
+            messages: { key: 'Key already in use' },
+            success: false
+        });
+
     })
     it('shoud call Block.add after sucsessfull validation and return new id', async () => {
         req = {
             body: {
                 title: 'Test',
-                status: 1,
+                key: 'test',
                 input: ''
             }
         }
@@ -130,6 +167,7 @@ describe('save new', () => {
 
         const mockNewID = 1;
         Block.add.mockReturnValue(mockNewID);
+        Block.keyExists.mockReturnValue(false);
 
         await blocksController.saveNew(req, res);
 
@@ -137,6 +175,7 @@ describe('save new', () => {
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
             success: true,
+            validation: true,
             newID: mockNewID
         });
     })
@@ -144,7 +183,7 @@ describe('save new', () => {
         req = {
             body: {
                 title: 'Test',
-                status: 1,
+                key: 'test',
                 input: ''
             }
         }
@@ -159,6 +198,7 @@ describe('save new', () => {
             });
         });
 
+        Block.keyExists.mockReturnValue(false);
         Block.add.mockReturnValue(null);
 
         await blocksController.saveNew(req, res);
@@ -166,7 +206,9 @@ describe('save new', () => {
         expect(Block.add).toHaveBeenCalledWith(req.body);
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
-            success: false
+            validation: true,
+            success: false,
+            message: 'Something went wrong while trying to save the block. Please check the console for more information.'
         });
     })
 })
@@ -187,7 +229,7 @@ describe('save', () => {
                 return {
                     validate: jest.fn(),
                     hasErrors: jest.fn().mockReturnValue(true),
-                    errors: { title: 'Title is required' }
+                    errors: { title: 'Title is required', key: 'Key is required' }
                 };
             });
         });
@@ -195,13 +237,17 @@ describe('save', () => {
         await blocksController.save(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.send).toHaveBeenCalledWith({ title: "Title is required" });
+        expect(res.send).toHaveBeenCalledWith({
+            validation: false,
+            messages: { title: 'Title is required', key: 'Key is required' },
+            success: false
+        });
     })
-    it('shoud call Block.add after sucsessfull validation and send response', async () => {
+    it('should send error if key was changed and new key already exists', async () => {
         req = {
             body: {
                 title: 'Test',
-                status: 1,
+                key: 'existing-key',
                 input: '',
                 id: 1
             },
@@ -220,19 +266,60 @@ describe('save', () => {
             });
         });
 
+        Block.keyChanged.mockReturnValue(true);
+        Block.keyExists.mockReturnValue(true);
+
+        await blocksController.save(req,res);
+
+        expect(Block.keyChanged).toHaveBeenCalledWith(1,'existing-key');
+        expect(Block.keyExists).toHaveBeenCalledWith('existing-key');
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.send).toHaveBeenCalledWith({
+            validation: false,
+            messages: { key: 'Key already in use' },
+            success: false
+        });
+    })
+    it('shoud call Block.add after successfull validation and send response', async () => {
+        req = {
+            body: {
+                title: 'Test',
+                key: 'test',
+                input: '',
+                id: 1
+            },
+            params: {
+                id: 1
+            }
+        }
+
+        jest.mock('../../helpers/Validation', () => {
+            return jest.fn().mockImplementation(() => {
+                return {
+                    validate: jest.fn(),
+                    hasErrors: jest.fn().mockReturnValue(false),
+                    errors: {}
+                };
+            });
+        });
+
+        Block.keyChanged.mockReturnValue(true);
+        Block.keyExists.mockReturnValue(false);
         Block.update.mockReturnValue(true);
 
         await blocksController.save(req, res);
 
+        expect(Block.keyChanged).toHaveBeenCalledWith(1,'test');
+        expect(Block.keyExists).toHaveBeenCalledWith('test');
         expect(Block.update).toHaveBeenCalledWith(1, req.body);
         expect(res.status).toHaveBeenCalledWith(201);
-        expect(res.send).toHaveBeenCalledWith({ success: true });
+        expect(res.send).toHaveBeenCalledWith({ success: true, validation: true });
     })
     it('should return 500 if saving block fails', async () => {
         req = {
             body: {
                 title: 'Test',
-                status: 1,
+                key: 'test',
                 input: '',
                 id: 1
             },
@@ -258,6 +345,7 @@ describe('save', () => {
         expect(Block.update).toHaveBeenCalledWith(1, req.body);
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
+            validation: true,
             success: false,
             message: 'Something went wrong while trying to update the block. Please check the console for more information.'
         })

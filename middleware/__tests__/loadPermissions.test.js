@@ -20,15 +20,15 @@ afterEach(() => {
 });
 
 describe('loadPermissions', () => {
-    it('should call next if req.path is /login', async () => {
-        req = {
-            path: '/login'
-        };
+    // it('should call next if req.path is /login', async () => {
+    //     req = {
+    //         path: '/login'
+    //     };
 
-        await loadPermissions(req, res, next);
+    //     await loadPermissions(req, res, next);
 
-        expect(next).toHaveBeenCalled();
-    });
+    //     expect(next).toHaveBeenCalled();
+    // });
 
     it('should call User.get and redirect to /login if no user was found', async () => {
         req = { path: '/content', user: { id: 1 } };

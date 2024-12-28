@@ -84,7 +84,7 @@ const getMenuByKey = async (req,res) => {
     const menu = await Menu.getByKey(key);
 
     if(menu===null) {
-        return res.status(404).send({ error: `Menu with Key ${key} not found` });
+        return res.status(404).send({ error: `Menu with Key '${key}' not found` });
     }
 
     menu.entries = JSON.parse(menu.entries);
