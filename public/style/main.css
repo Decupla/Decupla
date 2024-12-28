@@ -90,4 +90,12 @@
   display: block;
 }
 
+#entries {
+  display: flex;
+  flex-direction: column;
+}
+#entries .entryVis {
+  display: flex;
+}
+
 /*# sourceMappingURL=main.css.map */

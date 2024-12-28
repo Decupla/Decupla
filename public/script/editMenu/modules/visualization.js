@@ -12,6 +12,7 @@ export const createEntryVisualization = (data) => {
 
     entry.dataset.id = data.entryID;
     entry.classList.add('entryVis')
+    entry.style.order = data.priority;
 
     entry.appendChild(entryTitle);
     entry.appendChild(removeButton);
@@ -25,4 +26,9 @@ export const createEntryVisualization = (data) => {
 export const deleteInputVisualization = (id) => {
     const vis = document.querySelector(`.entryVis[data-id="${id}"]`);
     vis.remove();
+}
+
+export const updateVisualizationPriority = (id,priority) => {
+    const vis = document.querySelector(`.entryVis[data-id="${id}"]`);
+    vis.style.order = priority
 }

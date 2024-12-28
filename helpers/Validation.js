@@ -33,6 +33,16 @@ class Validation {
         return true;
     }
 
+    notNumericOnly(field) {
+        if (/^\d+$/.test(this.inputData[field])) {
+            this.addError(field, `${ucfirst(field)} cannot only contain numbers`);
+            return false;
+        }
+    
+        return true;
+    }
+    
+
     min(field, satisfier) {
         if (this.inputData[field].length < satisfier) {
             this.addError(field, `${ucfirst(field)} has to be at least ${satisfier} characters long`);
@@ -63,6 +73,7 @@ class Validation {
             this.addError(field, `${ucfirst(field)} cannot contain spaces`);
             return false;
         }
+        return true
     }
 
     validate(field, fieldRules) {

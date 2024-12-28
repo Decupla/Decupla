@@ -1,5 +1,5 @@
 const Content = require('../models/content');
-const Menus = require('../models/menu');
+const Menu = require('../models/menu');
 const BlockInstance = require('../models/blockInstance');
 
 const getAllContent = async (req,res) => {
@@ -57,7 +57,44 @@ const getContent = async (req,res) => {
     res.status(200).send(content);
 }
 
+const getAllMenus = async (req,res) => {
+    const menus = await Menu.getAll();
+    menus.forEach((menu)=>{
+        menu.entries = JSON.parse(menu.entries);
+    })
+    res.status(200).send(menus);
+}
+
+const getMenuById = async (req,res) => {
+    const {id} = req.params;
+
+    const menu = await Menu.get(id);
+
+    if (menu===null) {
+        return res.status(404).send({ error: `Menu with ID ${id} not found` });
+    }
+
+    menu.entries = JSON.parse(menu.entries);
+    res.status(200).send(menu);
+}
+
+const getMenuByKey = async (req,res) => {
+    const {key} = req.params;
+
+    const menu = await Menu.getByKey(key);
+
+    if(menu===null) {
+        return res.status(404).send({ error: `Menu with Key ${key} not found` });
+    }
+
+    menu.entries = JSON.parse(menu.entries);
+    res.status(200).send(menu);
+}
+
 module.exports = {
     getAllContent,
-    getContent
+    getContent,
+    getAllMenus,
+    getMenuById,
+    getMenuByKey
 }

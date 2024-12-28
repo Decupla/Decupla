@@ -30,6 +30,16 @@ const get = async (id) => {
     }
 }
 
+const getByKey = async (key) => {
+    try {
+        const result = await db.selectWhere('menus', 'key', key);
+        return result;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return null;
+    }
+}
+
 const update = async (id, data) => {
     try {
         await db.updateWhere('menus', data, 'id', id);
@@ -82,6 +92,7 @@ module.exports = {
     add,
     getAll,
     get,
+    getByKey,
     update,
     remove,
     keyExists,

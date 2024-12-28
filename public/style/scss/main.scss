@@ -102,3 +102,12 @@
         display: block;
     }
 }
+
+#entries {
+    display: flex;
+    flex-direction: column;
+
+    .entryVis {
+        display: flex;
+    }
+}

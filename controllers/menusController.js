@@ -49,7 +49,7 @@ const saveNew = async (req,res) => {
     const validation = new Validation(data);
 
     validation.validate("title","required|string");
-    validation.validate("key","required|string|noSpaces");
+    validation.validate("key","required|string|noSpaces|notNumericOnly");
 
     if(data.entries!==""){
         validation.validate("entries","string");
@@ -100,7 +100,7 @@ const save = async (req,res) => {
     const validation = new Validation(data);
 
     validation.validate("title","required|string");
-    validation.validate("key","required|string|noSpaces");
+    validation.validate("key","required|string|noSpaces|notNumericOnly");
     validation.validate("id","required|numeric")
 
     if(data.entries!==""){

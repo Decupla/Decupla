@@ -14,6 +14,5 @@ export const getId = (path) => {
 
 export const keyExists = async (key) => {
     const result = await getBlockByKey(key);
-    console.log(result);
     return result.success;
 }
