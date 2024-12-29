@@ -1,7 +1,12 @@
 <%- include('layout/layoutStart.ejs') %>
 <main>
-    <h1>Users</h1>
-    <a href="/users/create"><button>add new</button></a>
+    <div class="d-flex">
+        <h1>Users</h1>
+        <div class="ml-4">
+            <a href="/users/create"><button class="add-new">add new</button></a>
+            <a href="">Roles</a>
+        </div>
+    </div>
     <% if (query.message==="deleted") { %>
         <div class="alert alert-success mt-4">Content was deleted!</div>
     <% } %>

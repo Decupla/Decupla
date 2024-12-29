@@ -29,6 +29,40 @@ button.add-new {
     padding: 3px 10px;
 }
 
+table.collection {
+    width: 100%;
+    margin-top: 2rem;
+
+    tr {
+        border-bottom: solid 0.3px black;
+
+        th,td {
+            padding: 0.5rem 0;
+
+            a {
+                color: white;
+            }
+        }
+
+        th {
+            font-weight: 300;
+        }
+    }
+
+    button {
+        background-color: $button1;
+        color: white;
+        padding: 0.3rem 0.53rem;
+        border: none;
+        border-radius: 18%;
+        cursor: pointer;
+
+        img {
+            width: 1.15rem;
+            display: block;
+        }
+    }
+}
 
 #inputPopupWrapper {
     position: absolute;

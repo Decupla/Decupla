@@ -1,21 +1,34 @@
 <%- include('layout/layoutStart.ejs') %>
 <main>
-    <h1>Menus</h1>
-    <a href="/menus/create"><button>add new</button></a>
+    <div class="d-flex">
+        <h1>Menus</h1>
+        <div class="ml-4">
+            <a href="/menus/create"><button class="add-new">+ add new</button></a>
+        </div>
+    </div>
     <% if (query.message==="deleted") { %>
         <div class="alert alert-success mt-4">Menu was deleted!</div>
     <% } %>
+    <table class="collection">
+        <tr class="py-2">
+            <th>Title</th>
+            <th>Key</th>
+        </tr>
     <% for(var i=0; i<menus.length; i++) {%>
-        <div class="menu" style="display: flex">
-            <div class="title">
-                <%= menus[i].title %>
-            </div>
-            <form action="/menus/<%= menus[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
-                <input type="hidden" name="_method" value="DELETE">
-                <button type="submit">delete</button>
-            </form>
-            <a href="/menus/edit/<%= menus[i].id %>"><button>edit</button></a>
-        </div>
+        <tr>
+            <td><a href="/menus/edit/<%= menus[i].id %>"><%= menus[i].title %></a></td>
+            <td><%= menus[i].title %></td>
+            <td>
+                <div class="d-flex justify-content-end">
+                    <a class="pr-1" href="/menus/edit/<%= menus[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
+                    <form action="/menus/<%= menus[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit"><img src="/images/icons/delete_red.png" alt="delete"></button>
+                    </form>
+                </div>
+            </td>
+        </tr>
     <% } %>
+    </table>
 </main>
 <%- include('layout/layoutEnd.ejs') %>

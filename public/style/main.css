@@ -181,6 +181,35 @@ button.add-new {
   padding: 3px 10px;
 }
 
+table.collection {
+  width: 100%;
+  margin-top: 2rem;
+}
+table.collection tr {
+  border-bottom: solid 0.3px black;
+}
+table.collection tr th, table.collection tr td {
+  padding: 0.5rem 0;
+}
+table.collection tr th a, table.collection tr td a {
+  color: white;
+}
+table.collection tr th {
+  font-weight: 300;
+}
+table.collection button {
+  background-color: #3C3C3C;
+  color: white;
+  padding: 0.3rem 0.53rem;
+  border: none;
+  border-radius: 18%;
+  cursor: pointer;
+}
+table.collection button img {
+  width: 1.15rem;
+  display: block;
+}
+
 #inputPopupWrapper {
   position: absolute;
   width: 100vw;
