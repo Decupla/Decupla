@@ -1,8 +1,11 @@
 <%- include('layout/layoutStart.ejs') %>
-<%- include('layout/sidebar.ejs') %>
 <main>
-    <h1>Content</h1>
-    <a href="/content/create"><button>add new</button></a>
+    <div class="d-flex">
+        <h1>Content</h1>
+        <div class="ml-4">
+            <a href="/content/create"><button class="add-new">+ add new</button></a>
+        </div>
+    </div>
     <% if (query.message==="deleted") { %>
         <div class="alert alert-success mt-4">Content was deleted!</div>
     <% } %>

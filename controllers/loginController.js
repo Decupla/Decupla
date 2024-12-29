@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const index = (req, res) => {
     res.render('login',{
         title: 'Login',
+        loggedIn: false,
         message: ''
     });
 }
@@ -14,6 +15,7 @@ const validateLogin = async (req, res) => {
         if(req.body.email===""||req.body.password===""){
             return res.status(400).render('login', {
                 title: 'Login',
+                loggedIn: false,
                 message: 'Please enter email and password'
             });
         }
@@ -22,6 +24,7 @@ const validateLogin = async (req, res) => {
         if(foundUser === null){
             return res.status(400).render('login', {
                 title: 'Login',
+                loggedIn: false,
                 message: 'E-Mail or Password incorrect'
             });
         }
@@ -35,6 +38,7 @@ const validateLogin = async (req, res) => {
         } else {
             return res.status(400).render('login', {
                 title: 'Login',
+                loggedIn: false,
                 message: 'E-Mail or Password incorrect'
             });
         }
@@ -44,6 +48,7 @@ const validateLogin = async (req, res) => {
         console.log('There was a error while trying to validate the login: ' + error);
         res.status(500).render('login',{
             title: 'Login',
+            loggedIn: false,
             message: 'There was a error while trying to validate the login'
         })
     }

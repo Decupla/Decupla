@@ -1,28 +1,44 @@
-<aside class="bg-light mr-5">
-    <div class="p-4">
-        <a href="/content">Content</a>
-    </div>
-    <% if (permissions.includes('manageMenus')){ %>
-    <div class="p-4">
-        <a href="/menus">Menus</a>
-    </div>
-    <% } %>
-    <% if (permissions.includes('manageUsers')){ %>
-    <div class="p-4">
-        <a href="/users">Users</a>
-    </div>
-    <% } %>
-    <% if (permissions.includes('manageRoles')){ %>
-    <div class="p-4">
-        <a href="/roles">Roles</a>
-    </div>
-    <% } %>
-    <% if (permissions.includes('manageBlocks')){ %>
-    <div class="p-4">
-        <a href="/blocks">Blocks</a>
-    </div>
-    <% } %>
-    <!-- <div class="p-4">
+<aside id="main-sidebar">
+    <nav id="main-navigation">
+        <ul>
+            <li>
+                <a href="/content">
+                    <img class="nav-icon" src="/images/icons/content.png" alt="Content Icon">
+                    <span>Content</span>
+                </a>
+            </li>
+            <% if (permissions.includes('manageMenus')){ %>
+                <li>
+                    <a href="/menus">
+                        <img class="nav-icon" src="/images/icons/menus.png" alt="Menus Icon">
+                        <span>Menus</span>
+                    </a>
+                </li>
+            <% } %>
+            <% if (permissions.includes('manageUsers')){ %>
+                <li>
+                    <a href="/users">
+                        <img class="nav-icon" src="/images/icons/users.png" alt="Users Icon">
+                        <span>Users</span>
+                    </a>
+                </li>
+            <% } %>
+            <!-- <% if (permissions.includes('manageRoles')){ %>
+                <li>
+                    <a href="/roles">Roles</a>
+                </li>
+            <% } %> -->
+            <% if (permissions.includes('manageBlocks')){ %>
+                <li>
+                    <a href="/blocks">
+                        <img class="nav-icon" src="/images/icons/blocks.png" alt="Blocks Icon">
+                        <span>Blocks</span>
+                    </a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+    <!-- <li>
         <a href="/media">Media</a>
-    </div> -->
+    </li> -->
 </aside>

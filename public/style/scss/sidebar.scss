@@ -1,0 +1,28 @@
+#main-sidebar {
+    background-color: $black1;
+    height: calc(100vh - 40px);
+    width: 185px;
+    flex-shrink: 0;
+
+    nav#main-navigation ul {
+        list-style: none;
+        padding: 0;
+        padding-top: 4px;
+
+        li {
+            img.nav-icon {
+                width: 20px;
+                height: auto;
+                margin-right: 17px;
+
+            }
+
+            a {
+                color: white;
+                display: flex;
+                align-items: center;
+                padding: 12px 18px;
+            }
+        } 
+    } 
+}

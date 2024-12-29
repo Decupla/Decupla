@@ -1,5 +1,4 @@
 <%- include('layout/layoutStart.ejs') %>
-<%- include('layout/sidebar.ejs') %>
 <main>
     <h1>Create New Role</h1>
     <form action="<%= editingExisting? `/roles/${data.id}` : '/roles' %>" method="POST">

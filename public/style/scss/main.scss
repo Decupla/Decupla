@@ -1,3 +1,35 @@
+@import 'variables';
+@import 'fonts';
+@import 'header';
+@import 'sidebar';
+
+body {
+    background-color: $black2;
+    color: white;
+    font-family: 'Open Sans';
+}
+
+main {
+    width: 100%;
+    flex-shrink: 1;
+    border-left: solid #535151 0.2px;
+    border-top: solid #535151 0.2px;
+    background-color: $black2;
+    padding: 18px 30px;
+}
+
+h1 {
+    font-size: 1.4rem;
+}
+
+button.add-new {
+    background-color: $button1;
+    color: white;
+    border: none;
+    padding: 3px 10px;
+}
+
+
 #inputPopupWrapper {
     position: absolute;
     width: 100vw;

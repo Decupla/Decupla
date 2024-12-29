@@ -18,6 +18,8 @@ const loadPermissions = async (req, res, next) => {
     // if user is adminstrator, set all rights
     if (user.role === 0) {
         res.locals.permissions = ['editContent', 'manageMenus', 'manageBlocks', 'manageUsers', 'manageSettings'];
+        res.locals.loggedIn = true;
+        res.locals.username = user.name;
         return next();
     }
 
@@ -29,6 +31,8 @@ const loadPermissions = async (req, res, next) => {
     }
 
     res.locals.permissions = userRole.perms.split(',');
+    res.locals.loggedIn = true;
+    res.locals.username = user.name;
     return next();
 }
 

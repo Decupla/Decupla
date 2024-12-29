@@ -9,4 +9,12 @@
     <link href="/style/main.css" rel="stylesheet" id="main-css">
 
 </head>
-<body class="d-flex">
+<body>
+    <header>
+        <img id="logo" src="/images/logo_decupla.svg" alt="Decupla Logo">
+        <div class="user-info">Logged in as <strong><%= username %></strong></div>
+    </header>
+    <div class="d-flex">
+    <% if(loggedIn === true){ %>
+        <%- include('./sidebar.ejs') %>
+    <% } %>
