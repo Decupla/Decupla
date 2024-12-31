@@ -1,0 +1,23 @@
+#edit-sidebar {
+    height: 100%;
+    width: 220px;
+    background-color: $black3;
+    height: calc(100vh - 40.3px);
+
+    input#save {
+        background-color: $green;
+        color: white;
+        font-size: 1.125rem;
+        padding: 0.3rem;
+        width: 75%;
+    }
+
+    select {
+        width: 75%;
+    }
+
+    label {
+        font-weight: 300;
+        margin-bottom: 0.35rem;
+    }
+}

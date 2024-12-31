@@ -2,6 +2,7 @@
 @import 'fonts';
 @import 'header';
 @import 'sidebar';
+@import 'editSidebar';
 
 body {
     background-color: $black2;
@@ -15,18 +16,56 @@ main {
     border-left: solid #535151 0.2px;
     border-top: solid #535151 0.2px;
     background-color: $black2;
-    padding: 18px 30px;
+    padding: 1.125rem 1.875rem;
+}
+
+.main-container {
+    padding: 1.125rem 1.875rem;
+    width: 100%;
+    height: calc(100vh - 40.3px);
+    overflow: scroll;
+    scrollbar-color: $button1 rgba(0,0,0,0);
+    scrollbar-width: thin;
 }
 
 h1 {
     font-size: 1.4rem;
 }
 
-button.add-new {
+button,input[type="submit"],select {
+    border: none;
+}
+
+button.add-new,
+button.radio-link {
     background-color: $button1;
     color: white;
-    border: none;
     padding: 3px 10px;
+    cursor: pointer;
+}
+
+button.radio-link {
+    display: flex;
+    align-items: center;
+
+    .radio-link-circle {
+        height: 1em;
+        width: 1em;
+        border-radius: 50%;
+        background-color: $darkBlue;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.35rem;
+
+        &.active::before {
+            content: '';
+            height: 0.6em;
+            width: 0.6em;
+            border-radius: 50%;
+            background-color: $blue;
+        }
+    }
 }
 
 table.collection {
@@ -36,7 +75,8 @@ table.collection {
     tr {
         border-bottom: solid 0.3px black;
 
-        th,td {
+        th,
+        td {
             padding: 0.5rem 0;
 
             a {
@@ -53,13 +93,32 @@ table.collection {
         background-color: $button1;
         color: white;
         padding: 0.3rem 0.53rem;
-        border: none;
         border-radius: 18%;
         cursor: pointer;
 
         img {
             width: 1.15rem;
             display: block;
+        }
+    }
+}
+
+.edit-container {
+    max-width: 510px;
+    width: 80%;
+    margin: auto;
+    margin-top: 5.3rem;
+
+    input#title,input#name {
+        width: 100%;
+        color: white;
+        background-color: rgba(0,0,0,0);
+        border: none;
+        font-size: 2.25rem;
+
+        &:focus, &:active, &:focus-visible {
+            outline: none;
+            border-bottom: solid 1px white;
         }
     }
 }
@@ -82,7 +141,7 @@ table.collection {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     background-color: #fefefe;
 }
 
@@ -95,7 +154,8 @@ table.collection {
 }
 
 // Edit Block Page
-#message,#name-error {
+#message,
+#name-error {
     display: none;
 
     &.visible {
@@ -147,12 +207,13 @@ table.collection {
         height: 500px;
         top: 50%;
         left: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
         background-color: white;
     }
 }
 
-#message-title, #message-saved {
+#message-title,
+#message-saved {
     display: none;
 
     &.visible {

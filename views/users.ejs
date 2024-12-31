@@ -3,25 +3,42 @@
     <div class="d-flex">
         <h1>Users</h1>
         <div class="ml-4">
-            <a href="/users/create"><button class="add-new">add new</button></a>
-            <a href="">Roles</a>
+            <a href="/users/create"><button class="add-new">+ add new</button></a>
+        </div>
+        <div class="d-flex ml-3">
+            <a href="/users" class="mr-1"><button class="radio-link"><div class="radio-link-circle active"></div>Users</button></a>
+            <a href="/roles"><button class="radio-link"><div class="radio-link-circle"></div>Roles</button></a>
         </div>
     </div>
     <% if (query.message==="deleted") { %>
         <div class="alert alert-success mt-4">Content was deleted!</div>
     <% } %>
+    <table class="collection">
+        <tr class="py-2">
+            <th>Name</th>
+            <th>Role</th>
+        </tr>
     <% for(var i=0; i<users.length; i++) {%>
-        <div class="user" style="display: flex">
-            <div class="title">
-                <%= users[i].name %>
-            </div>
-            <form action="/users/<%= users[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
-                <input type="hidden" name="_method" value="DELETE">
-                <button type="submit">delete</button>
-            </form>
-            <a href="/users/edit/<%= users[i].id %>"><button>edit</button></a>
-
-        </div>
+        <tr>
+            <td>
+                <a href="/users/edit/<%= users[i].id %>">
+                    <%= users[i].name %>
+                </a>
+            </td>
+            <td>
+                <%= users[i].role %>
+            </td>
+            <td>
+                <div class="d-flex justify-content-end">
+                    <a class="pr-1" href="/users/edit/<%= users[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
+                    <form action="/users/<%= users[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit"><img src="/images/icons/delete_red.png" alt="delete"></button>
+                    </form>
+                </div>
+            </td>
+        </tr>
      <% } %>
+    </table>
 </main>
 <%- include('layout/layoutEnd.ejs') %>

@@ -155,6 +155,27 @@ header img#logo {
   padding: 12px 18px;
 }
 
+#edit-sidebar {
+  height: 100%;
+  width: 220px;
+  background-color: #1C1C1C;
+  height: calc(100vh - 40.3px);
+}
+#edit-sidebar input#save {
+  background-color: #3DA99A;
+  color: white;
+  font-size: 1.125rem;
+  padding: 0.3rem;
+  width: 75%;
+}
+#edit-sidebar select {
+  width: 75%;
+}
+#edit-sidebar label {
+  font-weight: 300;
+  margin-bottom: 0.35rem;
+}
+
 body {
   background-color: #1E1E1E;
   color: white;
@@ -167,18 +188,54 @@ main {
   border-left: solid #535151 0.2px;
   border-top: solid #535151 0.2px;
   background-color: #1E1E1E;
-  padding: 18px 30px;
+  padding: 1.125rem 1.875rem;
+}
+
+.main-container {
+  padding: 1.125rem 1.875rem;
+  width: 100%;
+  height: calc(100vh - 40.3px);
+  overflow: scroll;
+  scrollbar-color: #3C3C3C rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
 }
 
 h1 {
   font-size: 1.4rem;
 }
 
-button.add-new {
+button, input[type=submit], select {
+  border: none;
+}
+
+button.add-new,
+button.radio-link {
   background-color: #3C3C3C;
   color: white;
-  border: none;
   padding: 3px 10px;
+  cursor: pointer;
+}
+
+button.radio-link {
+  display: flex;
+  align-items: center;
+}
+button.radio-link .radio-link-circle {
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  background-color: #00081C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.35rem;
+}
+button.radio-link .radio-link-circle.active::before {
+  content: "";
+  height: 0.6em;
+  width: 0.6em;
+  border-radius: 50%;
+  background-color: #406DD2;
 }
 
 table.collection {
@@ -188,10 +245,12 @@ table.collection {
 table.collection tr {
   border-bottom: solid 0.3px black;
 }
-table.collection tr th, table.collection tr td {
+table.collection tr th,
+table.collection tr td {
   padding: 0.5rem 0;
 }
-table.collection tr th a, table.collection tr td a {
+table.collection tr th a,
+table.collection tr td a {
   color: white;
 }
 table.collection tr th {
@@ -201,13 +260,30 @@ table.collection button {
   background-color: #3C3C3C;
   color: white;
   padding: 0.3rem 0.53rem;
-  border: none;
   border-radius: 18%;
   cursor: pointer;
 }
 table.collection button img {
   width: 1.15rem;
   display: block;
+}
+
+.edit-container {
+  max-width: 510px;
+  width: 80%;
+  margin: auto;
+  margin-top: 5.3rem;
+}
+.edit-container input#title, .edit-container input#name {
+  width: 100%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  font-size: 2.25rem;
+}
+.edit-container input#title:focus, .edit-container input#title:active, .edit-container input#title:focus-visible, .edit-container input#name:focus, .edit-container input#name:active, .edit-container input#name:focus-visible {
+  outline: none;
+  border-bottom: solid 1px white;
 }
 
 #inputPopupWrapper {
@@ -238,10 +314,12 @@ table.collection button img {
   display: block;
 }
 
-#message, #name-error {
+#message,
+#name-error {
   display: none;
 }
-#message.visible, #name-error.visible {
+#message.visible,
+#name-error.visible {
   display: block;
 }
 
@@ -288,10 +366,12 @@ table.collection button img {
   background-color: white;
 }
 
-#message-title, #message-saved {
+#message-title,
+#message-saved {
   display: none;
 }
-#message-title.visible, #message-saved.visible {
+#message-title.visible,
+#message-saved.visible {
   display: block;
 }
 

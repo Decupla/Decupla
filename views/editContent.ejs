@@ -1,51 +1,66 @@
 <%- include('layout/layoutStart.ejs') %>
-<main>
-    <h1>Create New Content</h1>
+<main class="p-0">
     <form action="/content" method="POST" id="contentForm">
-        <div>
-            <label for="title">Title</label>
-            <input name="title" id="title" type="text" value="<%= data?.title?.trim() || '' %>">
-            <div class="message" id="message-title">"title" is required</div>
+        <div class="d-flex">
+            <div class="main-container">
+                <div class="edit-container">
+                        <div>
+                            <input name="title" id="title" type="text" placeholder="Content Title" value="<%= data?.title?.trim() || '' %>">
+                            <div class="message" id="message-title">"title" is required</div>
+                        </div>
+            
+                    <div class="addBlockContainer mt-5">
+                        <button type="button" class="addBlockButton">add Block</button>
+                        <div class="addBlockDropdown">
+                            <% if (!blocks || blocks.length===0) { %>
+                                No blocks found
+                                <% } else { %>
+                                    <ul>
+                                        <% blocks.forEach(block=> { %>
+                                            <li class="block" data-id="<%= block.id %>">
+                                                <%= block.title %>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    <% } %>
+                        </div>
+                    </div>
+            
+                    <div id="blocks"></div>
+                </div>
+            </div>
+            <aside id="edit-sidebar" class="p-4">
+                <input id="save" type="submit" value="save">
+                <div class="alert alert-success mt-3" id="message-saved">Content saved!</div>
+                <div class="mt-4">
+                    <strong class="mb-3">Created</strong>
+                    <div>to be done...</div>
+                </div>
+                <div class="mt-4">
+                    <strong class="mb-3">Last updated</strong>
+                    <div>to be done...</div>
+                </div>
+                <div class="mt-4">
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                        <option <%=data?.status===0 ? 'selected' : '' %> value="0">Draft</option>
+                        <option <%=data?.status===1 ? 'selected' : '' %> value="1">Published</option>
+                    </select>
+                </div>
+            </aside>
         </div>
-        <div>
-            <label for="status">Status</label>
-            <select name="status" id="status">
-                <option <%=data?.status===0 ? 'selected' : '' %> value="0">Draft</option>
-                <option <%=data?.status===1 ? 'selected' : '' %> value="1">Published</option>
-            </select>
-        </div>
-        <input type="submit" value="save">
     </form>
-    <div class="alert alert-success mt-3" id="message-saved">Content saved!</div>
-
-    <div class="addBlockContainer mt-5">
-        <button class="addBlockButton">add Block</button>
-        <div class="addBlockDropdown">
-            <% if (!blocks || blocks.length===0) { %>
-                No blocks found
-                <% } else { %>
-                    <ul>
-                        <% blocks.forEach(block=> { %>
-                            <li class="block" data-id="<%= block.id %>">
-                                <%= block.title %>
-                            </li>
-                            <% }); %>
-                    </ul>
-                    <% } %>
-        </div>
-    </div>
-
-    <div id="blocks"></div>
 
     <div id="blockFormWrapper">
         <div id="blockFormContainer">
             <h3 id="blockFormTitle"></h3>
             <form id="blockForm">
                 <div id="blockFormInput"></div>
-                <button type="submit">save block</button>
+                <button type="submit" id="saveBlock">save block</button>
             </form>
         </div>
     </div>
+
 </main>
 <script src="/script/dist/editContent.bundle.js"></script>
 
