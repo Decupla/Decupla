@@ -1,3 +1,5 @@
 node_modules/
 coverage/
 .env
+backstop_data/html_report/
+bitmaps_test/
