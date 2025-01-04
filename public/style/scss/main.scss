@@ -32,8 +32,9 @@ main {
     width: 100%;
     height: calc(100vh - 40.3px);
     overflow: scroll;
-    scrollbar-color: $button1 rgba(0,0,0,0);
+    scrollbar-color: $button1 rgba(0, 0, 0, 0);
     scrollbar-width: thin;
+    position: relative;
 
     @media screen and (max-width: 767px) {
         height: fit-content;
@@ -45,7 +46,9 @@ h1 {
     font-size: 1.4rem;
 }
 
-button,input[type="submit"],select {
+button,
+input[type="submit"],
+select {
     border: none;
     cursor: pointer;
 }
@@ -119,9 +122,16 @@ table.collection {
 .breadcrumb-title {
     font-size: 1.375rem;
     font-weight: 300;
+    position: sticky;
+    top: 0;
+    left: 0;
 
     @media screen and (max-width: 767px) {
         font-size: 1.1rem;
+    }
+
+    a {
+        color: white;
     }
 
     strong {
@@ -134,22 +144,69 @@ table.collection {
     width: 100%;
     margin: auto;
     margin-top: 5.3rem;
+    margin-bottom: 4rem;
 
-    input#title,input#name {
+    input#title,
+    input#name {
         width: 100%;
         color: white;
-        background-color: rgba(0,0,0,0);
+        background-color: rgba(0, 0, 0, 0);
         border: none;
         font-size: 2.25rem;
 
-        &:focus, &:active, &:focus-visible {
+        &:focus,
+        &:active,
+        &:focus-visible {
             outline: none;
             border-bottom: solid 1px white;
         }
 
-        @media screen and (max-width: 767px)  {
+        @media screen and (max-width: 767px) {
             font-size: 1.7rem;
         }
+    }
+
+    .error-message {
+        color: #db1c1c;
+        margin-top: 0.3rem;
+    }
+}
+
+.input-container {
+    label {
+        display: block;
+    }
+
+    input {
+        background-color: rgba(0, 0, 0, 0);
+        border: none;
+        border-bottom: solid 1px white;
+        width: 100%;
+        max-width: 18rem;
+        color: white;
+
+        &:focus,&:focus-visible {
+            outline: none;
+        }
+    }
+}
+
+input#save {
+    background-color: $green;
+    color: white;
+    font-size: 1.125rem;
+    padding: 0.2rem 1.8rem;
+}
+
+.message-saved {
+    opacity: 1;
+    animation: fadeOut 1s ease 3s forwards;
+}
+
+
+@keyframes fadeOut {
+    to {
+      opacity: 0;
     }
 }
 

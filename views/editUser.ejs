@@ -1,56 +1,62 @@
 <%- include('layout/layoutStart.ejs') %>
-<main>
-    <h1>Create New User</h1>
-    <% if(query.message==="saved" ){ %>
-    <div class="alert alert-success my-4">
-        User was successfully saved
-    </div>
-    <% } %>
-    <form action="<%= editingExisting ? `/users/${data.id}` : '/users' %>" method="POST" novalidate>
-        <% if(editingExisting){ %>
-            <input type="hidden" name="_method" value="PUT">
-        <% } %>
-        <div>
-            <label for="name">Name</label>
-            <input name="name" id="name" type="text" value="<%= data?.name?.trim() || '' %>">
-            <% if ('name' in messages) { %>
-                <div class="alert alert-danger">
-                    <%= messages.name %>
-                </div>
-                <% } %>
+<main class="p-0">
+    <div class="main-container">
+        <div class="breadcrumb-title">
+            <a href="/users">Users</a> > <strong>Edit User</strong>
         </div>
-        <div>
-            <label for="email">E-Mail</label>
-            <input name="email" id="email" type="email" value="<%= data?.email?.trim() || '' %>"">
-            <% if ('email' in messages) { %>
-                <div class=" alert alert-danger">
-                    <%= messages.email %>
-                </div>
-            <% } %>
-        </div>
-        <div>
-        <% if(editingExisting){ %>
-            <label for="newPassword">Set new Password</label>
-            <input type="password" name="newPassword" id="newPassword" value="<%= data?.password?.trim() || '' %>">
-        <% } else { %>
-            <label for="password">Password</label>
-            <input name="password" id="password" type="password" value="<%= data?.password?.trim() || '' %>">
-        <% } %>
-        <% if ('password' in messages) { %>
-            <div class="alert alert-danger">
-            <%= messages.password %>
+        <div class="edit-container">
+            <% if(query.message==="saved" ){ %>
+            <div class="alert alert-success message-saved my-4">
+                User was successfully saved
             </div>
-        <% } %>
+            <% } %>
+            <form action="<%= editingExisting ? `/users/${data.id}` : '/users' %>" method="POST" novalidate>
+                <% if(editingExisting){ %>
+                    <input type="hidden" name="_method" value="PUT">
+                <% } %>
+                <div>
+                    <input name="name" id="name" type="text" placeholder="Name" value="<%= data?.name?.trim() || '' %>">
+                    <% if ('name' in messages) { %>
+                        <div class="error-message">
+                            <%= messages.name %>
+                        </div>
+                        <% } %>
+                </div>
+                <div class="mt-4 input-container">
+                    <label for="email">E-Mail</label>
+                    <input placeholder="E-Mail" name="email" id="email" type="email" value="<%= data?.email?.trim() || '' %>"">
+                    <% if ('email' in messages) { %>
+                        <div class="error-message">
+                            <%= messages.email %>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="mt-4 input-container">
+                <% if(editingExisting){ %>
+                    <label for="newPassword">Set new Password</label>
+                    <input placeholder="Password" type="password" name="newPassword" id="newPassword" value="<%= data?.password?.trim() || '' %>">
+                <% } else { %>
+                    <label for="password">Password</label>
+                    <input placeholder="Password" name="password" id="password" type="password" value="<%= data?.password?.trim() || '' %>">
+                <% } %>
+                <% if ('password' in messages) { %>
+                    <div class="error-message">
+                    <%= messages.password %>
+                    </div>
+                <% } %>
+                </div>
+                <div class="my-4 input-container">
+                    <label for="role">Role</label>
+                    <select name="role" id="role">
+                        <option <%=data?.role===0 ? 'selected' : '' %> value="0">Administrator</option>
+                        <% roles.forEach(role => { %>
+                            <option <%=data?.role===role.id ? 'selected' : '' %> value="<%= role.id %>"><%= role.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <input id="save" type="submit" value="save">
+            </form>
         </div>
-        <div>
-            <select name="role" id="role">
-                <option <%=data?.role===0 ? 'selected' : '' %> value="0">Administrator</option>
-                <% roles.forEach(role => { %>
-                    <option <%=data?.role===role.id ? 'selected' : '' %> value="<%= role.id %>"><%= role.name %></option>
-                <% }); %>
-            </select>
-        </div>
-        <input type="submit" value="save">
-    </form>
+    </div>
 </main>
 <%- include('layout/layoutEnd.ejs') %>

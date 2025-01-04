@@ -3,7 +3,7 @@
         <div class="d-md-flex">
             <div class="main-container">
                 <div class="breadcrumb-title">
-                    Content > <strong>Edit Page</strong>
+                    <a href="/content">Content</a> > <strong>Edit Page</strong>
                 </div>
                 <div class="edit-container">
                         <div>
@@ -40,8 +40,8 @@
                     </div>
             
                     <div id="blocks"></div>
-
-                    <div class="add-block-container end <%= blocks.length>0 ? 'visible' : '' %>">
+                    <%= console.log(blocks.length) %>
+                    <div class="add-block-container end">
                         <button type="button" class="add-block-button">+ add Block</button>
                         <div class="add-block-dropdown">
                             <button class="dropdown-close">

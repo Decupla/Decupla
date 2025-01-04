@@ -24,6 +24,7 @@ export const getBlocks = async (id) => {
             blocksData.push(...blocksParsed);
 
             if (blocksData.length > 0) {
+                DOM.addBlockContainerEnd.classList.add('visible');
                 const currentMaxPriority = Math.max(0, ...blocksData.map(block => block.priority));
                 setNextPriority(currentMaxPriority + 1);
             }
