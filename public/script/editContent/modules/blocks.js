@@ -1,6 +1,6 @@
 import DOM from './dom';
-import { contentExists, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks } from "./data";
-import { addBlockVisualization, deleteBlockVisualization, updateBlockVisualization } from "./visualization";
+import { contentExists, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks, setNextPriority, nextPriority } from "./data";
+import { addBlockVisualization, deleteBlockVisualization, updateBlockVisualization, updateVisualizationPriority, setLastVisualisation } from "./visualization";
 import { setupBlockForm, closeBlockForm } from './blockForm';
 
 // if content already exists and has blocks this will load in the block instances
@@ -23,11 +23,16 @@ export const getBlocks = async (id) => {
 
             blocksData.push(...blocksParsed);
 
+            if (blocksData.length > 0) {
+                const currentMaxPriority = Math.max(0, ...blocksData.map(block => block.priority));
+                setNextPriority(currentMaxPriority + 1);
+            }
+
             blocksData.forEach((data) => {
                 addBlockVisualization(data);
             });
 
-
+            setLastVisualisation();
         } else {
             // to do: fehlermeldung auf der Seite ausgebe
             console.log(data.message);
@@ -39,8 +44,9 @@ export const getBlocks = async (id) => {
 }
 
 //loads the block form for editing a existing block instance
-export const editBlock = (instanceID, blockID) => {
+export const editBlock = (instanceID, blockID, container) => {
     setBlockMethod("update");
+    container.classList.add('show-form-container');
 
     // selects the block from the blockData Array. ID is passed as a parameter when setting up the event listener for the edit button
     const data = blocksData.find(block => block.instanceID === instanceID) || null;
@@ -59,7 +65,7 @@ export const editBlock = (instanceID, blockID) => {
     setCurrentInstanceID(instanceID);
 
     // sets up the block Form with the existing output
-    setupBlockForm(blockID, setOutput);
+    setupBlockForm(blockID, container, setOutput);
 }
 
 // adds a block instance to the deletedBlocks array and removes the visualization
@@ -75,12 +81,30 @@ export const deleteBlock = (instanceID) => {
             deletedBlocks.push(blocksData[index].databaseID);
         }
 
+        const removedPriority = blocksData[index].priority;
+
         // remove instance from the array
         blocksData.splice(index, 1);
+
+        //update block priorities
+        blocksData.forEach(block => {
+            if (block.priority > removedPriority) {
+                block.priority -= 1;
+                updateVisualizationPriority(block.instanceID, block.priority);
+            }
+        });
+
+        const currentMaxPriority = Math.max(0, ...blocksData.map(block => block.priority));
+        setNextPriority(currentMaxPriority + 1);
 
         // we also need to remove the visualization
         deleteBlockVisualization(instanceID);
 
+        setLastVisualisation();
+
+        if(blocksData.length===0){
+            DOM.addBlockContainerEnd.classList.remove('visible');
+        }
     }
 }
 
@@ -110,12 +134,31 @@ export const updateBlock = (data) => {
 }
 
 // saves a new block to the blockData array and creates new visualization
-export const saveNewBlock = (data) => {
+export const saveNewBlock = (data, priority) => {
     // adds the id of the instance for the blockData Array. NOT the id for the database
     data.instanceID = getInstanceId();
+    data.priority = priority;
+
+    //update existing block priorities
+    blocksData.forEach(block => {
+        if (block.priority >= priority) {
+            block.priority += 1;
+            updateVisualizationPriority(block.instanceID, block.priority);
+        }
+    });
 
     blocksData.push(data);
+    closeBlockForm();
+
+
     addBlockVisualization(data);
 
-    closeBlockForm();
+    if(!DOM.addBlockContainerEnd.classList.contains('visible')){
+        DOM.addBlockContainerEnd.classList.add('visible');
+    }
+
+    const currentMaxPriority = Math.max(0, ...blocksData.map(block => block.priority));
+    setNextPriority(currentMaxPriority + 1);
+
+    setLastVisualisation();
 }

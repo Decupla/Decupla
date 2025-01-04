@@ -12,7 +12,10 @@
 <body>
     <header>
         <img id="logo" src="/images/logo_decupla.svg" alt="Decupla Logo">
-        <div class="user-info">Logged in as <strong><%= username %></strong></div>
+        <div id="mobile-sidebar-toggle" class="d-md-none">
+            <img src="/images/icons/menu.png" alt="Open Menu">
+        </div>
+        <div class="d-none d-md-block">Logged in as <strong><%= username %></strong></div>
     </header>
     <div class="d-flex">
     <% if(loggedIn === true){ %>

@@ -1,0 +1,205 @@
+#edit-content {
+    .add-block-container {
+        margin: 1.3rem 0;
+
+        &.end {
+            display: none;
+
+            &.visible {
+                display: block;
+            }
+        }
+
+        &.add-in-between {
+
+            .add-block-button {
+                background-color: rgba(0,0,0,0);
+                border: dashed 1px $border1;
+                color: #777;
+                transition: 0.3s;
+            }
+
+        } 
+
+
+        &.add-in-between .add-block-button:hover, .add-block-button {
+            width: 100%;
+            padding: 0.25rem 0;
+            background-color: $button2;
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 400;
+            cursor: pointer;
+
+            &:focus-visible,&:focus {
+                border: none;
+                outline: none;
+            }
+        }
+
+        .add-block-dropdown {
+            position: relative;
+            display: none;
+            top: 0;
+            left: 0;
+            background-color: $black1;
+            width: 100%;
+            padding: 1.25rem;
+
+            &.visible {
+                display: block;
+            }
+
+            .dropdown-close {
+                position: absolute;
+                right: 0.6rem;
+                top: 0.6rem;
+                padding: 0.25rem;
+                background-color: $button1;
+                cursor: pointer;
+
+                img {
+                    width: 0.7rem;
+                    display: block;
+                }
+            }
+
+            h3 {
+                font-size: 1.5rem;
+                font-weight: 400;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin-bottom: 0.4rem;
+
+                li {
+                    cursor: pointer;
+                    border-bottom: solid 0.5px $button2;
+                    padding: 0.5rem 0;
+                    transition: background-color 0.2s;
+
+                    &:hover {
+                        background-color: $black2;
+                    }
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+
+        &.show-block-selection {
+            .add-block-dropdown {
+                display: block;
+            }
+            .add-block-button {
+                display: none;
+            }
+        }
+
+        &.show-form-container {
+            .block-form-container {
+                display: block;
+            }
+            .add-block-button {
+                display: none;
+            }
+        }
+    }
+
+    .block-form-container {
+        width: 100%;
+        background-color: $black1;
+        display: none;
+    }
+
+    #blocks {
+        display: flex;
+        flex-direction: column;
+
+        .block-vis-container {
+            .block-vis {
+                background-color: $black4;
+                border: solid 1px $border1;
+    
+                .title-container {
+                    background-color: $black1;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0.65rem;
+    
+                    h3.title {
+                        font-size: 1.25rem;
+                        margin: 0;
+
+                        @media screen and (max-width: 767px) {
+                            font-size: 1rem;
+                        }
+                    }
+
+                    .buttons {
+                        display: flex;
+
+                        button {
+                            background-color: $button1;
+                            color: white;
+                            border-radius: 18%;
+                            cursor: pointer;
+
+
+                        }
+
+                        button.edit,
+                        button.delete {
+                            padding: 0.3rem 0.45rem;
+    
+                            img {
+                                display: block;
+                                width: 1.125rem;
+                            }
+                        }
+        
+                        button.edit, .priority {
+                            margin-right: 0.25rem;
+                        }
+
+                        .priority {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+
+                            button.up,button.down {
+                                display: block;
+                                img {
+                                    display: block;
+                                    width: 0.65rem;
+                                }
+                            }
+                        }
+                    }
+                }
+    
+                .output {
+                    padding: 0.65rem;
+                }
+            }
+
+            &.show-form-container {
+                .block-form-container {
+                    display: block;
+                }
+
+                .block-vis {
+                    display: none;
+                }
+            }
+
+            &.last-vis .add-block-container.add-in-between {
+                display: none;
+            }
+        }
+    }
+}

@@ -9,8 +9,9 @@ export const handleContentSubmit = async (event) => {
     const formData = new FormData(event.target);
     // the data from the form. No blocks jet.
     const data = Object.fromEntries(formData.entries());
+    data.title = DOM.titleInput.value;
 
-    if (!data.title) {
+    if (data.title.trim()==="") {
         DOM.titleMessage.classList.add('visible');
         return;
     }
@@ -44,7 +45,8 @@ export const handleContentSubmit = async (event) => {
         for (const instance of blocksData) {
             const instanceData = {
                 blockID: instance.blockID,
-                output: JSON.stringify(instance.output)
+                output: JSON.stringify(instance.output),
+                priority: instance.priority
             };
 
             // if we are creating new content use the id of the new saved content, otherwise use the global contentID
@@ -99,7 +101,7 @@ export const handleContentSubmit = async (event) => {
     }
 }
 
-export const handleBlockSubmit = (event) => {
+export const handleBlockSubmit = (event,priority=1) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -114,7 +116,7 @@ export const handleBlockSubmit = (event) => {
     }
 
     if (blockMethod === "create") {
-        saveNewBlock(data);
+        saveNewBlock(data,priority);
     } else if (blockMethod === "update") {
         updateBlock(data);
     } else {

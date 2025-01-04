@@ -127,6 +127,14 @@ header {
   align-items: center;
   padding: 0px 18px;
 }
+header #mobile-sidebar-toggle {
+  height: 80%;
+  cursor: pointer;
+}
+header #mobile-sidebar-toggle img {
+  height: 100%;
+  display: block;
+}
 header img#logo {
   width: 140px;
   display: flex;
@@ -137,6 +145,18 @@ header img#logo {
   height: calc(100vh - 40px);
   width: 185px;
   flex-shrink: 0;
+}
+@media screen and (max-width: 767px) {
+  #main-sidebar {
+    position: absolute;
+    right: 0;
+    top: 41px;
+    transform: translateX(100%);
+    transition: transform 0.3s;
+  }
+  #main-sidebar.visible {
+    transform: translateX(0%);
+  }
 }
 #main-sidebar nav#main-navigation ul {
   list-style: none;
@@ -175,6 +195,178 @@ header img#logo {
   font-weight: 300;
   margin-bottom: 0.35rem;
 }
+@media screen and (max-width: 767px) {
+  #edit-sidebar {
+    width: 100%;
+    height: fit-content;
+  }
+  #edit-sidebar .sidebar-container {
+    max-width: 510px;
+    margin: auto;
+  }
+  #edit-sidebar input#save, #edit-sidebar select {
+    max-width: 10rem;
+  }
+}
+
+#edit-content .add-block-container {
+  margin: 1.3rem 0;
+}
+#edit-content .add-block-container.end {
+  display: none;
+}
+#edit-content .add-block-container.end.visible {
+  display: block;
+}
+#edit-content .add-block-container.add-in-between .add-block-button {
+  background-color: rgba(0, 0, 0, 0);
+  border: dashed 1px #363636;
+  color: #777;
+  transition: 0.3s;
+}
+#edit-content .add-block-container.add-in-between .add-block-button:hover, #edit-content .add-block-container .add-block-button {
+  width: 100%;
+  padding: 0.25rem 0;
+  background-color: #4F4F4F;
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+#edit-content .add-block-container.add-in-between .add-block-button:hover:focus-visible, #edit-content .add-block-container.add-in-between .add-block-button:hover:focus, #edit-content .add-block-container .add-block-button:focus-visible, #edit-content .add-block-container .add-block-button:focus {
+  border: none;
+  outline: none;
+}
+#edit-content .add-block-container .add-block-dropdown {
+  position: relative;
+  display: none;
+  top: 0;
+  left: 0;
+  background-color: #181818;
+  width: 100%;
+  padding: 1.25rem;
+}
+#edit-content .add-block-container .add-block-dropdown.visible {
+  display: block;
+}
+#edit-content .add-block-container .add-block-dropdown .dropdown-close {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.6rem;
+  padding: 0.25rem;
+  background-color: #3C3C3C;
+  cursor: pointer;
+}
+#edit-content .add-block-container .add-block-dropdown .dropdown-close img {
+  width: 0.7rem;
+  display: block;
+}
+#edit-content .add-block-container .add-block-dropdown h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+#edit-content .add-block-container .add-block-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0.4rem;
+}
+#edit-content .add-block-container .add-block-dropdown ul li {
+  cursor: pointer;
+  border-bottom: solid 0.5px #4F4F4F;
+  padding: 0.5rem 0;
+  transition: background-color 0.2s;
+}
+#edit-content .add-block-container .add-block-dropdown ul li:hover {
+  background-color: #1E1E1E;
+}
+#edit-content .add-block-container .add-block-dropdown ul li:last-child {
+  border-bottom: none;
+}
+#edit-content .add-block-container.show-block-selection .add-block-dropdown {
+  display: block;
+}
+#edit-content .add-block-container.show-block-selection .add-block-button {
+  display: none;
+}
+#edit-content .add-block-container.show-form-container .block-form-container {
+  display: block;
+}
+#edit-content .add-block-container.show-form-container .add-block-button {
+  display: none;
+}
+#edit-content .block-form-container {
+  width: 100%;
+  background-color: #181818;
+  display: none;
+}
+#edit-content #blocks {
+  display: flex;
+  flex-direction: column;
+}
+#edit-content #blocks .block-vis-container .block-vis {
+  background-color: #242424;
+  border: solid 1px #363636;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container {
+  background-color: #181818;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.65rem;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container h3.title {
+  font-size: 1.25rem;
+  margin: 0;
+}
+@media screen and (max-width: 767px) {
+  #edit-content #blocks .block-vis-container .block-vis .title-container h3.title {
+    font-size: 1rem;
+  }
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons {
+  display: flex;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button {
+  background-color: #3C3C3C;
+  color: white;
+  border-radius: 18%;
+  cursor: pointer;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.edit,
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.delete {
+  padding: 0.3rem 0.45rem;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.edit img,
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.delete img {
+  display: block;
+  width: 1.125rem;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.edit, #edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority {
+  margin-right: 0.25rem;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority button.up, #edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority button.down {
+  display: block;
+}
+#edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority button.up img, #edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority button.down img {
+  display: block;
+  width: 0.65rem;
+}
+#edit-content #blocks .block-vis-container .block-vis .output {
+  padding: 0.65rem;
+}
+#edit-content #blocks .block-vis-container.show-form-container .block-form-container {
+  display: block;
+}
+#edit-content #blocks .block-vis-container.show-form-container .block-vis {
+  display: none;
+}
+#edit-content #blocks .block-vis-container.last-vis .add-block-container.add-in-between {
+  display: none;
+}
 
 body {
   background-color: #1E1E1E;
@@ -206,6 +398,7 @@ h1 {
 
 button, input[type=submit], select {
   border: none;
+  cursor: pointer;
 }
 
 button.add-new,
@@ -213,7 +406,6 @@ button.radio-link {
   background-color: #3C3C3C;
   color: white;
   padding: 3px 10px;
-  cursor: pointer;
 }
 
 button.radio-link {
@@ -268,9 +460,17 @@ table.collection button img {
   display: block;
 }
 
+.breadcrumb-title {
+  font-size: 1.375rem;
+  font-weight: 300;
+}
+.breadcrumb-title strong {
+  font-weight: 400;
+}
+
 .edit-container {
   max-width: 510px;
-  width: 80%;
+  width: 100%;
   margin: auto;
   margin-top: 5.3rem;
 }
@@ -284,6 +484,11 @@ table.collection button img {
 .edit-container input#title:focus, .edit-container input#title:active, .edit-container input#title:focus-visible, .edit-container input#name:focus, .edit-container input#name:active, .edit-container input#name:focus-visible {
   outline: none;
   border-bottom: solid 1px white;
+}
+@media screen and (max-width: 767px) {
+  .edit-container input#title, .edit-container input#name {
+    font-size: 1.7rem;
+  }
 }
 
 #inputPopupWrapper {
@@ -335,35 +540,6 @@ table.collection button img {
 }
 #message-success.visible {
   display: block;
-}
-
-.addBlockDropdown {
-  display: none;
-}
-.addBlockDropdown.visible {
-  display: block;
-}
-
-#blockFormWrapper {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: none;
-}
-#blockFormWrapper.visible {
-  display: block;
-}
-#blockFormWrapper #blockFormContainer {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
 }
 
 #message-title,

@@ -1,17 +1,23 @@
 <%- include('layout/layoutStart.ejs') %>
-<main class="p-0">
-    <form action="/content" method="POST" id="contentForm">
-        <div class="d-flex">
+<main id="edit-content" class="p-0">
+        <div class="d-md-flex">
             <div class="main-container">
+                <div class="breadcrumb-title">
+                    Content > <strong>Edit Page</strong>
+                </div>
                 <div class="edit-container">
                         <div>
                             <input name="title" id="title" type="text" placeholder="Content Title" value="<%= data?.title?.trim() || '' %>">
                             <div class="message" id="message-title">"title" is required</div>
                         </div>
             
-                    <div class="addBlockContainer mt-5">
-                        <button type="button" class="addBlockButton">add Block</button>
-                        <div class="addBlockDropdown">
+                    <div class="add-block-container">
+                        <button type="button" class="add-block-button">+ add Block</button>
+                        <div class="add-block-dropdown">
+                            <button class="dropdown-close">
+                                <img src="/images/icons/close.png" alt="close">
+                            </button>
+                            <h3>Add Block</h3>
                             <% if (!blocks || blocks.length===0) { %>
                                 No blocks found
                                 <% } else { %>
@@ -24,34 +30,72 @@
                                     </ul>
                                     <% } %>
                         </div>
+                        <div class="block-form-container">
+                            <h3 class="block-form-title"></h3>
+                            <form id="blockForm">
+                                <div class="block-form-input"></div>
+                                <button type="submit">save block</button>
+                            </form>
+                        </div>
                     </div>
             
                     <div id="blocks"></div>
+
+                    <div class="add-block-container end <%= blocks.length>0 ? 'visible' : '' %>">
+                        <button type="button" class="add-block-button">+ add Block</button>
+                        <div class="add-block-dropdown">
+                            <button class="dropdown-close">
+                                <img src="/images/icons/close.png" alt="close">
+                            </button>
+                            <h3>Add Block</h3>
+                            <% if (!blocks || blocks.length===0) { %>
+                                No blocks found
+                                <% } else { %>
+                                    <ul>
+                                        <% blocks.forEach(block=> { %>
+                                            <li class="block" data-id="<%= block.id %>">
+                                                <%= block.title %>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    <% } %>
+                        </div>
+                        <div class="block-form-container">
+                            <h3 class="block-form-title"></h3>
+                            <form id="blockFormEnd">
+                                <div class="block-form-input"></div>
+                                <button type="submit">save block</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
             <aside id="edit-sidebar" class="p-4">
-                <input id="save" type="submit" value="save">
-                <div class="alert alert-success mt-3" id="message-saved">Content saved!</div>
-                <div class="mt-4">
-                    <strong class="mb-3">Created</strong>
-                    <div>to be done...</div>
-                </div>
-                <div class="mt-4">
-                    <strong class="mb-3">Last updated</strong>
-                    <div>to be done...</div>
-                </div>
-                <div class="mt-4">
-                    <label for="status">Status</label>
-                    <select name="status" id="status">
-                        <option <%=data?.status===0 ? 'selected' : '' %> value="0">Draft</option>
-                        <option <%=data?.status===1 ? 'selected' : '' %> value="1">Published</option>
-                    </select>
+                <div class="sidebar-container">
+                    <form action="/content" method="POST" id="contentForm">
+                        <input id="save" type="submit" value="save">
+                        <div class="alert alert-success mt-3" id="message-saved">Content saved!</div>
+                        <div class="mt-4">
+                            <strong class="mb-3">Created</strong>
+                            <div>to be done...</div>
+                        </div>
+                        <div class="mt-4">
+                            <strong class="mb-3">Last updated</strong>
+                            <div>to be done...</div>
+                        </div>
+                        <div class="mt-4">
+                            <label for="status">Status</label>
+                            <select name="status" id="status">
+                                <option <%=data?.status===0 ? 'selected' : '' %> value="0">Draft</option>
+                                <option <%=data?.status===1 ? 'selected' : '' %> value="1">Published</option>
+                            </select>
+                        </div>
+                    </form>
                 </div>
             </aside>
         </div>
-    </form>
 
-    <div id="blockFormWrapper">
+    <!-- <div id="blockFormWrapper">
         <div id="blockFormContainer">
             <h3 id="blockFormTitle"></h3>
             <form id="blockForm">
@@ -59,7 +103,7 @@
                 <button type="submit" id="saveBlock">save block</button>
             </form>
         </div>
-    </div>
+    </div> -->
 
 </main>
 <script src="/script/dist/editContent.bundle.js"></script>

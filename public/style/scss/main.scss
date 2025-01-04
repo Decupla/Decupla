@@ -3,6 +3,7 @@
 @import 'header';
 @import 'sidebar';
 @import 'editSidebar';
+@import 'pages/editContent';
 
 body {
     background-color: $black2;
@@ -34,6 +35,7 @@ h1 {
 
 button,input[type="submit"],select {
     border: none;
+    cursor: pointer;
 }
 
 button.add-new,
@@ -41,7 +43,6 @@ button.radio-link {
     background-color: $button1;
     color: white;
     padding: 3px 10px;
-    cursor: pointer;
 }
 
 button.radio-link {
@@ -103,9 +104,18 @@ table.collection {
     }
 }
 
+.breadcrumb-title {
+    font-size: 1.375rem;
+    font-weight: 300;
+
+    strong {
+        font-weight: 400;
+    }
+}
+
 .edit-container {
     max-width: 510px;
-    width: 80%;
+    width: 100%;
     margin: auto;
     margin-top: 5.3rem;
 
@@ -119,6 +129,10 @@ table.collection {
         &:focus, &:active, &:focus-visible {
             outline: none;
             border-bottom: solid 1px white;
+        }
+
+        @media screen and (max-width: 767px)  {
+            font-size: 1.7rem;
         }
     }
 }
@@ -180,37 +194,22 @@ table.collection {
 }
 
 // create content page
-.addBlockDropdown {
-    display: none;
 
-    &.visible {
-        display: block;
-    }
-}
 
-#blockFormWrapper {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none;
+// #blockFormWrapper {
+//     width: 100vw;
+//     height: 100vh;
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     background-color: rgba(0, 0, 0, 0.7);
+//     display: none;
 
-    &.visible {
-        display: block;
-    }
+//     &.visible {
+//         display: block;
+//     }
 
-    #blockFormContainer {
-        position: absolute;
-        width: 500px;
-        height: 500px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-    }
-}
+// }
 
 #message-title,
 #message-saved {

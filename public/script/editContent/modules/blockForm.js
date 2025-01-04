@@ -2,7 +2,7 @@ import DOM from './dom';
 import { setCurrentBlock, setBlockMethod } from './data';
 
 // loads the Form / Popup for creating or editing a block instance
-export const setupBlockForm = async (blockID, setOutput = {}) => {
+export const setupBlockForm = async (blockID, container, setOutput = {}) => {
     // param blockID is the id of the block used to create or edit the instance
     const response = await fetch(`/blocks/${blockID}`);
     const blocksData = await response.json();
@@ -11,14 +11,15 @@ export const setupBlockForm = async (blockID, setOutput = {}) => {
         const block = blocksData.block;
         const inputFields = JSON.parse(block.input);
 
-        DOM.blockFormTitle.innerText = block.title;
-        DOM.blockFormWrapper.classList.add('visible');
+        const blockFormTitle = container.querySelector('h3.block-form-title');
+
+        blockFormTitle.innerText = block.title;
 
         inputFields.forEach((input) => {
             if (setOutput[input.name]) {
-                createInput(input, setOutput[input.name]);
+                createInput(input, setOutput[input.name], container);
             } else {
-                createInput(input);
+                createInput(input, "", container);
             }
         })
 
@@ -27,31 +28,43 @@ export const setupBlockForm = async (blockID, setOutput = {}) => {
 }
 
 export const closeBlockForm = () => {
-    DOM.blockFormWrapper.classList.remove('visible');
-    DOM.blockFormInput.innerHTML = "";
+    const activeForms = document.querySelectorAll('.show-form-container');
+
+    activeForms.forEach((element)=>{
+        element.classList.remove('show-form-container');
+
+        const input = element.querySelector('.block-form-input');
+        input.innerHTML = "";
+    })
 }
 
 // sets up the block selection dropdown
 export const setupBlockSelection = (container) => {
-    const button = container.querySelector('.addBlockButton');
-    const dropdown = container.querySelector('.addBlockDropdown');
+    const button = container.querySelector('.add-block-button');
+    const closeButton = container.querySelector('.dropdown-close');
+    const dropdown = container.querySelector('.add-block-dropdown');
     const blocks = container.querySelectorAll('ul li.block');
 
     button.addEventListener('click', () => {
-        dropdown.classList.toggle('visible');
+        container.classList.add('show-block-selection');
+    })
+
+    closeButton.addEventListener('click',()=>{
+        container.classList.remove('show-block-selection');
     })
 
     blocks.forEach((block) => {
         block.addEventListener('click', () => {
             setBlockMethod("create");
-            dropdown.classList.remove('visible');
-            setupBlockForm(block.dataset.id);
+            container.classList.remove('show-block-selection');
+            container.classList.add('show-form-container')
+            setupBlockForm(block.dataset.id,container);
         })
     })
 }
 
 // loads the input fields to the block form. Param "value" is used while editing a existing instance
-const createInput = (inputData, value = "") => {
+const createInput = (inputData, value, container) => {
     let newInput;
 
     switch (inputData.type) {
@@ -86,5 +99,12 @@ const createInput = (inputData, value = "") => {
     newFieldset.appendChild(newLabel);
     newFieldset.appendChild(newInput);
 
-    DOM.blockFormInput.appendChild(newFieldset);
+    const blockFormInput = container.querySelector('.block-form-input');
+
+    if(!blockFormInput){
+        console.log('Element block-form-input could not be found');
+        return;
+    }
+
+    blockFormInput.appendChild(newFieldset);
 }

@@ -4,6 +4,18 @@
     width: 185px;
     flex-shrink: 0;
 
+    @media screen and (max-width: 767px) {
+        position: absolute;
+        right: 0;
+        top: 41px;
+        transform: translateX(100%);
+        transition: transform 0.3s;
+
+        &.visible {
+            transform: translateX(0%);
+        }
+    }
+
     nav#main-navigation ul {
         list-style: none;
         padding: 0;

@@ -178,13 +178,15 @@ const saveNewInstance = async (req, res) => {
     const data = {
         contentID: req.body.contentID,
         output: req.body.output,
-        blockID: req.body.blockID
+        blockID: req.body.blockID,
+        priority: req.body.priority
     }
 
     const validation = new Validation(data);
     validation.validate("contentID", "required|numeric");
     validation.validate("output", "required|string");
     validation.validate("blockID", "required|numeric");
+    validation.validate("priority", "required|numeric");
 
     if (validation.hasErrors()) {
         return res.status(400).send({
@@ -212,13 +214,15 @@ const updateInstance = async (req, res) => {
     const data = {
         contentID: req.body.contentID,
         output: req.body.output,
-        blockID: req.body.blockID
+        blockID: req.body.blockID,        
+        priority: req.body.priority
     }
 
     const validation = new Validation(data);
     validation.validate("contentID", "required|numeric");
     validation.validate("output", "required|string");
     validation.validate("blockID", "required|numeric");
+    validation.validate("priority", "required|numeric");
 
     if (validation.hasErrors()) {
         return res.status(400).send({

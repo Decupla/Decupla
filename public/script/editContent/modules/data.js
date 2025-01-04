@@ -8,6 +8,8 @@ export let currentBlock = {};
 export let currentInstanceID = 0;
 // used for the blocksData array. Basically the better index. Not used for the database!
 export let nextInstanceId = 1;
+// the priority to order the block instances
+export let nextPriority = 1;
 
 export let blockMethod = "create";
 
@@ -20,6 +22,7 @@ export const setContentExists = (value) => contentExists = value;
 export const setContentID = (id) => contentID = id;
 export const setCurrentInstanceID = (id) => currentInstanceID = id;
 export const setCurrentBlock = (data) => currentBlock = data;
+export const setNextPriority = (priority) => nextPriority = priority;
 
 export const clearBlocksData= () => {
     blocksData = [];
@@ -32,3 +35,7 @@ export const clearDeletedBlocks= () => {
 export const getInstanceId = () => { 
     return nextInstanceId++ 
 };
+
+export const getPriority = () => {
+    return nextPriority++;
+}

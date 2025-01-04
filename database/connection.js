@@ -54,7 +54,8 @@ const createTables = (database) => {
             id INTEGER PRIMARY KEY,
             blockID INTEGER NOT NULL,
             contentID INTEGER NOT NULL,
-            output TEXT NOT NULL
+            output TEXT NOT NULL,
+            priority INTEGER NOT NULL
         );
 
         CREATE Table menus (

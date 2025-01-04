@@ -7,6 +7,16 @@ header {
     align-items: center;
     padding: 0px 18px;
 
+    #mobile-sidebar-toggle {
+        height: 80%;
+        cursor: pointer;
+
+        img {
+            height: 100%;
+            display: block;
+        }
+    }
+
     img#logo {
         width: 140px;
         display: flex;

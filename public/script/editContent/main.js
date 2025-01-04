@@ -1,5 +1,5 @@
 import DOM from './modules/dom';
-import { contentExists,setContentExists,contentID,setContentID } from './modules/data';
+import { contentExists,setContentExists,contentID,setContentID, getPriority, nextPriority } from './modules/data';
 import { handleContentSubmit,handleBlockSubmit } from './modules/eventHandler';
 import { getBlocks } from './modules/blocks';
 import { setupBlockSelection } from './modules/blockForm';
@@ -26,8 +26,13 @@ const init = async () => {
     );
 
     DOM.blockForm.addEventListener('submit', (event) => {
-        handleBlockSubmit(event);
+        handleBlockSubmit(event,1);
     });
+
+    DOM.blockFormEnd.addEventListener('submit', (event) => {
+        handleBlockSubmit(event,nextPriority);
+    })
+
 
 }
 
