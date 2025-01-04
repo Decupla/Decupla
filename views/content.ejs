@@ -1,43 +1,45 @@
 <%- include('layout/layoutStart.ejs') %>
-    <main>
-        <div class="d-flex">
-            <h1>Content</h1>
-            <div class="ml-4">
-                <a href="/content/create"><button class="add-new">+ add new</button></a>
+    <main class="p-0">
+        <div class="main-container">
+            <div class="d-flex">
+                <h1>Content</h1>
+                <div class="ml-4">
+                    <a href="/content/create"><button class="add-new">+ add new</button></a>
+                </div>
             </div>
-        </div>
-        <% if (query.message==="deleted" ) { %>
-            <div class="alert alert-success mt-4">Content was deleted!</div>
-            <% } %>
-                <table class="collection">
-                    <tr class="py-2">
-                        <th>Title</th>
-                        <th>Status</th>
-                        <th>Created</th>
-                    </tr>
-                    <% for(var i=0; i<content.length; i++) {%>
-                        <tr>
-                            <td>
-                                <a href="/content/edit/<%= content[i].id %>">
-                                    <%= content[i].title %>
-                                </a>
-                            </td>
-                            <td>
-                                <%= content[i].status === 1 ? 'Published' : 'Draft' %>
-                            </td>
-                            <td></td>
-                            <td>
-                                <div class="d-flex justify-content-end">
-                                    <a class="pr-1" href="/content/edit/<%= content[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
-                                    <form action="/content/<%= content[i].id %>" method="POST"
-                                        enctype="application/x-www-form-urlencoded">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit"><img src="/images/icons/delete_red.png" alt="delete"></button></button>
-                                    </form>
-                                </div>                     
-                            </td>
+            <% if (query.message==="deleted" ) { %>
+                <div class="alert alert-success mt-4">Content was deleted!</div>
+                <% } %>
+                    <table class="collection">
+                        <tr class="py-2">
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Created</th>
                         </tr>
-                        <% } %>
-                </table>
+                        <% for(var i=0; i<content.length; i++) {%>
+                            <tr>
+                                <td>
+                                    <a href="/content/edit/<%= content[i].id %>">
+                                        <%= content[i].title %>
+                                    </a>
+                                </td>
+                                <td>
+                                    <%= content[i].status === 1 ? 'Published' : 'Draft' %>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div class="d-flex justify-content-end">
+                                        <a class="pr-1" href="/content/edit/<%= content[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
+                                        <form action="/content/<%= content[i].id %>" method="POST"
+                                            enctype="application/x-www-form-urlencoded">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit"><img src="/images/icons/delete_red.png" alt="delete"></button></button>
+                                        </form>
+                                    </div>                     
+                                </td>
+                            </tr>
+                            <% } %>
+                    </table>
+        </div>
     </main>
     <%- include('layout/layoutEnd.ejs') %>

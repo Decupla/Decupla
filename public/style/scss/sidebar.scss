@@ -5,7 +5,7 @@
     flex-shrink: 0;
 
     @media screen and (max-width: 767px) {
-        position: absolute;
+        position: fixed;
         right: 0;
         top: 41px;
         transform: translateX(100%);

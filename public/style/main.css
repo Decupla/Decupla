@@ -148,7 +148,7 @@ header img#logo {
 }
 @media screen and (max-width: 767px) {
   #main-sidebar {
-    position: absolute;
+    position: fixed;
     right: 0;
     top: 41px;
     transform: translateX(100%);
@@ -374,6 +374,13 @@ body {
   font-family: "Open Sans";
 }
 
+#main-wrapper {
+  width: 100vw;
+  position: relative;
+  display: flex;
+  overflow-x: hidden;
+}
+
 main {
   width: 100%;
   flex-shrink: 1;
@@ -390,6 +397,12 @@ main {
   overflow: scroll;
   scrollbar-color: #3C3C3C rgba(0, 0, 0, 0);
   scrollbar-width: thin;
+}
+@media screen and (max-width: 767px) {
+  .main-container {
+    height: fit-content;
+    overflow: visible;
+  }
 }
 
 h1 {
@@ -463,6 +476,11 @@ table.collection button img {
 .breadcrumb-title {
   font-size: 1.375rem;
   font-weight: 300;
+}
+@media screen and (max-width: 767px) {
+  .breadcrumb-title {
+    font-size: 1.1rem;
+  }
 }
 .breadcrumb-title strong {
   font-weight: 400;

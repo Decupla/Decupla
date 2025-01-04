@@ -17,7 +17,7 @@
         </div>
         <div class="d-none d-md-block">Logged in as <strong><%= username %></strong></div>
     </header>
-    <div class="d-flex">
+    <div id="main-wrapper">
     <% if(loggedIn === true){ %>
         <%- include('./sidebar.ejs') %>
     <% } %>
