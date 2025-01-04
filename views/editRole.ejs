@@ -1,49 +1,60 @@
 <%- include('layout/layoutStart.ejs') %>
-<main>
-    <h1>Create New Role</h1>
-    <form action="<%= editingExisting? `/roles/${data.id}` : '/roles' %>" method="POST">
-        <% if(editingExisting){ %>
-            <input type="hidden" name="_method" value="PUT">
-        <% } %>
-        <div>
-            <label for="name">Name</label>
-            <input name="name" id="name" type="text" value="<%= data?.name?.trim() || '' %>">
+<main class="p-0">
+    <div class="main-container">
+        <div class="breadcrumb-title">
+            <a href="/content">Role</a> > <strong>Edit Role</strong>
         </div>
-        <% if(query.message==="saved"){ %>
-            <div class="alert alert-success">Role was saved successfully!</div>
-        <% } %>
-        <fieldset>
-            <legend>Permissions</legend>
-            <div>    
-                <input type="checkbox" id="editContent" name="permissions" value="editContent" <%= (rolePerms.includes('editContent')) ? 'checked' : '' %> />
-                <label for="editContent">Edit Content</label>
-            </div>
-            <div>    
-                <input type="checkbox" id="manageContent" name="permissions" value="manageContent" <%= (rolePerms.includes('manageContent')) ? 'checked' : '' %> />
-                <label for="manageContent">Add / Delete Content</label>
-            </div>
-            <div>    
-                <input type="checkbox" id="manageMenus" name="permissions" value="manageMenus" <%= (rolePerms.includes('manageMenus')) ? 'checked' : '' %> />
-                <label for="manageMenus">Manage Menus</label>
-            </div>
-            <div>    
-                <input type="checkbox" id="manageBlocks" name="permissions" value="manageBlocks" <%= (rolePerms.includes('manageBlocks')) ? 'checked' : '' %> />
-                <label for="manageBlocks">Manage Blocks</label>
-            </div>
-            <div>    
-                <input type="checkbox" id="manageUsers" name="permissions" value="manageUsers" <%= (rolePerms.includes('manageUsers')) ? 'checked' : '' %> />
-                <label for="manageUsers">Manage Users</label>
-            </div>
-            <div>    
-                <input type="checkbox" id="manageRoles" name="permissions" value="manageRoles" <%= (rolePerms.includes('manageRoles')) ? 'checked' : '' %> />
-                <label for="manageRoles">Manage Roles</label>
-            </div>
-            <div>    
-                <input type="checkbox" id="manageSettings" name="permissions" value="manageSettings" <%= (rolePerms.includes('manageSettings')) ? 'checked' : '' %> />
-                <label for="manageSettings">Manage Settings</label>
-            </div>
-        </fieldset>
-        <input type="submit" value="save">
-    </form>
+        <div class="edit-container">
+            <form action="<%= editingExisting? `/roles/${data.id}` : '/roles' %>" method="POST">
+                <% if(editingExisting){ %>
+                    <input type="hidden" name="_method" value="PUT">
+                <% } %>
+                <div>
+                    <input placeholder="Role Name" name="name" id="name" type="text" value="<%= data?.name?.trim() || '' %>">
+                    <% if(messages?.name){ %>
+                        <div class="error-message"><%= messages.name %></div>
+                        <% } %>
+                </div>
+                <% if(query.message==="saved"){ %>
+                    <div class="alert alert-success">Role was saved successfully!</div>
+                <% } %>
+                <fieldset class="mt-4 mb-3">
+                    <legend>Permissions</legend>
+                    <div>    
+                        <input type="checkbox" id="editContent" name="permissions" value="editContent" <%= (rolePerms.includes('editContent')) ? 'checked' : '' %> />
+                        <label for="editContent">Edit Content</label>
+                    </div>
+                    <div>    
+                        <input type="checkbox" id="manageContent" name="permissions" value="manageContent" <%= (rolePerms.includes('manageContent')) ? 'checked' : '' %> />
+                        <label for="manageContent">Add / Delete Content</label>
+                    </div>
+                    <div>    
+                        <input type="checkbox" id="manageMenus" name="permissions" value="manageMenus" <%= (rolePerms.includes('manageMenus')) ? 'checked' : '' %> />
+                        <label for="manageMenus">Manage Menus</label>
+                    </div>
+                    <div>    
+                        <input type="checkbox" id="manageBlocks" name="permissions" value="manageBlocks" <%= (rolePerms.includes('manageBlocks')) ? 'checked' : '' %> />
+                        <label for="manageBlocks">Manage Blocks</label>
+                    </div>
+                    <div>    
+                        <input type="checkbox" id="manageUsers" name="permissions" value="manageUsers" <%= (rolePerms.includes('manageUsers')) ? 'checked' : '' %> />
+                        <label for="manageUsers">Manage Users</label>
+                    </div>
+                    <div>    
+                        <input type="checkbox" id="manageRoles" name="permissions" value="manageRoles" <%= (rolePerms.includes('manageRoles')) ? 'checked' : '' %> />
+                        <label for="manageRoles">Manage Roles</label>
+                    </div>
+                    <div>    
+                        <input type="checkbox" id="manageSettings" name="permissions" value="manageSettings" <%= (rolePerms.includes('manageSettings')) ? 'checked' : '' %> />
+                        <label for="manageSettings">Manage Settings</label>
+                    </div>
+                    <% if(messages?.perms){ %>
+                        <div class="error-message"><%= messages.perms %></div>
+                    <% } %>
+                </fieldset>
+                <input id="save" type="submit" value="save">
+            </form>
+        </div>
+    </div>
 </main>
 <%- include('layout/layoutEnd.ejs') %>

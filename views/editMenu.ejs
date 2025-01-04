@@ -1,6 +1,9 @@
 <%- include('layout/layoutStart.ejs') %>
 <main class="p-0">
     <div class="main-container">
+        <div class="breadcrumb-title">
+            <a href="/content">Menu</a> > <strong>Edit Menu</strong>
+        </div>
         <div class="edit-container">
             <h1>Edit Menu</h1>
             <form method="POST" id="menuForm">
@@ -14,7 +17,7 @@
                     <input type="text" name="key" id="key" value="<%= data?.key?.trim() || '' %>">
                     <div class="message" id="message-key"></div>
                 </div>
-                <input type="submit" value="save">
+                <input id="save" type="submit" value="save">
                 <div class="alert alert-success" id="message-saved"></div>
             </form>
             <div id="entries"></div>
