@@ -19,8 +19,6 @@ export const getEntriesData = async (id) => {
             entries.forEach((entry)=>{
                 createEntryVisualization(entry);
             })
-
-            console.log(entries);
         } else {
             // to do: fehlermeldung auf der Seite ausgebe
             console.log(menuData.message);
@@ -66,6 +64,4 @@ export const removeEntry = (entryID) => {
 
         deleteInputVisualization(entryID);
     }
-
-    console.log(entries);
 };

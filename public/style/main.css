@@ -392,20 +392,36 @@ header img#logo {
 }
 #edit-menu #entries .entryVis {
   display: flex;
-  padding: 0.3rem 0;
+  padding: 0.5rem 0;
 }
 #edit-menu #entries .entryVis .buttons {
   margin-left: 1.5rem;
+  display: flex;
 }
-#edit-menu #entries .entryVis .buttons button.remove {
+#edit-menu #entries .entryVis .buttons button {
   background-color: #3C3C3C;
   color: white;
-  padding: 0.3rem 0.53rem;
   border-radius: 18%;
+  display: block;
+}
+#edit-menu #entries .entryVis .buttons button img {
+  display: block;
+}
+#edit-menu #entries .entryVis .buttons .priority {
+  display: flex;
+}
+#edit-menu #entries .entryVis .buttons .priority button {
+  padding: 0.3rem 0.8rem;
+  margin-right: 0.2rem;
+}
+#edit-menu #entries .entryVis .buttons .priority button img {
+  width: 0.7rem;
+}
+#edit-menu #entries .entryVis .buttons button.remove {
+  padding: 0.3rem 0.53rem;
 }
 #edit-menu #entries .entryVis .buttons button.remove img {
   width: 1.3rem;
-  display: block;
 }
 
 body {

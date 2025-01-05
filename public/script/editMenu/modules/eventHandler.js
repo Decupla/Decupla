@@ -12,8 +12,6 @@ export const handleFormSubmit = async (event) => {
 
     data.entries = JSON.stringify(entries);
 
-    console.log(data);
-
     let method = "POST"
     let url = "/menus";
 
@@ -23,12 +21,10 @@ export const handleFormSubmit = async (event) => {
     }
 
     try {
-        console.log(url);
         const response = await saveMenu(url,method,data);
 
         if (!response.validation) {
             const messages = response.messages;
-            console.log(messages);
 
             for (const [field, message] of Object.entries(messages)) {
                 setFieldMessage(field,message);

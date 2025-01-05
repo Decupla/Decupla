@@ -34,20 +34,41 @@
     
         .entryVis {
             display: flex;
-            padding: 0.3rem 0;
-            
+            padding: 0.5rem 0;
+
             .buttons {
                 margin-left: 1.5rem;
-        
-                button.remove {
+                display: flex;
+
+                button {
                     background-color: $button1;
                     color: white;
-                    padding: 0.3rem 0.53rem;
                     border-radius: 18%;
+                    display: block;
+
+                    img {
+                        display: block;
+                    }
+                }
+
+                .priority {
+                    display: flex;
+
+                    button {
+                        padding: 0.3rem 0.8rem;
+                        margin-right: 0.2rem;
+
+                        img {
+                            width: 0.7rem;
+                        }
+                    }
+                }
+        
+                button.remove {
+                    padding: 0.3rem 0.53rem;
                 
                     img {
                         width: 1.3rem;
-                        display: block;
                     }
                 }
             }

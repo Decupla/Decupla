@@ -1,5 +1,5 @@
 import { setLastVisualisation, updateVisualizationPriority } from "./visualization";
-import { blocksData, nextPriority, setNextPriority } from "./data";
+import { blocksData, setNextPriority } from "./data";
 
 export const priorityUp = (instanceID) => {
     const index = blocksData.findIndex(block => block.instanceID === instanceID);
