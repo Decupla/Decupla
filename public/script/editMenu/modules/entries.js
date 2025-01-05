@@ -33,7 +33,7 @@ export const getEntriesData = async (id) => {
 }
 
 export const addEntry = (content) => {
-    const title = content.querySelector('.contentTitle').innerText;
+    const title = content.querySelector('.content-title').innerText;
 
     const entryData = {
         entryID: getEntryId(),

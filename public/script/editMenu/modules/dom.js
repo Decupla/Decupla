@@ -1,8 +1,8 @@
 const DOM = {};
 DOM.entriesArea = document.querySelector('#entries');
-DOM.selectEntryButton = document.querySelector('button#selectEntry');
-DOM.contentSelection = document.querySelector('#contentSelection');
-DOM.contentListEntries = document.querySelectorAll('ul#contentList li.content');
+DOM.selectEntryButton = document.querySelector('button#select-entry');
+DOM.contentSelection = document.querySelector('#content-selection');
+DOM.contentListEntries = document.querySelectorAll('table#content-list tr.content');
 DOM.menuForm = document.querySelector('form#menuForm');
 
 DOM.fieldMessages = {}

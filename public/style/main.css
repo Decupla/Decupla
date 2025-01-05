@@ -364,6 +364,50 @@ header img#logo {
   display: none;
 }
 
+#edit-menu #content-selection {
+  margin-top: 1.6rem;
+  background-color: #181818;
+  padding: 0.875rem 1.5rem;
+  display: none;
+}
+#edit-menu #content-selection.visible {
+  display: block;
+}
+#edit-menu #content-selection h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+#edit-menu #content-selection table#content-list tr {
+  border-bottom-color: #4F4F4F;
+}
+#edit-menu #content-selection table#content-list button {
+  background-color: #406DD2;
+  color: white;
+  padding: 0.1rem 0.5rem;
+}
+#edit-menu #entries {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2.5rem;
+}
+#edit-menu #entries .entryVis {
+  display: flex;
+  padding: 0.3rem 0;
+}
+#edit-menu #entries .entryVis .buttons {
+  margin-left: 1.5rem;
+}
+#edit-menu #entries .entryVis .buttons button.remove {
+  background-color: #3C3C3C;
+  color: white;
+  padding: 0.3rem 0.53rem;
+  border-radius: 18%;
+}
+#edit-menu #entries .entryVis .buttons button.remove img {
+  width: 1.3rem;
+  display: block;
+}
+
 body {
   background-color: #1E1E1E;
   color: white;
@@ -412,6 +456,14 @@ select {
   border: none;
   cursor: pointer;
 }
+button:focus, button:focus-visible,
+input[type=submit]:focus,
+input[type=submit]:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none;
+  border: none;
+}
 
 button.add-new,
 button.radio-link {
@@ -442,30 +494,32 @@ button.radio-link .radio-link-circle.active::before {
   background-color: #406DD2;
 }
 
-table.collection {
+table {
   width: 100%;
-  margin-top: 2rem;
 }
-table.collection tr {
+table tr {
   border-bottom: solid 0.3px black;
 }
-table.collection tr th,
-table.collection tr td {
+table tr th,
+table tr td {
   padding: 0.5rem 0;
 }
-table.collection tr th a,
-table.collection tr td a {
+table tr th a,
+table tr td a {
   color: white;
 }
-table.collection tr th {
+table tr th {
   font-weight: 300;
+}
+
+table.collection {
+  margin-top: 2rem;
 }
 table.collection button {
   background-color: #3C3C3C;
   color: white;
   padding: 0.3rem 0.53rem;
   border-radius: 18%;
-  cursor: pointer;
 }
 table.collection button img {
   width: 1.15rem;
@@ -614,21 +668,6 @@ input#save {
 #message-title.visible,
 #message-saved.visible {
   display: block;
-}
-
-#contentSelection {
-  display: none;
-}
-#contentSelection.visible {
-  display: block;
-}
-
-#entries {
-  display: flex;
-  flex-direction: column;
-}
-#entries .entryVis {
-  display: flex;
 }
 
 /*# sourceMappingURL=main.css.map */

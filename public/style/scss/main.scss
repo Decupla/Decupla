@@ -4,6 +4,7 @@
 @import 'sidebar';
 @import 'editSidebar';
 @import 'pages/editContent';
+@import 'pages/editMenu';
 
 body {
     background-color: $black2;
@@ -51,6 +52,11 @@ input[type="submit"],
 select {
     border: none;
     cursor: pointer;
+
+    &:focus,&:focus-visible {
+        outline: none;
+        border: none;
+    }
 }
 
 button.add-new,
@@ -84,9 +90,8 @@ button.radio-link {
     }
 }
 
-table.collection {
+table {
     width: 100%;
-    margin-top: 2rem;
 
     tr {
         border-bottom: solid 0.3px black;
@@ -104,14 +109,17 @@ table.collection {
             font-weight: 300;
         }
     }
+}
+
+table.collection {
+    margin-top: 2rem;
 
     button {
         background-color: $button1;
         color: white;
         padding: 0.3rem 0.53rem;
         border-radius: 18%;
-        cursor: pointer;
-
+    
         img {
             width: 1.15rem;
             display: block;
@@ -185,7 +193,8 @@ table.collection {
         max-width: 18rem;
         color: white;
 
-        &:focus,&:focus-visible {
+        &:focus,
+        &:focus-visible {
             outline: none;
         }
     }
@@ -206,7 +215,7 @@ input#save {
 
 @keyframes fadeOut {
     to {
-      opacity: 0;
+        opacity: 0;
     }
 }
 
@@ -290,23 +299,5 @@ input#save {
 
     &.visible {
         display: block;
-    }
-}
-
-// edit menu page
-#contentSelection {
-    display: none;
-
-    &.visible {
-        display: block;
-    }
-}
-
-#entries {
-    display: flex;
-    flex-direction: column;
-
-    .entryVis {
-        display: flex;
     }
 }

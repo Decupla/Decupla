@@ -1,44 +1,48 @@
 <%- include('layout/layoutStart.ejs') %>
-<main class="p-0">
+<main id="edit-menu" class="p-0">
     <div class="main-container">
         <div class="breadcrumb-title">
             <a href="/content">Menu</a> > <strong>Edit Menu</strong>
         </div>
         <div class="edit-container">
-            <h1>Edit Menu</h1>
             <form method="POST" id="menuForm">
                 <div>
-                    <label for="title">Title</label>
-                    <input name="title" id="title" type="text" value="<%= data?.title?.trim() || '' %>">
+                    <input placeholder="Title" name="title" id="title" type="text" value="<%= data?.title?.trim() || '' %>">
                     <div class="message" id="message-title" ></div>
                 </div>
-                <div>
+                <div class="input-container mt-4">
                     <label for="key">Key</label>
                     <input type="text" name="key" id="key" value="<%= data?.key?.trim() || '' %>">
                     <div class="message" id="message-key"></div>
                 </div>
-                <input id="save" type="submit" value="save">
-                <div class="alert alert-success" id="message-saved"></div>
+
+                <label class="mt-4">Entries:</label>
+                <div id="entries"></div>
+                <button class="add-new" type="button" id="select-entry">+ add Link</button>
+                <div id="content-selection">
+                    <h3>Add Link</h3>
+                    <% if (content.length===0) { %>
+                        No content found
+                        <% } else { %>
+                            <table id="content-list">
+                                <tr>
+                                    <th>Title</th>
+                                </tr>
+                                <% content.forEach(content=> { %>
+                                    <tr class="content" data-id="<%= content.id %>">
+                                        <td class="content-title"><%= content.title %></td>
+                                        <td class="d-flex justify-content-end"><button type="button" id="addEntry">+ add</button></td>
+                                    </tr>
+                                    <% }); %>
+                                </table>
+                            <% } %>
+                    <ul id="contentList">
+                    </ul>
+                </div>
+
+                <input class="d-block mt-4" id="save" type="submit" value="save">
+                <div class="alert alert-success mt-3" id="message-saved"></div>
             </form>
-            <div id="entries"></div>
-            <button id="selectEntry">+ add entry</button>
-            <div id="contentSelection">
-                <h3>Add Link</h3>
-                <% if (content.length===0) { %>
-                    No content found
-                    <% } else { %>
-                        <ul id="contentList">
-                            <% content.forEach(content=> { %>
-                                <li class="content" data-id="<%= content.id %>">
-                                    <div class="contentTitle"><%= content.title %></div>
-                                    <button id="addEntry">+ add</button>
-                                </li>
-                                <% }); %>
-                        </ul>
-                        <% } %>
-                <ul id="contentList">
-                </ul>
-            </div>
         </div>
     </div>
 </main>

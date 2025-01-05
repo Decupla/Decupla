@@ -1,0 +1,56 @@
+#edit-menu {
+    #content-selection {
+        margin-top: 1.6rem;
+        background-color: $black1;
+        padding: 0.875rem 1.5rem;
+        display: none;
+
+        &.visible {
+            display: block;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 400;
+        }
+
+        table#content-list {
+            tr {
+                border-bottom-color: $button2;
+            }
+
+            button {
+                background-color: $blue;
+                color: white;
+                padding: 0.1rem 0.5rem;
+            }
+        }
+    }
+
+    #entries {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 2.5rem;
+    
+        .entryVis {
+            display: flex;
+            padding: 0.3rem 0;
+            
+            .buttons {
+                margin-left: 1.5rem;
+        
+                button.remove {
+                    background-color: $button1;
+                    color: white;
+                    padding: 0.3rem 0.53rem;
+                    border-radius: 18%;
+                
+                    img {
+                        width: 1.3rem;
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}
