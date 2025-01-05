@@ -5,6 +5,7 @@
 @import 'editSidebar';
 @import 'pages/editContent';
 @import 'pages/editMenu';
+@import 'pages/login';
 
 body {
     background-color: $black2;
@@ -49,14 +50,24 @@ h1 {
 
 button,
 input[type="submit"],
+input[type="text"],
 select {
     border: none;
-    cursor: pointer;
 
     &:focus,&:focus-visible {
         outline: none;
         border: none;
     }
+}
+
+button,
+input[type="submit"],
+select {
+    cursor: pointer;
+}
+
+input[type="text"] {
+    border-radius: 0px;
 }
 
 button.add-new,

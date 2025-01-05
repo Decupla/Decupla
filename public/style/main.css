@@ -424,6 +424,72 @@ header img#logo {
   width: 1.3rem;
 }
 
+#login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: fit-content;
+  position: relative;
+  overflow: hidden;
+}
+#login #login-container {
+  position: relative;
+  z-index: 30;
+}
+#login #login-container img#logo {
+  width: 22.25rem;
+  margin-bottom: 3.5rem;
+  max-width: 100%;
+}
+#login #login-container .login-input-container {
+  padding-bottom: 1.7rem;
+}
+#login #login-container .login-input-container label {
+  display: block;
+  margin-bottom: 0px;
+}
+#login #login-container .login-input-container input {
+  width: 100%;
+  padding-left: 0.3rem;
+}
+#login #login-container #submit-login {
+  background-color: #3DA99A;
+  color: white;
+  padding: 0.3rem 3.125rem;
+  margin: auto;
+  margin-top: 0.3rem;
+  display: block;
+}
+#login .blob {
+  position: absolute;
+}
+#login .blob#blob-red {
+  width: 28.5rem;
+  left: 0;
+  bottom: 0;
+  transform: translate(-10%, 10%);
+  z-index: 20;
+}
+@media screen and (max-width: 767px) {
+  #login .blob#blob-red {
+    width: 16rem;
+  }
+}
+#login .blob#blob-blue {
+  width: 23.5rem;
+  top: 0;
+  right: 0;
+  transform: translate(10%, -10%);
+  z-index: 10;
+}
+@media screen and (max-width: 767px) {
+  #login .blob#blob-blue {
+    width: 14rem;
+  }
+}
+
 body {
   background-color: #1E1E1E;
   color: white;
@@ -468,17 +534,29 @@ h1 {
 
 button,
 input[type=submit],
+input[type=text],
 select {
   border: none;
-  cursor: pointer;
 }
 button:focus, button:focus-visible,
 input[type=submit]:focus,
 input[type=submit]:focus-visible,
+input[type=text]:focus,
+input[type=text]:focus-visible,
 select:focus,
 select:focus-visible {
   outline: none;
   border: none;
+}
+
+button,
+input[type=submit],
+select {
+  cursor: pointer;
+}
+
+input[type=text] {
+  border-radius: 0px;
 }
 
 button.add-new,

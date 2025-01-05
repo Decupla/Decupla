@@ -1,19 +1,23 @@
 <%- include('layout/layoutStart.ejs') %>
-<main>
-    <h1>Login</h1>
-    <form action="/login" method="POST" id="loginForm">
-        <div>
-            <label for="email">E-Mail</label>
-            <input type="text" name="email" id="email">
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
-        </div>
-        <input type="submit" value="login">
-        <% if(message!==""){ %>
-            <div class="alert alert-danger"><%= message %></div>
-        <% } %>
-    </form>
+<main id="login">
+    <div id="login-container">
+        <img src="/images/logo_decupla.svg" alt="Decupla" id="logo">
+        <form action="/login" method="POST" id="login-form">
+            <div class="login-input-container">
+                <label for="email">E-Mail</label>
+                <input type="text" name="email" id="email">
+            </div>
+            <div class="login-input-container">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <% if(message!==""){ %>
+                <div class="alert alert-danger mb-4"><%= message %></div>
+            <% } %>
+            <input id="submit-login" type="submit" value="login">
+        </form>
+    </div>
+    <img class="blob" id="blob-red" src="/images/blob_red.svg" alt="">
+    <img class="blob" id="blob-blue" src="/images/blob_blue.svg" alt="">
 </main>
 <%- include('layout/layoutEnd.ejs') %>
