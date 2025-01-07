@@ -1,5 +1,5 @@
 import DOM from "./dom";
-import { handleInputSubmit } from "./eventHandler";
+import { handleInputSubmit, handleTypeChange } from "./eventHandler";
 import { editInput, deleteInput } from "./input";
 
 // adds the visualization of a input to the page
@@ -54,6 +54,7 @@ export const addInputVisualization = (data) => {
 
     const inputCreationClone = DOM.inputCreation.cloneNode(true);
     const inputForm = inputCreationClone.querySelector('form');
+    const typeSelect = inputForm.querySelector('select[name="type"]');
 
     container.appendChild(input);
     container.appendChild(inputCreationClone);
@@ -65,6 +66,9 @@ export const addInputVisualization = (data) => {
     });
     deleteButton.addEventListener('click', () => {
         deleteInput(data.id);
+    })
+    typeSelect.addEventListener('change', (event) => {
+        handleTypeChange(event.target.value,container);
     })
     inputForm.addEventListener('submit', (event) => {
         handleInputSubmit(event);

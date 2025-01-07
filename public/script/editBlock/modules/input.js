@@ -38,6 +38,7 @@ export const createInput = (container) => {
 }
 
 const toggleInputCreation = (container) => {
+    closeInputCreation();
     container.classList.add('show-input-creation');
 }
 

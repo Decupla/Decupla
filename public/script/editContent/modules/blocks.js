@@ -1,5 +1,5 @@
 import DOM from './dom';
-import { contentExists, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks, setNextPriority, nextPriority } from "./data";
+import { contentExists, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks, setNextPriority } from "./data";
 import { addBlockVisualization, deleteBlockVisualization, updateBlockVisualization, updateVisualizationPriority, setLastVisualisation } from "./visualization";
 import { setupBlockForm, closeBlockForm } from './blockForm';
 
@@ -47,7 +47,6 @@ export const getBlocks = async (id) => {
 //loads the block form for editing a existing block instance
 export const editBlock = (instanceID, blockID, container) => {
     setBlockMethod("update");
-    container.classList.add('show-form-container');
 
     // selects the block from the blockData Array. ID is passed as a parameter when setting up the event listener for the edit button
     const data = blocksData.find(block => block.instanceID === instanceID) || null;

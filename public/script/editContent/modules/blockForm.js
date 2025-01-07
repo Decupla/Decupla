@@ -8,6 +8,12 @@ export const setupBlockForm = async (blockID, container, setOutput = {}) => {
     const blocksData = await response.json();
 
     if (blocksData.success) {
+        closeBlockForm();
+        if(container.classList.contains('show-block-selection')){
+            container.classList.remove('show-block-selection');
+        }
+        container.classList.add('show-form-container');
+
         const block = blocksData.block;
         const inputFields = JSON.parse(block.input);
 
@@ -60,7 +66,6 @@ export const setupBlockSelection = (container) => {
         block.addEventListener('click', () => {
             setBlockMethod("create");
             container.classList.remove('show-block-selection');
-            container.classList.add('show-form-container')
             setupBlockForm(block.dataset.id,container);
         })
     })
