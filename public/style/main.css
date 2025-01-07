@@ -367,10 +367,10 @@ header img#logo {
   display: flex;
   flex-direction: column;
 }
-#edit-content #blocks .block-vis-container.show-form-container .block-form-container {
+#edit-content #blocks .block-vis-container.show-form-container > .block-form-container {
   display: block;
 }
-#edit-content #blocks .block-vis-container.show-form-container .block-vis {
+#edit-content #blocks .block-vis-container.show-form-container > .block-vis {
   display: none;
 }
 #edit-content #blocks .block-vis-container.last-vis .add-block-container.add-in-between {

@@ -135,11 +135,11 @@
 
         .block-vis-container {
             &.show-form-container {
-                .block-form-container {
+                > .block-form-container {
                     display: block;
                 }
 
-                .block-vis {
+                > .block-vis {
                     display: none;
                 }
             }

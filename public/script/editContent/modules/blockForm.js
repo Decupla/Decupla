@@ -65,7 +65,6 @@ export const setupBlockSelection = (container) => {
     blocks.forEach((block) => {
         block.addEventListener('click', () => {
             setBlockMethod("create");
-            container.classList.remove('show-block-selection');
             setupBlockForm(block.dataset.id,container);
         })
     })
