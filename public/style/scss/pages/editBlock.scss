@@ -1,0 +1,85 @@
+#edit-block {
+    .add-input-container {
+        margin: 1.3rem 0;
+
+        button.add-input {
+            width: 100%;
+            padding: 0.25rem 0;
+            background-color: $button2;
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        &.show-input-creation {
+            button.add-input {
+                display: none;
+            }
+
+            .input-creation {
+                display: block;
+            }
+        }
+    }
+
+    .input-creation {
+        background-color: $black1;
+        display: none;
+        padding: 1.25rem;
+        position: relative;
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        .add-input-form {
+            .input-flex {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+    
+                .input-setting {
+                    padding: 0.5rem 0rem;
+                    display: inline-block;
+                    width: 49%;
+                    flex-shrink: 0;
+                    display: none;
+                    
+                    &.visible {
+                        display: block;
+                    }
+    
+                    label {
+                        display: block;
+                    }
+        
+                    input[type="text"],textarea,select {
+                        width: 100%;
+                    }
+                }
+            }
+
+            button.submit-input {
+                background-color: $green;
+                color: white;
+                padding: 0.25rem 2.5rem;
+                margin-top: 1rem;
+            }
+        }
+    }
+
+    .input-vis-container {
+        margin-bottom: 1.3rem;
+
+        &.show-input-creation {
+            .input-vis {
+                display: none;
+            }
+
+            .input-creation {
+                display: block;
+            }
+        }
+    }
+}

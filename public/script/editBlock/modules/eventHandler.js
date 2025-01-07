@@ -5,16 +5,16 @@ import { setFieldMessage } from "./validation";
 import { setVisible, updateInput, saveNewInput } from "./input";
 
 // called when the type of a input is changed while creating / editing input
-export const handleTypeChange = (type) => {
+export const handleTypeChange = (type,element) => {
     switch (type) {
         case 'shortText':
-            setVisible(['name', 'label', 'type', 'maxLength']);
+            setVisible(['name', 'label', 'type', 'max-length'],element);
             break;
         case 'LongText':
-            setVisible(['name', 'label', 'type']);
+            setVisible(['name', 'label', 'type'],element);
             break;
         default:
-            setVisible(['name', 'label', 'type']);
+            setVisible(['name', 'label', 'type'],element);
     }
 }
 
@@ -23,6 +23,7 @@ export const handleInputSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+
     if (inputMethod === "create") {
         saveNewInput(data);
     } else if (inputMethod === "update") {
@@ -37,8 +38,8 @@ export const handleBlockSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-
-    console.log(data);
+    data.title = DOM.titleInput.value;
+    data.key = DOM.keyInput.value;
 
     data.input = JSON.stringify(inputData);
 

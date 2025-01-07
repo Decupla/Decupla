@@ -12,6 +12,7 @@ export const setupBlockForm = async (blockID, container, setOutput = {}) => {
         const inputFields = JSON.parse(block.input);
 
         const blockFormTitle = container.querySelector('h3.block-form-title');
+        const closeFormButton = container.querySelector('.block-form-close');
 
         blockFormTitle.innerText = block.title;
 
@@ -22,6 +23,8 @@ export const setupBlockForm = async (blockID, container, setOutput = {}) => {
                 createInput(input, "", container);
             }
         })
+
+        closeFormButton.addEventListener('click',closeBlockForm);
 
         setCurrentBlock(block);
     }
@@ -95,6 +98,7 @@ const createInput = (inputData, value, container) => {
     newInput.name = inputData.name;
 
     const newFieldset = document.createElement('div');
+    newFieldset.classList.add('input-fieldset');
 
     newFieldset.appendChild(newLabel);
     newFieldset.appendChild(newInput);

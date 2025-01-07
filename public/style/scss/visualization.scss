@@ -1,0 +1,68 @@
+.visualization {
+    background-color: $black4;
+    border: solid 1px $border1;
+
+    .title-container {
+        background-color: $black1;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.65rem;
+
+        h3.title,h3.label {
+            font-size: 1.25rem;
+            margin: 0;
+
+            @media screen and (max-width: 767px) {
+                font-size: 1rem;
+            }
+        }
+
+        .buttons {
+            display: flex;
+
+            button {
+                background-color: $button1;
+                color: white;
+                border-radius: 18%;
+                cursor: pointer;
+
+
+            }
+
+            button.edit,
+            button.delete {
+                padding: 0.3rem 0.45rem;
+
+                img {
+                    display: block;
+                    width: 1.125rem;
+                }
+            }
+
+            button.edit,
+            .priority {
+                margin-right: 0.25rem;
+            }
+
+            .priority {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                button.up,
+                button.down {
+                    display: block;
+
+                    img {
+                        display: block;
+                        width: 0.65rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .output,.params {
+        padding: 0.65rem;
+    }
+}

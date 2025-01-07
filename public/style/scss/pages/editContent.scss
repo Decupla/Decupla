@@ -37,6 +37,7 @@
             }
         }
 
+
         .add-block-dropdown {
             position: relative;
             display: none;
@@ -48,20 +49,6 @@
 
             &.visible {
                 display: block;
-            }
-
-            .dropdown-close {
-                position: absolute;
-                right: 0.6rem;
-                top: 0.6rem;
-                padding: 0.25rem;
-                background-color: $button1;
-                cursor: pointer;
-
-                img {
-                    width: 0.7rem;
-                    display: block;
-                }
             }
 
             h3 {
@@ -114,6 +101,32 @@
         width: 100%;
         background-color: $black1;
         display: none;
+        padding: 1.25rem;
+        position: relative;
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .input-fieldset {
+            padding: 0.5rem 0rem;
+
+            input[type="text"],textarea {
+                width: 100%;
+            }
+        }
+
+        button[type="submit"] {
+            background-color: $green;
+            color: white;
+            padding: 0.25rem 2.5rem;
+            margin-top: 1rem;
+        }
     }
 
     #blocks {
@@ -121,72 +134,6 @@
         flex-direction: column;
 
         .block-vis-container {
-            .block-vis {
-                background-color: $black4;
-                border: solid 1px $border1;
-    
-                .title-container {
-                    background-color: $black1;
-                    display: flex;
-                    justify-content: space-between;
-                    padding: 0.65rem;
-    
-                    h3.title {
-                        font-size: 1.25rem;
-                        margin: 0;
-
-                        @media screen and (max-width: 767px) {
-                            font-size: 1rem;
-                        }
-                    }
-
-                    .buttons {
-                        display: flex;
-
-                        button {
-                            background-color: $button1;
-                            color: white;
-                            border-radius: 18%;
-                            cursor: pointer;
-
-
-                        }
-
-                        button.edit,
-                        button.delete {
-                            padding: 0.3rem 0.45rem;
-    
-                            img {
-                                display: block;
-                                width: 1.125rem;
-                            }
-                        }
-        
-                        button.edit, .priority {
-                            margin-right: 0.25rem;
-                        }
-
-                        .priority {
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-
-                            button.up,button.down {
-                                display: block;
-                                img {
-                                    display: block;
-                                    width: 0.65rem;
-                                }
-                            }
-                        }
-                    }
-                }
-    
-                .output {
-                    padding: 0.65rem;
-                }
-            }
-
             &.show-form-container {
                 .block-form-container {
                     display: block;
@@ -200,6 +147,20 @@
             &.last-vis .add-block-container.add-in-between {
                 display: none;
             }
+        }
+    }
+
+    .dropdown-close,.block-form-close {
+        position: absolute;
+        right: 0.6rem;
+        top: 0.6rem;
+        padding: 0.25rem;
+        background-color: $button1;
+        cursor: pointer;
+
+        img {
+            width: 0.7rem;
+            display: block;
         }
     }
 }

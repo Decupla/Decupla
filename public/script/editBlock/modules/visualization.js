@@ -1,23 +1,36 @@
 import DOM from "./dom";
+import { handleInputSubmit } from "./eventHandler";
 import { editInput, deleteInput } from "./input";
 
 // adds the visualization of a input to the page
 export const addInputVisualization = (data) => {
+    const container = document.createElement('div');
     const input = document.createElement('div');
+    const titleContainer = document.createElement('div');
     const inputTitle = document.createElement('h3');
     const inputParams = document.createElement('div');
+    const buttons = document.createElement('div');
     const editButton = document.createElement('button');
     const deleteButton = document.createElement('button');
+    const editIcon = document.createElement('img');
+    const deleteIcon = document.createElement('img');
 
-    input.classList.add('inputVis');
+    editIcon.src = "/images/icons/edit.png";
+    editIcon.alt = "edit";
+    deleteIcon.src = "/images/icons/delete_red.png";
+    deleteIcon.alt = "delete";
+
+    container.classList.add('input-vis-container')
+    input.classList.add('input-vis');
+    input.classList.add('visualization');
+    titleContainer.classList.add('title-container');
     inputTitle.classList.add('label');
     inputParams.classList.add('params');
+    buttons.classList.add('buttons');
     editButton.classList.add('edit');
     deleteButton.classList.add('delete');
 
     inputTitle.innerText = data.label;
-    editButton.innerText = "edit";
-    deleteButton.innerText = "delete";
 
     input.dataset.id = data.id;
 
@@ -28,29 +41,45 @@ export const addInputVisualization = (data) => {
         }
     });
 
-    input.appendChild(inputTitle);
+    editButton.appendChild(editIcon);
+    deleteButton.appendChild(deleteIcon);
+    buttons.appendChild(editButton);
+    buttons.appendChild(deleteButton)
+
+    titleContainer.appendChild(inputTitle);
+    titleContainer.appendChild(buttons);
+
+    input.appendChild(titleContainer);
     input.appendChild(inputParams);
-    input.appendChild(editButton);
-    input.appendChild(deleteButton);
-    DOM.fieldsArea.appendChild(input);
+
+    const inputCreationClone = DOM.inputCreation.cloneNode(true);
+    const inputForm = inputCreationClone.querySelector('form');
+
+    container.appendChild(input);
+    container.appendChild(inputCreationClone);
+
+    DOM.fieldsArea.appendChild(container);
 
     editButton.addEventListener('click', () => {
-        editInput(data.id);
+        editInput(data.id,container);
     });
     deleteButton.addEventListener('click', () => {
         deleteInput(data.id);
+    })
+    inputForm.addEventListener('submit', (event) => {
+        handleInputSubmit(event);
     })
 }
 
 // deletes a exisiting visualization of a input
 export const deleteInputVisualization = (id) => {
-    const vis = document.querySelector(`.inputVis[data-id="${id}"]`);
+    const vis = document.querySelector(`.input-vis[data-id="${id}"]`);
     vis.remove();
 }
 
 // updates a exisiting visualization of a input
 export const updateInputVisualization = (id, data) => {
-    const vis = document.querySelector(`.inputVis[data-id="${id}"]`);
+    const vis = document.querySelector(`.input-vis[data-id="${id}"]`);
     const inputTitle = vis.querySelector('h3');
     const inputParams = vis.querySelector('.params');
 

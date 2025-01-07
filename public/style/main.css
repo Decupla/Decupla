@@ -205,6 +205,65 @@ header img#logo {
   }
 }
 
+.visualization {
+  background-color: #242424;
+  border: solid 1px #363636;
+}
+.visualization .title-container {
+  background-color: #181818;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.65rem;
+}
+.visualization .title-container h3.title, .visualization .title-container h3.label {
+  font-size: 1.25rem;
+  margin: 0;
+}
+@media screen and (max-width: 767px) {
+  .visualization .title-container h3.title, .visualization .title-container h3.label {
+    font-size: 1rem;
+  }
+}
+.visualization .title-container .buttons {
+  display: flex;
+}
+.visualization .title-container .buttons button {
+  background-color: #3C3C3C;
+  color: white;
+  border-radius: 18%;
+  cursor: pointer;
+}
+.visualization .title-container .buttons button.edit,
+.visualization .title-container .buttons button.delete {
+  padding: 0.3rem 0.45rem;
+}
+.visualization .title-container .buttons button.edit img,
+.visualization .title-container .buttons button.delete img {
+  display: block;
+  width: 1.125rem;
+}
+.visualization .title-container .buttons button.edit,
+.visualization .title-container .buttons .priority {
+  margin-right: 0.25rem;
+}
+.visualization .title-container .buttons .priority {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.visualization .title-container .buttons .priority button.up,
+.visualization .title-container .buttons .priority button.down {
+  display: block;
+}
+.visualization .title-container .buttons .priority button.up img,
+.visualization .title-container .buttons .priority button.down img {
+  display: block;
+  width: 0.65rem;
+}
+.visualization .output, .visualization .params {
+  padding: 0.65rem;
+}
+
 #edit-content .add-block-container {
   margin: 1.3rem 0;
 }
@@ -245,18 +304,6 @@ header img#logo {
 #edit-content .add-block-container .add-block-dropdown.visible {
   display: block;
 }
-#edit-content .add-block-container .add-block-dropdown .dropdown-close {
-  position: absolute;
-  right: 0.6rem;
-  top: 0.6rem;
-  padding: 0.25rem;
-  background-color: #3C3C3C;
-  cursor: pointer;
-}
-#edit-content .add-block-container .add-block-dropdown .dropdown-close img {
-  width: 0.7rem;
-  display: block;
-}
 #edit-content .add-block-container .add-block-dropdown h3 {
   font-size: 1.5rem;
   font-weight: 400;
@@ -294,65 +341,31 @@ header img#logo {
   width: 100%;
   background-color: #181818;
   display: none;
+  padding: 1.25rem;
+  position: relative;
+}
+#edit-content .block-form-container h3 {
+  font-size: 1.5rem;
+}
+#edit-content .block-form-container label {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+#edit-content .block-form-container .input-fieldset {
+  padding: 0.5rem 0rem;
+}
+#edit-content .block-form-container .input-fieldset input[type=text], #edit-content .block-form-container .input-fieldset textarea {
+  width: 100%;
+}
+#edit-content .block-form-container button[type=submit] {
+  background-color: #3DA99A;
+  color: white;
+  padding: 0.25rem 2.5rem;
+  margin-top: 1rem;
 }
 #edit-content #blocks {
   display: flex;
   flex-direction: column;
-}
-#edit-content #blocks .block-vis-container .block-vis {
-  background-color: #242424;
-  border: solid 1px #363636;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container {
-  background-color: #181818;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.65rem;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container h3.title {
-  font-size: 1.25rem;
-  margin: 0;
-}
-@media screen and (max-width: 767px) {
-  #edit-content #blocks .block-vis-container .block-vis .title-container h3.title {
-    font-size: 1rem;
-  }
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons {
-  display: flex;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button {
-  background-color: #3C3C3C;
-  color: white;
-  border-radius: 18%;
-  cursor: pointer;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.edit,
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.delete {
-  padding: 0.3rem 0.45rem;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.edit img,
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.delete img {
-  display: block;
-  width: 1.125rem;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons button.edit, #edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority {
-  margin-right: 0.25rem;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority button.up, #edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority button.down {
-  display: block;
-}
-#edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority button.up img, #edit-content #blocks .block-vis-container .block-vis .title-container .buttons .priority button.down img {
-  display: block;
-  width: 0.65rem;
-}
-#edit-content #blocks .block-vis-container .block-vis .output {
-  padding: 0.65rem;
 }
 #edit-content #blocks .block-vis-container.show-form-container .block-form-container {
   display: block;
@@ -362,6 +375,82 @@ header img#logo {
 }
 #edit-content #blocks .block-vis-container.last-vis .add-block-container.add-in-between {
   display: none;
+}
+#edit-content .dropdown-close, #edit-content .block-form-close {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.6rem;
+  padding: 0.25rem;
+  background-color: #3C3C3C;
+  cursor: pointer;
+}
+#edit-content .dropdown-close img, #edit-content .block-form-close img {
+  width: 0.7rem;
+  display: block;
+}
+
+#edit-block .add-input-container {
+  margin: 1.3rem 0;
+}
+#edit-block .add-input-container button.add-input {
+  width: 100%;
+  padding: 0.25rem 0;
+  background-color: #4F4F4F;
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+#edit-block .add-input-container.show-input-creation button.add-input {
+  display: none;
+}
+#edit-block .add-input-container.show-input-creation .input-creation {
+  display: block;
+}
+#edit-block .input-creation {
+  background-color: #181818;
+  display: none;
+  padding: 1.25rem;
+  position: relative;
+}
+#edit-block .input-creation h3 {
+  font-size: 1.5rem;
+}
+#edit-block .input-creation .add-input-form .input-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+#edit-block .input-creation .add-input-form .input-flex .input-setting {
+  padding: 0.5rem 0rem;
+  display: inline-block;
+  width: 49%;
+  flex-shrink: 0;
+  display: none;
+}
+#edit-block .input-creation .add-input-form .input-flex .input-setting.visible {
+  display: block;
+}
+#edit-block .input-creation .add-input-form .input-flex .input-setting label {
+  display: block;
+}
+#edit-block .input-creation .add-input-form .input-flex .input-setting input[type=text], #edit-block .input-creation .add-input-form .input-flex .input-setting textarea, #edit-block .input-creation .add-input-form .input-flex .input-setting select {
+  width: 100%;
+}
+#edit-block .input-creation .add-input-form button.submit-input {
+  background-color: #3DA99A;
+  color: white;
+  padding: 0.25rem 2.5rem;
+  margin-top: 1rem;
+}
+#edit-block .input-vis-container {
+  margin-bottom: 1.3rem;
+}
+#edit-block .input-vis-container.show-input-creation .input-vis {
+  display: none;
+}
+#edit-block .input-vis-container.show-input-creation .input-creation {
+  display: block;
 }
 
 #edit-menu #content-selection {
@@ -704,7 +793,7 @@ input#save {
     opacity: 0;
   }
 }
-#inputPopupWrapper {
+#input-popup-wrapper {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -713,16 +802,8 @@ input#save {
   top: 0;
   display: none;
 }
-#inputPopupWrapper.visible {
+#input-popup-wrapper.visible {
   display: block;
-}
-
-#inputPopup {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fefefe;
 }
 
 #message-error {
@@ -738,13 +819,6 @@ input#save {
 }
 #message.visible,
 #name-error.visible {
-  display: block;
-}
-
-.inputSetting {
-  display: none;
-}
-.inputSetting.visible {
   display: block;
 }
 

@@ -3,7 +3,9 @@
 @import 'header';
 @import 'sidebar';
 @import 'editSidebar';
+@import 'visualization';
 @import 'pages/editContent';
+@import 'pages/editBlock';
 @import 'pages/editMenu';
 @import 'pages/login';
 
@@ -230,7 +232,7 @@ input#save {
     }
 }
 
-#inputPopupWrapper {
+#input-popup-wrapper {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -244,14 +246,6 @@ input#save {
     }
 }
 
-#inputPopup {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fefefe;
-}
-
 #message-error {
     display: none;
 
@@ -263,14 +257,6 @@ input#save {
 // Edit Block Page
 #message,
 #name-error {
-    display: none;
-
-    &.visible {
-        display: block;
-    }
-}
-
-.inputSetting {
     display: none;
 
     &.visible {

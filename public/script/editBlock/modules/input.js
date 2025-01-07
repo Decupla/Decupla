@@ -6,26 +6,51 @@ import { addInputVisualization, deleteInputVisualization, updateInputVisualizati
 import { getBlockById } from "./api";
 
 // sets which settings should be visible in the input creation, hides all other settings
-export const setVisible = (fields) => {
-    for (const [name, element] of Object.entries(DOM.inputFormFields)) {
-        const parent = element.parentElement;
-        if (fields.includes(name) && !parent.classList.contains('visible')) {
+export const setVisible = (fields,element) => {
+    const inputFields = element.querySelectorAll('input');
+
+    inputFields.forEach((field)=>{
+        parent = field.parentElement;
+
+        if (fields.includes(field.name) && !parent.classList.contains('visible')) {
             parent.classList.add('visible');
-        } else if (!fields.includes(name) && parent.classList.contains('visible')) {
+        } else if (!fields.includes(field.name) && parent.classList.contains('visible')) {
             parent.classList.remove('visible');
         }
-    }
+    })
+
+    // for (const [name, element] of Object.entries(inputFields)) {
+    //     const parent = element.parentElement;
+    //     console.log(name);
+    //     if (fields.includes(name) && !parent.classList.contains('visible')) {
+    //         parent.classList.add('visible');
+    //     } else if (!fields.includes(name) && parent.classList.contains('visible')) {
+    //         parent.classList.remove('visible');
+    //     }
+    // }
 }
 
 // opens the input form to create a new input
-export const createInput = () => {
+export const createInput = (container) => {
     setInputMethod("create");
-    handleTypeChange(DOM.inputForm.type.value);
-    toggleInputPopup();
+    // handleTypeChange(DOM.inputForm.type.value);
+    toggleInputCreation(container);
 }
 
-const toggleInputPopup = () => {
-    DOM.inputPopupWrapper.classList.toggle('visible');
+const toggleInputCreation = (container) => {
+    container.classList.add('show-input-creation');
+}
+
+const closeInputCreation = () => {
+    const containers = document.querySelectorAll('.show-input-creation');
+    containers.forEach((container)=>{
+        const form = container.querySelector('form.add-input-form');
+        if(form){
+            form.reset();
+        }
+
+        container.classList.remove('show-input-creation');
+    })
 }
 
 // get the existing input fields of the block
@@ -50,7 +75,7 @@ export const getInputData = async (id) => {
 };
 
 // opens the input form to edit a existing input from the inputData array
-export const editInput = (id) => {
+export const editInput = (id,container) => {
     setInputMethod("update");
 
     const data = inputData.find(input => input.id === id) || null;
@@ -58,17 +83,20 @@ export const editInput = (id) => {
         console.log('Input to edit could not be found.');
         return;
     }
-    DOM.inputFormFields.type.value = data.type;
-    DOM.inputFormFields.name.value = data.name;
-    DOM.inputFormFields.label.value = data.label;
+
+    console.log(data);
+
+    container.querySelector('select[name="type"]').value = data.type;
+    container.querySelector('input[name="name"]').value = data.name;
+    container.querySelector('input[name="label"]').value = data.label;
 
     if ('maxLength' in data) {
-        DOM.inputFormFields.maxLength.value = data.maxLength;
+        container.querySelector('input[name="max-length"]').value = data.maxLength;
     }
 
     setInputID(id);
-    handleTypeChange(data.type);
-    toggleInputPopup();
+    handleTypeChange(data.type,container);
+    toggleInputCreation(container);
 }
 
 // deletes existing input from the inputData array
@@ -89,7 +117,7 @@ export const saveNewInput = (data) => {
     data.id = getInputId();
     inputData.push(data);
     addInputVisualization(data);
-    toggleInputPopup();
+    closeInputCreation();
     DOM.inputForm.reset();
 };
 
@@ -110,6 +138,5 @@ export const updateInput = (data) => {
     data.id = inputID;
     inputData[index] = data;
     updateInputVisualization(inputID, data);
-    toggleInputPopup();
-    DOM.inputForm.reset();
+    closeInputCreation();
 };

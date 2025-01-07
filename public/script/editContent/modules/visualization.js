@@ -24,6 +24,7 @@ export const addBlockVisualization = (data) => {
 
     container.classList.add('block-vis-container');
     block.classList.add('block-vis');
+    block.classList.add('visualization');
     titleContainer.classList.add('title-container');
     blockTitle.classList.add('title');
     blockOutput.classList.add('output');
