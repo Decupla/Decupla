@@ -43,6 +43,7 @@ export const handleContentSubmit = async (event) => {
         }
 
         for (const instance of blocksData) {
+            console.log(instance);
             const instanceData = {
                 blockID: instance.blockID,
                 output: JSON.stringify(instance.output),

@@ -1,7 +1,7 @@
 import DOM from "./dom";
 import { saveBlock } from "./api";
 import { inputData, inputMethod, blockExists, setBlockExists, setBlockID, blockID } from "./data";
-import { setFieldMessage } from "./validation";
+import { setFieldMessage,resetMessages } from "./validation";
 import { setVisible, updateInput, saveNewInput } from "./input";
 
 // called when the type of a input is changed while creating / editing input
@@ -21,6 +21,7 @@ export const handleTypeChange = (type,element) => {
 // called when the input form is submitted
 export const handleInputSubmit = (event) => {
     event.preventDefault();
+    resetMessages();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
@@ -36,6 +37,7 @@ export const handleInputSubmit = (event) => {
 //handles the event when the main form (block) is submitted
 export const handleBlockSubmit = async (event) => {
     event.preventDefault();
+    resetMessages();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
     data.title = DOM.titleInput.value;

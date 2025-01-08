@@ -443,13 +443,17 @@ header img#logo {
   padding: 0.25rem 2.5rem;
   margin-top: 1rem;
 }
-#edit-block .input-vis-container {
+#edit-block #input-fields {
+  display: flex;
+  flex-direction: column;
+}
+#edit-block #input-fields .input-vis-container {
   margin-bottom: 1.3rem;
 }
-#edit-block .input-vis-container.show-input-creation .input-vis {
+#edit-block #input-fields .input-vis-container.show-input-creation .input-vis {
   display: none;
 }
-#edit-block .input-vis-container.show-input-creation .input-creation {
+#edit-block #input-fields .input-vis-container.show-input-creation .input-creation {
   display: block;
 }
 

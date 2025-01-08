@@ -30,11 +30,13 @@ export const addInputVisualization = (data) => {
     editButton.classList.add('edit');
     deleteButton.classList.add('delete');
 
-    inputTitle.innerText = data.label;
+    inputTitle.innerText = data.params.label;
 
-    input.dataset.id = data.id;
+    container.dataset.id = data.id;
+    container.dataset.priority = data.priority;
+    container.style.order = data.priority;
 
-    Object.entries(data).forEach(([key, value]) => {
+    Object.entries(data.params).forEach(([key, value]) => {
         if (key !== 'label' && key !== 'id' && value !== "") {
             const param = `<strong>${key}</strong>: ${value}<br>`;
             inputParams.innerHTML += param;
@@ -77,13 +79,13 @@ export const addInputVisualization = (data) => {
 
 // deletes a exisiting visualization of a input
 export const deleteInputVisualization = (id) => {
-    const vis = document.querySelector(`.input-vis[data-id="${id}"]`);
+    const vis = document.querySelector(`.input-vis-container[data-id="${id}"]`);
     vis.remove();
 }
 
 // updates a exisiting visualization of a input
 export const updateInputVisualization = (id, data) => {
-    const vis = document.querySelector(`.input-vis[data-id="${id}"]`);
+    const vis = document.querySelector(`.input-vis-container[data-id="${id}"]`);
     const inputTitle = vis.querySelector('h3');
     const inputParams = vis.querySelector('.params');
 

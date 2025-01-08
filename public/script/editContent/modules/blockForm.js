@@ -22,7 +22,9 @@ export const setupBlockForm = async (blockID, container, setOutput = {}) => {
 
         blockFormTitle.innerText = block.title;
 
-        inputFields.forEach((input) => {
+        inputFields.forEach((inputData) => {
+            const input = inputData.params;
+
             if (setOutput[input.name]) {
                 createInput(input, setOutput[input.name], container);
             } else {

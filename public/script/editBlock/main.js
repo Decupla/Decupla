@@ -17,6 +17,8 @@ const init = async () => {
             const highestId = Math.max(...inputData.map(input => input.id));
             setNextInputId(highestId+1);
         }
+
+        console.log(inputData);
     }
 
     console.log(DOM.addInputContainers);

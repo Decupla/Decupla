@@ -69,16 +69,21 @@
         }
     }
 
-    .input-vis-container {
-        margin-bottom: 1.3rem;
+    #input-fields {
+        display: flex;
+        flex-direction: column;
 
-        &.show-input-creation {
-            .input-vis {
-                display: none;
-            }
-
-            .input-creation {
-                display: block;
+        .input-vis-container {
+            margin-bottom: 1.3rem;
+    
+            &.show-input-creation {
+                .input-vis {
+                    display: none;
+                }
+    
+                .input-creation {
+                    display: block;
+                }
             }
         }
     }

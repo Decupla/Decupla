@@ -2,8 +2,6 @@ import DOM from "./dom";
 import { inputData } from "./data";
 
 export const validateInput = (data, newName = false) => {
-    resetMessages();
-
     let isValid = true;
 
     if (!data.name) {
@@ -42,10 +40,13 @@ const nameExists = (name) => {
     return inputData.some(obj => obj.name === name);
 }
 
-const resetMessages = () => {
-    for (const [name, element] of Object.entries(DOM.fieldMessages)) {
-        if(element.classList.contains('visible')){
-            element.classList.remove('visible');
+export const resetMessages = () => {
+    const messages = document.querySelectorAll('.error-message');
+
+    messages.forEach((message)=>{
+        message.innerText = "";
+        if(message.classList.contains('visible')){
+            message.classList.remove('visible');
         }
-      }
+    })
 }

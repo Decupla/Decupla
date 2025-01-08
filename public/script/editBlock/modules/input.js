@@ -1,5 +1,5 @@
 import DOM from "./dom";
-import { setInputMethod, inputData, getInputId, setInputID, inputID } from "./data";
+import { setInputMethod, inputData, getInputId, setInputID, inputID, getPriority } from "./data";
 import { handleTypeChange } from "./eventHandler";
 import { validateInput } from "./validation";
 import { addInputVisualization, deleteInputVisualization, updateInputVisualization } from "./visualization";
@@ -87,9 +87,9 @@ export const editInput = (id,container) => {
 
     console.log(data);
 
-    container.querySelector('select[name="type"]').value = data.type;
-    container.querySelector('input[name="name"]').value = data.name;
-    container.querySelector('input[name="label"]').value = data.label;
+    container.querySelector('select[name="type"]').value = data.params.type;
+    container.querySelector('input[name="name"]').value = data.params.name;
+    container.querySelector('input[name="label"]').value = data.params.label;
 
     if ('maxLength' in data) {
         container.querySelector('input[name="max-length"]').value = data.maxLength;
@@ -115,9 +115,15 @@ export const deleteInput = (id) => {
 
 export const saveNewInput = (data) => {
     if (!validateInput(data, true)) return;
-    data.id = getInputId();
-    inputData.push(data);
-    addInputVisualization(data);
+
+    const input = {
+        id: getInputId(),
+        priority: getPriority(),
+        params: data
+    }
+
+    inputData.push(input);
+    addInputVisualization(input);
     closeInputCreation();
     DOM.inputForm.reset();
 };
