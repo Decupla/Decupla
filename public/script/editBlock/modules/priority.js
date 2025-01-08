@@ -1,5 +1,5 @@
 import { inputData } from "./data";
-import { updateVisualizationPriority } from "./visualization";
+import { updateVisualizationPriority, setLastVisualisation } from "./visualization";
 
 export const priorityUp = (id) => {
     const index = inputData.findIndex(input => input.id === id);
@@ -16,7 +16,9 @@ export const priorityUp = (id) => {
                 inputData[index].priority = newPriority;
 
                 updateVisualizationPriority(id, newPriority);
-                updateVisualizationPriority(prevInput.id, prevInput.priority)
+                updateVisualizationPriority(prevInput.id, prevInput.priority);
+
+                setLastVisualisation();
             }
         }
     }
@@ -37,7 +39,9 @@ export const priorityDown = (id) => {
                 inputData[index].priority = newPriority;
 
                 updateVisualizationPriority(id, newPriority);
-                updateVisualizationPriority(nextInput.id, nextInput.priority)
+                updateVisualizationPriority(nextInput.id, nextInput.priority);
+
+                setLastVisualisation();
             }
         }
     }

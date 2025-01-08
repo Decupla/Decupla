@@ -111,6 +111,10 @@
                     display: block;
                 }
             }
+
+            &.last-vis .add-in-between {
+                display: none;
+            }
         }
     }
 

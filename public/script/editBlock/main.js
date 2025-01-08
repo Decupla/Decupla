@@ -1,7 +1,7 @@
 import DOM from './modules/dom';
 import { blockExists, setBlockExists, setBlockID, setNextInputId, setNextPriority, nextPriority, inputData, blockID } from './modules/data';
 import { checkIfExists, getId } from './modules/block';
-import { setupInputContainer } from './modules/blockForm';
+import { setupInputContainer } from './modules/inputCreation';
 import { getInputData } from './modules/input';
 import { handleBlockSubmit } from './modules/eventHandler';
 
@@ -13,15 +13,15 @@ const init = async () => {
         setBlockID((getId(path)));
         await getInputData(blockID);
 
-        if (inputData.length > 0) {
-            const highestId = Math.max(...inputData.map(input => input.id));
-            setNextInputId(highestId+1);
+        // if (inputData.length > 0) {
+        //     const highestId = Math.max(...inputData.map(input => input.id));
+        //     setNextInputId(highestId+1);
 
-            const highestPriority = Math.max(...inputData.map(input => input.priority));
-            setNextPriority(highestPriority + 1);
-        }
+        //     const highestPriority = Math.max(...inputData.map(input => input.priority));
+        //     setNextPriority(highestPriority + 1);
+        // }
 
-        console.log(inputData);
+        // console.log(inputData);
     }
 
     console.log(DOM.addInputContainers);

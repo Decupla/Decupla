@@ -11,6 +11,8 @@ export let blockExists;
 export let blockID;
 // the priority to order the input fields
 export let nextPriority = 1;
+// the submitted form
+export let submittedForm;
 
 export const setInputMethod = (value) =>  inputMethod = value;
 export const setInputID = (id) => inputID = id;
@@ -18,6 +20,7 @@ export const setBlockExists = (value) => blockExists = value;
 export const setBlockID = (id) => blockID = id;
 export const setNextPriority = (priority) => nextPriority = priority;
 export const setNextInputId = (id) => nextInputId = id;
+export const setSubmittedForm = (form) => submittedForm = form;
 
 export const getInputId = () => {
     return nextInputId++;

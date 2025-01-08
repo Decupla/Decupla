@@ -1,5 +1,5 @@
 import DOM from "./dom";
-import { inputData } from "./data";
+import { inputData, submittedForm } from "./data";
 
 export const validateInput = (data, newName = false) => {
     let isValid = true;
@@ -26,7 +26,7 @@ export const validateInput = (data, newName = false) => {
 
 export const setFieldMessage = (field, message) => {
 
-    const fieldMessageElement = DOM.fieldMessages[field];
+    const fieldMessageElement = submittedForm.querySelector(`.message-${field}`);
     if (fieldMessageElement) {
         fieldMessageElement.innerText = message;
         fieldMessageElement.classList.add('visible');

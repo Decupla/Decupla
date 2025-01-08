@@ -1,8 +1,8 @@
 import DOM from "./dom";
-import { setInputMethod, inputData, getInputId, setInputID, inputID, getPriority, setNextPriority } from "./data";
+import { setInputMethod, inputData, getInputId, setInputID, inputID, setNextInputId, getPriority, setNextPriority } from "./data";
 import { handleTypeChange } from "./eventHandler";
 import { validateInput } from "./validation";
-import { addInputVisualization, deleteInputVisualization, updateInputVisualization, updateVisualizationPriority } from "./visualization";
+import { addInputVisualization, deleteInputVisualization, updateInputVisualization, updateVisualizationPriority, setLastVisualisation } from "./visualization";
 import { getBlockById } from "./api";
 
 // sets which settings should be visible in the input creation, hides all other settings
@@ -56,6 +56,15 @@ export const getInputData = async (id) => {
                 addInputVisualization(data);
             });
 
+            if (inputData.length > 0) {
+                const highestId = Math.max(...inputData.map(input => input.id));
+                setNextInputId(highestId+1);
+    
+                const highestPriority = Math.max(...inputData.map(input => input.priority));
+                setNextPriority(highestPriority + 1);
+            }
+
+            setLastVisualisation();
         } else {
             // to do: fehlermeldung auf der Seite ausgebe
             console.log(blockData.message);
@@ -112,6 +121,8 @@ export const deleteInput = (id) => {
 
         const highestPriority = Math.max(...inputData.map(input => input.priority));
         setNextPriority(highestPriority + 1);
+
+        setLastVisualisation();
     }
 }
 
@@ -138,6 +149,8 @@ export const saveNewInput = (data, priority) => {
 
     const highestPriority = Math.max(...inputData.map(input => input.priority));
     setNextPriority(highestPriority + 1);
+
+    setLastVisualisation();
 };
 
 // updates existing input in the inputData array

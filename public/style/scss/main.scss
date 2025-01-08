@@ -190,6 +190,11 @@ table.collection {
     .error-message {
         color: #db1c1c;
         margin-top: 0.3rem;
+        display: none;
+
+        &.visible {
+            display: block;
+        }
     }
 }
 

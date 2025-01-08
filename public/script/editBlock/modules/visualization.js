@@ -1,7 +1,8 @@
-import { setupInputContainer, setupInputCreation } from "./blockForm";
+import { setupInputContainer, setupInputCreation } from "./inputCreation";
 import DOM from "./dom";
-import { editInput, deleteInput, closeInputCreation } from "./input";
+import { editInput, deleteInput } from "./input";
 import { priorityUp, priorityDown } from "./priority";
+import { nextPriority } from "./data";
 
 // adds the visualization of a input to the page
 export const addInputVisualization = (data) => {
@@ -142,5 +143,24 @@ export const updateVisualizationPriority = (id, priority) => {
         vis.style.order = priority;
         vis.dataset.priority = priority;
     }
+}
 
+export const setLastVisualisation = () => {
+    const currentLastVis = document.querySelector(`.input-vis-container.last-vis`);
+    if(currentLastVis){
+        if(currentLastVis.dataset.priority===nextPriority-1){
+            return;
+        } else {
+            currentLastVis.classList.remove('last-vis');
+        }
+    }
+
+    const targetPriority = nextPriority - 1;
+    console.log(targetPriority);
+    const lastVis = document.querySelector(`.input-vis-container[data-priority="${targetPriority}"]`);
+    console.log(lastVis);
+
+    if(lastVis){
+        lastVis.classList.add('last-vis');
+    }
 }

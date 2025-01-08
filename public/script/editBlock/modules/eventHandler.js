@@ -1,6 +1,6 @@
 import DOM from "./dom";
 import { saveBlock } from "./api";
-import { inputData, inputMethod, blockExists, setBlockExists, setBlockID, blockID } from "./data";
+import { inputData, inputMethod, blockExists, setBlockExists, setBlockID, blockID, setSubmittedForm } from "./data";
 import { setFieldMessage,resetMessages } from "./validation";
 import { setVisible, updateInput, saveNewInput } from "./input";
 
@@ -22,8 +22,11 @@ export const handleTypeChange = (type,element) => {
 export const handleInputSubmit = (event,priority) => {
     event.preventDefault();
     resetMessages();
-    const formData = new FormData(event.target);
+    const form = event.target;
+    const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
+
+    setSubmittedForm(form);
 
     if (inputMethod === "create") {
         saveNewInput(data,priority);
