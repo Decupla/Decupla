@@ -1,6 +1,7 @@
 import DOM from "./dom";
 import { handleInputSubmit, handleTypeChange } from "./eventHandler";
 import { editInput, deleteInput } from "./input";
+import { priorityUp, priorityDown } from "./priority";
 
 // adds the visualization of a input to the page
 export const addInputVisualization = (data) => {
@@ -10,8 +11,13 @@ export const addInputVisualization = (data) => {
     const inputTitle = document.createElement('h3');
     const inputParams = document.createElement('div');
     const buttons = document.createElement('div');
+    const priority = document.createElement('div');
+    const upButton = document.createElement('button');
+    const downButton = document.createElement('button');
     const editButton = document.createElement('button');
     const deleteButton = document.createElement('button');
+    const upIcon = document.createElement('img');
+    const downIcon = document.createElement('img');
     const editIcon = document.createElement('img');
     const deleteIcon = document.createElement('img');
 
@@ -20,6 +26,12 @@ export const addInputVisualization = (data) => {
     deleteIcon.src = "/images/icons/delete_red.png";
     deleteIcon.alt = "delete";
 
+
+    upButton.type = "button";
+    downButton.type = "button";
+    editButton.type = "button";
+    deleteButton.type = "button";
+
     container.classList.add('input-vis-container')
     input.classList.add('input-vis');
     input.classList.add('visualization');
@@ -27,10 +39,28 @@ export const addInputVisualization = (data) => {
     inputTitle.classList.add('label');
     inputParams.classList.add('params');
     buttons.classList.add('buttons');
+    priority.classList.add('priority');
+    upButton.classList.add('up');
+    downButton.classList.add('down');
     editButton.classList.add('edit');
     deleteButton.classList.add('delete');
 
     inputTitle.innerText = data.params.label;
+
+    upButton.type = "button";
+    downButton.type = "button";
+    editButton.type = "button";
+    deleteButton.type = "button";
+
+    upIcon.src = "/images/icons/up.png";
+    upIcon.alt = "Priority up";
+    downIcon.src = "/images/icons/down.png";
+    downIcon.alt = "Priority down";
+    editIcon.src = "/images/icons/edit.png";
+    editIcon.alt = "edit";
+    deleteIcon.src = "/images/icons/delete_red.png";
+    deleteIcon.alt = "delete";
+
 
     container.dataset.id = data.id;
     container.dataset.priority = data.priority;
@@ -43,8 +73,15 @@ export const addInputVisualization = (data) => {
         }
     });
 
+    upButton.appendChild(upIcon);
+    downButton.appendChild(downIcon);
     editButton.appendChild(editIcon);
     deleteButton.appendChild(deleteIcon);
+
+    priority.appendChild(upButton);
+    priority.appendChild(downButton);
+
+    buttons.appendChild(priority);
     buttons.appendChild(editButton);
     buttons.appendChild(deleteButton)
 
@@ -63,14 +100,12 @@ export const addInputVisualization = (data) => {
 
     DOM.fieldsArea.appendChild(container);
 
-    editButton.addEventListener('click', () => {
-        editInput(data.id,container);
-    });
-    deleteButton.addEventListener('click', () => {
-        deleteInput(data.id);
-    })
+    upButton.addEventListener('click', () => priorityUp(data.id));
+    downButton.addEventListener('click', () => priorityDown(data.id));
+    editButton.addEventListener('click', () =>  editInput(data.id, container));
+    deleteButton.addEventListener('click', () => deleteInput(data.id));
     typeSelect.addEventListener('change', (event) => {
-        handleTypeChange(event.target.value,container);
+        handleTypeChange(event.target.value, container);
     })
     inputForm.addEventListener('submit', (event) => {
         handleInputSubmit(event);
@@ -100,4 +135,13 @@ export const updateInputVisualization = (id, data) => {
             inputParams.innerHTML += param;
         }
     });
+}
+
+export const updateVisualizationPriority = (id, priority) => {
+    const vis = document.querySelector(`.input-vis-container[data-id="${id}"]`);
+    if (vis) {
+        vis.style.order = priority;
+        vis.dataset.priority = priority;
+    }
+
 }

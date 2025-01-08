@@ -22,7 +22,7 @@ export const priorityUp = (instanceID) => {
             }
         }
     }
-};
+}
 
 
 export const priorityDown = (instanceID) => {

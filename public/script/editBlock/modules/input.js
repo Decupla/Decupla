@@ -1,15 +1,15 @@
 import DOM from "./dom";
-import { setInputMethod, inputData, getInputId, setInputID, inputID, getPriority } from "./data";
+import { setInputMethod, inputData, getInputId, setInputID, inputID, getPriority, setNextPriority } from "./data";
 import { handleTypeChange } from "./eventHandler";
 import { validateInput } from "./validation";
-import { addInputVisualization, deleteInputVisualization, updateInputVisualization } from "./visualization";
+import { addInputVisualization, deleteInputVisualization, updateInputVisualization, updateVisualizationPriority } from "./visualization";
 import { getBlockById } from "./api";
 
 // sets which settings should be visible in the input creation, hides all other settings
-export const setVisible = (fields,element) => {
+export const setVisible = (fields, element) => {
     const inputFields = element.querySelectorAll('input');
 
-    inputFields.forEach((field)=>{
+    inputFields.forEach((field) => {
         parent = field.parentElement;
 
         if (fields.includes(field.name) && !parent.classList.contains('visible')) {
@@ -18,16 +18,6 @@ export const setVisible = (fields,element) => {
             parent.classList.remove('visible');
         }
     })
-
-    // for (const [name, element] of Object.entries(inputFields)) {
-    //     const parent = element.parentElement;
-    //     console.log(name);
-    //     if (fields.includes(name) && !parent.classList.contains('visible')) {
-    //         parent.classList.add('visible');
-    //     } else if (!fields.includes(name) && parent.classList.contains('visible')) {
-    //         parent.classList.remove('visible');
-    //     }
-    // }
 }
 
 // opens the input form to create a new input
@@ -44,9 +34,9 @@ const toggleInputCreation = (container) => {
 
 const closeInputCreation = () => {
     const containers = document.querySelectorAll('.show-input-creation');
-    containers.forEach((container)=>{
+    containers.forEach((container) => {
         const form = container.querySelector('form.add-input-form');
-        if(form){
+        if (form) {
             form.reset();
         }
 
@@ -76,7 +66,7 @@ export const getInputData = async (id) => {
 };
 
 // opens the input form to edit a existing input from the inputData array
-export const editInput = (id,container) => {
+export const editInput = (id, container) => {
     setInputMethod("update");
 
     const data = inputData.find(input => input.id === id) || null;
@@ -96,7 +86,7 @@ export const editInput = (id,container) => {
     }
 
     setInputID(id);
-    handleTypeChange(data.type,container);
+    handleTypeChange(data.type, container);
     toggleInputCreation(container);
 }
 
@@ -105,11 +95,25 @@ export const deleteInput = (id) => {
     const index = inputData.findIndex(input => input.id === id);
 
     if (index !== -1) {
+
+       const removedPriority = inputData[index].priority;
+
         // remove input from the array
         inputData.splice(index, 1);
         // delete the visualization
         deleteInputVisualization(id);
 
+
+        //update input priorities
+        inputData.forEach(input => {
+            if (input.priority > removedPriority) {
+                input.priority -= 1;
+                updateVisualizationPriority(input.id, input.priority);
+            }
+        });
+
+        const highestPriority = Math.max(...inputData.map(input => input.priority));
+        setNextPriority(highestPriority + 1);
     }
 }
 

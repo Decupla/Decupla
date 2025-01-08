@@ -43,7 +43,9 @@ export const addBlockVisualization = (data) => {
     deleteButton.type = "button";
 
     upIcon.src = "/images/icons/up.png";
+    upIcon.alt = "Priority up";
     downIcon.src = "/images/icons/down.png";
+    downIcon.alt = "Priority down";
     editIcon.src = "/images/icons/edit.png";
     editIcon.alt = "edit";
     deleteIcon.src = "/images/icons/delete_red.png";
@@ -133,8 +135,10 @@ export const deleteBlockVisualization = (instanceID) => {
 
 export const updateVisualizationPriority = (instanceID,priority) => {
     const vis = document.querySelector(`.block-vis-container[data-instance="${instanceID}"]`);
-    vis.style.order = priority;
-    vis.dataset.priority = priority;
+    if(vis){
+        vis.style.order = priority;
+        vis.dataset.priority = priority;
+    }
 }
 
 export const setLastVisualisation = () => {
