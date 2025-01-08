@@ -392,7 +392,13 @@ header img#logo {
 #edit-block .add-input-container {
   margin: 1.3rem 0;
 }
-#edit-block .add-input-container button.add-input {
+#edit-block .add-input-container.add-in-between button.add-input {
+  background-color: rgba(0, 0, 0, 0);
+  border: dashed 1px #363636;
+  color: #777;
+  transition: 0.3s;
+}
+#edit-block .add-input-container.add-in-between button.add-input:hover, #edit-block .add-input-container button.add-input {
   width: 100%;
   padding: 0.25rem 0;
   background-color: #4F4F4F;
@@ -401,10 +407,10 @@ header img#logo {
   font-weight: 400;
   cursor: pointer;
 }
-#edit-block .add-input-container.show-input-creation button.add-input {
+#edit-block .add-input-container.show-input-creation > button.add-input {
   display: none;
 }
-#edit-block .add-input-container.show-input-creation .input-creation {
+#edit-block .add-input-container.show-input-creation > .input-creation {
   display: block;
 }
 #edit-block .input-creation {
@@ -464,10 +470,10 @@ header img#logo {
 #edit-block #input-fields .input-vis-container {
   margin-bottom: 1.3rem;
 }
-#edit-block #input-fields .input-vis-container.show-input-creation .input-vis {
+#edit-block #input-fields .input-vis-container.show-input-creation > .input-vis {
   display: none;
 }
-#edit-block #input-fields .input-vis-container.show-input-creation .input-creation {
+#edit-block #input-fields .input-vis-container.show-input-creation > .input-creation {
   display: block;
 }
 #edit-block #message-success {

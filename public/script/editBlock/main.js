@@ -1,7 +1,7 @@
 import DOM from './modules/dom';
 import { blockExists, setBlockExists, setBlockID, setNextInputId, setNextPriority, nextPriority, inputData, blockID } from './modules/data';
 import { checkIfExists, getId } from './modules/block';
-import { setupBlockForm } from './modules/blockForm';
+import { setupInputContainer } from './modules/blockForm';
 import { getInputData } from './modules/input';
 import { handleBlockSubmit } from './modules/eventHandler';
 
@@ -26,8 +26,8 @@ const init = async () => {
 
     console.log(DOM.addInputContainers);
 
-    setupBlockForm(DOM.addInputContainer,true);
-    setupBlockForm(DOM.addInputContainerEnd);
+    setupInputContainer(DOM.addInputContainer,);
+    setupInputContainer(DOM.addInputContainerEnd);
 
     // DOM.addInputContainers.forEach((container)=>{
     //     setupBlockForm(container);

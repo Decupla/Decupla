@@ -1,5 +1,5 @@
+import { setupInputContainer, setupInputCreation } from "./blockForm";
 import DOM from "./dom";
-import { handleInputSubmit, handleTypeChange } from "./eventHandler";
 import { editInput, deleteInput, closeInputCreation } from "./input";
 import { priorityUp, priorityDown } from "./priority";
 
@@ -92,26 +92,23 @@ export const addInputVisualization = (data) => {
     input.appendChild(inputParams);
 
     const inputCreationClone = DOM.inputCreation.cloneNode(true);
-    const inputForm = inputCreationClone.querySelector('form');
-    const typeSelect = inputForm.querySelector('select[name="type"]');
-    const close = inputCreationClone.querySelector('.input-creation-close');
+
+    const addInputContainerClone = DOM.addInputContainer.cloneNode(true);
+    addInputContainerClone.classList.add('add-in-between');
 
     container.appendChild(input);
     container.appendChild(inputCreationClone);
+    container.appendChild(addInputContainerClone);
 
     DOM.fieldsArea.appendChild(container);
 
-    close.addEventListener('click', () => closeInputCreation());
+    setupInputCreation(inputCreationClone);
+    setupInputContainer(addInputContainerClone);
+
     upButton.addEventListener('click', () => priorityUp(data.id));
     downButton.addEventListener('click', () => priorityDown(data.id));
     editButton.addEventListener('click', () =>  editInput(data.id, container));
     deleteButton.addEventListener('click', () => deleteInput(data.id));
-    typeSelect.addEventListener('change', (event) => {
-        handleTypeChange(event.target.value, container);
-    })
-    inputForm.addEventListener('submit', (event) => {
-        handleInputSubmit(event);
-    })
 }
 
 // deletes a exisiting visualization of a input

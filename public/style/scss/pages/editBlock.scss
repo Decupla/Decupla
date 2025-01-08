@@ -2,7 +2,17 @@
     .add-input-container {
         margin: 1.3rem 0;
 
-        button.add-input {
+        &.add-in-between {
+            button.add-input {
+                background-color: rgba(0,0,0,0);
+                border: dashed 1px $border1;
+                color: #777;
+                transition: 0.3s;
+            }
+
+        } 
+
+        &.add-in-between button.add-input:hover,button.add-input {
             width: 100%;
             padding: 0.25rem 0;
             background-color: $button2;
@@ -13,11 +23,11 @@
         }
 
         &.show-input-creation {
-            button.add-input {
+            > button.add-input {
                 display: none;
             }
 
-            .input-creation {
+            > .input-creation {
                 display: block;
             }
         }
@@ -93,11 +103,11 @@
             margin-bottom: 1.3rem;
 
             &.show-input-creation {
-                .input-vis {
+                >.input-vis {
                     display: none;
                 }
 
-                .input-creation {
+                > .input-creation {
                     display: block;
                 }
             }

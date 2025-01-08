@@ -23,7 +23,7 @@ export const setVisible = (fields, element) => {
 // opens the input form to create a new input
 export const createInput = (container) => {
     setInputMethod("create");
-    // handleTypeChange(DOM.inputForm.type.value);
+    // handleTypeChange(typeSelect.value);
     toggleInputCreation(container);
 }
 
@@ -75,8 +75,6 @@ export const editInput = (id, container) => {
         return;
     }
 
-    console.log(data);
-
     container.querySelector('select[name="type"]').value = data.params.type;
     container.querySelector('input[name="name"]').value = data.params.name;
     container.querySelector('input[name="label"]').value = data.params.label;
@@ -86,7 +84,7 @@ export const editInput = (id, container) => {
     }
 
     setInputID(id);
-    handleTypeChange(data.type, container);
+    handleTypeChange(data.params.type, container);
     toggleInputCreation(container);
 }
 
