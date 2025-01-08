@@ -33,28 +33,44 @@
             font-size: 1.5rem;
         }
 
+        .input-creation-close {
+            position: absolute;
+            right: 0.6rem;
+            top: 0.6rem;
+            padding: 0.25rem;
+            background-color: $button1;
+            cursor: pointer;
+    
+            img {
+                width: 0.7rem;
+                display: block;
+            }
+        }
+
         .add-input-form {
             .input-flex {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-between;
-    
+
                 .input-setting {
                     padding: 0.5rem 0rem;
                     display: inline-block;
                     width: 49%;
                     flex-shrink: 0;
                     display: none;
-                    
+
                     &.visible {
                         display: block;
                     }
-    
+
                     label {
                         display: block;
                     }
-        
-                    input[type="text"],textarea,select {
+
+                    input[type="text"],
+                    textarea,
+                    select {
                         width: 100%;
                     }
                 }
@@ -75,16 +91,32 @@
 
         .input-vis-container {
             margin-bottom: 1.3rem;
-    
+
             &.show-input-creation {
                 .input-vis {
                     display: none;
                 }
-    
+
                 .input-creation {
                     display: block;
                 }
             }
+        }
+    }
+
+    #message-success {
+        display: none;
+        opacity: 1;
+        animation: fadeOut 1s ease 3s forwards;
+
+        &.visible {
+            display: block;
+        }
+    }
+
+    @keyframes fadeOut {
+        to {
+            opacity: 0;
         }
     }
 }

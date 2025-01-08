@@ -416,6 +416,18 @@ header img#logo {
 #edit-block .input-creation h3 {
   font-size: 1.5rem;
 }
+#edit-block .input-creation .input-creation-close {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.6rem;
+  padding: 0.25rem;
+  background-color: #3C3C3C;
+  cursor: pointer;
+}
+#edit-block .input-creation .input-creation-close img {
+  width: 0.7rem;
+  display: block;
+}
 #edit-block .input-creation .add-input-form .input-flex {
   display: flex;
   flex-wrap: wrap;
@@ -434,7 +446,9 @@ header img#logo {
 #edit-block .input-creation .add-input-form .input-flex .input-setting label {
   display: block;
 }
-#edit-block .input-creation .add-input-form .input-flex .input-setting input[type=text], #edit-block .input-creation .add-input-form .input-flex .input-setting textarea, #edit-block .input-creation .add-input-form .input-flex .input-setting select {
+#edit-block .input-creation .add-input-form .input-flex .input-setting input[type=text],
+#edit-block .input-creation .add-input-form .input-flex .input-setting textarea,
+#edit-block .input-creation .add-input-form .input-flex .input-setting select {
   width: 100%;
 }
 #edit-block .input-creation .add-input-form button.submit-input {
@@ -455,6 +469,19 @@ header img#logo {
 }
 #edit-block #input-fields .input-vis-container.show-input-creation .input-creation {
   display: block;
+}
+#edit-block #message-success {
+  display: none;
+  opacity: 1;
+  animation: fadeOut 1s ease 3s forwards;
+}
+#edit-block #message-success.visible {
+  display: block;
+}
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
 }
 
 #edit-menu #content-selection {
@@ -664,8 +691,8 @@ button.radio-link {
   align-items: center;
 }
 button.radio-link .radio-link-circle {
-  height: 1em;
-  width: 1em;
+  height: 1rem;
+  width: 1rem;
   border-radius: 50%;
   background-color: #00081C;
   display: flex;
@@ -675,8 +702,8 @@ button.radio-link .radio-link-circle {
 }
 button.radio-link .radio-link-circle.active::before {
   content: "";
-  height: 0.6em;
-  width: 0.6em;
+  height: 0.6rem;
+  width: 0.6rem;
   border-radius: 50%;
   background-color: #406DD2;
 }
@@ -823,13 +850,6 @@ input#save {
 }
 #message.visible,
 #name-error.visible {
-  display: block;
-}
-
-#message-success {
-  display: none;
-}
-#message-success.visible {
   display: block;
 }
 

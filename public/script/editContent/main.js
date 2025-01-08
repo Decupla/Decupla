@@ -20,11 +20,6 @@ const init = async () => {
         setupBlockSelection(container);
     })
 
-    DOM.contentForm.addEventListener('submit', (event) => {
-        handleContentSubmit(event)
-    }
-    );
-
     DOM.blockForm.addEventListener('submit', (event) => {
         handleBlockSubmit(event,1);
     });
@@ -32,6 +27,11 @@ const init = async () => {
     DOM.blockFormEnd.addEventListener('submit', (event) => {
         handleBlockSubmit(event,nextPriority);
     })
+
+    DOM.contentForm.addEventListener('submit', (event) => {
+        handleContentSubmit(event)
+    }
+    );
 
 
 }

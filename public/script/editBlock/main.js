@@ -1,5 +1,5 @@
 import DOM from './modules/dom';
-import { blockExists, setBlockExists, setBlockID, setNextInputId, setNextPriority ,inputData, blockID } from './modules/data';
+import { blockExists, setBlockExists, setBlockID, setNextInputId, setNextPriority, nextPriority, inputData, blockID } from './modules/data';
 import { checkIfExists, getId } from './modules/block';
 import { setupBlockForm } from './modules/blockForm';
 import { getInputData } from './modules/input';
@@ -25,9 +25,13 @@ const init = async () => {
     }
 
     console.log(DOM.addInputContainers);
-    DOM.addInputContainers.forEach((container)=>{
-        setupBlockForm(container);
-    })
+
+    setupBlockForm(DOM.addInputContainer,true);
+    setupBlockForm(DOM.addInputContainerEnd);
+
+    // DOM.addInputContainers.forEach((container)=>{
+    //     setupBlockForm(container);
+    // })
 
     DOM.blockForm.addEventListener('submit', handleBlockSubmit);
 }

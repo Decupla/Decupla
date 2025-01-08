@@ -1,6 +1,6 @@
 import DOM from "./dom";
 import { handleInputSubmit, handleTypeChange } from "./eventHandler";
-import { editInput, deleteInput } from "./input";
+import { editInput, deleteInput, closeInputCreation } from "./input";
 import { priorityUp, priorityDown } from "./priority";
 
 // adds the visualization of a input to the page
@@ -94,12 +94,14 @@ export const addInputVisualization = (data) => {
     const inputCreationClone = DOM.inputCreation.cloneNode(true);
     const inputForm = inputCreationClone.querySelector('form');
     const typeSelect = inputForm.querySelector('select[name="type"]');
+    const close = inputCreationClone.querySelector('.input-creation-close');
 
     container.appendChild(input);
     container.appendChild(inputCreationClone);
 
     DOM.fieldsArea.appendChild(container);
 
+    close.addEventListener('click', () => closeInputCreation());
     upButton.addEventListener('click', () => priorityUp(data.id));
     downButton.addEventListener('click', () => priorityDown(data.id));
     editButton.addEventListener('click', () =>  editInput(data.id, container));

@@ -18,6 +18,9 @@
                 <div class="add-input-container">
                     <button class="add-input" type="button">+ add Input Field</button>
                     <div class="input-creation">
+                        <button class="input-creation-close">
+                            <img src="/images/icons/close.png" alt="close">
+                        </button>
                         <h3>Add input field</h3>
                         <form class="add-input-form">
                             <div class="input-flex">
@@ -55,6 +58,44 @@
                 </div>
 
                 <div id="input-fields"></div>
+
+                <div class="add-input-container" id="add-input-end">
+                    <button class="add-input" type="button">+ add Input Field</button>
+                    <div class="input-creation">
+                        <button class="input-creation-close">
+                            <img src="/images/icons/close.png" alt="close">
+                        </button>
+                        <h3>Add input field</h3>
+                        <form class="add-input-form">
+                            <div class="input-flex">
+                                <div class="input-setting visible">
+                                    <label for="type">Type</label>
+                                    <select name="type" class="type">
+                                        <option value="shortText">Short Text</option>
+                                        <option value="longText">Long Text</option>
+                                    </select>
+                                    <div class="error-message message-type"></div>
+                                </div>
+                                <div class="input-setting visible">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="name" title="name" name="name">
+                                    <div class="error-message message-name"></div>
+                                </div>
+                                <div class="input-setting visible">
+                                    <label for="label">Label</label>
+                                    <input type="text" class="label" title="label" name="label">
+                                    <div class="error-message message-label"></div>
+                                </div>
+                                <div class="input-setting visible">
+                                    <label for="max-length">max-length</label>
+                                    <input type="text" class="max-length" title="max-length" name="max-length">
+                                    <div class="error-message message-max-length"></div>
+                                </div>
+                            </div>
+                            <button type="submit" class="submit-input">save</button>
+                        </form>
+                    </div>
+                </div>
 
                 <div id="input-popup-wrapper">
                 </div>

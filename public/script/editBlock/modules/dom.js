@@ -1,8 +1,10 @@
 const DOM = {};
 DOM.blockForm = document.querySelector('form#create-block');
-DOM.addInputContainers = document.querySelectorAll('.add-input-container'); //+
+DOM.addInputContainers = document.querySelectorAll('.add-input-container'); // -
 DOM.addInputButton = document.querySelector('button.add-input'); //-
 DOM.inputCreation = document.querySelector('.input-creation'); // used for clone
+DOM.addInputContainer = document.querySelector('.add-input-container');
+DOM.addInputContainerEnd = document.querySelector('.add-input-container#add-input-end');
 DOM.inputForm = document.querySelector('.add-input-form'); //-
 DOM.titleInput = document.querySelector('input#title');
 DOM.keyInput = document.querySelector('input#key');

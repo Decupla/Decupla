@@ -19,14 +19,14 @@ export const handleTypeChange = (type,element) => {
 }
 
 // called when the input form is submitted
-export const handleInputSubmit = (event) => {
+export const handleInputSubmit = (event,priority) => {
     event.preventDefault();
     resetMessages();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
     if (inputMethod === "create") {
-        saveNewInput(data);
+        saveNewInput(data,priority);
     } else if (inputMethod === "update") {
         updateInput(data);
     } else {

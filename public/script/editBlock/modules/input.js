@@ -32,7 +32,7 @@ const toggleInputCreation = (container) => {
     container.classList.add('show-input-creation');
 }
 
-const closeInputCreation = () => {
+export const closeInputCreation = () => {
     const containers = document.querySelectorAll('.show-input-creation');
     containers.forEach((container) => {
         const form = container.querySelector('form.add-input-form');
@@ -96,7 +96,7 @@ export const deleteInput = (id) => {
 
     if (index !== -1) {
 
-       const removedPriority = inputData[index].priority;
+        const removedPriority = inputData[index].priority;
 
         // remove input from the array
         inputData.splice(index, 1);
@@ -117,19 +117,29 @@ export const deleteInput = (id) => {
     }
 }
 
-export const saveNewInput = (data) => {
+export const saveNewInput = (data, priority) => {
     if (!validateInput(data, true)) return;
 
     const input = {
         id: getInputId(),
-        priority: getPriority(),
+        priority: priority,
         params: data
     }
+
+    inputData.forEach(input => {
+        if (input.priority >= priority) {
+            input.priority += 1;
+            updateVisualizationPriority(input.id, input.priority);
+        }
+    });
 
     inputData.push(input);
     addInputVisualization(input);
     closeInputCreation();
     DOM.inputForm.reset();
+
+    const highestPriority = Math.max(...inputData.map(input => input.priority));
+    setNextPriority(highestPriority + 1);
 };
 
 // updates existing input in the inputData array
@@ -146,8 +156,7 @@ export const updateInput = (data) => {
         return;
     }
 
-    data.id = inputID;
-    inputData[index] = data;
+    inputData[index].params = data;
     updateInputVisualization(inputID, data);
     closeInputCreation();
 };

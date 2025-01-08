@@ -84,8 +84,8 @@ button.radio-link {
     align-items: center;
 
     .radio-link-circle {
-        height: 1em;
-        width: 1em;
+        height: 1rem;
+        width: 1rem;
         border-radius: 50%;
         background-color: $darkBlue;
         display: flex;
@@ -95,8 +95,8 @@ button.radio-link {
 
         &.active::before {
             content: '';
-            height: 0.6em;
-            width: 0.6em;
+            height: 0.6rem;
+            width: 0.6rem;
             border-radius: 50%;
             background-color: $blue;
         }
@@ -257,14 +257,6 @@ input#save {
 // Edit Block Page
 #message,
 #name-error {
-    display: none;
-
-    &.visible {
-        display: block;
-    }
-}
-
-#message-success {
     display: none;
 
     &.visible {
