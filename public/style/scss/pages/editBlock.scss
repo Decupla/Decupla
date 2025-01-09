@@ -12,6 +12,14 @@
 
         } 
 
+        &#add-input-end {
+            display: none;
+
+            &.visible {
+                display: block;
+            }
+        }
+
         &.add-in-between button.add-input:hover,button.add-input {
             width: 100%;
             padding: 0.25rem 0;
@@ -100,7 +108,6 @@
         flex-direction: column;
 
         .input-vis-container {
-            margin-bottom: 1.3rem;
 
             &.show-input-creation {
                 >.input-vis {

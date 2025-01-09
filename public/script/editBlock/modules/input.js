@@ -62,6 +62,8 @@ export const getInputData = async (id) => {
     
                 const highestPriority = Math.max(...inputData.map(input => input.priority));
                 setNextPriority(highestPriority + 1);
+
+                DOM.addInputContainerEnd.classList.add('visible');
             }
 
             setLastVisualisation();
@@ -119,6 +121,10 @@ export const deleteInput = (id) => {
             }
         });
 
+        if(inputData.length===0){
+            DOM.addInputContainerEnd.classList.remove('visible');
+        }
+
         const highestPriority = Math.max(...inputData.map(input => input.priority));
         setNextPriority(highestPriority + 1);
 
@@ -146,6 +152,10 @@ export const saveNewInput = (data, priority) => {
     addInputVisualization(input);
     closeInputCreation();
     DOM.inputForm.reset();
+
+    if(!DOM.addInputContainerEnd.classList.contains('visible')){
+        DOM.addInputContainerEnd.classList.add('visible');
+    }
 
     const highestPriority = Math.max(...inputData.map(input => input.priority));
     setNextPriority(highestPriority + 1);

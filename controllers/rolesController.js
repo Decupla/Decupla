@@ -48,7 +48,7 @@ const saveNew = async (req, res) => {
             title: 'Create Role',
             query: req.query,
             data: req.body,
-            rolePerms: req.body.permissions,
+            rolePerms: [],
             editingExisting: false,
             messages: {perms: 'Please set at least one permission'}
         })

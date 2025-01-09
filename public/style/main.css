@@ -398,6 +398,12 @@ header img#logo {
   color: #777;
   transition: 0.3s;
 }
+#edit-block .add-input-container#add-input-end {
+  display: none;
+}
+#edit-block .add-input-container#add-input-end.visible {
+  display: block;
+}
 #edit-block .add-input-container.add-in-between button.add-input:hover, #edit-block .add-input-container button.add-input {
   width: 100%;
   padding: 0.25rem 0;
@@ -466,9 +472,6 @@ header img#logo {
 #edit-block #input-fields {
   display: flex;
   flex-direction: column;
-}
-#edit-block #input-fields .input-vis-container {
-  margin-bottom: 1.3rem;
 }
 #edit-block #input-fields .input-vis-container.show-input-creation > .input-vis {
   display: none;
