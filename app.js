@@ -12,6 +12,7 @@ const rolesRouter = require('./routes/rolesRoutes');
 const menusRouter = require('./routes/menusRoutes');
 const loginRouter = require('./routes/loginRoutes');
 const APIRouter = require('./routes/APIRoutes');
+const settingsRouter = require('./routes/settingsRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
@@ -65,6 +66,7 @@ app.use('/blocks', useFormatDate, checkRole('manageBlocks'), blocksRouter);
 app.use('/users', checkRole('manageUsers'), usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);
+app.use('/settings', checkRole('manageSettings'), settingsRouter);
 
 app.use(invalidRouteHandler);
 app.use(invalidJsonHandler);

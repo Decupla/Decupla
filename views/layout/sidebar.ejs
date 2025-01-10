@@ -36,9 +36,14 @@
                     </a>
                 </li>
             <% } %>
+            <% if (permissions.includes('manageSettings')){ %>
+                <li>
+                    <a href="/settings">
+                        <img class="nav-icon" src="/images/icons/settings.png" alt="Settings Icon">
+                        <span>Settings</span>
+                    </a>
+                </li>
+            <% } %>
         </ul>
     </nav>
-    <!-- <li>
-        <a href="/media">Media</a>
-    </li> -->
 </aside>

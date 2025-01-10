@@ -622,6 +622,38 @@ header img#logo {
   }
 }
 
+#settings .settings-block {
+  background-color: #242424;
+  border: solid 1px #363636;
+  width: 15.5rem;
+  height: 15.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+#settings .settings-block .settings-icon {
+  width: 7.85rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+#settings .settings-block .settings-title {
+  color: white;
+  text-align: center;
+}
+#settings #documentation-link {
+  margin-top: 8rem;
+  margin-bottom: 4rem;
+}
+#settings #documentation-link button#documentation-link-button {
+  background-color: #406DD2;
+  padding: 1.25rem 2.5rem;
+  display: block;
+  color: white;
+  margin: auto;
+}
+
 body {
   background-color: #1E1E1E;
   color: white;

@@ -1,0 +1,36 @@
+#settings {
+    .settings-block {
+        background-color: $black4;
+        border: solid 1px $border1;
+        width: 15.5rem;
+        height: 15.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 2rem;
+
+        .settings-icon {
+            width: 7.85rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-title {
+            color: white;
+            text-align: center;
+        }
+    }
+    #documentation-link {
+        margin-top: 8rem;
+        margin-bottom: 4rem;
+
+        button#documentation-link-button {
+            background-color: $blue;
+            padding: 1.25rem 2.5rem;
+            display: block;
+            color: white;
+            margin: auto;
+        }
+    }
+}
