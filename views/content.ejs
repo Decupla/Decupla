@@ -15,6 +15,7 @@
                             <th>Title</th>
                             <th>Status</th>
                             <th>Created</th>
+                            <th>Updated</th>
                         </tr>
                         <% for(var i=0; i<content.length; i++) {%>
                             <tr>
@@ -26,7 +27,8 @@
                                 <td>
                                     <%= content[i].status === 1 ? 'Published' : 'Draft' %>
                                 </td>
-                                <td></td>
+                                <td><%= content[i].created !== null ? formatDate(content[i].created) : ''  %></td>
+                                <td><%= content[i].updated !== null ? formatDate(content[i].updated) : ''  %></td>
                                 <td>
                                     <div class="d-flex justify-content-end">
                                         <a class="pr-1" href="/content/edit/<%= content[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>

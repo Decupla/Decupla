@@ -39,6 +39,7 @@ const saveNew = async (req, res) => {
         title: req.body.title,
         key: req.body.key,
         input: req.body.input,
+        created: Date.now()
     }
 
     const validation = new Validation(data);
@@ -83,7 +84,8 @@ const save = async (req, res) => {
         title: req.body.title,
         key: req.body.key,
         input: req.body.input,
-        id
+        id,
+        updated: Date.now()
     }
 
     const validation = new Validation(data);

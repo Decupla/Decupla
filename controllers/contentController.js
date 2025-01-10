@@ -44,7 +44,8 @@ const edit = async (req, res) => {
 const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
-        status: req.body.status
+        status: req.body.status,
+        created: Date.now()
     };
 
     const validation = new Validation(data);
@@ -75,7 +76,8 @@ const save = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status,
-        id
+        id,
+        updated: Date.now()
     };
 
     const validation = new Validation(data);

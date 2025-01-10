@@ -108,12 +108,14 @@
                     <div class="alert alert-success mt-3" id="message-saved">Content saved!</div>
                     <div class="mt-4">
                         <strong class="mb-3">Created</strong>
-                        <div>to be done...</div>
+                        <div><%= data.created !== null ? formatDate(data.created) : formatDate(Date.now()) %></div>
                     </div>
-                    <div class="mt-4">
-                        <strong class="mb-3">Last updated</strong>
-                        <div>to be done...</div>
-                    </div>
+                    <% if(data.updated){ %>
+                        <div class="mt-4">
+                            <strong class="mb-3">Last updated</strong>
+                            <div><%= formatDate(data.updated) %></div>
+                        </div>
+                    <% } %>
                 </form>
             </div>
         </aside>

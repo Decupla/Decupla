@@ -13,12 +13,16 @@
         <table class="collection">
             <tr class="py-2">
                 <th>Title</th>
+                <th>Created</th>
+                <th>Updated</th>
             </tr>
         <% for(var i=0; i<blocks.length; i++) {%>
             <tr>
                 <td>
                     <a href="/blocks/edit/<%= blocks[i].id %>"><%= blocks[i].title %></a>
                 </td>
+                <td><%= blocks[i].created !== null ? formatDate(blocks[i].created) : ''  %></td>
+                <td><%= blocks[i].updated !== null ? formatDate(blocks[i].updated) : ''  %></td>
                 <td>
                     <div class="d-flex justify-content-end">
                         <a class="pr-1" href="/blocks/edit/<%= blocks[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>

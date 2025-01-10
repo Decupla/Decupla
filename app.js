@@ -18,6 +18,7 @@ const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser'
 const loadPermissions = require('./middleware/loadPermissions');
 const checkRole = require('./middleware/checkRole');
 const invalidJsonHandler = require('./middleware/indvalidJsonHandler');
+const useFormatDate = require('./middleware/useFormatDate');
 
 const app = express();
 
@@ -59,9 +60,9 @@ app.use('/login', loginRouter)
 app.use(authenticateTokenBrowser);
 app.use(loadPermissions);
 
-app.use('/content', contentRouter);
-app.use('/blocks', checkRole('manageBlocks'), blocksRouter);
-app.use('/users', usersRouter);
+app.use('/content', useFormatDate, contentRouter);
+app.use('/blocks', useFormatDate, checkRole('manageBlocks'), blocksRouter);
+app.use('/users', checkRole('manageUsers'), usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);
 
