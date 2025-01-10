@@ -9,7 +9,7 @@ DOM.inputForm = document.querySelector('.add-input-form'); //-
 DOM.titleInput = document.querySelector('input#title');
 DOM.keyInput = document.querySelector('input#key');
 DOM.fieldsArea = document.querySelector('#input-fields');
-DOM.messageSuccess = document.querySelector('#message-success');
+DOM.messageSuccess = document.querySelector('#message-saved');
 
 DOM.inputFormFields = {}; //-
 DOM.inputFormFields.type = DOM.inputForm.querySelector('select#type'); //-

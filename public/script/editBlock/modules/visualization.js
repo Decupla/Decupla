@@ -104,7 +104,7 @@ export const addInputVisualization = (data) => {
     DOM.fieldsArea.appendChild(container);
 
     setupInputCreation(inputCreationClone);
-    setupInputContainer(addInputContainerClone);
+    setupInputContainer(addInputContainerClone,data.priority+1);
 
     upButton.addEventListener('click', () => priorityUp(data.id));
     downButton.addEventListener('click', () => priorityDown(data.id));
