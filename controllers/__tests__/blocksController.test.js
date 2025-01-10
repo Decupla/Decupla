@@ -15,6 +15,10 @@ const res = {
     send: jest.fn()
 };
 
+beforeEach(() => {
+    jest.spyOn(global.Date, 'now').mockImplementation(() => 123456789);
+});
+
 afterEach(() => {
     jest.clearAllMocks();
 });
@@ -171,7 +175,12 @@ describe('saveNew', () => {
 
         await blocksController.saveNew(req, res);
 
-        expect(Block.add).toHaveBeenCalledWith(req.body);
+        expect(Block.add).toHaveBeenCalledWith({
+            title: 'Test',
+            key: 'test',
+            input: '',
+            created: 123456789
+        });
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
             success: true,
@@ -203,7 +212,6 @@ describe('saveNew', () => {
 
         await blocksController.saveNew(req, res);
 
-        expect(Block.add).toHaveBeenCalledWith(req.body);
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
             validation: true,
@@ -280,7 +288,7 @@ describe('save', () => {
             success: false
         });
     })
-    it('shoud call Block.add after successfull validation and send response', async () => {
+    it('shoud call Block.update after successfull validation and send response', async () => {
         req = {
             body: {
                 title: 'Test',
@@ -311,7 +319,13 @@ describe('save', () => {
 
         expect(Block.keyChanged).toHaveBeenCalledWith(1,'test');
         expect(Block.keyExists).toHaveBeenCalledWith('test');
-        expect(Block.update).toHaveBeenCalledWith(1, req.body);
+        expect(Block.update).toHaveBeenCalledWith(1, {
+            id: 1,
+            title: 'Test',
+            key: 'test',
+            input: '',
+            updated: 123456789
+        });
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({ success: true, validation: true });
     })
@@ -342,7 +356,6 @@ describe('save', () => {
 
         await blocksController.save(req, res);
 
-        expect(Block.update).toHaveBeenCalledWith(1, req.body);
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
             validation: true,
@@ -464,7 +477,7 @@ describe('saveNewInstance', () => {
                 return {
                     validate: jest.fn(),
                     hasErrors: jest.fn().mockReturnValue(true),
-                    errors: { output: 'Output is required' }
+                    errors: { output: 'Output is required', priority: "Priority is required" }
                 };
             });
         });
@@ -474,7 +487,7 @@ describe('saveNewInstance', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.send).toHaveBeenCalledWith({
             success: false,
-            message: { output: 'Output is required' }
+            message: { output: 'Output is required', priority: "Priority is required" }
         })
     })
     it('should call BlockInstance.add and send newID as answer', async () => {
@@ -482,7 +495,8 @@ describe('saveNewInstance', () => {
             body: {
                 contentID: 1,
                 blockID: 2,
-                output: '{"title": "Hello World"}'
+                output: '{"title": "Hello World"}',
+                priority: 1
             }
         }
 
@@ -513,7 +527,8 @@ describe('saveNewInstance', () => {
             body: {
                 contentID: 1,
                 blockID: 2,
-                output: '{"title": "Hello World"}'
+                output: '{"title": "Hello World"}',
+                priority: 1
             }
         }
 
@@ -557,7 +572,7 @@ describe('updateInstance', () => {
                 return {
                     validate: jest.fn(),
                     hasErrors: jest.fn().mockReturnValue(true),
-                    errors: { blockID: 'BlockID is required' }
+                    errors: { blockID: 'BlockID is required', priority: 'Priority is required' }
                 };
             });
         });
@@ -567,7 +582,7 @@ describe('updateInstance', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.send).toHaveBeenCalledWith({
             success: false,
-            message: { blockID: 'BlockID is required' }
+            message: { blockID: 'BlockID is required', priority: 'Priority is required' }
         })
     })
     it('should call BlockInstance.update and send answer', async () => {
@@ -578,7 +593,8 @@ describe('updateInstance', () => {
             body: {
                 contentID: 1,
                 output: '{"title": "Hello World"}',
-                blockID: 2
+                blockID: 2,
+                priority: 1
             }
         }
 
@@ -598,7 +614,8 @@ describe('updateInstance', () => {
             body: {
                 contentID: 1,
                 output: '{"title": "Hello World"}',
-                blockID: 2
+                blockID: 2,
+                priority: 1
             }
         }
 

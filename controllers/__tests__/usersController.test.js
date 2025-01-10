@@ -23,10 +23,13 @@ afterEach(() => {
 describe('index', () => {
     it('should call User.getAll and render users template', async () => {
         const mockRows = [
-            { id: 1, email: 'nils@gmail.com', name: 'Nils', password: 'login123' },
-            { id: 2, email: 'peter@gmail.com', name: 'Peter', password: 'loginpeter' }
+            { id: 1, email: 'nils@gmail.com', name: 'Nils', password: 'login123', role: 0 },
+            { id: 2, email: 'peter@gmail.com', name: 'Peter', password: 'loginpeter', role: 1 }
         ]
+        const mockRoleRow = { id: 1, name: 'Author', perms: 'editContent,editBlockInstances,manageMenus,manageRoles' };
+
         User.getAll.mockReturnValue(mockRows);
+        Role.get.mockReturnValue(mockRoleRow);
 
         await usersController.index(req, res);
 

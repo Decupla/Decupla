@@ -16,6 +16,10 @@ const res = {
     send: jest.fn()
 };
 
+beforeEach(() => {
+    jest.spyOn(global.Date, 'now').mockImplementation(() => 123456789);
+});
+
 afterEach(() => {
     jest.clearAllMocks();
 });
@@ -165,7 +169,11 @@ describe('saveNew', () => {
 
         await contentController.saveNew(req, res);
 
-        expect(Content.add).toHaveBeenCalledWith(req.body);
+        expect(Content.add).toHaveBeenCalledWith({
+            title: 'New Content',
+            status: 1,
+            created: 123456789
+        });
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
             success: true,
@@ -194,7 +202,6 @@ describe('saveNew', () => {
 
         await contentController.saveNew(req, res);
 
-        expect(Content.add).toHaveBeenCalledWith(req.body);
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
             success: false,
@@ -259,7 +266,12 @@ describe('save', () => {
 
         await contentController.save(req, res)
 
-        expect(Content.update).toHaveBeenCalledWith(1, req.body);
+        expect(Content.update).toHaveBeenCalledWith(1, {
+            id: 1,
+            title: 'Existing Content',
+            status: 1,
+            updated: 123456789
+        });
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
             success: true,
@@ -291,7 +303,6 @@ describe('save', () => {
 
         await contentController.save(req, res)
 
-        expect(Content.update).toHaveBeenCalledWith(1, req.body);
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
             success: false,

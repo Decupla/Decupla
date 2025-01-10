@@ -25,7 +25,8 @@ describe('index', () => {
 
         expect(res.render).toHaveBeenCalledWith('login', {
             title: 'Login',
-            message: ''
+            message: '',
+            loggedIn: false
         })
     })
 })
@@ -44,7 +45,8 @@ describe('validateLogin', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.render).toHaveBeenCalledWith('login', {
             title: 'Login',
-            message: 'Please enter email and password'
+            message: 'Please enter email and password',
+            loggedIn: false
         })
     })
 
@@ -64,7 +66,8 @@ describe('validateLogin', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.render).toHaveBeenCalledWith('login', {
             title: 'Login',
-            message: 'E-Mail or Password incorrect'
+            message: 'E-Mail or Password incorrect',
+            loggedIn: false
         })
     })
 
@@ -118,7 +121,8 @@ describe('validateLogin', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.render).toHaveBeenCalledWith('login', {
             title: 'Login',
-            message: 'E-Mail or Password incorrect'
+            message: 'E-Mail or Password incorrect',
+            loggedIn: false
         })
     })
     it('should log errors and render login page if an errors occurs', async () => {
@@ -139,7 +143,8 @@ describe('validateLogin', () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.render).toHaveBeenCalledWith('login', {
             title: 'Login',
-            message: 'There was a error while trying to validate the login'
+            message: 'There was a error while trying to validate the login',
+            loggedIn: false
         });
     })
 })

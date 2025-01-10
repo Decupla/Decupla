@@ -45,7 +45,8 @@ describe('create', () => {
             query: req.query,
             data: {},
             rolePerms: [],
-            editingExisting: false
+            editingExisting: false,
+            messages: {}
         })
     })
 })
@@ -70,7 +71,8 @@ describe('edit', () => {
             data: mockRow,
             query: req.query,
             rolePerms: ['editContent', 'editBlockInstances', 'manageMenus', 'manageRoles'],
-            editingExisting: true
+            editingExisting: true,
+            messages: {}
         })
     })
     it('should redirect if Role.get returned null', async () => {
@@ -91,11 +93,12 @@ describe('edit', () => {
 })
 
 describe('saveNew', () => {
-    it('should validate input and send errors', async () => {
+    it('should validate input and render template with errors', async () => {
         const req = {
             body: {
-                name: 'Author',
-                permissions: ''
+                permissions: 'manageBlocks'
+            },
+            query: {
             }
         }
 
@@ -105,7 +108,7 @@ describe('saveNew', () => {
                 return {
                     validate: jest.fn(),
                     hasErrors: jest.fn().mockReturnValue(true),
-                    errors: { perms: 'Perms is required' }
+                    errors: { name: 'Name is required' }
                 };
             });
         });
@@ -113,9 +116,16 @@ describe('saveNew', () => {
         await rolesController.saveNew(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.send).toHaveBeenCalledWith({ perms: 'Perms is required' });
+        expect(res.render).toHaveBeenCalledWith('editRole', {
+            title: 'Create Role',
+            query: req.query,
+            data: req.body,
+            rolePerms: req.body.permissions,
+            editingExisting: false,
+            messages: { name: 'Name is required' }
+        });
     })
-    it('should send error if req.body.permissions is undefined', async () => {
+    it('should render template with error if req.body.permissions is undefined', async () => {
         const req = {
             body: {
                 name: 'Author'
@@ -125,7 +135,14 @@ describe('saveNew', () => {
         await rolesController.saveNew(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.send).toHaveBeenCalledWith({ perms: 'Perms is required' });
+        expect(res.render).toHaveBeenCalledWith('editRole', {
+            title: 'Create Role',
+            query: req.query,
+            data: req.body,
+            rolePerms: [],
+            editingExisting: false,
+            messages: {perms: 'Please set at least one permission'}
+        });
     })
     it('should call Role.add and redirect on success', async () => {
         const req = {
