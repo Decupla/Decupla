@@ -73,6 +73,12 @@ const createTables = (database) => {
             id INTEGER PRIMARY KEY,
             file TEXT NOT NULL
         );
+
+        CREATE TABLE origins (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            APIKey TEXT NOT NULL
+        );
     `);
 }
 

@@ -723,6 +723,7 @@ input[type=text] {
   border-radius: 0px;
 }
 
+button,
 button.add-new,
 button.radio-link {
   background-color: #3C3C3C;

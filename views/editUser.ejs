@@ -17,16 +17,16 @@
                 <div>
                     <input name="name" id="name" type="text" placeholder="Name" value="<%= data?.name?.trim() || '' %>">
                     <% if ('name' in messages) { %>
-                        <div class="error-message">
+                        <div class="error-message visible">
                             <%= messages.name %>
                         </div>
                         <% } %>
                 </div>
                 <div class="mt-4 input-container">
                     <label for="email">E-Mail</label>
-                    <input placeholder="E-Mail" name="email" id="email" type="email" value="<%= data?.email?.trim() || '' %>"">
+                    <input placeholder="E-Mail" name="email" id="email" type="email" value="<%= data?.email?.trim() || '' %>">
                     <% if ('email' in messages) { %>
-                        <div class="error-message">
+                        <div class="error-message visible">
                             <%= messages.email %>
                         </div>
                     <% } %>
@@ -40,7 +40,7 @@
                     <input placeholder="Password" name="password" id="password" type="password" value="<%= data?.password?.trim() || '' %>">
                 <% } %>
                 <% if ('password' in messages) { %>
-                    <div class="error-message">
+                    <div class="error-message visible">
                     <%= messages.password %>
                     </div>
                 <% } %>
