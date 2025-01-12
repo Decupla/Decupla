@@ -5,6 +5,9 @@
             <a href="/settings">Settings</a> > <strong>Allowed Request Origins</strong>
         </div>
         <a href="/settings/origins/create"><button class="add-new mt-4">+ add new origin</button></a>
+        <% if (query.message==="deleted") { %>
+            <div class="alert alert-success mt-4">Block was deleted!</div>
+        <% } %>
         <table class="collection">
             <tr class="py-2">
                 <th>Origin</th>

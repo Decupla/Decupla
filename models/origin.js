@@ -40,9 +40,20 @@ const update = async (id,data) => {
     }
 }
 
+const remove = async (id) => {
+    try {
+        await db.deleteWhere('origins','id',id);
+        return true;
+    } catch (error) {   
+        console.error('Error deleting data: ', error);
+        return false;
+    }
+}
+
 module.exports = {
     add,
     getAll,
     get,
-    update
+    update,
+    remove
 }

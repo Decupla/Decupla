@@ -12,7 +12,8 @@ const showAllowedOrigins = async (req,res) => {
 
     res.status(200).render('allowedOrigins', {
         title: 'Allowed Request Origings',
-        origins
+        origins,
+        query: req.query
     })
 }
 
@@ -103,11 +104,25 @@ const saveOrigin = async (req,res) => {
     })
 }
 
+const removeOrigin = async (req, res) => {
+    const { id } = req.params;
+    const success = await Origin.remove(id);
+    if (success) {
+        res.status(201).redirect('/settings/origins?message=deleted');
+    } else {
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Something went wrong while trying to delete the origin. Please check the console for more information.'
+        });
+    }
+}
+
 module.exports = {
     index,
     showAllowedOrigins,
     createOrigin,
     editOrigin,
     saveNewOrigin,
-    saveOrigin
+    saveOrigin,
+    removeOrigin
 }

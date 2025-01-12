@@ -8,5 +8,6 @@ settingsRouter.get('/origins/create', settingsController.createOrigin);
 settingsRouter.get('/origins/edit/:id', settingsController.editOrigin);
 settingsRouter.post('/origins',settingsController.saveNewOrigin);
 settingsRouter.put('/origins/:id',settingsController.saveOrigin);
+settingsRouter.delete('/origins/:id',settingsController.removeOrigin);
 
 module.exports = settingsRouter;
