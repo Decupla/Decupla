@@ -26,6 +26,19 @@ const createOrigin = (req,res) => {
     })
 }
 
+const editOrigin = async (req,res) => {
+    const { id } = req.params;
+    const data = await Origin.get(id);
+
+    res.status(200).render('editOrigin', {
+        title: 'Edit Origin',
+        query: req.query,
+        editingExisting: true,
+        data: data,
+        messages: {}
+    })
+}
+
 const saveNewOrigin = async (req,res) => {
     const data = {
         name: req.body.name,
@@ -53,13 +66,48 @@ const saveNewOrigin = async (req,res) => {
             message: 'Something went wrong while trying to save the origin. Please check the console for more information.'
         })
     }
-    res.send('origin saved');
-    // res.status(201).redirect(`/roles/edit/${newID}?message=saved`);
+    return res.status(201).redirect(`/settings/origins/edit/${newID}?message=saved`);
+}
+
+const saveOrigin = async (req,res) => {
+    const { id } = req.params;
+    const data = {
+        id,
+        name: req.body.name,
+        APIKey: req.body.APIKey
+    }
+
+    const validation = new Validation(data);
+    validation.validate("name", "required|string|max:25|min:3");
+    validation.validate("APIKey", "required|string|max:32|min:32");
+
+    if(validation.hasErrors()){
+        return res.status(400).render('editOrigin', {
+            title: 'Edit Origin',
+            query: req.query,
+            editingExisting: true,
+            data: data,
+            messages: validation.errors
+        })
+    }
+
+    const success = await Origin.update(id,data);
+
+    if(success){
+        return res.status(201).redirect(`/settings/origins/edit/${id}?message=saved`);
+    }
+
+    return res.status(500).render('error',{
+        title: 'Error',
+        message: 'Something went wrong while trying to save the origin. Please check the console for more information.'
+    })
 }
 
 module.exports = {
     index,
     showAllowedOrigins,
     createOrigin,
-    saveNewOrigin
+    editOrigin,
+    saveNewOrigin,
+    saveOrigin
 }

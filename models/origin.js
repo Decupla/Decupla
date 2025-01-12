@@ -20,7 +20,29 @@ const getAll = async () => {
     }
 }
 
+const get = async (id) => {
+    try {
+        const result = await db.selectWhere('origins','id',id);
+        return result;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return null;
+    }
+}
+
+const update = async (id,data) => {
+    try {
+        await db.updateWhere('origins',data,'id',id);
+        return true;
+    } catch (error) {
+        console.error('Error updating data: ', error);
+        return false;
+    }
+}
+
 module.exports = {
     add,
-    getAll
+    getAll,
+    get,
+    update
 }

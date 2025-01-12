@@ -918,4 +918,21 @@ input#save {
   display: block;
 }
 
+.key-field {
+  position: relative;
+}
+.key-field.key-hidden .key {
+  visibility: hidden;
+}
+.key-field.key-hidden .key-protection {
+  display: block;
+}
+.key-field .key-protection {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+
 /*# sourceMappingURL=main.css.map */

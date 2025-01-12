@@ -261,6 +261,28 @@ input#save {
     }
 }
 
+.key-field {
+    position: relative;
+
+    &.key-hidden {
+        .key {
+            visibility: hidden;
+        }
+
+        .key-protection {
+            display: block;
+        }
+    }
+
+    .key-protection {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: none;
+    }
+}
+
 // Edit Block Page
 // #message,
 // #name-error {
