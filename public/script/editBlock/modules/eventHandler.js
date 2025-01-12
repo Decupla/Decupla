@@ -26,6 +26,7 @@ export const handleInputSubmit = (event,priority) => {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
+
     setSubmittedForm(form);
 
     if (inputMethod === "create") {
@@ -66,7 +67,7 @@ export const handleBlockSubmit = async (event) => {
             console.log(messages);
 
             for (const [field, message] of Object.entries(messages)) {
-                setFieldMessage(field,message);
+                setFieldMessage(field,message,true);
             }
 
             return;

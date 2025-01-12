@@ -24,9 +24,14 @@ export const validateInput = (data, newName = false) => {
     return isValid;
 };
 
-export const setFieldMessage = (field, message) => {
+export const setFieldMessage = (field, message, blockForm = false) => {
+    let fieldMessageElement;
+    if(blockForm){
+        fieldMessageElement = document.querySelector(`#message-${field}`);
+    } else {
+        fieldMessageElement = submittedForm.querySelector(`.message-${field}`);
+    }
 
-    const fieldMessageElement = submittedForm.querySelector(`.message-${field}`);
     if (fieldMessageElement) {
         fieldMessageElement.innerText = message;
         fieldMessageElement.classList.add('visible');

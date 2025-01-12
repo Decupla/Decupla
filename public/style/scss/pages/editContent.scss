@@ -13,16 +13,17 @@
         &.add-in-between {
 
             .add-block-button {
-                background-color: rgba(0,0,0,0);
+                background-color: rgba(0, 0, 0, 0);
                 border: dashed 1px $border1;
                 color: #777;
                 transition: 0.3s;
             }
 
-        } 
+        }
 
 
-        &.add-in-between .add-block-button:hover, .add-block-button {
+        &.add-in-between .add-block-button:hover,
+        .add-block-button {
             width: 100%;
             padding: 0.25rem 0;
             background-color: $button2;
@@ -31,7 +32,8 @@
             font-weight: 400;
             cursor: pointer;
 
-            &:focus-visible,&:focus {
+            &:focus-visible,
+            &:focus {
                 border: none;
                 outline: none;
             }
@@ -82,6 +84,7 @@
             .add-block-dropdown {
                 display: block;
             }
+
             .add-block-button {
                 display: none;
             }
@@ -91,6 +94,7 @@
             .block-form-container {
                 display: block;
             }
+
             .add-block-button {
                 display: none;
             }
@@ -116,7 +120,8 @@
         .input-fieldset {
             padding: 0.5rem 0rem;
 
-            input[type="text"],textarea {
+            input[type="text"],
+            textarea {
                 width: 100%;
             }
         }
@@ -135,11 +140,11 @@
 
         .block-vis-container {
             &.show-form-container {
-                > .block-form-container {
+                >.block-form-container {
                     display: block;
                 }
 
-                > .block-vis {
+                >.block-vis {
                     display: none;
                 }
             }
@@ -150,7 +155,8 @@
         }
     }
 
-    .dropdown-close,.block-form-close {
+    .dropdown-close,
+    .block-form-close {
         position: absolute;
         right: 0.6rem;
         top: 0.6rem;
@@ -160,6 +166,15 @@
 
         img {
             width: 0.7rem;
+            display: block;
+        }
+    }
+
+    #message-title,
+    #message-saved {
+        display: none;
+
+        &.visible {
             display: block;
         }
     }

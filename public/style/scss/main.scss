@@ -262,14 +262,14 @@ input#save {
 }
 
 // Edit Block Page
-#message,
-#name-error {
-    display: none;
+// #message,
+// #name-error {
+//     display: none;
 
-    &.visible {
-        display: block;
-    }
-}
+//     &.visible {
+//         display: block;
+//     }
+// }
 
 // create content page
 
@@ -289,11 +289,11 @@ input#save {
 
 // }
 
-#message-title,
-#message-saved {
-    display: none;
+// #message-title,
+// #message-saved {
+//     display: none;
 
-    &.visible {
-        display: block;
-    }
-}
+//     &.visible {
+//         display: block;
+//     }
+// }

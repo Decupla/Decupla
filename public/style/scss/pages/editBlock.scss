@@ -4,13 +4,13 @@
 
         &.add-in-between {
             button.add-input {
-                background-color: rgba(0,0,0,0);
+                background-color: rgba(0, 0, 0, 0);
                 border: dashed 1px $border1;
                 color: #777;
                 transition: 0.3s;
             }
 
-        } 
+        }
 
         &#add-input-end {
             display: none;
@@ -20,7 +20,8 @@
             }
         }
 
-        &.add-in-between button.add-input:hover,button.add-input {
+        &.add-in-between button.add-input:hover,
+        button.add-input {
             width: 100%;
             padding: 0.25rem 0;
             background-color: $button2;
@@ -31,11 +32,11 @@
         }
 
         &.show-input-creation {
-            > button.add-input {
+            >button.add-input {
                 display: none;
             }
 
-            > .input-creation {
+            >.input-creation {
                 display: block;
             }
         }
@@ -58,7 +59,7 @@
             padding: 0.25rem;
             background-color: $button1;
             cursor: pointer;
-    
+
             img {
                 width: 0.7rem;
                 display: block;
@@ -114,7 +115,7 @@
                     display: none;
                 }
 
-                > .input-creation {
+                >.input-creation {
                     display: block;
                 }
             }
@@ -129,6 +130,16 @@
         display: none;
         opacity: 1;
         animation: fadeOut 1s ease 3s forwards;
+
+        &.visible {
+            display: block;
+        }
+    }
+
+    #message,
+    #name-error,
+    #message-saved {
+        display: none;
 
         &.visible {
             display: block;

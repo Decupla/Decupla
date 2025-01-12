@@ -13,7 +13,7 @@
             <% for(var i=0; i<origins.length; i++) {%>
             <tr>
                 <td><%= origins[i].name %></td>
-                <td class="token-field"><i>click to show API-Token</i><span class="token"><%= origins[i].APIKey %></span></td>
+                <td class="key-field key-hidden"><i>click to show API-Token</i><span class="key"><%= origins[i].APIKey %></span></td>
                 <td>
                     <div class="d-flex justify-content-end">
                         <a class="pr-1" href="/settings/origins/edit/<%= origins[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
