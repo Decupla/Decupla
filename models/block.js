@@ -60,6 +60,20 @@ const remove = async (id) => {
     }
 }
 
+const getKey = async (id) => {
+    try {
+        const result = await db.selectWhere('blocks', 'id', id);
+        if (result && result.key) {
+            return result.key;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return null;
+    }
+}
+
 const keyExists = async (key) => {
     try {
         const result = await db.selectWhere('blocks', 'key', key);
@@ -94,6 +108,7 @@ module.exports = {
     get,
     update,
     remove,
+    getKey,
     keyExists,
     keyChanged
 }

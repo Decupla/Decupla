@@ -1,32 +1,36 @@
 const Content = require('../models/content');
 const Menu = require('../models/menu');
 const BlockInstance = require('../models/blockInstance');
+const Block = require('../models/block');
 
-const getAllContent = async (req,res) => {
+const getAllContent = async (req, res) => {
     const content = await Content.getAllPublished();
 
-    for(let i = 0; i < content.length; i++ ){
+    for (let i = 0; i < content.length; i++) {
         const contentID = content[i].id;
         const blockInstances = await BlockInstance.getByContent(contentID);
 
         const blocks = [];
 
-        blockInstances.forEach(instance => {
-            const block = {
-                blockID: instance.BlockID,
-                instanceID: instance.id,
-                key: instance.key,
-                output: JSON.parse(instance.output)
-            }
+        for (const instance of blockInstances) {
+            const blockKey = await Block.getKey(instance.blockID);
 
-            blocks.push(block);
-        });
+            const blockData = {
+                instanceID: instance.id,
+                blockID: instance.blockID,
+                blockKey,
+                priority: instance.priority,
+                output: JSON.parse(instance.output),
+            };
+
+            blocks.push(blockData);
+        }
 
         content[i].blocks = blocks;
     }
 
     res.status(200).send(content);
-}
+};
 
 const getContent = async (req,res) => {
     const {id} = req.params;
