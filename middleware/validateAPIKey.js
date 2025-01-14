@@ -7,7 +7,7 @@ const validateAPIKey = async (req,res,next) => {
     }
     const token = authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
     if (!token) {
-      return res.status(401).send({ error: 'Token missing' });
+      return res.status(401).send({ error: 'Authorization token missing' });
     }
 
 
