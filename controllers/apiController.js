@@ -45,16 +45,19 @@ const getContent = async (req,res) => {
 
     const blocks = [];
 
-    blockInstances.forEach(instance => {
-        const block = {
-            blockID: instance.BlockID,
-            instanceID: instance.id,
-            key: instance.key,
-            output: JSON.parse(instance.output)
-        }
+    for (const instance of blockInstances) {
+        const blockKey = await Block.getKey(instance.blockID);
 
-        blocks.push(block);
-    });
+        const blockData = {
+            instanceID: instance.id,
+            blockID: instance.blockID,
+            blockKey,
+            priority: instance.priority,
+            output: JSON.parse(instance.output),
+        };
+
+        blocks.push(blockData);
+    }
 
     content.blocks = blocks;
 

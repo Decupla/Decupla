@@ -38,13 +38,13 @@ describe('index', () => {
 })
 
 describe('create', () => {
-    it('should call Content.getAll and render editMenu template', async () => {
+    it('should call Content.getAllPublished and render editMenu template', async () => {
         const mockRows = [
             { id: 1, title: 'Home', status: 1 },
             { id: 2, title: 'About', status: 1 }
         ]
 
-        Content.getAll.mockReturnValue(mockRows)
+        Content.getAllPublished.mockReturnValue(mockRows)
 
         await menusController.create(req, res);
 
@@ -67,17 +67,17 @@ describe('edit', () => {
         { id: 2, title: 'About', status: 1 }
     ]
 
-    it('should call Menu.get / Content.getAll and render editMenu template', async () => {
+    it('should call Menu.get / Content.getAllPublished and render editMenu template', async () => {
         const mockMenuRow = { id: 1, title: 'Header Menu', key: 'header-menu', entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]' };
 
         Menu.get.mockReturnValue(mockMenuRow)
-        Content.getAll.mockReturnValue(mockContentRows)
+        Content.getAllPublished.mockReturnValue(mockContentRows)
 
 
         await menusController.edit(req, res);
 
         expect(Menu.get).toHaveBeenCalledWith(1);
-        expect(Content.getAll).toHaveBeenCalled();
+        expect(Content.getAllPublished).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.render).toHaveBeenCalledWith('editMenu', {
             title: 'Edit Menu',
@@ -88,12 +88,12 @@ describe('edit', () => {
     })
     it('should redirect if Menu.get returned null', async () => {
         Menu.get.mockReturnValue(null);
-        Content.getAll.mockReturnValue(mockContentRows)
+        Content.getAllPublished.mockReturnValue(mockContentRows)
 
         await menusController.edit(req, res);
 
         expect(Menu.get).toHaveBeenCalledWith(1);
-        expect(Content.getAll).toHaveBeenCalled();
+        expect(Content.getAllPublished).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.redirect).toHaveBeenCalledWith('/menus')
     })

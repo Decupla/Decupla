@@ -14,7 +14,7 @@ const index = async (req,res) => {
 }
 
 const create = async (req,res) => {
-    const content = await Content.getAll();
+    const content = await Content.getAllPublished();
 
     res.status(200).render('editMenu', {
         title: 'Create Menu',
@@ -26,7 +26,7 @@ const create = async (req,res) => {
 const edit = async (req,res) => {
     const { id } = req.params;
     const data = await Menu.get(id);
-    const content = await Content.getAll();
+    const content = await Content.getAllPublished();
     if (data === null) {
         res.status(400).redirect('/menus');
     } else {
