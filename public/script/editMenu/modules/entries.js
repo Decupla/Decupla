@@ -35,7 +35,7 @@ export const addEntry = (content) => {
 
     const entryData = {
         entryID: getEntryId(),
-        contentID: content.dataset.id,
+        contentID: parseInt(content.dataset.id),
         priority: getPriority(),
         title
     }
