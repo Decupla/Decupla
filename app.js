@@ -20,6 +20,7 @@ const loadPermissions = require('./middleware/loadPermissions');
 const checkRole = require('./middleware/checkRole');
 const invalidJsonHandler = require('./middleware/indvalidJsonHandler');
 const useFormatDate = require('./middleware/useFormatDate');
+const validateAPIKey = require('./middleware/validateAPIKey');
 
 const app = express();
 
@@ -55,7 +56,7 @@ app.get('/', (req, res) => {
   }
 })
 
-app.use('/api', APIRouter);
+app.use('/api', validateAPIKey, APIRouter);
 app.use('/login', loginRouter)
 
 app.use(authenticateTokenBrowser);

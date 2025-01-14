@@ -78,7 +78,7 @@ describe('GET /api/content/:id', () => {
   })
 })
 
-describe('getAllMenus', () => {
+describe('GET /api/menus/all', () => {
   it('should return a 200 status and the correct response', async () => {
     const mockedRows = [{
       id: 1, title: "Main Navigation", key: "main-navigation", entries: JSON.stringify([
@@ -93,5 +93,59 @@ describe('getAllMenus', () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockedRows);
+  })
+})
+
+describe('GET /api/menus/:id', () => {
+  it('should return a 200 status and the correct response if menu was found', async () => {
+    const mockedRow = {
+      id: 1, title: "Main Navigation", key: "main-navigation", entries: JSON.stringify([
+        { entryID: 1, contentID: 1, priority: 1, title: "Home" },
+        { entryID: 2, contentID: 2, priority: 2, title: "About Us" }
+      ])
+    };
+
+    Menu.get.mockResolvedValue(mockedRow);
+
+    const response = await request(app).get('/api/menus/1');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(mockedRow);
+  })
+
+  it('should send status 404 and error message if no menu was found', async () => {
+    Menu.get.mockResolvedValue(null);
+
+    const response = await request(app).get('/api/menus/1');
+
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({ error: "Menu with ID 1 not found" });
+  })
+})
+
+describe('GET /api/menus/:key', () => {
+  it('should return a 200 status and the correct response if menu was found', async () => {
+    const mockedRow = {
+      id: 1, title: "Main Navigation", key: "main-navigation", entries: JSON.stringify([
+        { entryID: 1, contentID: 1, priority: 1, title: "Home" },
+        { entryID: 2, contentID: 2, priority: 2, title: "About Us" }
+      ])
+    };
+
+    Menu.getByKey.mockResolvedValue(mockedRow);
+
+    const response = await request(app).get('/api/menus/main-navigation');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(mockedRow);    
+  })
+
+  it('should send status 404 and error message if no menu was found', async () => {
+    Menu.getByKey.mockResolvedValue(null);
+
+    const response = await request(app).get('/api/menus/main-navigation');
+
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({ error: "Menu with Key 'main-navigation' not found" });
   })
 })

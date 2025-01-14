@@ -50,10 +50,24 @@ const remove = async (id) => {
     }
 }
 
+const APIKeyValid = async (key) => {
+    try {
+        const result = await db.selectWhere('origins','APIkey',key);
+        if(result===null){
+            return false
+        }
+        return true;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return false;
+    }
+}
+
 module.exports = {
     add,
     getAll,
     get,
     update,
-    remove
+    remove,
+    APIKeyValid
 }
