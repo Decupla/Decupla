@@ -1,0 +1,83 @@
+#setup {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: fit-content;
+    position: relative;
+    overflow: hidden;
+
+    img#logo {
+        width: 22.25rem;
+        margin-bottom: 3.5rem;
+        max-width: 100%;
+        z-index: 25;
+    }
+
+    #setup-container {
+        position: relative;
+        z-index: 30;
+        width: 22.25rem;
+        max-width: 100%;
+        background-color: $black4;
+        border: solid 1px $border1;
+        padding: 1rem;
+        border-radius: 0.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .setup-input-container {
+        padding-bottom: 1.7rem;
+
+
+        label {
+            display: block;
+            margin-bottom: 0px;
+        }
+
+        input {
+            width: 100%;
+            padding-left: 0.3rem;
+        }
+    }
+
+    #submit-setup {
+        background-color: #3DA99A;
+        color: white;
+        padding: 0.3rem 3.125rem;
+        margin: auto;
+        margin-top: 0.3rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .blob {
+        position: absolute;
+
+        &#blob-green {
+            width: 28.5rem;
+            left: 0;
+            top: 0;
+            transform: translate(-10%, -4%);
+            z-index: 20;
+
+            @media screen and (max-width: 767px) {
+                width: 16rem;
+            }
+        }
+
+        &#blob-blue {
+            width: 23.5rem;
+            bottom: 0;
+            right: 0;
+            transform: translate(10%, 10%);
+            z-index: 10;
+
+            @media screen and (max-width: 767px) {
+                width: 14rem;
+            }
+        }
+    }
+}

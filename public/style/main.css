@@ -679,6 +679,82 @@ header img#logo {
   margin: auto;
 }
 
+#setup {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: fit-content;
+  position: relative;
+  overflow: hidden;
+}
+#setup img#logo {
+  width: 22.25rem;
+  margin-bottom: 3.5rem;
+  max-width: 100%;
+  z-index: 25;
+}
+#setup #setup-container {
+  position: relative;
+  z-index: 30;
+  width: 22.25rem;
+  max-width: 100%;
+  background-color: #242424;
+  border: solid 1px #363636;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  margin-bottom: 1rem;
+}
+#setup .setup-input-container {
+  padding-bottom: 1.7rem;
+}
+#setup .setup-input-container label {
+  display: block;
+  margin-bottom: 0px;
+}
+#setup .setup-input-container input {
+  width: 100%;
+  padding-left: 0.3rem;
+}
+#setup #submit-setup {
+  background-color: #3DA99A;
+  color: white;
+  padding: 0.3rem 3.125rem;
+  margin: auto;
+  margin-top: 0.3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+#setup .blob {
+  position: absolute;
+}
+#setup .blob#blob-green {
+  width: 28.5rem;
+  left: 0;
+  top: 0;
+  transform: translate(-10%, -4%);
+  z-index: 20;
+}
+@media screen and (max-width: 767px) {
+  #setup .blob#blob-green {
+    width: 16rem;
+  }
+}
+#setup .blob#blob-blue {
+  width: 23.5rem;
+  bottom: 0;
+  right: 0;
+  transform: translate(10%, 10%);
+  z-index: 10;
+}
+@media screen and (max-width: 767px) {
+  #setup .blob#blob-blue {
+    width: 14rem;
+  }
+}
+
 body {
   background-color: #1E1E1E;
   color: white;

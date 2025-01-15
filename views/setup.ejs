@@ -1,0 +1,28 @@
+<%- include('layout/layoutStart.ejs') %>
+<main id="setup">
+    <img src="/images/logo_decupla.svg" alt="Decupla" id="logo">
+    <div id="setup-container">
+        <h1>Create First User</h1>
+        <form action="/setup/" method="POST">
+            <div class="setup-input-container">
+                <label for="email">E-Mail</label>
+                <input type="text" name="email" id="email">
+            </div>
+            <div class="setup-input-container">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div class="setup-input-container">
+                <label for="password-repeat">Repeat Password</label>
+                <input type="password" name="password-repeat" id="password-repeat">
+            </div>
+            <% if(message!==""){ %>
+                <div class="alert alert-danger mb-4"><%= message %></div>
+            <% } %>
+            <input id="submit-setup" type="submit" value="login">
+        </form>
+    </div>
+    <img class="blob" id="blob-green" src="/images/blob_green.svg" alt="">
+    <img class="blob" id="blob-blue" src="/images/blob_blue.svg" alt="">
+</main>
+<%- include('layout/layoutEnd.ejs') %>

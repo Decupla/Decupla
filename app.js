@@ -13,6 +13,7 @@ const menusRouter = require('./routes/menusRoutes');
 const loginRouter = require('./routes/loginRoutes');
 const APIRouter = require('./routes/APIRoutes');
 const settingsRouter = require('./routes/settingsRoutes');
+const setupRouter = require('./routes/setupRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
@@ -21,6 +22,7 @@ const checkRole = require('./middleware/checkRole');
 const invalidJsonHandler = require('./middleware/indvalidJsonHandler');
 const useFormatDate = require('./middleware/useFormatDate');
 const validateAPIKey = require('./middleware/validateAPIKey');
+const checkUserExistence = require('./middleware/checkUserExistence');
 
 const app = express();
 
@@ -57,7 +59,11 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', validateAPIKey, APIRouter);
+
+app.use(checkUserExistence);
+
 app.use('/login', loginRouter)
+app.use('/setup', setupRouter);
 
 app.use(authenticateTokenBrowser);
 app.use(loadPermissions);

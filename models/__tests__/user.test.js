@@ -53,12 +53,13 @@ describe('getAll',()=>{
         expect(result).toEqual(mockRows);
         expect(db.selectAll).toHaveBeenCalledWith('users');
     })
-    it('should log errors',async ()=>{
+    it('should log errors and return empty array',async ()=>{
         db.selectAll.mockRejectedValue(mockError);
 
         const result = await User.getAll();
 
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
+        expect(result).toEqual([]);
 
     })
 });

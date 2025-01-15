@@ -16,6 +16,7 @@ const getAll = async () => {
         return rows;
     } catch (error) {
         console.error('Error retrieving data: ', error);
+        return [];
     }
 }
 
