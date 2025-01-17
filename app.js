@@ -23,6 +23,7 @@ const invalidJsonHandler = require('./middleware/indvalidJsonHandler');
 const useFormatDate = require('./middleware/useFormatDate');
 const validateAPIKey = require('./middleware/validateAPIKey');
 const checkUserExistence = require('./middleware/checkUserExistence');
+const protectSetupRoutes = require('./middleware/protectSetupRoutes');
 
 const app = express();
 
@@ -44,10 +45,10 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.use((req, res, next) => {
-  req.session.authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ik5pbHMiLCJpYXQiOjE3MzUzMTYzNjZ9.jIO6ZX1KS_HKt7LelEk3-QcHgcDVnfKwkuO2J1G-nrk';
-  next();
-});
+// app.use((req, res, next) => {
+//   req.session.authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ik5pbHMiLCJpYXQiOjE3MzUzMTYzNjZ9.jIO6ZX1KS_HKt7LelEk3-QcHgcDVnfKwkuO2J1G-nrk';
+//   next();
+// });
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -63,7 +64,7 @@ app.use('/api', validateAPIKey, APIRouter);
 app.use(checkUserExistence);
 
 app.use('/login', loginRouter)
-app.use('/setup', setupRouter);
+app.use('/setup', protectSetupRoutes, setupRouter);
 
 app.use(authenticateTokenBrowser);
 app.use(loadPermissions);

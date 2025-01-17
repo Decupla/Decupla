@@ -10,7 +10,7 @@ const loadPermissions = async (req, res, next) => {
     const userID = req.user.id;
     const user = await User.get(userID);
 
-    if (user === null) {
+    if (user === null || user.role===undefined) {
         // to do: fehlermeldung auf login seite?
         return res.status(401).redirect('/login');
     }
@@ -25,12 +25,13 @@ const loadPermissions = async (req, res, next) => {
 
     const userRole = await Role.get(user.role);
 
-    if (userRole === null||user.role===undefined) {
+    if (userRole === null) {
         // to do: fehlermeldung auf login seite?
-        return res.status(401).redirect('/login');
+        res.locals.permissions = [];
+    } else {
+        res.locals.permissions = userRole.perms.split(',');
     }
 
-    res.locals.permissions = userRole.perms.split(',');
     res.locals.loggedIn = true;
     res.locals.username = user.name;
     return next();

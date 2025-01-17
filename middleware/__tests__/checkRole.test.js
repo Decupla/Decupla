@@ -79,7 +79,7 @@ describe('checkRole', () => {
             title: 'Not Allowed'
         })
     })
-    it('should logg error and redirect to login if there is an error', async () => {
+    it('should log error and redirect to login if there is an error', async () => {
         User.get.mockRejectedValue(new Error('Database error'));
 
         await checkRole('admin')(req, res, next);

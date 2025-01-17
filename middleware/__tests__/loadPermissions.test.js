@@ -83,7 +83,7 @@ describe('loadPermissions', () => {
         expect(next).toHaveBeenCalled();
     });
 
-    it('should redirect to /login if user role is invalid', async () => {
+    it('should set empty permissions if user role was not found', async () => {
         req = {
             path: '/content',
             user: {
@@ -97,9 +97,8 @@ describe('loadPermissions', () => {
 
         await loadPermissions(req, res, next);
 
-        expect(res.status).toHaveBeenCalledWith(401);
-        expect(res.redirect).toHaveBeenCalledWith('/login');
-        expect(next).not.toHaveBeenCalled();
+        expect(res.locals.permissions).toEqual([]);
+        expect(next).toHaveBeenCalled();
     });
 
 })

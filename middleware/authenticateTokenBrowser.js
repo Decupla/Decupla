@@ -17,6 +17,7 @@ const authenticateTokenBrowser = (req, res, next) => {
         req.user = currentUser;
         next();
     } catch(error){
+        console.log(error);
         return res.status(401).redirect('/login');
     }
 }

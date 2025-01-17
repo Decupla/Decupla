@@ -18,7 +18,13 @@ const checkRole = (permission) => {
 
             const userRole = await Role.get(user.role);
 
-            const perms = userRole.perms.split(',');
+            let perms;
+
+            if(userRole===null){
+                perms = []; 
+            } else {
+                perms = userRole.perms.split(',');
+            }
 
             if(perms.includes(permission)){
                 next();
