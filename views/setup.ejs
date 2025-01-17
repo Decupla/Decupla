@@ -6,20 +6,37 @@
         <form action="/setup/" method="POST">
             <div class="setup-input-container">
                 <label for="email">E-Mail</label>
-                <input type="text" name="email" id="email">
+                <input type="text" name="email" id="email" value="<%= data?.email?.trim() || '' %>">
+                <% if ('email' in messages) { %>
+                    <div class="error-message visible">
+                        <%= messages.email %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="setup-input-container">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" value="<%= data?.name?.trim() || '' %>">
+                <% if ('name' in messages) { %>
+                    <div class="error-message visible">
+                        <%= messages.name %>
+                    </div>
+                <% } %>
             </div>
             <div class="setup-input-container">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password">
+                <div class="toggle-visibility-wrapper">
+                    <input type="password" name="password" id="password" value="<%= data?.password?.trim() || '' %>">
+                    <div class="toggle-password-visibility"></div>
+                </div>
+                <% if ('password' in messages) { %>
+                    <div class="error-message visible">
+                    <%= messages.password %>
+                    </div>
+                <% } %>
             </div>
-            <div class="setup-input-container">
-                <label for="password-repeat">Repeat Password</label>
-                <input type="password" name="password-repeat" id="password-repeat">
-            </div>
-            <% if(message!==""){ %>
-                <div class="alert alert-danger mb-4"><%= message %></div>
-            <% } %>
-            <input id="submit-setup" type="submit" value="login">
+ 
+            <input id="submit-setup" type="submit" value="create user">
+
         </form>
     </div>
     <img class="blob" id="blob-green" src="/images/blob_green.svg" alt="">

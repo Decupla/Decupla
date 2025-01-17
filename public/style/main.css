@@ -718,6 +718,9 @@ header img#logo {
   width: 100%;
   padding-left: 0.3rem;
 }
+#setup .setup-input-container .error-message {
+  color: #db1c1c;
+}
 #setup #submit-setup {
   background-color: #3DA99A;
   color: white;
@@ -800,6 +803,7 @@ h1 {
 button,
 input[type=submit],
 input[type=text],
+input[type=password],
 select {
   border: none;
 }
@@ -808,6 +812,8 @@ input[type=submit]:focus,
 input[type=submit]:focus-visible,
 input[type=text]:focus,
 input[type=text]:focus-visible,
+input[type=password]:focus,
+input[type=password]:focus-visible,
 select:focus,
 select:focus-visible {
   outline: none;
@@ -820,7 +826,7 @@ select {
   cursor: pointer;
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
   border-radius: 0px;
 }
 
@@ -962,6 +968,24 @@ input#save {
   color: white;
   font-size: 1.125rem;
   padding: 0.2rem 1.8rem;
+}
+
+.toggle-visibility-wrapper {
+  position: relative;
+}
+.toggle-visibility-wrapper .toggle-password-visibility {
+  height: 1.5rem;
+  width: 1.5rem;
+  background-image: url("../images/icons/visibility.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.8;
+  cursor: pointer;
 }
 
 .message-saved {
