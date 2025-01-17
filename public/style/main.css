@@ -139,6 +139,12 @@ header img#logo {
   width: 140px;
   display: flex;
 }
+header .logout-link {
+  color: #ff3c3c;
+}
+header .logout-link img {
+  width: 1.3rem;
+}
 
 #main-sidebar {
   background-color: #181818;

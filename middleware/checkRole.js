@@ -9,7 +9,7 @@ const checkRole = (permission) => {
 
             if (!user) {
                 req.session.allowLogin = true;
-                return res.status(401).redirect('/login');
+                return res.redirect('/login');
             }
 
             // check if user is administrator
@@ -39,7 +39,7 @@ const checkRole = (permission) => {
         } catch (error) {
             console.error(error);
             req.session.allowLogin = true;
-            return res.status(400).redirect('/login');
+            return res.redirect('/login');
         }
     };
 };

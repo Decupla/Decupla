@@ -14,6 +14,7 @@ const loginRouter = require('./routes/loginRoutes');
 const APIRouter = require('./routes/APIRoutes');
 const settingsRouter = require('./routes/settingsRoutes');
 const setupRouter = require('./routes/setupRoutes');
+const logoutRouter = require('./routes/logoutRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
@@ -77,6 +78,7 @@ app.use('/users', checkRole('manageUsers'), usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);
 app.use('/settings', checkRole('manageSettings'), settingsRouter);
+app.use('/logout', logoutRouter);
 
 app.use(invalidRouteHandler);
 app.use(invalidJsonHandler);

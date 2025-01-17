@@ -16,7 +16,15 @@
             <div id="mobile-sidebar-toggle" class="d-md-none">
                 <img src="/images/icons/menu.png" alt="Open Menu">
             </div>
-            <div class="d-none d-md-block">Logged in as <strong><%= username %></strong></div>
+            <div class="d-none d-md-flex justify-content-md-end">
+                <div>
+                    Logged in as <strong><%= username %></strong>
+                </div>
+                <a href="/logout" class="logout-link d-flex align-items-center ml-3">
+                    <img class="mr-1" src="/images/icons/logout.png" alt="">
+                    logout
+                </a>
+            </div>
         </header>
         <div id="main-wrapper">
             <%- include('./sidebar.ejs') %>

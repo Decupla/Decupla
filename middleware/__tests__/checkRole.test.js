@@ -5,7 +5,12 @@ const Role = require('../../models/role');
 jest.mock('../../models/user');
 jest.mock('../../models/role');
 
-let req = {};
+let req = {
+    session: {},
+    user: {
+        id: 1
+    }
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -25,26 +30,14 @@ afterEach(() => {
 
 describe('checkRole', () => {
     it('should call User.get and redirect to login if no user was found', async () => {
-        req = {
-            user: {
-                id: 90
-            }
-        };
-
         User.get.mockReturnValue(null);
 
         await checkRole('author')(req, res, next);
 
-        expect(User.get).toHaveBeenCalledWith(90);
-        expect(res.status).toHaveBeenCalledWith(401);
+        expect(User.get).toHaveBeenCalledWith(1);
         expect(res.redirect).toHaveBeenCalledWith('/login');
     })
 
-    req = {
-        user: {
-            id: 1
-        }
-    };
 
     it('should call next if user is an administrator', async () => {
         const mockUser = { id: 1, email: 'nils@gmail.com', name: 'Nils', role: 0 };
@@ -84,7 +77,6 @@ describe('checkRole', () => {
 
         await checkRole('admin')(req, res, next);
 
-        expect(res.status).toHaveBeenCalledWith(400);
         expect(res.redirect).toHaveBeenCalledWith('/login');
         expect(consoleSpy).toHaveBeenCalledWith(expect.objectContaining({
             message: 'Database error',

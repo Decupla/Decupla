@@ -5,7 +5,11 @@ const Role = require('../../models/role');
 jest.mock('../../models/user');
 jest.mock('../../models/role');
 
-let req = {};
+const req = { 
+    path: '/content', 
+    user: { id: 1 },
+    session: {}
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -20,18 +24,8 @@ afterEach(() => {
 });
 
 describe('loadPermissions', () => {
-    // it('should call next if req.path is /login', async () => {
-    //     req = {
-    //         path: '/login'
-    //     };
-
-    //     await loadPermissions(req, res, next);
-
-    //     expect(next).toHaveBeenCalled();
-    // });
-
     it('should call User.get and redirect to /login if no user was found', async () => {
-        req = { path: '/content', user: { id: 1 } };
+
 
         User.get.mockResolvedValue(null);
 
@@ -43,13 +37,6 @@ describe('loadPermissions', () => {
     });
 
     it('should set permissions and call next if user is an administrator', async () => {
-        req = {
-            path: '/content',
-            user: {
-                id: 1
-            }
-        };
-
         User.get.mockResolvedValue({ id: 1, name: 'Nils', email: 'nils@gmail.com', role: 0 });
 
         await loadPermissions(req, res, next);
@@ -65,13 +52,6 @@ describe('loadPermissions', () => {
     });
 
     it('should set permissions and call next if user has role with permissions', async () => {
-        req = {
-            path: '/content',
-            user: {
-                id: 1
-            }
-        };
-
         User.get.mockResolvedValue({ id: 1, name: 'Nils', email: 'nils@gmail.com', role: 2 });
 
         Role.get.mockResolvedValue({ perms: 'editContent,manageMenus' });
@@ -83,13 +63,6 @@ describe('loadPermissions', () => {
     });
 
     it('should set empty permissions if user role was not found', async () => {
-        req = {
-            path: '/content',
-            user: {
-                id: 1
-            }
-        };
-
         User.get.mockResolvedValue({ id: 1, name: 'Nils', email: 'nils@gmail.com', role: 2 });
 
         Role.get.mockResolvedValue(null);
