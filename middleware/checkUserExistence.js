@@ -4,12 +4,14 @@ const checkUserExistence = async (req, res, next) => {
     try {
         const users = await User.getAll();
         if(users.length===0){
-            req.allowSetup = true;
+            req.session.allowSetup = true; 
             return res.redirect('/setup');
         }
+        req.session.allowSetup = false;
         next();
     } catch (error) {
         console.log(error);
+        req.session.allowSetup = true;
         res.redirect('/setup');
     }
 }

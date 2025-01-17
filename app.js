@@ -24,6 +24,7 @@ const useFormatDate = require('./middleware/useFormatDate');
 const validateAPIKey = require('./middleware/validateAPIKey');
 const checkUserExistence = require('./middleware/checkUserExistence');
 const protectSetupRoutes = require('./middleware/protectSetupRoutes');
+const protectLoginRoutes = require('./middleware/protectLoginRoutes');
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
+
 app.get('/', (req, res) => {
   if (req.accepts('html')) {
     res.redirect('/content');
@@ -60,11 +62,11 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', validateAPIKey, APIRouter);
+app.use('/setup', protectSetupRoutes, setupRouter);
 
 app.use(checkUserExistence);
 
-app.use('/login', loginRouter)
-app.use('/setup', protectSetupRoutes, setupRouter);
+app.use('/login', protectLoginRoutes, loginRouter);
 
 app.use(authenticateTokenBrowser);
 app.use(loadPermissions);
@@ -78,6 +80,5 @@ app.use('/settings', checkRole('manageSettings'), settingsRouter);
 
 app.use(invalidRouteHandler);
 app.use(invalidJsonHandler);
-
 
 module.exports = app;

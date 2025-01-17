@@ -1,3 +1,9 @@
 const protectLoginRoutes = (req,res,next) => {
-    //req.allowLogin
+    if(!req.session.allowLogin){
+        return res.redirect('/content');
+    }
+
+    next();
 }
+
+module.exports = protectLoginRoutes;

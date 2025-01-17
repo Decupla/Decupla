@@ -7,28 +7,28 @@ const bcrypt = require('bcrypt');
 const index = async (req, res) => {
     const users = await User.getAll();
 
-    users.forEach(async user => {
-        if(user.role===0){
+    for (const user of users) {
+        if (user.role === 0) {
             user.role = "Admin";
-            return;
+            continue;
         }
-    
+
         const userRole = await Role.get(user.role);
 
-        if(userRole===null){
+        if (userRole === null) {
             user.role = "";
-            return;
+            continue;
         }
 
         user.role = userRole.name;
-    });
+    }
 
     res.status(200).render('users', {
         title: 'Users',
         users,
         query: req.query
-    })
-}
+    });
+};
 
 const create = async (req, res) => {
     const roles = await Role.getAll();

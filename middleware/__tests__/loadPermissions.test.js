@@ -38,7 +38,6 @@ describe('loadPermissions', () => {
         await loadPermissions(req, res, next);
 
         expect(User.get).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(401);
         expect(res.redirect).toHaveBeenCalledWith('/login');
         expect(next).not.toHaveBeenCalled();
     });

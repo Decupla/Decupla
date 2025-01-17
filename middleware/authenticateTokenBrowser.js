@@ -7,18 +7,20 @@ const authenticateTokenBrowser = (req, res, next) => {
     // }
 
     const token = req.session.authToken;
+    req.session.allowLogin = true;
 
     if(token===undefined){
-        return res.status(401).redirect('/login');
+        return res.redirect('/login');
     }
 
     try {
         const currentUser = jwt.verify(token,process.env.TOKEN_SECRET);;
         req.user = currentUser;
+        req.session.allowLogin = false;
         next();
     } catch(error){
         console.log(error);
-        return res.status(401).redirect('/login');
+        return res.redirect('/login');
     }
 }
 

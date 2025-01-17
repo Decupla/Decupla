@@ -38,7 +38,6 @@ describe('authenticateTokenBrowser', () => {
 
         authenticateTokenBrowser(req, res, next);
 
-        expect(res.status).toHaveBeenCalledWith(401);
         expect(res.redirect).toHaveBeenCalledWith('/login');
     })
     it('should redirect to /login if authToken is invalid', () => {
@@ -53,7 +52,6 @@ describe('authenticateTokenBrowser', () => {
 
         authenticateTokenBrowser(req, res, next);
 
-        expect(res.status).toHaveBeenCalledWith(401);
         expect(res.redirect).toHaveBeenCalledWith('/login');
     })
     it('should set req.user and call next if token is valid', () => {

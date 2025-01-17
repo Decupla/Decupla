@@ -1,5 +1,5 @@
 const protectSetupRoutes = (req,res,next) => {
-    if(!req.allowSetup){
+    if(!req.session.allowSetup){
         return res.redirect('/');
     }
 

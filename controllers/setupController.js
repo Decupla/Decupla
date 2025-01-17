@@ -27,7 +27,7 @@ const validateSetup = async (req, res) => {
     validation.validate("email", "required|email");
     validation.validate("name", "required|string|max:25|min:3");
     validation.validate("password", "required|max:30|min:8");
-
+    
     if (validation.hasErrors()) {
         return res.status(400).render('setup', {
             title: 'Setup',

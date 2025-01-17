@@ -22,11 +22,7 @@
                     <legend>Permissions</legend>
                     <div>    
                         <input type="checkbox" id="editContent" name="permissions" value="editContent" <%= (rolePerms.includes('editContent')) ? 'checked' : '' %> />
-                        <label for="editContent">Edit Content</label>
-                    </div>
-                    <div>    
-                        <input type="checkbox" id="manageContent" name="permissions" value="manageContent" <%= (rolePerms.includes('manageContent')) ? 'checked' : '' %> />
-                        <label for="manageContent">Add / Delete Content</label>
+                        <label for="editContent">Manage Content</label>
                     </div>
                     <div>    
                         <input type="checkbox" id="manageMenus" name="permissions" value="manageMenus" <%= (rolePerms.includes('manageMenus')) ? 'checked' : '' %> />

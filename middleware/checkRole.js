@@ -8,11 +8,13 @@ const checkRole = (permission) => {
             const user = await User.get(userID);
 
             if (!user) {
+                req.session.allowLogin = true;
                 return res.status(401).redirect('/login');
             }
 
             // check if user is administrator
             if(user.role===0){
+                req.session.allowLogin = false;
                 return next();
             }
 
@@ -36,6 +38,7 @@ const checkRole = (permission) => {
 
         } catch (error) {
             console.error(error);
+            req.session.allowLogin = true;
             return res.status(400).redirect('/login');
         }
     };

@@ -12,7 +12,8 @@ const loadPermissions = async (req, res, next) => {
 
     if (user === null || user.role===undefined) {
         // to do: fehlermeldung auf login seite?
-        return res.status(401).redirect('/login');
+        req.session.allowLogin = true;
+        return res.redirect('/login');
     }
 
     // if user is adminstrator, set all rights
