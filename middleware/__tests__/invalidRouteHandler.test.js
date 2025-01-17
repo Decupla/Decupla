@@ -8,10 +8,9 @@ const res = {
 const next = jest.fn();
 
 describe('indvalidRouteHandler', () => {
-    it('should send status 404 and redirect to /content', async () => {
+    it('should redirect to /content', async () => {
         invalidRouteHandler(req,res,next);
         
-        expect(res.status).toHaveBeenCalledWith(404);
         expect(res.redirect).toHaveBeenCalledWith('/content');
     })
 })

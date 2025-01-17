@@ -33,7 +33,7 @@ const validateLogin = async (req, res) => {
         if(passwordCorrect){
             const token = authenticateUser(foundUser);
             req.session.authToken = token;
-            res.status(200).redirect('/content');
+            res.redirect('/content');
 
         } else {
             return res.status(400).render('login', {

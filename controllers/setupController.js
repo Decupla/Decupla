@@ -49,7 +49,7 @@ const validateSetup = async (req, res) => {
 
     const token = jwt.sign({ id: newID, name: data.name },process.env.TOKEN_SECRET);
     req.session.authToken = token;
-    res.status(201).redirect(`/content`);
+    res.redirect(`/content`);
 }
 
 module.exports = {

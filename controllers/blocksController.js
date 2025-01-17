@@ -24,7 +24,7 @@ const edit = async (req, res) => {
     const { id } = req.params;
     const data = await Block.get(id);
     if (data === null) {
-        res.status(404).redirect('/blocks');
+        res.redirect('/blocks');
     } else {
         res.status(200).render('editBlock', {
             title: 'Edit Block',
@@ -129,7 +129,7 @@ const remove = async (req, res) => {
     if (success) {
         const instancesSuccess = await BlockInstance.deleteByBlock(id);
         if (instancesSuccess) {
-            return res.status(201).redirect('/blocks?message=deleted');
+            return res.redirect('/blocks?message=deleted');
         } else {
             res.status(500).render('error', {
                 title: 'Error',

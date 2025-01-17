@@ -49,7 +49,7 @@ const edit = async (req, res) => {
     // get content data by id
     const data = await User.get(id);
     if (data === null) {
-        return res.status(404).redirect('/users');
+        return res.redirect('/users');
     }
 
     data.password = "";
@@ -111,7 +111,7 @@ const saveNew = async (req, res) => {
             message: 'Something went wrong while trying to save the user. Please check the console for more information.'
         })
     }
-    res.status(201).redirect(`/users/edit/${newID}?message=saved`);
+    res.redirect(`/users/edit/${newID}?message=saved`);
 }
 
 const save = async (req, res) => {
@@ -167,7 +167,7 @@ const save = async (req, res) => {
 
     const success = await User.update(id, data);
     if (success) {
-        res.status(201).redirect(`/users/edit/${id}?message=saved`);
+        res.redirect(`/users/edit/${id}?message=saved`);
     } else {
         res.status(500).render('error', {
             title: 'Error',
@@ -180,7 +180,7 @@ const remove = async (req, res) => {
     const { id } = req.params;
     const success = await User.remove(id);
     if (success) {
-        res.status(201).redirect('/users?message=deleted');
+        res.redirect('/users?message=deleted');
     } else {
         res.status(500).render('error', {
             title: 'Error',

@@ -27,7 +27,7 @@ const edit = async (req, res) => {
 
     const data = await Role.get(id);
     if (data === null) {
-        res.status(404).redirect('/roles');
+        res.redirect('/roles');
     } else {
         const rolePerms = data.perms.split(',');
         res.status(200).render('editRole', {
@@ -81,7 +81,7 @@ const saveNew = async (req, res) => {
                 message: 'Something went wrong while trying to save the role. Please check the console for more information.'
             })
         }
-        res.status(201).redirect(`/roles/edit/${newID}?message=saved`);
+        res.redirect(`/roles/edit/${newID}?message=saved`);
     }
 }
 
@@ -105,7 +105,7 @@ const save = async (req, res) => {
 
     const success = await Role.update(id, data);
     if (success) {
-        res.status(201).redirect(`/roles/edit/${id}?message=saved`);
+        res.redirect(`/roles/edit/${id}?message=saved`);
     } else {
         res.status(500).render('error',{
             title: 'Error',
@@ -119,7 +119,7 @@ const remove = async (req, res) => {
     const { id } = req.params;
     const success = await Role.remove(id);
     if (success) {
-        res.status(201).redirect('/roles?message=deleted');
+        res.redirect('/roles?message=deleted');
     } else {
         res.status(404).render('error', {
             title: 'Error',

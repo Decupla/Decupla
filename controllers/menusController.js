@@ -28,7 +28,7 @@ const edit = async (req,res) => {
     const data = await Menu.get(id);
     const content = await Content.getAllPublished();
     if (data === null) {
-        res.status(400).redirect('/menus');
+        res.redirect('/menus');
     } else {
         res.status(200).render('editMenu', {
             title: 'Edit Menu',
@@ -160,7 +160,7 @@ const remove = async (req, res) => {
     const { id } = req.params;
     const success = await Menu.remove(id);
     if (success) {
-        res.status(201).redirect('/menus?message=deleted');
+        res.redirect('/menus?message=deleted');
     } else {
         res.status(500).render('error', {
             title: 'Error',

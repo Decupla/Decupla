@@ -96,7 +96,6 @@ describe('validateLogin', () => {
 
         expect(User.getByMail).toHaveBeenCalledWith(req.body.email);
         expect(bcrypt.compare).toHaveBeenCalledWith(req.body.password, 'login123');
-        expect(res.status).toHaveBeenCalledWith(200);
         expect(res.redirect).toHaveBeenCalledWith('/content');
     })
 

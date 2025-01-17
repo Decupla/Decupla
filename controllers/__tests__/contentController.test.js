@@ -112,7 +112,6 @@ describe('edit', () => {
         await contentController.edit(req, res);
 
         expect(Content.get).toHaveBeenCalledWith(90);
-        expect(res.status).toHaveBeenCalledWith(404);
         expect(res.redirect).toHaveBeenCalledWith('/content');
 
     })
@@ -326,7 +325,6 @@ describe('remove', () => {
 
         expect(Content.remove).toHaveBeenCalledWith(1);
         expect(BlockInstance.deleteByContent).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(200);
         expect(res.redirect).toHaveBeenCalledWith('/content?message=deleted');
     })
     it('should render error page if Content.remove failed', async () => {
@@ -341,7 +339,6 @@ describe('remove', () => {
         await contentController.remove(req, res);
 
         expect(Content.remove).toHaveBeenCalledWith(90);
-        expect(res.status).toHaveBeenCalledWith(500);
         expect(res.render).toHaveBeenCalledWith('error', {
             title: 'Error',
             message: 'Something went wrong while trying to delete the content. Please check the console for more information.'

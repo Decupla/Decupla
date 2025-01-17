@@ -87,7 +87,6 @@ describe('edit', () => {
         await rolesController.edit(req, res);
 
         expect(Role.get).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(404);
         expect(res.redirect).toHaveBeenCalledWith('/roles')
     })
 })
@@ -171,7 +170,6 @@ describe('saveNew', () => {
             name: 'Author',
             perms: 'editContent'
         });
-        expect(res.status).toHaveBeenCalledWith(201);
         expect(res.redirect).toHaveBeenCalledWith(`/roles/edit/${mockNewID}?message=saved`);
     })
     it('should render error template if Role.add returned null', async () => {
@@ -262,7 +260,6 @@ describe('save', () => {
             name: 'Author',
             perms: 'editContent'
         });
-        expect(res.status).toHaveBeenCalledWith(201);
         expect(res.redirect).toHaveBeenCalledWith('/roles/edit/1?message=saved');
     })
     it('should render error template if Role.updated failed', async () => {
@@ -316,7 +313,6 @@ describe('remove', () => {
         await rolesController.remove(req, res);
 
         expect(Role.remove).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(201);
         expect(res.redirect).toHaveBeenCalledWith('/roles?message=deleted');
     })
     it('should render rror template if Role.delete failed', async () => {
@@ -331,7 +327,6 @@ describe('remove', () => {
         await rolesController.remove(req, res);
 
         expect(Role.remove).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(404);
         expect(res.render).toHaveBeenCalledWith('error', {
             title: 'Error',
             message: 'Something went wrong while trying to delete the role. Please check the console for more information.'

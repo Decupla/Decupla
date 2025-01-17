@@ -67,7 +67,7 @@ const saveNewOrigin = async (req,res) => {
             message: 'Something went wrong while trying to save the origin. Please check the console for more information.'
         })
     }
-    return res.status(201).redirect(`/settings/origins/edit/${newID}?message=saved`);
+    return res.redirect(`/settings/origins/edit/${newID}?message=saved`);
 }
 
 const saveOrigin = async (req,res) => {
@@ -95,7 +95,7 @@ const saveOrigin = async (req,res) => {
     const success = await Origin.update(id,data);
 
     if(success){
-        return res.status(201).redirect(`/settings/origins/edit/${id}?message=saved`);
+        return res.redirect(`/settings/origins/edit/${id}?message=saved`);
     }
 
     return res.status(500).render('error',{
@@ -108,7 +108,7 @@ const removeOrigin = async (req, res) => {
     const { id } = req.params;
     const success = await Origin.remove(id);
     if (success) {
-        res.status(201).redirect('/settings/origins?message=deleted');
+        res.redirect('/settings/origins?message=deleted');
     } else {
         res.status(500).render('error', {
             title: 'Error',

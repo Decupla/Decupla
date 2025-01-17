@@ -1,6 +1,6 @@
 const invalidRouteHandler = (req, res, next) => {
     // to do: 404 page?
-    res.status(404).redirect('/content')
+    res.redirect('/content')
 }
 
 module.exports = invalidRouteHandler;

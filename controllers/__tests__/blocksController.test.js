@@ -86,7 +86,6 @@ describe('edit', () => {
 
         expect(Block.get).toHaveBeenCalledWith(90);
         expect(res.redirect).toHaveBeenCalledWith('/blocks');
-        expect(res.status).toHaveBeenCalledWith(404);
     })
 })
 
@@ -380,7 +379,6 @@ describe('remove', () => {
 
         expect(Block.remove).toHaveBeenCalledWith(1);
         expect(BlockInstance.deleteByBlock).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(201);
         expect(res.redirect).toHaveBeenCalledWith('/blocks?message=deleted');
     })
     it('should render error page if Block.remove failed', async () => {

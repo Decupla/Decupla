@@ -117,7 +117,6 @@ describe('edit', () => {
         await usersController.edit(req, res);
 
         expect(User.get).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(404);
         expect(res.redirect).toHaveBeenCalledWith('/users');
     })
 })
@@ -246,7 +245,6 @@ describe('save new', () => {
             role: 1
         })
 
-        expect(res.status).toHaveBeenCalledWith(201);
         expect(res.redirect).toHaveBeenCalledWith(`/users/edit/${mockNewID}?message=saved`)
     })
     it('should render error template of User.add returned null', async () => {
@@ -484,7 +482,7 @@ describe('save', () => {
             role: 1,
             id: 3
         });
-        expect(res.status).toHaveBeenCalledWith(201);
+
         expect(res.redirect).toHaveBeenCalledWith('/users/edit/3?message=saved');
     })
     it('should not hash password if newPasswordSet is false', async () => {
@@ -576,7 +574,6 @@ describe('remove', () => {
         await usersController.remove(req,res);
 
         expect(User.remove).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(201);
         expect(res.redirect).toHaveBeenCalledWith('/users?message=deleted');
     })
     it('should render error template if User.remove failed', async () => {

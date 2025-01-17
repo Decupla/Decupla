@@ -94,7 +94,6 @@ describe('edit', () => {
 
         expect(Menu.get).toHaveBeenCalledWith(1);
         expect(Content.getAllPublished).toHaveBeenCalled();
-        expect(res.status).toHaveBeenCalledWith(400);
         expect(res.redirect).toHaveBeenCalledWith('/menus')
     })
 })
@@ -366,7 +365,6 @@ describe('remove',()=>{
         await menusController.remove(req,res);
 
         expect(Menu.remove).toHaveBeenCalledWith(1);
-        expect(res.status).toHaveBeenCalledWith(201);
         expect(res.redirect).toHaveBeenCalledWith('/menus?message=deleted');
     })
 
