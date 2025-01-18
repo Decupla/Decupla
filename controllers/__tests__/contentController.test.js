@@ -3,10 +3,13 @@ const Validation = require('../../helpers/Validation');
 const Content = require('../../models/content');
 const Block = require('../../models/block');
 const BlockInstance = require('../../models/blockInstance');
+const processUrl = require('../../helpers/processUrl');
+const { validate } = require('webpack');
 
 jest.mock('../../models/content');
 jest.mock('../../models/block');
 jest.mock('../../models/blockInstance');
+jest.mock('../../helpers/processUrl');
 
 let req = {};
 const res = {
@@ -18,6 +21,10 @@ const res = {
 
 beforeEach(() => {
     jest.spyOn(global.Date, 'now').mockImplementation(() => 123456789);
+
+    processUrl.mockImplementation((data) => {
+        data.url = 'test-content'
+    });
 });
 
 afterEach(() => {
@@ -121,10 +128,10 @@ describe('saveNew', () => {
     it('should validate input and send errors', async () => {
         req = {
             body: {
-                title: 'New Content'
+                title: 'Test Content',
+                url: ''
             }
         }
-
 
         jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
@@ -141,7 +148,9 @@ describe('saveNew', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.send).toHaveBeenCalledWith({
             success: false,
-            message: { status: 'Status is required' }
+            messages: { status: 'Status is required' },
+            url: 'test-content',
+            validation: false
         });
 
     })
@@ -171,12 +180,15 @@ describe('saveNew', () => {
         expect(Content.add).toHaveBeenCalledWith({
             title: 'New Content',
             status: 1,
-            created: 123456789
+            created: 123456789,
+            url: 'test-content'
         });
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
             success: true,
-            newID: mockNewID
+            validation: true,
+            newID: mockNewID,
+            url: 'test-content'
         })
     })
     it('should send status 500 if saving content fails', async () => {
@@ -204,7 +216,8 @@ describe('saveNew', () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
             success: false,
-            message: 'Something went wrong while trying to save the content. Please check the console for more information.'
+            validation: true,
+            messages: { error: 'Something went wrong while trying to save the content. Please check the console for more information.' }
         })
     })
 })
@@ -216,8 +229,9 @@ describe('save', () => {
                 id: 1
             },
             body: {
-                title: 'Existing Content',
-                id: 1
+                title: 'Test Content',
+                id: 1,
+                url: ''
             }
         }
 
@@ -236,7 +250,9 @@ describe('save', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.send).toHaveBeenCalledWith({
             success: false,
-            message: { status: 'Status is required' }
+            messages: { status: 'Status is required' },
+            url: 'test-content',
+            validation: false
         });
     })
     it('shoud call Content.update after sucsessfull validation and send success', async () => {
@@ -248,6 +264,7 @@ describe('save', () => {
                 title: 'Existing Content',
                 status: 1,
                 id: 1,
+                url: ''
             }
         }
 
@@ -269,11 +286,14 @@ describe('save', () => {
             id: 1,
             title: 'Existing Content',
             status: 1,
-            updated: 123456789
+            updated: 123456789,
+            url: 'test-content'
         });
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
             success: true,
+            validation: true,
+            url: 'test-content'
         })
     })
     it('should send status 500 if saving content fails', async () => {
@@ -285,6 +305,7 @@ describe('save', () => {
                 title: 'Existing Content',
                 status: 1,
                 id: 1,
+                url: ''
             }
         }
 
@@ -305,7 +326,8 @@ describe('save', () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
             success: false,
-            message: 'Something went wrong while trying to update the content. Please check the console for more information.'
+            validation: true,
+            messages: { error: 'Something went wrong while trying to update the content. Please check the console for more information.' }
         })
     })
 })
@@ -382,7 +404,7 @@ describe('getBlocks', () => {
         BlockInstance.getByContent.mockReturnValue(mockInstanceRows);
         Block.get.mockReturnValue(mockBlockRow);
 
-        await contentController.getBlocks(req,res);
+        await contentController.getBlocks(req, res);
 
         expect(BlockInstance.getByContent).toHaveBeenCalledWith(1);
         expect(Block.get).toHaveBeenCalledWith(2);
@@ -405,7 +427,7 @@ describe('getBlocks', () => {
 
         BlockInstance.getByContent.mockReturnValue(null);
 
-        await contentController.getBlocks(req,res);
+        await contentController.getBlocks(req, res);
 
         expect(BlockInstance.getByContent).toHaveBeenCalledWith(1);
         expect(res.status).toHaveBeenCalledWith(500);
@@ -428,7 +450,7 @@ describe('getBlocks', () => {
         BlockInstance.getByContent.mockReturnValue(mockInstanceRows);
         Block.get.mockReturnValue(null);
 
-        await contentController.getBlocks(req,res);
+        await contentController.getBlocks(req, res);
 
         expect(BlockInstance.getByContent).toHaveBeenCalledWith(1);
         expect(Block.get).toHaveBeenCalledWith(2);

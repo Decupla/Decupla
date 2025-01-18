@@ -118,6 +118,8 @@ const save = async (req, res) => {
         return res.status(400).send({
             success: false,
             messages,
+            validation: false,
+            success: false,
             url: data.url
         });
     }
@@ -126,11 +128,13 @@ const save = async (req, res) => {
     if (success) {
         return res.status(201).send({
             success: true,
+            validation: true,
             url: data.url
         });
     } else {
         return res.status(500).send({
             success: false,
+            validation: true,
             messages: { error: 'Something went wrong while trying to update the content. Please check the console for more information.' }
         });
     }
