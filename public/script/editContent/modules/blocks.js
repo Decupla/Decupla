@@ -1,7 +1,8 @@
 import DOM from './dom';
-import { contentExists, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks, setNextPriority } from "./data";
+import { contentExists, contentID, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks, setNextPriority } from "./data";
 import { addBlockVisualization, deleteBlockVisualization, updateBlockVisualization, updateVisualizationPriority, setLastVisualisation } from "./visualization";
 import { setupBlockForm, closeBlockForm } from './blockForm';
+import { saveBlockData } from './api';
 
 // if content already exists and has blocks this will load in the block instances
 export const getBlocks = async (id) => {
@@ -162,3 +163,31 @@ export const addNewBlock = (data, priority) => {
 
     setLastVisualisation();
 }
+
+export const saveBlockInstances = async (newID) => {
+    for (const instance of blocksData) {
+        console.log(instance);
+        const instanceData = {
+            blockID: instance.blockID,
+            output: JSON.stringify(instance.output),
+            priority: instance.priority,
+            contentID: contentExists ? contentID : newID
+        };
+
+        let method = "POST";
+        let blockUrl = "/blocks/instances/";
+
+        if ('databaseID' in instance) {
+            method = "PUT";
+            blockUrl = `/blocks/instances/${instance.databaseID}`;
+        }
+
+        const blockResponse = await saveBlockData(blockUrl, method, instanceData);
+
+        if (!blockResponse.success) {
+            console.error(blockResponse.message);
+            return false;
+        }
+    }
+    return true;
+};

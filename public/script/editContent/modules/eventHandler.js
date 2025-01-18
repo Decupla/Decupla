@@ -1,7 +1,7 @@
 import DOM from './dom';
 import { contentExists, contentID, deletedBlocks, setContentExists, setContentID, blocksData, blockMethod, currentBlock } from './data';
 import { saveContentData, saveBlockData, deleteBlockInstance } from './api';
-import { addNewBlock, updateBlock, reloadBlocks } from './blocks';
+import { addNewBlock, updateBlock, reloadBlocks, saveBlockInstances } from './blocks';
 import { setFieldMessage, resetMessages } from './messages';
 
 export const handleContentSubmit = async (event) => {
@@ -35,49 +35,15 @@ export const handleContentSubmit = async (event) => {
                 }
                 return;
             }
-
             console.error(response.messages);
             return;
         }
 
-        // if we are creating new content, we need the id of the new saved content 
-        let newID;
-        if (!contentExists) {
-            if ('newID' in response) {
-                newID = response.newID;
-            }
-        }
+        const currentContentID = contentExists ? contentID : response.newID;
 
-        for (const instance of blocksData) {
-            console.log(instance);
-            const instanceData = {
-                blockID: instance.blockID,
-                output: JSON.stringify(instance.output),
-                priority: instance.priority
-            };
-
-            // if we are creating new content use the id of the new saved content, otherwise use the global contentID
-            if (!contentExists) {
-                instanceData.contentID = newID;
-            } else {
-                instanceData.contentID = contentID;
-            }
-
-            method = "POST"
-            let blockUrl = "/blocks/instances/"
-            //if the instance has the property 'databaseID' we need to update it in the database
-            if ('databaseID' in instance) {
-                method = "PUT";
-                blockUrl = `/blocks/instances/${instance.databaseID}`;
-            }
-
-            const blockResponse = await saveBlockData(blockUrl, method, instanceData);
-
-            // check if saving the block data was successfull
-            if (!blockResponse.success) {
-                console.error(blockResponse.message);
-                return;
-            }
+        const blocksSaved = await saveBlockInstances(currentContentID);
+        if (!blocksSaved) {
+            return;
         }
 
         if (contentExists && deletedBlocks.length > 0) {
@@ -97,8 +63,8 @@ export const handleContentSubmit = async (event) => {
         // if we created new content we are now editing it after the first save
         if (!contentExists) {
             setContentExists(true);
-            setContentID(newID);
-            reloadBlocks(newID);
+            setContentID(currentContentID);
+            reloadBlocks(currentContentID);
         } else {
             reloadBlocks(contentID);
         }
