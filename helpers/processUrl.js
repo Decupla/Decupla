@@ -5,10 +5,11 @@ const processUrl = (data, validation, urlInput, title) => {
     if (urlInput && urlInput !== "") {
         data.url = urlInput;
         validation.validate("url", "noSpaces|min:3");
-    }
-
-    if (!('url' in data)) {
+    } else if (title && title.trim() !== "") {
         data.url = generateUrl(title);
+    } else {
+        data.url = "";
+        return;
     }
 
     data.url = normalizeUrl(data.url);

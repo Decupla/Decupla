@@ -921,6 +921,13 @@ table.collection button img {
   font-weight: 400;
 }
 
+.error-message {
+  display: none;
+}
+.error-message.visible {
+  display: block;
+}
+
 .edit-container {
   max-width: 510px;
   width: 100%;
@@ -949,14 +956,9 @@ table.collection button img {
     font-size: 1.7rem;
   }
 }
-
-.error-message {
+.edit-container .error-message {
   color: #db1c1c;
   margin-top: 0.3rem;
-  display: none;
-}
-.error-message.visible {
-  display: block;
 }
 
 .input-container label {

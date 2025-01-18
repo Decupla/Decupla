@@ -4,6 +4,7 @@ const BlockInstance = require('../models/blockInstance');
 const User = require('../models/user');
 const Role = require('../models/role');
 const Validation = require('../helpers/Validation');
+const isEmpty = require('../helpers/isEmpty');
 const processUrl = require('../helpers/processUrl');
 
 const index = async (req, res) => {
@@ -54,12 +55,23 @@ const saveNew = async (req, res) => {
     validation.validate("status", "required");
 
     processUrl(data, validation, req.body.url, data.title);
+    
+    const messages = {...validation.errors};
 
-    if (validation.hasErrors()) {
+    // if (!('url' in messages) && await Content.urlChanged(id,data.url) && await Content.urlExists(data.url)) {
+    //     messages.url = "URL already in use";
+    // }
+
+    if (!('url' in messages) && await Content.urlExists(data.url)) {
+        messages.url = "URL already in use";
+    }
+
+    if (!isEmpty(messages)) {
         return res.status(400).send({
             success: false,
             validation: false,
-            messages: validation.errors
+            url: data.url,
+            messages
         });
     }
 
@@ -96,10 +108,17 @@ const save = async (req, res) => {
 
     processUrl(data, validation, req.body.url, data.title);
 
-    if (validation.hasErrors()) {
+    const messages = {...validation.errors};
+
+    if (!('url' in messages) && await Content.urlChanged(id,data.url) && await Content.urlExists(data.url)) {
+        messages.url = "URL already in use";
+    }
+
+    if (!isEmpty(messages)) {
         return res.status(400).send({
             success: false,
-            messages: validation.errors
+            messages,
+            url: data.url
         });
     }
 

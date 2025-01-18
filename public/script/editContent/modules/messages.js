@@ -1,3 +1,5 @@
+import DOM from "./dom";
+
 export const setFieldMessage = (field,message) => {
     const element = document.querySelector(`#message-${field}`);
     element.innerText = message;
@@ -9,4 +11,8 @@ export const resetMessages = () => {
     activeMessages.forEach((element)=>{
         element.classList.remove('visible');
     })
+
+    if(DOM.savedMessage.classList.contains('visible')){
+        DOM.savedMessage.classList.remove('visible');
+    }
 }

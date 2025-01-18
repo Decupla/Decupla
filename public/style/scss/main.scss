@@ -164,6 +164,14 @@ table.collection {
     }
 }
 
+.error-message {
+    display: none;
+
+    &.visible {
+        display: block;
+    }
+}
+
 .edit-container {
     max-width: 510px;
     width: 100%;
@@ -190,15 +198,10 @@ table.collection {
             font-size: 1.7rem;
         }
     }
-}
 
-.error-message {
-    color: #db1c1c;
-    margin-top: 0.3rem;
-    display: none;
-
-    &.visible {
-        display: block;
+    .error-message {
+        color: #db1c1c;
+        margin-top: 0.3rem;
     }
 }
 

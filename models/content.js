@@ -60,11 +60,40 @@ const remove = async (id) => {
     }
 }
 
+const urlExists = async (url) => {
+    try {
+        const result = await db.selectWhere('content', 'url', url);
+        if(result===null){
+            return false
+        }
+        return true;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return false;
+    }
+}
+
+const urlChanged = async (id,url) => {
+    try {
+        const result = await db.selectWhere('content', 'id', id);
+        if(result===null){
+            return false
+        }
+        
+        return result.url !== url;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return false;
+    }
+}
+
 module.exports = {
     getAll,
     getAllPublished,
     get,
     add,
     update,
-    remove
+    remove,
+    urlExists,
+    urlChanged
 }

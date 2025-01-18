@@ -33,6 +33,9 @@ export const handleContentSubmit = async (event) => {
                 for (const [field, message] of Object.entries(response.messages)) {
                     setFieldMessage(field, message);
                 }
+                if('url' in response) {
+                    DOM.urlInput.value = response.url;
+                }
                 return;
             }
             console.error(response.messages);

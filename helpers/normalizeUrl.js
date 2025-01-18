@@ -1,5 +1,5 @@
 const normalizeUrl = (rawUrl) => {
-    return `/${rawUrl.replace(/^\/+|\/+$/g, '')}/`;
+    return `/${rawUrl.toLowerCase().replace(/^\/+|\/+$/g, '')}/`;
 }
 
 module.exports = normalizeUrl;
