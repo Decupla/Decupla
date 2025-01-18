@@ -96,3 +96,11 @@ export const handleBlockSubmit = (event, priority = 1) => {
         console.log('No block method was given.');
     }
 }
+
+export const handleUrlBlur = (event) => {
+    const input = event.target;
+    if(input.value.trim()!==""){
+        const newValue = `/${input.value.replace(/^\/+|\/+$/g, '')}/`;
+        input.value = newValue;
+    }
+}

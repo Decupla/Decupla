@@ -1,6 +1,6 @@
 import DOM from './modules/dom';
 import { contentExists,setContentExists,contentID,setContentID, getPriority, nextPriority } from './modules/data';
-import { handleContentSubmit,handleBlockSubmit } from './modules/eventHandler';
+import { handleContentSubmit,handleBlockSubmit, handleUrlBlur } from './modules/eventHandler';
 import { getBlocks } from './modules/blocks';
 import { setupBlockSelection } from './modules/blockForm';
 import { checkIfExists,getId } from './modules/content';
@@ -30,10 +30,11 @@ const init = async () => {
 
     DOM.contentForm.addEventListener('submit', (event) => {
         handleContentSubmit(event)
-    }
-    );
+    });
 
-
+    DOM.urlInput.addEventListener('blur', (event) => {
+        handleUrlBlur(event);
+    })
 }
 
 init();
