@@ -153,7 +153,7 @@ describe('keyExists', () => {
 })
 
 describe('keyChanged', () => {
-    it('should db.selectWhere and return false if result equals parameter', async () => {
+    it('should call db.selectWhere and return false if result equals parameter', async () => {
         const mockRow = { id: 1, title: 'New mocked block', key: 'mockedBlock', input: "", status: 1 };
         db.selectWhere.mockResolvedValue(mockRow);
 
@@ -162,7 +162,7 @@ describe('keyChanged', () => {
         expect(db.selectWhere).toHaveBeenCalledWith('blocks','id',1);
         expect(answer).toBe(false);
     })
-    it('should db.selectWhere and return true if result does not equal parameter', async () => {
+    it('should call db.selectWhere and return true if result does not equal parameter', async () => {
         const mockRow = { id: 1, title: 'New mocked block', key: 'mockedBlock', input: "", status: 1 };
         db.selectWhere.mockResolvedValue(mockRow);
 

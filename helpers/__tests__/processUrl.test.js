@@ -45,7 +45,7 @@ describe('processUrl', () => {
         expect(normalizeUrl).toHaveBeenCalledWith('about-us');
     });
 
-    test('should set url to an empty string if both urlInput and title are empty', () => {
+    it('should set url to an empty string if urlInput and title are empty', () => {
         const urlInput = '';
         const title = '';
 
