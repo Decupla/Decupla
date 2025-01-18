@@ -4,6 +4,7 @@ const BlockInstance = require('../models/blockInstance');
 const User = require('../models/user');
 const Role = require('../models/role');
 const Validation = require('../helpers/Validation');
+const normalizeUrl = require('../helpers/normalizeUrl');
 
 const index = async (req, res) => {
     const content = await Content.getAll();
@@ -52,7 +53,8 @@ const saveNew = async (req, res) => {
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("status", "required");
-    validation.validate("url", "required|noSpaces")
+    validation.validate("url", "required|noSpaces|min:3");
+
     if (validation.hasErrors()) {
         return res.status(400).send({
             success: false,
@@ -60,6 +62,9 @@ const saveNew = async (req, res) => {
             messages: validation.errors
         });
     } else {
+
+        data.url = normalizeUrl(data.url);
+
         const newID = await Content.add(data);
         if (newID === null) {
             return res.status(500).send({
