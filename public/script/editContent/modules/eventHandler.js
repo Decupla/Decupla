@@ -59,6 +59,7 @@ export const handleContentSubmit = async (event) => {
         }
 
         DOM.savedMessage.classList.add('visible');
+        DOM.urlInput.value = response.url;
 
         // if we created new content we are now editing it after the first save
         if (!contentExists) {

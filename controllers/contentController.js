@@ -4,7 +4,7 @@ const BlockInstance = require('../models/blockInstance');
 const User = require('../models/user');
 const Role = require('../models/role');
 const Validation = require('../helpers/Validation');
-const normalizeUrl = require('../helpers/normalizeUrl');
+const processUrl = require('../helpers/processUrl');
 
 const index = async (req, res) => {
     const content = await Content.getAll();
@@ -46,14 +46,14 @@ const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status,
-        url: req.body.url,
         created: Date.now()
     };
 
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("status", "required");
-    validation.validate("url", "required|noSpaces|min:3");
+
+    processUrl(data, validation, req.body.url, data.title);
 
     if (validation.hasErrors()) {
         return res.status(400).send({
@@ -61,32 +61,30 @@ const saveNew = async (req, res) => {
             validation: false,
             messages: validation.errors
         });
-    } else {
+    }
 
-        data.url = normalizeUrl(data.url);
-
-        const newID = await Content.add(data);
-        if (newID === null) {
-            return res.status(500).send({
-                success: false,
-                validation: true,
-                messages: {error: 'Something went wrong while trying to save the content. Please check the console for more information.'}
-            });
-        }
-        return res.status(201).send({
-            success: true,
+    const newID = await Content.add(data);
+    if (newID === null) {
+        return res.status(500).send({
+            success: false,
             validation: true,
-            newID
+            messages: { error: 'Something went wrong while trying to save the content. Please check the console for more information.' }
         });
     }
-}
+    return res.status(201).send({
+        success: true,
+        validation: true,
+        newID,
+        url: data.url
+    });
+};
+
 
 const save = async (req, res) => {
     const { id } = req.params;
     const data = {
         title: req.body.title,
         status: req.body.status,
-        url: req.body.url,
         id,
         updated: Date.now()
     };
@@ -94,33 +92,38 @@ const save = async (req, res) => {
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("status", "required");
-    validation.validate("url", "required|noSpaces")
     validation.validate("id", "required|numeric");
+
+    processUrl(data, validation, req.body.url, data.title);
+
     if (validation.hasErrors()) {
         return res.status(400).send({
             success: false,
             messages: validation.errors
         });
     }
+
     const success = await Content.update(id, data);
     if (success) {
         return res.status(201).send({
             success: true,
+            url: data.url
         });
     } else {
         return res.status(500).send({
             success: false,
-            messages: {error: 'Something went wrong while trying to update the content. Please check the console for more information.'}
+            messages: { error: 'Something went wrong while trying to update the content. Please check the console for more information.' }
         });
     }
-}
+};
+
 
 const remove = async (req, res) => {
     const { id } = req.params;
     const success = await Content.remove(id);
     if (success) {
         const blocksSuccess = await BlockInstance.deleteByContent(id);
-        if(blocksSuccess) {
+        if (blocksSuccess) {
             res.redirect('/content?message=deleted')
         } else {
             return res.status(500).render('error', {
@@ -149,7 +152,7 @@ const getBlocks = async (req, res) => {
 
     for (const instance of blockInstances) {
         const block = await Block.get(instance.blockID);
-        if(block===null){
+        if (block === null) {
             return res.status(500).send({
                 success: false,
                 message: 'Block for BlockInstance not found.'
