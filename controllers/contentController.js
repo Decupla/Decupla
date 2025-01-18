@@ -45,27 +45,32 @@ const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status,
+        url: req.body.url,
         created: Date.now()
     };
 
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("status", "required");
+    validation.validate("url", "required|noSpaces")
     if (validation.hasErrors()) {
         return res.status(400).send({
             success: false,
-            message: validation.errors
+            validation: false,
+            messages: validation.errors
         });
     } else {
         const newID = await Content.add(data);
         if (newID === null) {
             return res.status(500).send({
                 success: false,
-                message: 'Something went wrong while trying to save the content. Please check the console for more information.'
+                validation: true,
+                messages: {error: 'Something went wrong while trying to save the content. Please check the console for more information.'}
             });
         }
         return res.status(201).send({
             success: true,
+            validation: true,
             newID
         });
     }
@@ -76,6 +81,7 @@ const save = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status,
+        url: req.body.url,
         id,
         updated: Date.now()
     };
@@ -83,11 +89,12 @@ const save = async (req, res) => {
     const validation = new Validation(data);
     validation.validate("title", "required|string");
     validation.validate("status", "required");
+    validation.validate("url", "required|noSpaces")
     validation.validate("id", "required|numeric");
     if (validation.hasErrors()) {
         return res.status(400).send({
             success: false,
-            message: validation.errors
+            messages: validation.errors
         });
     }
     const success = await Content.update(id, data);
@@ -98,7 +105,7 @@ const save = async (req, res) => {
     } else {
         return res.status(500).send({
             success: false,
-            message: 'Something went wrong while trying to update the content. Please check the console for more information.'
+            messages: {error: 'Something went wrong while trying to update the content. Please check the console for more information.'}
         });
     }
 }

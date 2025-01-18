@@ -8,9 +8,14 @@
         width: 75%;
     }
 
+    input {
+        width: 100%;
+    }
+
     label {
         font-weight: 300;
         margin-bottom: 0.35rem;
+        display: block;
     }
 
     input#save {

@@ -8,7 +8,7 @@
                 <div class="edit-container">
                         <div>
                             <input name="title" id="title" type="text" placeholder="Content Title" value="<%= data?.title?.trim() || '' %>">
-                            <div class="message" id="message-title">"title" is required</div>
+                            <div class="error-message" id="message-title"></div>
                         </div>
             
                     <div class="add-block-container">
@@ -96,6 +96,11 @@
                                 <option <%=data?.status===0 ? 'selected' : '' %> value="0">Draft</option>
                                 <option <%=data?.status===1 ? 'selected' : '' %> value="1">Published</option>
                             </select>
+                        </div>
+                        <div class="mt-4">
+                            <label for="url">URL</label>
+                            <input type="text" name="url" id="url" value="<%= data?.url?.trim() %>">
+                            <div class="error-message" id="message-url"></div>
                         </div>
                     </form>
                 </div>

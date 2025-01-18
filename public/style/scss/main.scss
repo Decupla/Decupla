@@ -190,15 +190,15 @@ table.collection {
             font-size: 1.7rem;
         }
     }
+}
 
-    .error-message {
-        color: #db1c1c;
-        margin-top: 0.3rem;
-        display: none;
+.error-message {
+    color: #db1c1c;
+    margin-top: 0.3rem;
+    display: none;
 
-        &.visible {
-            display: block;
-        }
+    &.visible {
+        display: block;
     }
 }
 

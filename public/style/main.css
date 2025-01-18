@@ -190,9 +190,13 @@ header .logout-link img {
 #edit-sidebar select {
   width: 75%;
 }
+#edit-sidebar input {
+  width: 100%;
+}
 #edit-sidebar label {
   font-weight: 300;
   margin-bottom: 0.35rem;
+  display: block;
 }
 #edit-sidebar input#save {
   width: 75%;
@@ -945,12 +949,13 @@ table.collection button img {
     font-size: 1.7rem;
   }
 }
-.edit-container .error-message {
+
+.error-message {
   color: #db1c1c;
   margin-top: 0.3rem;
   display: none;
 }
-.edit-container .error-message.visible {
+.error-message.visible {
   display: block;
 }
 

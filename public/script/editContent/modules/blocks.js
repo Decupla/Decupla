@@ -134,7 +134,7 @@ export const updateBlock = (data) => {
 }
 
 // saves a new block to the blockData array and creates new visualization
-export const saveNewBlock = (data, priority) => {
+export const addNewBlock = (data, priority) => {
     // adds the id of the instance for the blockData Array. NOT the id for the database
     data.instanceID = getInstanceId();
     data.priority = priority;

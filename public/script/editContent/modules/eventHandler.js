@@ -1,20 +1,19 @@
 import DOM from './dom';
 import { contentExists, contentID, deletedBlocks, setContentExists, setContentID, blocksData, blockMethod, currentBlock } from './data';
 import { saveContentData, saveBlockData, deleteBlockInstance } from './api';
-import { saveNewBlock, updateBlock, reloadBlocks } from './blocks';
+import { addNewBlock, updateBlock, reloadBlocks } from './blocks';
+import { setFieldMessage, resetMessages } from './messages';
 
 export const handleContentSubmit = async (event) => {
     event.preventDefault();
+    resetMessages();
 
     const formData = new FormData(event.target);
-    // the data from the form. No blocks jet.
-    const data = Object.fromEntries(formData.entries());
-    data.title = DOM.titleInput.value;
+    const data = {
+        ...Object.fromEntries(formData.entries()),
+        title: DOM.titleInput.value
+    };
 
-    if (data.title.trim()==="") {
-        DOM.titleMessage.classList.add('visible');
-        return;
-    }
 
     try {
         let method = "POST";
@@ -30,7 +29,14 @@ export const handleContentSubmit = async (event) => {
 
         // check if saving the basic data was successfull
         if (!response.success) {
-            console.error(response.message);
+            if (!response.validation) {
+                for (const [field, message] of Object.entries(response.messages)) {
+                    setFieldMessage(field, message);
+                }
+                return;
+            }
+
+            console.error(response.messages);
             return;
         }
 
@@ -102,7 +108,7 @@ export const handleContentSubmit = async (event) => {
     }
 }
 
-export const handleBlockSubmit = (event,priority=1) => {
+export const handleBlockSubmit = (event, priority = 1) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -117,7 +123,7 @@ export const handleBlockSubmit = (event,priority=1) => {
     }
 
     if (blockMethod === "create") {
-        saveNewBlock(data,priority);
+        addNewBlock(data, priority);
     } else if (blockMethod === "update") {
         updateBlock(data);
     } else {
