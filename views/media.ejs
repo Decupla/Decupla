@@ -1,0 +1,28 @@
+<%- include('layout/layoutStart.ejs') %>
+<main id="media" class="p-0">
+    <div class="main-container">
+        <div class="d-flex">
+            <h1>Media</h1>
+            <div class="ml-4">
+                <a href="/media/create"><button class="add-new">+ add Media</button></a>
+            </div>
+        </div>
+        <div class="media-row">
+            <div class="media-box">
+                <div class="media-preview" style="background-image: url('/uploads/moon.jpg');"></div>
+                <div class="media-info">
+                    <div class="title">moon.jpg</div>
+                    <div class="size">980 KiB</div>
+                </div>
+            </div>
+            <div class="media-box">
+                <div class="media-preview" style="background-image: url('/uploads/moon.jpg');"></div>
+                <div class="media-info">
+                    <div class="title">moon.jpg</div>
+                    <div class="size">980 KiB</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<%- include('layout/layoutEnd.ejs') %>

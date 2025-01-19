@@ -15,6 +15,14 @@
                     </a>
                 </li>
             <% } %>
+            <% if (permissions.includes('editContent')){ %>
+                <li>
+                    <a href="/media">
+                        <img class="nav-icon" src="/images/icons/media.png" alt="Media Icon">
+                        <span>Media</span>
+                    </a>
+                </li>
+            <% } %>
             <% if (permissions.includes('manageUsers')){ %>
                 <li>
                     <a href="/users">
@@ -23,11 +31,6 @@
                     </a>
                 </li>
             <% } %>
-            <!-- <% if (permissions.includes('manageRoles')){ %>
-                <li>
-                    <a href="/roles">Roles</a>
-                </li>
-            <% } %> -->
             <% if (permissions.includes('manageBlocks')){ %>
                 <li>
                     <a href="/blocks">

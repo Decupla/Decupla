@@ -15,6 +15,7 @@ const APIRouter = require('./routes/APIRoutes');
 const settingsRouter = require('./routes/settingsRoutes');
 const setupRouter = require('./routes/setupRoutes');
 const logoutRouter = require('./routes/logoutRoutes');
+const mediaRouter = require('./routes/mediaRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
@@ -64,6 +65,7 @@ app.get('/', (req, res) => {
 
 app.use('/api', validateAPIKey, APIRouter);
 app.use('/setup', protectSetupRoutes, setupRouter);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(checkUserExistence);
 
@@ -78,6 +80,7 @@ app.use('/users', checkRole('manageUsers'), usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);
 app.use('/settings', checkRole('manageSettings'), settingsRouter);
+app.use('/media', checkRole('editContent'), mediaRouter);
 app.use('/logout', logoutRouter);
 
 app.use(invalidRouteHandler);

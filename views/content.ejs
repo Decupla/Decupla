@@ -3,9 +3,11 @@
         <div class="main-container">
             <div class="d-flex">
                 <h1>Content</h1>
+                <% if (permissions.includes('editContent')){ %>
                 <div class="ml-4">
                     <a href="/content/create"><button class="add-new">+ add new</button></a>
                 </div>
+                <% } %>
             </div>
             <% if (query.message==="deleted" ) { %>
                 <div class="alert alert-success mt-4">Content was deleted!</div>
@@ -30,6 +32,7 @@
                                 <td><%= content[i].created !== null ? formatDate(content[i].created) : ''  %></td>
                                 <td><%= content[i].updated !== null ? formatDate(content[i].updated) : ''  %></td>
                                 <td>
+                                    <% if (permissions.includes('editContent')){ %>
                                     <div class="d-flex justify-content-end">
                                         <a class="pr-1" href="/content/edit/<%= content[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
                                         <form action="/content/<%= content[i].id %>" method="POST"
@@ -37,7 +40,8 @@
                                             <input type="hidden" name="_method" value="DELETE">
                                             <button type="submit"><img src="/images/icons/delete_red.png" alt="delete"></button></button>
                                         </form>
-                                    </div>                     
+                                    </div>            
+                                    <% } %>         
                                 </td>
                             </tr>
                             <% } %>

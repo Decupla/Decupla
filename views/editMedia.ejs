@@ -1,0 +1,20 @@
+<%- include('layout/layoutStart.ejs') %>
+<main id="edit-media" class="p-0">
+    <div class="main-container">
+        <div class="breadcrumb-title">
+            <a href="/media">Media</a> > <strong>Add Media</strong>
+        </div>
+        <div class="edit-container">
+            <h1>Upload Media</h1>
+            <form action="" method="POST">
+                <input class="mt-4" type="file" name="file" id="file">
+                <div class="input-container mt-4">
+                    <label for="alt">Alternative Text</label>
+                    <input placeholder="Alt-Text" type="text" name="alt" id="alt">
+                </div>
+                <input class="mt-4" type="submit" id="save" value="save">
+            </form>
+        </div>
+    </div>
+</main>
+<%- include('layout/layoutEnd.ejs') %>

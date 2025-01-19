@@ -42,7 +42,6 @@ const edit = async (req, res) => {
 }
 
 const saveNew = async (req, res) => {
-    // to do: fix error when no perms are given
     if(req.body.permissions===undefined){
         return res.status(400).render('editRole', {
             title: 'Create Role',
@@ -87,6 +86,18 @@ const saveNew = async (req, res) => {
 
 const save = async (req, res) => {
     const { id } = req.params;
+
+    if(req.body.permissions===undefined){
+        return res.status(400).render('editRole', {
+            title: 'Edit Role',
+            query: req.query,
+            data: {...req.body, id},
+            rolePerms: [],
+            editingExisting: true,
+            messages: {perms: 'Please set at least one permission'}
+        })
+    }
+
     const perms = req.body.permissions.toString()
 
     const data = {
@@ -100,7 +111,14 @@ const save = async (req, res) => {
     validation.validate("perms", "required|string");
     validation.validate("id", "required|numeric");
     if (validation.hasErrors()) {
-        return res.status(400).send(validation.errors);
+        return res.status(400).render('editRole', {
+            title: 'Edit Role',
+            query: req.query,
+            data,
+            rolePerms: req.body.permissions,
+            editingExisting: true,
+            messages: validation.errors
+        })
     }
 
     const success = await Role.update(id, data);
