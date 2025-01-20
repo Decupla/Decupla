@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const fileUpload = require('express-fileupload');
 
 const contentRouter = require('./routes/contentRoutes');
 const blocksRouter = require('./routes/blocksRoutes');
@@ -35,6 +36,7 @@ dotenv.config();
 app.use(express.json());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 app.use(methodOverride(function (req, res) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     var method = req.body._method;
