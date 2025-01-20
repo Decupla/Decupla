@@ -7,21 +7,34 @@
                 <a href="/media/create"><button class="add-new">+ add Media</button></a>
             </div>
         </div>
+        <% if (query.message==="deleted") { %>
+            <div class="alert alert-success mt-4">Media was deleted!</div>
+        <% } %>
         <div class="media-row">
+            <% media.forEach(mediaElement => { %>
             <div class="media-box">
-                <div class="media-preview" style="background-image: url('/uploads/moon.jpg');"></div>
-                <div class="media-info">
-                    <div class="title">moon.jpg</div>
-                    <div class="size">980 KiB</div>
+                <div class="media-preview">
+                    <% if(mediaElement.type.includes('image')){ %>
+                        <img class="image-preview" src="/uploads/<%= mediaElement.file %>" alt="<%= mediaElement.alt %>>">
+                    <% } else { %>
+                        <img class="file-preview" src="/images/icons/file.png" alt="<%= mediaElement.alt %>>">
+                    <% } %>
+                </div>
+                <div class="media-info d-flex justify-content-between">
+                    <div>
+                        <div class="title"><%= mediaElement.file %></div>
+                        <div class="size"><%= mediaElement.size %> kB</div>
+                    </div>
+                    <div class="d-flex">
+                        <a class="pr-1" href="/media/edit/<%= mediaElement.id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
+                        <form action="/media/<%= mediaElement.id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit"><img src="/images/icons/delete_red.png" alt="delete"></button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="media-box">
-                <div class="media-preview" style="background-image: url('/uploads/moon.jpg');"></div>
-                <div class="media-info">
-                    <div class="title">moon.jpg</div>
-                    <div class="size">980 KiB</div>
-                </div>
-            </div>
+            <% }); %>
         </div>
     </div>
 </main>

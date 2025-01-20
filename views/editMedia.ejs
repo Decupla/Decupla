@@ -5,15 +5,42 @@
             <a href="/media">Media</a> > <strong>Add Media</strong>
         </div>
         <div class="edit-container">
-            <h1>Upload Media</h1>
-            <form action="/media/" method="POST" enctype="multipart/form-data">
-                <input class="mt-4" type="file" name="file" id="file">
+            <% if(query.message==="saved"){ %>
+                <div class="alert alert-success">Media was saved successfully!</div>
+            <% } %>
+            <h1><%= editingExisting? 'Edit Media' : 'Upload Media' %></h1>
+            <% if(editingExisting){ %>
+                <div class="media-preview mt-4">
+                    <% if(data.type.includes('image')){ %>
+                        <img class="image-preview" src="/uploads/<%= data.file %>" alt="<%= data.alt %>>">
+                    <% } else { %>
+                        <img class="file-preview" src="/images/icons/file.png" alt="<%= data.alt %>>">
+                    <% } %>
+                </div>
+                <div class="d-flex mt-2">
+                    <div class="mr-3"><strong>File:</strong> <%= data.file %></div>
+                    <div><strong>Size:</strong> <%= data.size %> kB</div>
+                </div>
+            <% } %>
+            <form action="<%= editingExisting? `/media/${data.id}` : '/media/' %>" method="POST" enctype="multipart/form-data">
+                <% if(editingExisting){ %>
+                    <input type="hidden" name="_method" value="PUT">
+                <% } %>
+                <div class="mt-4">
+                    <% if(editingExisting){ %>
+                        <label class="d-block" for="file">Replace file</label>
+                    <% } %>
+                    <input type="file" name="file" id="file">
+                </div>
                 <div class="input-container mt-4">
-                    <label for="alt">Alternative Text</label>
-                    <input placeholder="Alt-Text" type="text" name="alt" id="alt">
+                    <label for="alt">Title / Alternative Text</label>
+                    <input placeholder="Alt-Text" type="text" name="alt" id="alt" value="<%= data?.alt || '' %>">
                 </div>
                 <input class="mt-4" type="submit" id="save" value="save">
             </form>
+            <% if ('error' in messages){ %>
+                <div class="alert alert-danger mt-4"><%= messages.error %></div>
+            <% } %>
         </div>
     </div>
 </main>

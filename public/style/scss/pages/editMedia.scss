@@ -3,6 +3,26 @@
         font-size: 1.5rem;
         font-weight: 300;
     }
+
+    .media-preview {
+        width: 60%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1/1;
+        background-color: $black4;
+
+        img.image-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        img.file-preview {
+            width: 50%;
+        }
+    }
     // #upload-box {
     //     width: 100%;
     //     height: auto;

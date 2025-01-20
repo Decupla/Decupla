@@ -73,7 +73,9 @@ const createTables = (database) => {
         CREATE TABLE media (
             id INTEGER PRIMARY KEY,
             file TEXT NOT NULL,
-            alt TEXT
+            alt TEXT,
+            type TEXT NOT NULL,
+            size INTEGER NOT NULL
         );
 
         CREATE TABLE origins (
