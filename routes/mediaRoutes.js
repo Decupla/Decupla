@@ -3,6 +3,7 @@ const mediaController = require('../controllers/mediaController');
 
 const mediaRouter = Router();
 mediaRouter.get('/',mediaController.index);
+mediaRouter.get('/media/all',mediaController.getAll);
 mediaRouter.get('/create',mediaController.create);
 mediaRouter.get('/edit/:id',mediaController.edit);
 mediaRouter.post('/',mediaController.saveNew);

@@ -10,8 +10,8 @@
         margin-top: 1.75rem;
 
         .media-box {
-            width: 15.5rem;
-            height: 15.5rem;
+            width: 20em;
+            height: 20rem;
             border: solid 1px $border1;
 
             .media-preview {
@@ -40,6 +40,7 @@
 
                 .title {
                     font-size: 0.8rem;
+                    padding-right: 0.8rem;
                 }
 
                 .size {

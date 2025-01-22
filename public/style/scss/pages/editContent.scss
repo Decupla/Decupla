@@ -124,6 +124,14 @@
             textarea {
                 width: 100%;
             }
+
+            input.hidden {
+                display: none;
+            }
+
+            button.select-media {
+                background-color: $blue;
+            }
         }
 
         button[type="submit"] {

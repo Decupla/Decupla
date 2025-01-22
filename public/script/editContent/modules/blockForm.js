@@ -75,6 +75,7 @@ export const setupBlockSelection = (container) => {
 // loads the input fields to the block form. Param "value" is used while editing a existing instance
 const createInput = (inputData, value, container) => {
     let newInput;
+    let newFieldset;
 
     switch (inputData.type) {
         case 'shortText':
@@ -91,23 +92,47 @@ const createInput = (inputData, value, container) => {
                 newInput.innerText = value;
             }
             break;
+        case 'media':
+            newInput = document.createElement('input');
+            newInput.type = "text";
+
+            if (value !== "") {
+                newInput.innerText = value;
+            }
+
+            newInput.classList.add('hidden');
+            break;
         default:
             console.log('Invalid input type given: ' + inputData.type);
             return;
     }
 
     const newLabel = document.createElement('label');
-    newLabel.for = inputData.name;
     newLabel.innerText = inputData.label;
-
+    newLabel.for = inputData.name;
     newInput.id = inputData.name;
     newInput.name = inputData.name;
 
-    const newFieldset = document.createElement('div');
+    newFieldset = document.createElement('div');
     newFieldset.classList.add('input-fieldset');
 
     newFieldset.appendChild(newLabel);
     newFieldset.appendChild(newInput);
+
+    if(inputData.type==="media"){
+        const mediaSelectButton = document.createElement('button');
+        mediaSelectButton.type = "button";
+        mediaSelectButton.classList.add('select-media');
+        mediaSelectButton.innerText = 'select media';
+        
+        const selectedMedia = document.createElement('span');
+        selectedMedia.classList.add('selected-media');
+        selectedMedia.innerText = 'no media selected';
+
+        newFieldset.appendChild(mediaSelectButton);
+        newFieldset.appendChild(selectedMedia);
+    }
+
 
     const blockFormInput = container.querySelector('.block-form-input');
 

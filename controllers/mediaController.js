@@ -196,6 +196,11 @@ const remove = async (req,res) => {
     }
 }
 
+const getAll = async (req,res) => {
+    const media = await Media.getAll();
+    res.status(200).send(media);
+}
+
 
 module.exports = {
     index,
@@ -203,5 +208,6 @@ module.exports = {
     edit,
     saveNew,
     save,
-    remove
+    remove,
+    getAll
 }
