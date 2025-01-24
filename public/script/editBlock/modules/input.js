@@ -7,7 +7,7 @@ import { getBlockById } from "./api";
 
 // sets which settings should be visible in the input creation, hides all other settings
 export const setVisible = (fields, element) => {
-    const inputFields = element.querySelectorAll('input');
+    const inputFields = element.querySelectorAll('input,select');
 
     inputFields.forEach((field) => {
         parent = field.parentElement;
@@ -23,7 +23,7 @@ export const setVisible = (fields, element) => {
 // opens the input form to create a new input
 export const createInput = (container) => {
     setInputMethod("create");
-    // handleTypeChange(typeSelect.value);
+    handleTypeChange("shortText",container);
     toggleInputCreation(container);
 }
 
@@ -90,8 +90,11 @@ export const editInput = (id, container) => {
     container.querySelector('input[name="name"]').value = data.params.name;
     container.querySelector('input[name="label"]').value = data.params.label;
 
-    if ('maxLength' in data) {
-        container.querySelector('input[name="max-length"]').value = data.maxLength;
+    if ('maxLength' in data.params) {
+        container.querySelector('input[name="maxLength"]').value = data.params.maxLength;
+    }
+    if('selection' in data.params) {
+        container.querySelector('select[name="selection"]').value = data.params.selection;
     }
 
     setInputID(id);

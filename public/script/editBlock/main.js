@@ -24,9 +24,7 @@ const init = async () => {
         // console.log(inputData);
     }
 
-    console.log(DOM.addInputContainers);
-
-    setupInputContainer(DOM.addInputContainer,);
+    setupInputContainer(DOM.addInputContainer,1);
     setupInputContainer(DOM.addInputContainerEnd);
 
     // DOM.addInputContainers.forEach((container)=>{

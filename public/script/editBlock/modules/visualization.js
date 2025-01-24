@@ -156,9 +156,7 @@ export const setLastVisualisation = () => {
     }
 
     const targetPriority = nextPriority - 1;
-    console.log(targetPriority);
     const lastVis = document.querySelector(`.input-vis-container[data-priority="${targetPriority}"]`);
-    console.log(lastVis);
 
     if(lastVis){
         lastVis.classList.add('last-vis');

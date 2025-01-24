@@ -1,11 +1,12 @@
 import DOM from './dom';
-import { setCurrentBlock, setBlockMethod } from './data';
+import { setCurrentBlock, setBlockMethod, setSelectMultipleMedia } from './data';
+import { toggleMediaSelection } from './mediaSelection';
+import { fetchBlock } from './api';
 
 // loads the Form / Popup for creating or editing a block instance
 export const setupBlockForm = async (blockID, container, setOutput = {}) => {
     // param blockID is the id of the block used to create or edit the instance
-    const response = await fetch(`/blocks/${blockID}`);
-    const blocksData = await response.json();
+    const blocksData = await fetchBlock(blockID);
 
     if (blocksData.success) {
         closeBlockForm();
@@ -16,13 +17,14 @@ export const setupBlockForm = async (blockID, container, setOutput = {}) => {
 
         const block = blocksData.block;
         const inputFields = JSON.parse(block.input);
+        const inputFieldsSorted = inputFields.sort((a, b) => a.priority - b.priority);
 
         const blockFormTitle = container.querySelector('h3.block-form-title');
         const closeFormButton = container.querySelector('.block-form-close');
 
         blockFormTitle.innerText = block.title;
 
-        inputFields.forEach((inputData) => {
+        inputFieldsSorted.forEach((inputData) => {
             const input = inputData.params;
 
             if (setOutput[input.name]) {
@@ -77,6 +79,8 @@ const createInput = (inputData, value, container) => {
     let newInput;
     let newFieldset;
 
+    console.log("value",value);
+
     switch (inputData.type) {
         case 'shortText':
             newInput = document.createElement('input');
@@ -97,10 +101,11 @@ const createInput = (inputData, value, container) => {
             newInput.type = "text";
 
             if (value !== "") {
-                newInput.innerText = value;
+                newInput.value = value;
             }
 
             newInput.classList.add('hidden');
+            newInput.classList.add('media');
             break;
         default:
             console.log('Invalid input type given: ' + inputData.type);
@@ -110,7 +115,6 @@ const createInput = (inputData, value, container) => {
     const newLabel = document.createElement('label');
     newLabel.innerText = inputData.label;
     newLabel.for = inputData.name;
-    newInput.id = inputData.name;
     newInput.name = inputData.name;
 
     newFieldset = document.createElement('div');
@@ -120,17 +124,7 @@ const createInput = (inputData, value, container) => {
     newFieldset.appendChild(newInput);
 
     if(inputData.type==="media"){
-        const mediaSelectButton = document.createElement('button');
-        mediaSelectButton.type = "button";
-        mediaSelectButton.classList.add('select-media');
-        mediaSelectButton.innerText = 'select media';
-        
-        const selectedMedia = document.createElement('span');
-        selectedMedia.classList.add('selected-media');
-        selectedMedia.innerText = 'no media selected';
-
-        newFieldset.appendChild(mediaSelectButton);
-        newFieldset.appendChild(selectedMedia);
+        createMediaInput(inputData,newFieldset,value);
     }
 
 
@@ -142,4 +136,32 @@ const createInput = (inputData, value, container) => {
     }
 
     blockFormInput.appendChild(newFieldset);
+}
+
+export const createMediaInput = (inputData,newFieldset,value) => {
+    const selectMediaWrapper = document.createElement('div');
+    const mediaSelectButton = document.createElement('button');
+    const selectedMedia = document.createElement('span');
+
+    selectMediaWrapper.classList.add('select-media-wrapper');
+    mediaSelectButton.classList.add('select-media-button');
+    selectedMedia.classList.add('selected-media');
+
+    mediaSelectButton.type = "button";
+    mediaSelectButton.innerText = 'select media';
+    selectedMedia.innerText = value !== "" ? value : 'no media selected';
+
+    selectMediaWrapper.appendChild(mediaSelectButton);
+    selectMediaWrapper.appendChild(selectedMedia);
+
+    newFieldset.appendChild(selectMediaWrapper);
+
+    selectMediaWrapper.addEventListener('click',()=>{
+        if(inputData.selection==="multiple"){
+            setSelectMultipleMedia(true);
+        } else {
+            setSelectMultipleMedia(false);
+        }
+        toggleMediaSelection(newFieldset);
+    })
 }

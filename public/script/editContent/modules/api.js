@@ -25,3 +25,13 @@ export const deleteBlockInstance = async (id) => {
     const response = await fetch(`/blocks/instances/${id}`, { method: 'DELETE' });
     return response.json();
 };
+
+export const fetchBlock = async (id) => {
+    const response = await fetch(`/blocks/${id}`);
+    return response.json();
+}
+
+export const fetchMedia = async () => {
+    const response = await fetch(`/media/all`);
+    return response.json();
+}

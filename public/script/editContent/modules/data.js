@@ -1,4 +1,5 @@
 export let blocksData = [];
+export let selectedMedia = [];
 
 // if we are deleting existing block instances, the database ids of the blocks will be saved here 
 export let deletedBlocks = [];
@@ -10,6 +11,8 @@ export let currentInstanceID = 0;
 export let nextInstanceId = 1;
 // the priority to order the block instances
 export let nextPriority = 1;
+
+export let selectMultipleMedia = false;
 
 export let blockMethod = "create";
 
@@ -23,17 +26,23 @@ export const setContentID = (id) => contentID = id;
 export const setCurrentInstanceID = (id) => currentInstanceID = id;
 export const setCurrentBlock = (data) => currentBlock = data;
 export const setNextPriority = (priority) => nextPriority = priority;
+export const setSelectMultipleMedia = (value) => selectMultipleMedia = value;
+// export const setSelectedMedia = (data) => selectedMedia = data;
 
-export const clearBlocksData= () => {
+export const clearBlocksData = () => {
     blocksData = [];
 }
 
-export const clearDeletedBlocks= () => {
+export const clearDeletedBlocks = () => {
     deletedBlocks = [];
 }
 
-export const getInstanceId = () => { 
-    return nextInstanceId++ 
+export const clearSelectedMedia = () => {
+    selectedMedia = [];
+}
+
+export const getInstanceId = () => {
+    return nextInstanceId++
 };
 
 export const getPriority = () => {

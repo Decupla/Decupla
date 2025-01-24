@@ -129,8 +129,20 @@
                 display: none;
             }
 
-            button.select-media {
-                background-color: $blue;
+            .select-media-wrapper {
+                display: flex;
+                align-items: start;
+
+                button.select-media-button {
+                    background-color: $blue;
+                    flex-shrink: 0;
+                }
+    
+                .selected-media {
+                    margin-left: 0.8rem;
+                    font-size: 0.8rem;
+                    font-style: italic;
+                }
             }
         }
 

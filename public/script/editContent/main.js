@@ -4,6 +4,7 @@ import { handleContentSubmit,handleBlockSubmit, handleUrlBlur } from './modules/
 import { getBlocks } from './modules/blocks';
 import { setupBlockSelection } from './modules/blockForm';
 import { checkIfExists,getId } from './modules/content';
+import { setupMediaSelection } from './modules/mediaSelection';
 
 
 const init = async () => {
@@ -35,6 +36,8 @@ const init = async () => {
     DOM.urlInput.addEventListener('blur', (event) => {
         handleUrlBlur(event);
     })
+
+    setupMediaSelection();
 }
 
 init();

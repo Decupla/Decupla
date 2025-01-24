@@ -8,10 +8,13 @@ import { setVisible, updateInput, saveNewInput } from "./input";
 export const handleTypeChange = (type,element) => {
     switch (type) {
         case 'shortText':
-            setVisible(['name', 'label', 'type', 'max-length'],element);
+            setVisible(['name', 'label', 'type', 'maxLength'],element);
             break;
-        case 'LongText':
+        case 'longText':
             setVisible(['name', 'label', 'type'],element);
+            break;
+        case 'media': 
+            setVisible(['name', 'label', 'type', 'selection'],element);
             break;
         default:
             setVisible(['name', 'label', 'type'],element);
@@ -19,24 +22,35 @@ export const handleTypeChange = (type,element) => {
 }
 
 // called when the input form is submitted
-export const handleInputSubmit = (event,priority) => {
+export const handleInputSubmit = (event, priority) => {
     event.preventDefault();
     resetMessages();
-    const form = event.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
 
+    const form = event.target;
+    const formData = Object.fromEntries(new FormData(form).entries());
+
+    const data = {
+        type: formData.type,
+        name: formData.name,
+        label: formData.label,
+        ...(formData.type === "shortText" && { maxLength: formData.maxLength }),
+        ...(formData.type === "media" && { selection: formData.selection }),
+    };
 
     setSubmittedForm(form);
 
-    if (inputMethod === "create") {
-        saveNewInput(data,priority);
-    } else if (inputMethod === "update") {
-        updateInput(data);
-    } else {
-        console.log('No input method was given.');
+    switch (inputMethod) {
+        case "create":
+            saveNewInput(data, priority);
+            break;
+        case "update":
+            updateInput(data);
+            break;
+        default:
+            console.log('No input method was given.');
     }
-}
+};
+
 
 //handles the event when the main form (block) is submitted
 export const handleBlockSubmit = async (event) => {
@@ -59,12 +73,10 @@ export const handleBlockSubmit = async (event) => {
     }
 
     try {
-        console.log(data);
         const response = await saveBlock(url, method, data)
 
         if (!response.validation) {
             const messages = response.messages;
-            console.log(messages);
 
             for (const [field, message] of Object.entries(messages)) {
                 setFieldMessage(field,message,true);
