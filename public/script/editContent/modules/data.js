@@ -1,5 +1,6 @@
 export let blocksData = [];
 export let selectedMedia = [];
+export let activeTextEditors = [];
 
 // if we are deleting existing block instances, the database ids of the blocks will be saved here 
 export let deletedBlocks = [];
@@ -39,6 +40,10 @@ export const clearDeletedBlocks = () => {
 
 export const clearSelectedMedia = () => {
     selectedMedia = [];
+}
+
+export const clearActiveTextEditors = () => {
+    activeTextEditors = [];
 }
 
 export const getInstanceId = () => {

@@ -3,6 +3,7 @@ import { contentExists, contentID, deletedBlocks, setContentExists, setContentID
 import { saveContentData, saveBlockData, deleteBlockInstance } from './api';
 import { addNewBlock, updateBlock, reloadBlocks, saveBlockInstances } from './blocks';
 import { setFieldMessage, resetMessages } from './messages';
+import { getEditorData } from './textEditor';
 
 export const handleContentSubmit = async (event) => {
     event.preventDefault();
@@ -84,6 +85,12 @@ export const handleBlockSubmit = (event, priority = 1) => {
     const formData = new FormData(event.target);
     // the data of the block form. Only the output, no more informations about the block
     const output = Object.fromEntries(formData.entries());
+    
+    const editorData = getEditorData();
+
+    editorData.forEach((editor) => {
+        output[editor.name] = editor.content;
+      });
 
     // the data we want to be saved in the blocksData Array
     const data = {

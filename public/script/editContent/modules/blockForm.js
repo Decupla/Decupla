@@ -2,6 +2,7 @@ import DOM from './dom';
 import { setCurrentBlock, setBlockMethod, setSelectMultipleMedia } from './data';
 import { toggleMediaSelection } from './mediaSelection';
 import { fetchBlock } from './api';
+import { createEditor } from './textEditor';
 
 // loads the Form / Popup for creating or editing a block instance
 export const setupBlockForm = async (blockID, container, setOutput = {}) => {
@@ -10,7 +11,7 @@ export const setupBlockForm = async (blockID, container, setOutput = {}) => {
 
     if (blocksData.success) {
         closeBlockForm();
-        if(container.classList.contains('show-block-selection')){
+        if (container.classList.contains('show-block-selection')) {
             container.classList.remove('show-block-selection');
         }
         container.classList.add('show-form-container');
@@ -34,7 +35,7 @@ export const setupBlockForm = async (blockID, container, setOutput = {}) => {
             }
         })
 
-        closeFormButton.addEventListener('click',closeBlockForm);
+        closeFormButton.addEventListener('click', closeBlockForm);
 
         setCurrentBlock(block);
     }
@@ -43,7 +44,7 @@ export const setupBlockForm = async (blockID, container, setOutput = {}) => {
 export const closeBlockForm = () => {
     const activeForms = document.querySelectorAll('.show-form-container');
 
-    activeForms.forEach((element)=>{
+    activeForms.forEach((element) => {
         element.classList.remove('show-form-container');
 
         const input = element.querySelector('.block-form-input');
@@ -62,14 +63,14 @@ export const setupBlockSelection = (container) => {
         container.classList.add('show-block-selection');
     })
 
-    closeButton.addEventListener('click',()=>{
+    closeButton.addEventListener('click', () => {
         container.classList.remove('show-block-selection');
     })
 
     blocks.forEach((block) => {
         block.addEventListener('click', () => {
             setBlockMethod("create");
-            setupBlockForm(block.dataset.id,container);
+            setupBlockForm(block.dataset.id, container);
         })
     })
 }
@@ -78,8 +79,6 @@ export const setupBlockSelection = (container) => {
 const createInput = (inputData, value, container) => {
     let newInput;
     let newFieldset;
-
-    console.log("value",value);
 
     switch (inputData.type) {
         case 'shortText':
@@ -90,11 +89,9 @@ const createInput = (inputData, value, container) => {
             }
             break;
         case 'longText':
-            newInput = document.createElement('textarea');
+            newInput = document.createElement('div');
+            newInput.classList.add('editor');
 
-            if (value !== "") {
-                newInput.innerText = value;
-            }
             break;
         case 'media':
             newInput = document.createElement('input');
@@ -123,22 +120,26 @@ const createInput = (inputData, value, container) => {
     newFieldset.appendChild(newLabel);
     newFieldset.appendChild(newInput);
 
-    if(inputData.type==="media"){
-        createMediaInput(inputData,newFieldset,value);
+    if (inputData.type === "media") {
+        createMediaInput(inputData, newFieldset, value);
     }
 
 
     const blockFormInput = container.querySelector('.block-form-input');
 
-    if(!blockFormInput){
+    if (!blockFormInput) {
         console.log('Element block-form-input could not be found');
         return;
     }
 
     blockFormInput.appendChild(newFieldset);
+
+    if(inputData.type === "longText"){
+        createEditor(newInput,inputData.name,value);
+    }
 }
 
-export const createMediaInput = (inputData,newFieldset,value) => {
+export const createMediaInput = (inputData, newFieldset, value) => {
     const selectMediaWrapper = document.createElement('div');
     const mediaSelectButton = document.createElement('button');
     const selectedMedia = document.createElement('span');
@@ -156,8 +157,8 @@ export const createMediaInput = (inputData,newFieldset,value) => {
 
     newFieldset.appendChild(selectMediaWrapper);
 
-    selectMediaWrapper.addEventListener('click',()=>{
-        if(inputData.selection==="multiple"){
+    selectMediaWrapper.addEventListener('click', () => {
+        if (inputData.selection === "multiple") {
             setSelectMultipleMedia(true);
         } else {
             setSelectMultipleMedia(false);

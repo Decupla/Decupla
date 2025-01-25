@@ -151,6 +151,8 @@ export const addNewBlock = (data, priority) => {
     blocksData.push(data);
     closeBlockForm();
 
+    console.group(data);
+
 
     addBlockVisualization(data);
 
