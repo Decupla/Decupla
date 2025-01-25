@@ -42,7 +42,7 @@ export const setFieldMessage = (field, message, blockForm = false) => {
 
 //check if the name of a input already exists
 const nameExists = (name) => {
-    return inputData.some(obj => obj.name === name);
+    return inputData.some(obj => obj.params.name === name);
 }
 
 export const resetMessages = () => {

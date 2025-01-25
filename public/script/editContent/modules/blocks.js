@@ -4,51 +4,62 @@ import { addBlockVisualization, deleteBlockVisualization, updateBlockVisualizati
 import { setupBlockForm, closeBlockForm } from './blockForm';
 import { fetchBlock, fetchContentBlocks, saveBlockData } from './api';
 
-// if content already exists and has blocks this will load in the block instances
+
+const processBlockData = async (blockData) => {
+    try {
+        const fetchedBlock = await fetchBlock(blockData.blockID);
+        if (fetchedBlock) {
+            setCurrentBlock(fetchedBlock.block);
+        }
+        addBlockVisualization(blockData);
+    } catch (error) {
+        console.error(`Could not process block with ID ${blockData.blockID}:`, error);
+    }
+};
+
+const calculateNextPriority = () => {
+    const currentMaxPriority = blocksData.length > 0 
+        ? Math.max(0, ...blocksData.map(block => block.priority))
+        : 0;
+    return currentMaxPriority + 1;
+};
+
 export const getBlocks = async (id) => {
     try {
         const data = await fetchContentBlocks(id);
-
-        if (data.success === true) {
-            const blocks = data.blocks;
-
-            const blocksParsed = blocks.map(({ id, ...block }) => ({
-                // this is the id the block instances has in the blocksData Array, used for frontend purposes
-                instanceID: getInstanceId(),
-                // this is the id the block instance has in the database
-                databaseID: id,
-                ...block,
-                output: JSON.parse(block.output),
-            }));
-
-            blocksData.push(...blocksParsed);
-
-            if (blocksData.length > 0) {
-                DOM.addBlockContainerEnd.classList.add('visible');
-                const currentMaxPriority = Math.max(0, ...blocksData.map(block => block.priority));
-                setNextPriority(currentMaxPriority + 1);
-            }
-
-            for (const data of blocksData) {
-                const blockData = await fetchBlock(data.blockID);
-                if (blockData) {
-                    setCurrentBlock(blockData.block);
-                }
-                addBlockVisualization(data);
-            }            
-
-            setLastVisualisation();
-        } else {
-            // to do: fehlermeldung auf der Seite ausgebe
-            console.log(data.message);
+        if (!data.success) {
+            console.log('Error while fetching blocks:', data.message);
+            return;
         }
 
-        console.log("blocksData",blocksData)
+        const blocks = data.blocks;
+
+        const blocksParsed = blocks.map(({ id, ...block }) => ({
+            instanceID: getInstanceId(),
+            databaseID: id,
+            ...block,
+            output: JSON.parse(block.output),
+        }));
+
+        blocksData.push(...blocksParsed);
+
+        if (blocksData.length > 0) {
+            DOM.addBlockContainerEnd.classList.add('visible');
+            setNextPriority(calculateNextPriority());
+        }
+
+        for (const blockData of blocksData) {
+            await processBlockData(blockData);
+        }
+
+        setLastVisualisation();
+        console.log("blocksData", blocksData);
 
     } catch (error) {
         console.error('Something went wrong:', error);
     }
-}
+};
+
 
 //loads the block form for editing a existing block instance
 export const editBlock = (instanceID, blockID, container) => {
@@ -100,8 +111,7 @@ export const deleteBlock = (instanceID) => {
             }
         });
 
-        const currentMaxPriority = Math.max(0, ...blocksData.map(block => block.priority));
-        setNextPriority(currentMaxPriority + 1);
+        setNextPriority(calculateNextPriority());
 
         // we also need to remove the visualization
         deleteBlockVisualization(instanceID);
@@ -160,8 +170,7 @@ export const addNewBlock = (data, priority) => {
         DOM.addBlockContainerEnd.classList.add('visible');
     }
 
-    const currentMaxPriority = Math.max(0, ...blocksData.map(block => block.priority));
-    setNextPriority(currentMaxPriority + 1);
+    setNextPriority(calculateNextPriority());
 
     setLastVisualisation();
 

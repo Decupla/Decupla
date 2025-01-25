@@ -74,4 +74,12 @@
             }
         }
     }
+
+    #message-saved {
+        display: none;
+
+        &.visible {
+            display: block;
+        }
+    }
 }

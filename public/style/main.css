@@ -720,6 +720,12 @@ header .logout-link img {
 #edit-menu #entries .entryVis .buttons button.remove img {
   width: 1.3rem;
 }
+#edit-menu #message-saved {
+  display: none;
+}
+#edit-menu #message-saved.visible {
+  display: block;
+}
 
 #login {
   width: 100vw;

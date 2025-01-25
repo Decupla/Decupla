@@ -161,17 +161,12 @@ export const setLastVisualisation = () => {
 }
 
 export const getOutputLabel = (name) => {
-    if (!currentBlock || !currentBlock.input) {
+    if (!currentBlock?.input) {
         return "";
     }
 
     const input = JSON.parse(currentBlock.input);
-
     const foundInput = input.find(item => item.params.name === name);
 
-    if (foundInput && foundInput.params.label) {
-        return foundInput.params.label;
-    } else {
-        return "";
-    }
-}
+    return foundInput?.params?.label || "";
+};
