@@ -1,5 +1,5 @@
 import DOM from './dom';
-import { blocksData, nextPriority } from './data';
+import { blocksData, currentBlock, nextPriority } from './data';
 import { editBlock, deleteBlock } from './blocks';
 import { priorityUp, priorityDown } from './priority';
 import { handleBlockSubmit } from './eventHandler';
@@ -37,8 +37,8 @@ export const addBlockVisualization = (data) => {
 
     blockTitle.innerText = data.title;
 
-    upButton.type="button";
-    downButton.type="button";
+    upButton.type = "button";
+    downButton.type = "button";
     editButton.type = "button";
     deleteButton.type = "button";
 
@@ -56,7 +56,8 @@ export const addBlockVisualization = (data) => {
     container.style.order = data.priority;
 
     Object.entries(data.output).forEach(([key, value]) => {
-        const output = `<strong>${key}</strong>: ${value}<br>`;
+        const label = getOutputLabel(key)
+        const output = `<strong>${label}</strong>: ${value}<br>`;
         blockOutput.innerHTML += output;
     });
 
@@ -85,7 +86,7 @@ export const addBlockVisualization = (data) => {
     const addBlockContainerClone = DOM.addBlockButtonContainers[0].cloneNode(true);
     addBlockContainerClone.classList.add('add-in-between');
     const addBlockForm = addBlockContainerClone.querySelector('form');
-    
+
     container.appendChild(block);
     container.appendChild(formContainerClone);
     container.appendChild(addBlockContainerClone);
@@ -107,8 +108,8 @@ export const addBlockVisualization = (data) => {
 
     setupBlockSelection(addBlockContainerClone);
 
-    console.log('Priority: ',data.priority);
-    console.log('Next Priority: ',nextPriority);
+    console.log('Priority: ', data.priority);
+    console.log('Next Priority: ', nextPriority);
 };
 
 // updates a existing visualization
@@ -133,9 +134,9 @@ export const deleteBlockVisualization = (instanceID) => {
     vis.remove();
 }
 
-export const updateVisualizationPriority = (instanceID,priority) => {
+export const updateVisualizationPriority = (instanceID, priority) => {
     const vis = document.querySelector(`.block-vis-container[data-instance="${instanceID}"]`);
-    if(vis){
+    if (vis) {
         vis.style.order = priority;
         vis.dataset.priority = priority;
     }
@@ -143,8 +144,8 @@ export const updateVisualizationPriority = (instanceID,priority) => {
 
 export const setLastVisualisation = () => {
     const currentLastVis = document.querySelector(`.block-vis-container.last-vis`);
-    if(currentLastVis){
-        if(currentLastVis.dataset.priority===nextPriority-1){
+    if (currentLastVis) {
+        if (currentLastVis.dataset.priority === nextPriority - 1) {
             return;
         } else {
             currentLastVis.classList.remove('last-vis');
@@ -154,7 +155,23 @@ export const setLastVisualisation = () => {
     const targetPriority = nextPriority - 1;
     const lastVis = document.querySelector(`.block-vis-container[data-priority="${targetPriority}"]`);
 
-    if(lastVis){
+    if (lastVis) {
         lastVis.classList.add('last-vis');
+    }
+}
+
+export const getOutputLabel = (name) => {
+    if (!currentBlock || !currentBlock.input) {
+        return "";
+    }
+
+    const input = JSON.parse(currentBlock.input);
+
+    const foundInput = input.find(item => item.params.name === name);
+
+    if (foundInput && foundInput.params.label) {
+        return foundInput.params.label;
+    } else {
+        return "";
     }
 }

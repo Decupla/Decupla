@@ -497,6 +497,10 @@ header .logout-link img {
   font-size: 0.8rem;
   font-style: italic;
 }
+#edit-content .block-form-container .input-fieldset .ql-editor, #edit-content .block-form-container .input-fieldset .ql-toolbar {
+  background-color: white;
+  color: black;
+}
 #edit-content .block-form-container button[type=submit] {
   background-color: #3DA99A;
   color: white;

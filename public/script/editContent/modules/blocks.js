@@ -1,14 +1,13 @@
 import DOM from './dom';
-import { contentExists, contentID, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks, setNextPriority } from "./data";
+import { contentExists, contentID, setBlockMethod, blocksData, currentInstanceID, setCurrentInstanceID, deletedBlocks, getInstanceId, clearBlocksData, clearDeletedBlocks, setNextPriority, setCurrentBlock } from "./data";
 import { addBlockVisualization, deleteBlockVisualization, updateBlockVisualization, updateVisualizationPriority, setLastVisualisation } from "./visualization";
 import { setupBlockForm, closeBlockForm } from './blockForm';
-import { saveBlockData } from './api';
+import { fetchBlock, fetchContentBlocks, saveBlockData } from './api';
 
 // if content already exists and has blocks this will load in the block instances
 export const getBlocks = async (id) => {
     try {
-        const response = await fetch(`/content/${id}/blocks`);
-        const data = await response.json();
+        const data = await fetchContentBlocks(id);
 
         if (data.success === true) {
             const blocks = data.blocks;
@@ -30,15 +29,21 @@ export const getBlocks = async (id) => {
                 setNextPriority(currentMaxPriority + 1);
             }
 
-            blocksData.forEach((data) => {
+            for (const data of blocksData) {
+                const blockData = await fetchBlock(data.blockID);
+                if (blockData) {
+                    setCurrentBlock(blockData.block);
+                }
                 addBlockVisualization(data);
-            });
+            }            
 
             setLastVisualisation();
         } else {
             // to do: fehlermeldung auf der Seite ausgebe
             console.log(data.message);
         }
+
+        console.log("blocksData",blocksData)
 
     } catch (error) {
         console.error('Something went wrong:', error);
@@ -149,11 +154,6 @@ export const addNewBlock = (data, priority) => {
     });
 
     blocksData.push(data);
-    closeBlockForm();
-
-    console.group(data);
-
-
     addBlockVisualization(data);
 
     if(!DOM.addBlockContainerEnd.classList.contains('visible')){
@@ -164,6 +164,8 @@ export const addNewBlock = (data, priority) => {
     setNextPriority(currentMaxPriority + 1);
 
     setLastVisualisation();
+
+    closeBlockForm();
 }
 
 export const saveBlockInstances = async (newID) => {

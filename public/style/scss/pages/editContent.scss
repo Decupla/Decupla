@@ -137,12 +137,17 @@
                     background-color: $blue;
                     flex-shrink: 0;
                 }
-    
+
                 .selected-media {
                     margin-left: 0.8rem;
                     font-size: 0.8rem;
                     font-style: italic;
                 }
+            }
+
+            .ql-editor,.ql-toolbar {
+                background-color: white;
+                color: black;
             }
         }
 

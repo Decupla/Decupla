@@ -10,9 +10,6 @@ const toolbarOptions = [
   // text utilities
   ["bold", "italic", "underline", "strike"],
 
-  // text colors and bg colors
-  [{ color: [] }, { background: [] }],
-
   // lists
   [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
 
