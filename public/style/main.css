@@ -804,10 +804,18 @@ header .logout-link img {
   flex-direction: column;
   margin-top: 2rem;
 }
-#settings .settings-block .settings-icon {
+#settings .settings-block .img-container {
+  min-height: 8.125rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+#settings .settings-block .img-container .settings-icon {
   width: 7.85rem;
   display: block;
-  margin-bottom: 0.5rem;
+}
+#settings .settings-block .img-container .settings-icon.home-icon {
+  width: 7rem;
 }
 #settings .settings-block .settings-title {
   color: white;
@@ -823,6 +831,9 @@ header .logout-link img {
   display: block;
   color: white;
   margin: auto;
+}
+#settings a:hover {
+  text-decoration: none;
 }
 
 #setup {

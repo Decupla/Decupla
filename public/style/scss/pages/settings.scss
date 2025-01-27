@@ -10,10 +10,21 @@
         flex-direction: column;
         margin-top: 2rem;
 
-        .settings-icon {
-            width: 7.85rem;
-            display: block;
+        .img-container {
+            min-height: 8.125rem;
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+
+            .settings-icon {
+                width: 7.85rem;
+                display: block;
+    
+                &.home-icon {
+                    width: 7rem;
+                }
+            }
+    
         }
 
         .settings-title {
@@ -32,5 +43,9 @@
             color: white;
             margin: auto;
         }
+    }
+
+    a:hover {
+        text-decoration: none;
     }
 }

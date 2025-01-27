@@ -63,7 +63,7 @@ const createTables = (database) => {
             priority INTEGER NOT NULL
         );
 
-        CREATE Table menus (
+        CREATE TABLE menus (
             id INTEGER PRIMARY KEY,
             title TEXT NOT NULL,
             key TEXT UNIQUE NOT NULL,
@@ -83,7 +83,27 @@ const createTables = (database) => {
             name TEXT NOT NULL,
             APIKey TEXT NOT NULL
         );
-    `);
+
+        CREATE TABLE settings (
+            id INTEGER PRIMARY KEY,
+            key TEXT NOT NULL,
+            value TEXT NOT NULL
+        );
+    `, (error) => {
+        if (error) {
+            console.log("Error creating tables:", error);
+            return;
+        }
+
+        database.run(`
+            INSERT INTO settings (key, value) 
+            VALUES ('startContent', '0');
+        `, (error) => {
+            if (error) {
+                console.log("Error inserting default setting:", error);
+            }
+        });
+    });
 }
 
 

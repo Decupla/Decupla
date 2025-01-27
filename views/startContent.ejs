@@ -1,0 +1,30 @@
+<%- include('layout/layoutStart.ejs') %>
+<main id="allowed-origins" class="p-0">
+    <div class="main-container">
+        <div class="breadcrumb-title">
+            <a href="/settings">Settings</a> > <strong>Start Content</strong>
+        </div>      
+        <div class="edit-container">
+            <h1>Select Start Content</h1>
+            <form action="/settings/start-content/save" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <select class="d-block my-4" name="startContent" id="start-content">
+                    <option <%= selectedContent === 0 ? 'selected' : '' %> value="0">No Content Selected</option>
+                    <% 
+                    content.forEach(entry => {
+                    %>
+                        <option <%= selectedContent === entry.id ? 'selected' : '' %> value="<%= entry.id %>"><%= entry.title %></option>  
+                    <% }); %>
+                </select>
+                <input id="save" type="submit" value="save">
+            </form>
+            <% if('error' in messages){ %>
+                <div class="alert alert-danger mt-4"><%= messages.error %></div>
+            <% } %>
+            <% if('success' in messages){ %>
+                <div class="alert alert-success mt-4"><%= messages.success %></div>
+            <% } %>
+        </div>
+    </div>
+</main>
+<%- include('layout/layoutEnd.ejs') %>
