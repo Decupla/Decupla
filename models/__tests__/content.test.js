@@ -111,7 +111,7 @@ describe('update', () => {
         expect(db.updateWhere).toHaveBeenCalledWith('content', data, 'id', 1);
         expect(answer).toBe(true);
     })
-    it('should log errors', async () => {
+    it('should log errors and return false', async () => {
         db.updateWhere.mockRejectedValue(mockError);
 
         const data = { title: 'Updated Mock Content', status: 0 };
@@ -134,6 +134,73 @@ describe('remove', () => {
         const answer = await Content.remove(1);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error deleting data: ', mockError);
+        expect(answer).toBe(false);
+    })
+})
+
+describe('urlExists', () => {
+    it('should call db.selectWhere and return true if row was found', async () => {
+        const mockRow = { id: 1, title: 'mocked content', status: 1, url: 'mocked-content', created: 1737994273140, updated: null };
+        db.selectWhere.mockResolvedValue(mockRow);
+
+        const answer = await Content.urlExists('mocked-content');
+
+        expect(db.selectWhere).toHaveBeenCalledWith('content', 'url', 'mocked-content');
+        expect(answer).toBe(true);
+    })
+    it('should return false if no row was found', async () => {
+        db.selectWhere.mockResolvedValue(null);
+
+        const answer = await Content.urlExists('mocked-content');
+
+
+        expect(answer).toBe(false);
+    })
+    it('should log errors and return false', async () => {
+        db.selectWhere.mockRejectedValue(mockError);
+
+        const answer = await Content.urlExists('mocked-content');
+
+
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError)
+        expect(answer).toBe(false);
+    })
+})
+
+describe('urlChanged', () => {
+    it('should call db.selectWhere and return true if given url is different than url of found row', async () => {
+        const mockRow = { id: 1, title: 'mocked content', status: 1, url: 'mocked-content', created: 1737994273140, updated: null };
+        db.selectWhere.mockResolvedValue(mockRow);
+
+        const answer = await Content.urlChanged(1,'updated-mocked-content');
+
+        expect(db.selectWhere).toHaveBeenCalledWith('content','id',1);
+        expect(answer).toBe(true);
+
+    })
+    it('should return dalse if given url equals url of found row', async () => {
+        const mockRow = { id: 1, title: 'mocked content', status: 1, url: 'mocked-content', created: 1737994273140, updated: null };
+        db.selectWhere.mockResolvedValue(mockRow);
+
+        const answer = await Content.urlChanged(1,'mocked-content');
+
+        expect(answer).toBe(false);
+    })
+    it('should return false if no row was found', async () => {
+        db.selectWhere.mockResolvedValue(null);
+
+        const answer = await Content.urlChanged('mocked-content');
+
+
+        expect(answer).toBe(false);
+    })
+    it('should log errors and return false', async () => {
+        db.selectWhere.mockRejectedValue(mockError);
+
+        const answer = await Content.urlChanged(1,'mocked-content');
+
+
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError)
         expect(answer).toBe(false);
     })
 })

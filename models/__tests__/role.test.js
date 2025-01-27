@@ -112,7 +112,7 @@ describe('remove',()=>{
         expect(db.deleteWhere).toHaveBeenCalledWith('roles', 'id', 1);
         expect(answer).toBe(true);
     })
-    it('should log errors',async ()=>{
+    it('should log errors and return false',async ()=>{
         db.deleteWhere.mockRejectedValue(mockError);
 
         const answer = await Role.remove(1);

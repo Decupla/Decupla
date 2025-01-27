@@ -206,8 +206,8 @@ describe('save', () => {
     it('should validate input and send errors', async () => {
         const req = {
             body: {
-                name: 'Author',
-                permissions: ''
+                name: '',
+                permissions: 'editContent'
             },
             params: {
                 id: 1
@@ -220,7 +220,7 @@ describe('save', () => {
                 return {
                     validate: jest.fn(),
                     hasErrors: jest.fn().mockReturnValue(true),
-                    errors: { perms: 'Perms is required' }
+                    errors: { name: 'Name is required' }
                 };
             });
         });
@@ -228,7 +228,7 @@ describe('save', () => {
         await rolesController.save(req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.send).toHaveBeenCalledWith({ perms: 'Perms is required' });
+        expect(res.render).toHaveBeenCalled();
     })
     it('should call Role.update and redirect on success', async () => {
         const req = {

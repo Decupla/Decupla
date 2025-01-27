@@ -131,7 +131,7 @@ describe('keyExists', () => {
 
         const answer = await Block.keyExists('mockedBlock');
 
-        expect(db.selectWhere).toHaveBeenCalledWith('blocks','key','mockedBlock');
+        expect(db.selectWhere).toHaveBeenCalledWith('blocks', 'key', 'mockedBlock');
         expect(answer).toBe(true);
     })
     it('should return false if result is null', async () => {
@@ -139,7 +139,7 @@ describe('keyExists', () => {
 
         const answer = await Block.keyExists('mockedBlock');
 
-        expect(db.selectWhere).toHaveBeenCalledWith('blocks','key','mockedBlock');
+        expect(db.selectWhere).toHaveBeenCalledWith('blocks', 'key', 'mockedBlock');
         expect(answer).toBe(false);
     })
     it('should log errors and return false', async () => {
@@ -157,33 +157,61 @@ describe('keyChanged', () => {
         const mockRow = { id: 1, title: 'New mocked block', key: 'mockedBlock', input: "", status: 1 };
         db.selectWhere.mockResolvedValue(mockRow);
 
-        const answer = await Block.keyChanged(1,'mockedBlock');
+        const answer = await Block.keyChanged(1, 'mockedBlock');
 
-        expect(db.selectWhere).toHaveBeenCalledWith('blocks','id',1);
+        expect(db.selectWhere).toHaveBeenCalledWith('blocks', 'id', 1);
         expect(answer).toBe(false);
     })
     it('should call db.selectWhere and return true if result does not equal parameter', async () => {
         const mockRow = { id: 1, title: 'New mocked block', key: 'mockedBlock', input: "", status: 1 };
         db.selectWhere.mockResolvedValue(mockRow);
 
-        const answer = await Block.keyChanged(1,'mockedBlockNew');
+        const answer = await Block.keyChanged(1, 'mockedBlockNew');
 
-        expect(db.selectWhere).toHaveBeenCalledWith('blocks','id',1);
+        expect(db.selectWhere).toHaveBeenCalledWith('blocks', 'id', 1);
         expect(answer).toBe(true);
     })
     it('should return false if db.selectWhere returned null', async () => {
         db.selectWhere.mockResolvedValue(null);
 
-        const answer = await Block.keyChanged(1,'mockedBlock');
+        const answer = await Block.keyChanged(1, 'mockedBlock');
 
         expect(answer).toBe(false);
     })
     it('should log errors and return false', async () => {
         db.selectWhere.mockRejectedValue(mockError);
 
-        const answer = await Block.keyChanged(1,'mockedBlock');
+        const answer = await Block.keyChanged(1, 'mockedBlock');
 
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError);
         expect(answer).toBe(false);
+    })
+})
+
+describe('getKey', () => {
+    it('should call db.selectWhere and return key of found row', async () => {
+        const mockRow = { id: 1, title: 'New mocked block', key: 'mockedBlock', input: "", status: 1 };
+        db.selectWhere.mockResolvedValue(mockRow);
+
+        const answer = await Block.getKey(1);
+
+        expect(db.selectWhere).toHaveBeenCalledWith('blocks', 'id', 1);
+        expect(answer).toBe('mockedBlock');
+    })
+    it('should return null if no row was found', async () => {
+        db.selectWhere.mockResolvedValue(null);
+
+        const answer = await Block.getKey(1);
+
+        expect(answer).toBe(null);
+
+    })
+    it('should log errors and return null', async () => {
+        db.selectWhere.mockRejectedValue(mockError);
+
+        const answer = await Block.getKey(1);
+
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError);
+        expect(answer).toBe(null);
     })
 })

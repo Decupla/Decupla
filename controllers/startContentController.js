@@ -1,10 +1,10 @@
 const Content = require('../models/content');
-const Settings = require('../models/settings');
+const Setting = require('../models/setting');
 const Validation = require('../helpers/validation');
 
 const index = async (req,res) => {
     const content = await Content.getAllPublished();
-    const selectedContent = parseInt(await Settings.get('startContent'), 10) || 0;
+    const selectedContent = parseInt(await Setting.get('startContent'), 10) || 0;
 
     res.status(200).render('startContent', {
         title: 'Edit Start Content',
@@ -16,7 +16,7 @@ const index = async (req,res) => {
 
 const save = async (req,res) => {
     const content = await Content.getAllPublished();
-    const selectedContent = parseInt(await Settings.get('startContent'), 10) || 0;
+    const selectedContent = parseInt(await Setting.get('startContent'), 10) || 0;
 
     const data = {
         key: 'startContent',
@@ -36,7 +36,7 @@ const save = async (req,res) => {
         })
     }
 
-    const success = await Settings.update(data);
+    const success = await Setting.update(data);
 
     if(success){
         return res.status(200).render('startContent', {
