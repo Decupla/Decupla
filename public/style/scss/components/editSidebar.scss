@@ -16,6 +16,10 @@
         width: 100%;
     }
 
+    textarea {
+        height: 9rem;
+    }
+
     label {
         font-weight: 300;
         margin-bottom: 0.35rem;
@@ -29,6 +33,10 @@
     @media screen and (max-width: 767px) {
         width: 100%;
         height: fit-content;
+
+        &.sidebar-wide {
+            width: 100%;
+        }
 
         .sidebar-container {
             max-width: 510px;

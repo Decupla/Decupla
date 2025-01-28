@@ -196,6 +196,9 @@ header .logout-link img {
 #edit-sidebar input, #edit-sidebar textarea {
   width: 100%;
 }
+#edit-sidebar textarea {
+  height: 9rem;
+}
 #edit-sidebar label {
   font-weight: 300;
   margin-bottom: 0.35rem;
@@ -208,6 +211,9 @@ header .logout-link img {
   #edit-sidebar {
     width: 100%;
     height: fit-content;
+  }
+  #edit-sidebar.sidebar-wide {
+    width: 100%;
   }
   #edit-sidebar .sidebar-container {
     max-width: 510px;

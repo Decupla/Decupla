@@ -1,10 +1,10 @@
 @import 'variables';
 @import 'fonts';
-@import 'header';
-@import 'sidebar';
-@import 'editSidebar';
-@import 'visualization';
-@import 'mediaPopup';
+@import 'components/header';
+@import 'components/sidebar';
+@import 'components/editSidebar';
+@import 'components/visualization';
+@import 'components/mediaPopup';
 @import 'pages/editContent';
 @import 'pages/editBlock';
 @import 'pages/editMenu';
