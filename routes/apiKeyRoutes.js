@@ -7,6 +7,6 @@ apiKeysRouter.get('/create',apiKeysController.create);
 apiKeysRouter.get('/edit/:id',apiKeysController.edit);
 apiKeysRouter.post('/',apiKeysController.saveNew);
 apiKeysRouter.put('/:id',apiKeysController.save);
-apiKeysRouter.delete('/id',apiKeysController.remove);
+apiKeysRouter.delete('/:id',apiKeysController.remove);
 
 module.exports = apiKeysRouter;

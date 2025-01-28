@@ -7,7 +7,7 @@
     DOM.mobileSidebarToggle = document.querySelector('#mobile-sidebar-toggle');
     DOM.sidebar = document.querySelector('#main-sidebar');
     DOM.generateKeyButton = document.querySelector('button#generate-key');
-    DOM.generateKeyInput = document.querySelector('input#api-key');
+    DOM.generateKeyInput = document.querySelector('#edit-api-key input#key');
     DOM.keyFields = document.querySelectorAll('.key-field');
     DOM.toggleVisibilityWrappers = document.querySelectorAll('.toggle-visibility-wrapper');
 

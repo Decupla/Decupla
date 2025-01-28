@@ -187,10 +187,13 @@ header .logout-link img {
   background-color: #1C1C1C;
   height: calc(100vh - 40.3px);
 }
+#edit-sidebar.sidebar-wide {
+  width: 300px;
+}
 #edit-sidebar select {
   width: 75%;
 }
-#edit-sidebar input {
+#edit-sidebar input, #edit-sidebar textarea {
   width: 100%;
 }
 #edit-sidebar label {

@@ -42,6 +42,7 @@ const createTables = (database) => {
             title TEXT NOT NULL,
             status INTEGER NOT NULL,
             url TEXT,
+            describtion TEXT,
             created INTEGER,
             updated INTEGER
         );

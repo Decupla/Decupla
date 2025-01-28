@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            <aside id="edit-sidebar" class="p-4">
+            <aside id="edit-sidebar" class="p-4 sidebar-wide">
                 <div class="sidebar-container">
                     <form action="/content" method="POST" id="contentForm">
                         <input id="save" type="submit" value="save">
@@ -101,6 +101,10 @@
                             <label for="url">URL</label>
                             <input type="text" name="url" id="url" value="<%= data?.url?.trim() %>">
                             <div class="error-message alert alert-danger mt-3" id="message-url"></div>
+                        </div>
+                        <div class="mt-4">
+                            <label for="describtion">Describtion</label>
+                            <textarea name="describtion" id="describtion"><%= data?.describtion?.trim() %></textarea>
                         </div>
                     </form>
                 </div>

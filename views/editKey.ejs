@@ -1,5 +1,5 @@
 <%- include('layout/layoutStart.ejs') %>
-<main class="p-0">
+<main id="edit-api-key" class="p-0">
     <div class="main-container">
         <div class="breadcrumb-title">
             <a href="/settings">Settings</a> > <a href="/settings/api-keys">API-Keys</a> > <strong>Edit Key</strong>
@@ -23,18 +23,18 @@
                     <% } %>
                 </div>
                 <div class="mt-5 input-container">
-                    <label for="api-key">API-Key</label>
+                    <label for="key">API-Key</label>
                     <div class="d-flex align-items-end">
-                        <input placeholder="Please generate API-Key" name="APIKey" id="api-key" type="text" value="<%= data?.APIKey?.trim() || '' %>" readonly>
+                        <input placeholder="Please generate API-Key" name="key" id="key" type="text" value="<%= data?.key?.trim() || '' %>" readonly>
                         <button id="generate-key" type="button" class="d-flex align-items-center py-2 ml-3">
                             <img width="25px" class="mr-2" src="/images/icons/generate.png" alt="">
                             Generate
                         </button>
                     </div>
                 </div>
-                <% if ('APIKey' in messages) { %>
+                <% if ('key' in messages) { %>
                     <div class="error-message visible">
-                        <%= messages.APIKey %>
+                        <%= messages.key %>
                     </div>
                 <% } %>
                 <input class="mt-5" id="save" type="submit" value="save">

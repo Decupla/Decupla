@@ -4,11 +4,15 @@
     background-color: $black3;
     height: calc(100vh - 40.3px);
 
+    &.sidebar-wide {
+        width: 300px;
+    }
+
     select {
         width: 75%;
     }
 
-    input {
+    input, textarea {
         width: 100%;
     }
 

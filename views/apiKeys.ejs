@@ -16,7 +16,7 @@
             <% for(var i=0; i<keys.length; i++) {%>
             <tr>
                 <td><%= keys[i].name %></td>
-                <td class="key-field key-hidden"><i class="key-protection">click to show API-Key</i><span class="key"><%= keys[i].APIKey %></span></td>
+                <td class="key-field key-hidden"><i class="key-protection">click to show API-Key</i><span class="key"><%= keys[i].key %></span></td>
                 <td>
                     <div class="d-flex justify-content-end">
                         <a class="pr-1" href="/settings/api-keys/edit/<%= keys[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>

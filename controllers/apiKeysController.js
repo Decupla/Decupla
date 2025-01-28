@@ -37,7 +37,7 @@ const edit = async (req,res) => {
 const saveNew = async (req,res) => {
     const data = {
         name: req.body.name,
-        key: req.body.APIKey
+        key: req.body.key
     }
 
     const validation = new Validation(data);
@@ -45,6 +45,7 @@ const saveNew = async (req,res) => {
     validation.validate("key", "required|string|max:32|min:32");
 
     if(validation.hasErrors()){
+
         return res.status(400).render('editKey', {
             title: 'Create New API-Key',
             query: req.query,
@@ -69,7 +70,7 @@ const save = async (req,res) => {
     const data = {
         id,
         name: req.body.name,
-        key: req.body.APIKey
+        key: req.body.key
     }
 
     const validation = new Validation(data);
@@ -89,7 +90,7 @@ const save = async (req,res) => {
     const success = await APIKey.update(id,data);
 
     if(success){
-        return res.redirect(`/settings/api-key/edit/${id}?message=saved`);
+        return res.redirect(`/settings/api-keys/edit/${id}?message=saved`);
     }
 
     return res.status(500).render('error',{
@@ -102,7 +103,7 @@ const remove = async (req, res) => {
     const { id } = req.params;
     const success = await APIKey.remove(id);
     if (success) {
-        res.redirect('/settings/api-key?message=deleted');
+        res.redirect('/settings/api-keys?message=deleted');
     } else {
         res.status(500).render('error', {
             title: 'Error',
