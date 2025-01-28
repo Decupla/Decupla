@@ -2,7 +2,7 @@ const db = require('../database/database');
 
 const add = async (data) => {
     try {
-        const newId = await db.insert('blockInstances',data);
+        const newId = await db.insert('block_instances',data);
         return newId;
     } catch (error) {
         console.error('Error inserting data: ', error);
@@ -12,7 +12,7 @@ const add = async (data) => {
 
 const getByContent = async (id) => {
     try {
-        const result = await db.selectAllWhere('blockInstances','contentID',id);
+        const result = await db.selectAllWhere('block_instances','contentID',id);
         return result;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -22,7 +22,7 @@ const getByContent = async (id) => {
 
 const update = async (id,data) => {
     try {
-        await db.updateWhere('blockInstances',data,'id',id);
+        await db.updateWhere('block_instances',data,'id',id);
         return true;
     } catch (error) {
         console.error('Error updating data: ', error);
@@ -32,7 +32,7 @@ const update = async (id,data) => {
 
 const remove = async (id) => {
     try {
-        await db.deleteWhere('blockInstances','id',id);
+        await db.deleteWhere('block_instances','id',id);
         return true;
     } catch (error) {   
         console.error('Error deleting data: ', error);
@@ -42,7 +42,7 @@ const remove = async (id) => {
 
 const deleteByContent = async (id) => {
     try {
-        await db.deleteAllWhere('blockInstances','contentID',id);
+        await db.deleteAllWhere('block_instances','contentID',id);
         return true;
     } catch (error) {   
         console.error('Error deleting data: ', error);
@@ -52,7 +52,7 @@ const deleteByContent = async (id) => {
 
 const deleteByBlock = async (id) => {
     try {
-        await db.deleteAllWhere('blockInstances','blockID',id);
+        await db.deleteAllWhere('block_instances','blockID',id);
         return true;
     } catch (error) {   
         console.error('Error deleting data: ', error);

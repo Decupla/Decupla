@@ -1,4 +1,4 @@
-const Origin = require('../models/origin');
+const Origin = require('../models/APIKey');
 
 const validateAPIKey = async (req,res,next) => {
     const authHeader = req.headers['authorization'];

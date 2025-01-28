@@ -4,18 +4,18 @@ const Content = require('./models/content');
 const Block = require('./models/block');
 const BlockInstance = require('./models/blockInstance');
 const Menu = require('./models/menu');
-const Origin = require('./models/origin');
+const APIKey = require('./models/APIKey');
 
 jest.mock('./models/block');
 jest.mock('./models/content');
 jest.mock('./models/blockInstance');
 jest.mock('./models/menu');
-jest.mock('./models/origin');
+jest.mock('./models/APIKey');
 
 const token = 'Bearer kQyDH901EkCxrvpmj9vIFsV7E7I4Eaik';
 
 beforeEach(() => {
-  Origin.APIKeyValid.mockReturnValue(true);
+  APIKey.APIKeyValid.mockReturnValue(true);
 })
 
 afterEach(() => {

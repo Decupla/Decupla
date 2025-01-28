@@ -1,16 +1,11 @@
 const {Router} = require("express");
 const settingsController = require('../controllers/settingsController');
-const startContentController = require('../controllers/startContentController');
+const apiKeysRouter = require('./apiKeyRoutes');
+const startContentRouter = require('./startContentRoutes');
 
 const settingsRouter = Router();
 settingsRouter.get('/', settingsController.index);
-settingsRouter.get('/origins', settingsController.showAllowedOrigins);
-settingsRouter.get('/origins/create', settingsController.createOrigin);
-settingsRouter.get('/origins/edit/:id', settingsController.editOrigin);
-settingsRouter.get('/start-content',startContentController.index);
-settingsRouter.post('/origins',settingsController.saveNewOrigin);
-settingsRouter.put('/start-content/save',startContentController.save);
-settingsRouter.put('/origins/:id',settingsController.saveOrigin);
-settingsRouter.delete('/origins/:id',settingsController.removeOrigin);
+settingsRouter.use('/api-keys',apiKeysRouter);
+settingsRouter.use('/start-content',startContentRouter);
 
 module.exports = settingsRouter;

@@ -1,26 +1,26 @@
 <%- include('layout/layoutStart.ejs') %>
-<main id="allowed-origins" class="p-0">
+<main id="api-keys" class="p-0">
     <div class="main-container">
         <div class="breadcrumb-title">
-            <a href="/settings">Settings</a> > <strong>Allowed Request Origins</strong>
+            <a href="/settings">Settings</a> > <strong>API Keys</strong>
         </div>
-        <a href="/settings/origins/create"><button class="add-new mt-4">+ add new origin</button></a>
+        <a href="/settings/api-keys/create"><button class="add-new mt-4">+ create new key</button></a>
         <% if (query.message==="deleted") { %>
             <div class="alert alert-success mt-4">Key was deleted!</div>
         <% } %>
         <table class="collection">
             <tr class="py-2">
-                <th>Origin</th>
+                <th>Key Name</th>
                 <th>Key</th>
             </tr>
-            <% for(var i=0; i<origins.length; i++) {%>
+            <% for(var i=0; i<keys.length; i++) {%>
             <tr>
-                <td><%= origins[i].name %></td>
-                <td class="key-field key-hidden"><i class="key-protection">click to show API-Token</i><span class="key"><%= origins[i].APIKey %></span></td>
+                <td><%= keys[i].name %></td>
+                <td class="key-field key-hidden"><i class="key-protection">click to show API-Key</i><span class="key"><%= keys[i].APIKey %></span></td>
                 <td>
                     <div class="d-flex justify-content-end">
-                        <a class="pr-1" href="/settings/origins/edit/<%= origins[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
-                        <form action="/settings/origins/<%= origins[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
+                        <a class="pr-1" href="/settings/api-keys/edit/<%= keys[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>
+                        <form action="/settings/api-keys/<%= keys[i].id %>" method="POST" enctype="application/x-www-form-urlencoded">
                             <input type="hidden" name="_method" value="DELETE">
                             <button type="submit"><img src="/images/icons/delete_red.png" alt="delete"></button>
                         </form>

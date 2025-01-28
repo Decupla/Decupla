@@ -1,7 +1,7 @@
-const Origin = require('../../models/origin');
+const Origin = require('../../models/APIKey');
 const validateAPIKey = require('../validateAPIKey');
 
-jest.mock('../../models/origin');
+jest.mock('../../models/APIKey');
 
 let req = {};
 const res = {

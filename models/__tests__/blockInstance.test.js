@@ -32,7 +32,7 @@ describe('add',()=>{
         const result = await BlockInstance.add(data);
 
         expect(result).toBe(mockNewId);
-        expect(db.insert).toHaveBeenCalledWith('blockInstances',data);
+        expect(db.insert).toHaveBeenCalledWith('block_instances',data);
     })
     it('should log errors and return null',async () => {
         db.insert.mockRejectedValue(mockError);
@@ -53,7 +53,7 @@ describe('getByContent',()=>{
         const result = await BlockInstance.getByContent(8);
 
         expect(result).toEqual(mockedRows);
-        expect(db.selectAllWhere).toHaveBeenCalledWith('blockInstances','contentID',8)
+        expect(db.selectAllWhere).toHaveBeenCalledWith('block_instances','contentID',8)
     })
     it('should log errors and return null',async () => {
         db.selectAllWhere.mockRejectedValue(mockError);
@@ -73,7 +73,7 @@ describe('update',()=>{
         const result = await BlockInstance.update(1,data);
 
         expect(result).toBe(true);
-        expect(db.updateWhere).toHaveBeenCalledWith('blockInstances',data,'id',1);
+        expect(db.updateWhere).toHaveBeenCalledWith('block_instances',data,'id',1);
     })
     it('should log errors and return false',async()=>{
         db.updateWhere.mockRejectedValue(mockError);
@@ -93,7 +93,7 @@ describe('delete',()=>{
         const result = await BlockInstance.remove(1);
 
         expect(result).toBe(true);
-        expect(db.deleteWhere).toHaveBeenCalledWith('blockInstances','id',1);
+        expect(db.deleteWhere).toHaveBeenCalledWith('block_instances','id',1);
     })
     it('should log errors and return false',async()=>{
         db.deleteWhere.mockRejectedValue(mockError);
@@ -112,7 +112,7 @@ describe('deleteByContent',()=>{
         const result = await BlockInstance.deleteByContent(1);
 
         expect(result).toBe(true);
-        expect(db.deleteAllWhere).toHaveBeenCalledWith('blockInstances','contentID',1);
+        expect(db.deleteAllWhere).toHaveBeenCalledWith('block_instances','contentID',1);
     })
     it('should log errors and return false',async () => {
         db.deleteAllWhere.mockRejectedValue(mockError);
@@ -131,7 +131,7 @@ describe('delteByBlock',()=>{
         const result = await BlockInstance.deleteByBlock(1);
 
         expect(result).toBe(true);
-        expect(db.deleteAllWhere).toHaveBeenCalledWith('blockInstances','blockID',1);
+        expect(db.deleteAllWhere).toHaveBeenCalledWith('block_instances','blockID',1);
     })
     it('should log errors and return false',async () => {
         db.deleteAllWhere.mockRejectedValue(mockError);

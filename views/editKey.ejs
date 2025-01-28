@@ -2,20 +2,20 @@
 <main class="p-0">
     <div class="main-container">
         <div class="breadcrumb-title">
-            <a href="/settings">Users</a> > <a href="/settings/origins">Allowed Request Origins</a> > <strong>Edit Origin</strong>
+            <a href="/settings">Settings</a> > <a href="/settings/api-keys">API-Keys</a> > <strong>Edit Key</strong>
         </div>
         <div class="edit-container">
             <% if(query.message==="saved" ){ %>
                 <div class="alert alert-success message-saved my-4">
-                    User was successfully saved
+                    API-Key was successfully saved
                 </div>
             <% } %>
-            <form action="<%= editingExisting ? `/settings/origins/${data.id}` : '/settings/origins' %>" method="POST" novalidate>
+            <form action="<%= editingExisting ? `/settings/api-keys/${data.id}` : '/settings/api-keys' %>" method="POST" novalidate>
                 <% if(editingExisting){ %>
                     <input type="hidden" name="_method" value="PUT">
                 <% } %>
                 <div>
-                    <input name="name" id="name" type="text" placeholder="Origin Name" value="<%= data?.name?.trim() || '' %>">
+                    <input name="name" id="name" type="text" placeholder="API-Key Name" value="<%= data?.name?.trim() || '' %>">
                     <% if ('name' in messages) { %>
                         <div class="error-message visible">
                             <%= messages.name %>

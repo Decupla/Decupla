@@ -1,6 +1,6 @@
 const Content = require('../models/content');
 const Setting = require('../models/setting');
-const Validation = require('../helpers/validation');
+const Validation = require('../helpers/Validation');
 
 const index = async (req,res) => {
     const content = await Content.getAllPublished();

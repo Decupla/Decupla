@@ -1,4 +1,4 @@
-const APIKey = require('../origin');
+const APIKey = require('../APIKey');
 const db = require('../../database/database');
 
 const mockError = new Error('Database Mock Error');
@@ -27,16 +27,16 @@ describe('add', () => {
         db.insert.mockResolvedValue(mockNewId);
 
 
-        const data = { name: 'New mocked key', APIKey: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
+        const data = { name: 'New mocked key', key: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
         const result = await APIKey.add(data);
 
         expect(result).toBe(mockNewId);
-        expect(db.insert).toHaveBeenCalledWith('origins', data);
+        expect(db.insert).toHaveBeenCalledWith('api_keys', data);
     })
     it('shoud log errors and return null', async () => {
         db.insert.mockRejectedValue(mockError);
 
-        const data = { name: 'New mocked key', APIKey: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
+        const data = { name: 'New mocked key', key: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
         const result = await APIKey.add(data);
 
         expect(result).toBeNull();
@@ -46,12 +46,12 @@ describe('add', () => {
 
 describe('getAll', () => {
     it('should call db.selectAll and return found rows', async () => {
-        const mockRows = [{ id: 1, name: 'Mocked key', APIKey: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' }];
+        const mockRows = [{ id: 1, name: 'Mocked key', key: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' }];
         db.selectAll.mockResolvedValue(mockRows);
 
         const result = await APIKey.getAll();
         expect(result).toEqual(mockRows);
-        expect(db.selectAll).toHaveBeenCalledWith('origins');
+        expect(db.selectAll).toHaveBeenCalledWith('api_keys');
     }),
         it('should log errors and return empty array', async () => {
             db.selectAll.mockRejectedValue(mockError);
@@ -65,13 +65,13 @@ describe('getAll', () => {
 
 describe('get', () => {
     it('should call db.selectWhere with correct parameters and return found row', async () => {
-        const mockRow = { id: 1, name: 'Mocked key', APIKey: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
+        const mockRow = { id: 1, name: 'Mocked key', key: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
         db.selectWhere.mockResolvedValue(mockRow);
 
         const result = await APIKey.get(1);
 
         expect(result).toEqual(mockRow);
-        expect(db.selectWhere).toHaveBeenCalledWith('origins', 'id', 1)
+        expect(db.selectWhere).toHaveBeenCalledWith('api_keys', 'id', 1)
     });
     it('should log errors and return null', async () => {
         db.selectWhere.mockRejectedValue(mockError);
@@ -87,10 +87,10 @@ describe('update', () => {
     it('should call db.updateWhere with correct parameters and return true', async () => {
         db.updateWhere.mockResolvedValue(true);
 
-        const data = { name: 'Updated mocked key', APIKey: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
+        const data = { name: 'Updated mocked key', key: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
         const answer = await APIKey.update(1, data);
 
-        expect(db.updateWhere).toHaveBeenCalledWith('origins', data, 'id', 1);
+        expect(db.updateWhere).toHaveBeenCalledWith('api_keys', data, 'id', 1);
         expect(answer).toBe(true);
     })
     it('should log errors and return false', async () => {
@@ -109,7 +109,7 @@ describe('remove', () => {
         db.deleteWhere.mockResolvedValue(true);
 
         const answer = await APIKey.remove(1);
-        expect(db.deleteWhere).toHaveBeenCalledWith('origins', 'id', 1);
+        expect(db.deleteWhere).toHaveBeenCalledWith('api_keys', 'id', 1);
         expect(answer).toBe(true);
     })
     it('should log errors and return false', async () => {
@@ -124,12 +124,12 @@ describe('remove', () => {
 
 describe('APIKeyValid', () => {
     it('should call db.selectWhere and return true if row was found', async () => {
-        const mockRow = { id: 1, name: 'Mocked key', APIKey: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
+        const mockRow = { id: 1, name: 'Mocked key', key: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' };
         db.selectWhere.mockResolvedValue(mockRow);
 
         const answer = await APIKey.APIKeyValid('GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat');
 
-        expect(db.selectWhere).toHaveBeenCalledWith('origins','APIkey','GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat');
+        expect(db.selectWhere).toHaveBeenCalledWith('api_keys','key','GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat');
         expect(answer).toBe(true);
     })
     it('should return false if no row was found', async () => {

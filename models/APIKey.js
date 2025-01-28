@@ -2,7 +2,7 @@ const db = require('../database/database');
 
 const add = async (data) => {
     try {
-        const newID = await db.insert('origins',data);
+        const newID = await db.insert('api_keys',data);
         return newID;
     } catch (error) {
         console.error('Error inserting data: ', error);
@@ -12,7 +12,7 @@ const add = async (data) => {
 
 const getAll = async () => {
     try {
-        const rows = await db.selectAll('origins');
+        const rows = await db.selectAll('api_keys');
         return rows;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -22,7 +22,7 @@ const getAll = async () => {
 
 const get = async (id) => {
     try {
-        const result = await db.selectWhere('origins','id',id);
+        const result = await db.selectWhere('api_keys','id',id);
         return result;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -32,7 +32,7 @@ const get = async (id) => {
 
 const update = async (id,data) => {
     try {
-        await db.updateWhere('origins',data,'id',id);
+        await db.updateWhere('api_keys',data,'id',id);
         return true;
     } catch (error) {
         console.error('Error updating data: ', error);
@@ -42,7 +42,7 @@ const update = async (id,data) => {
 
 const remove = async (id) => {
     try {
-        await db.deleteWhere('origins','id',id);
+        await db.deleteWhere('api_keys','id',id);
         return true;
     } catch (error) {   
         console.error('Error deleting data: ', error);
@@ -52,7 +52,7 @@ const remove = async (id) => {
 
 const APIKeyValid = async (key) => {
     try {
-        const result = await db.selectWhere('origins','APIkey',key);
+        const result = await db.selectWhere('api_keys','key',key);
         if(result===null){
             return false
         }

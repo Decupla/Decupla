@@ -6,7 +6,7 @@
         </div>      
         <div class="edit-container">
             <h1>Select Start Content</h1>
-            <form action="/settings/start-content/save" method="POST">
+            <form action="/settings/start-content/" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <select class="d-block my-4" name="startContent" id="start-content">
                     <option <%= selectedContent === 0 ? 'selected' : '' %> value="0">No Content Selected</option>

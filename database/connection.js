@@ -55,7 +55,7 @@ const createTables = (database) => {
             updated INTEGER
         );
 
-        CREATE TABLE blockInstances (
+        CREATE TABLE block_instances (
             id INTEGER PRIMARY KEY,
             blockID INTEGER NOT NULL,
             contentID INTEGER NOT NULL,
@@ -78,10 +78,10 @@ const createTables = (database) => {
             size INTEGER NOT NULL
         );
 
-        CREATE TABLE origins (
+        CREATE TABLE api_keys (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
-            APIKey TEXT NOT NULL
+            key TEXT NOT NULL
         );
 
         CREATE TABLE settings (
