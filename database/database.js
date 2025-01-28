@@ -37,9 +37,14 @@ const databaseAPI = {
         });
     },
 
-    selectAllWhere(table, identifier, value) {
+    selectAllWhere(table, identifier, value, sort = 'id', sortDirection = 'ASC') {
         return new Promise((resolve, reject) => {
-            const query = `SELECT * FROM ${table} WHERE ${identifier} = ?`;
+            let query = `SELECT * FROM ${table} WHERE ${identifier} = ?`;
+    
+            if (sort) {
+                query += ` ORDER BY ${sort} ${sortDirection.toUpperCase() === 'DESC' ? 'DESC' : 'ASC'}`;
+            }
+    
             connection.all(query, [value], (error, result) => {
                 if (error) {
                     console.log('Error: ' + error);
@@ -52,6 +57,7 @@ const databaseAPI = {
             });
         });
     },
+    
     
 
     updateWhere(table, data, identifier, value) {

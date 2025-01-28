@@ -47,13 +47,13 @@ describe('add',()=>{
 
 describe('getByContent',()=>{
     it('should call db.selectAllWhere with correct parameters and return the result',async()=>{
-        const mockedRows = [{id: 1, blockID: 3, contentID: 8, output: ''},{id: 2, blockID: 3, contentID: 8, output: ''}];
+        const mockedRows = [{id: 1, blockID: 3, contentID: 8, output: '', priority: 1},{id: 2, blockID: 3, contentID: 8, output: '', priority: 2}];
         db.selectAllWhere.mockResolvedValue(mockedRows);
 
         const result = await BlockInstance.getByContent(8);
 
         expect(result).toEqual(mockedRows);
-        expect(db.selectAllWhere).toHaveBeenCalledWith('block_instances','contentID',8)
+        expect(db.selectAllWhere).toHaveBeenCalledWith('block_instances','contentID', 8, 'priority', 'ASC');
     })
     it('should log errors and return null',async () => {
         db.selectAllWhere.mockRejectedValue(mockError);

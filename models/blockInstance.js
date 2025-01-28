@@ -12,7 +12,7 @@ const add = async (data) => {
 
 const getByContent = async (id) => {
     try {
-        const result = await db.selectAllWhere('block_instances','contentID',id);
+        const result = await db.selectAllWhere('block_instances','contentID',id,'priority','ASC');
         return result;
     } catch (error) {
         console.error('Error retrieving data: ', error);
