@@ -177,21 +177,21 @@ const remove = async (req,res) => {
             fs.unlinkSync(currentFilePath);
         }
 
-        const success = Media.remove(id);
+        const success = await Media.remove(id);
         if(success){
           return res.redirect('/media?message=deleted');
         }
 
         return res.status(500).render('error', {
             title: 'Error',
-            messages: { error: 'An error occurred while delete the media. Please check the console for more information.' },
+            messages: { error: 'An error occurred while trying to delete the media. Please check the console for more information.' },
         });
 
     } catch (error) {
         console.error(error);
         return res.status(500).render('error', {
             title: 'Error',
-            messages: { error: 'An error occurred while delete the media. Please check the console for more information.' },
+            messages: { error: 'An error occurred while trying to delete the media. Please check the console for more information.' },
         });
     }
 }

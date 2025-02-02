@@ -103,14 +103,15 @@ describe('selectAllWhere', () => {
 
         const rows = await databaseAPI.selectAllWhere('users', 'age', 30);
         expect(rows).toBeNull();
-
-    })
+    });
 });
 
 describe('updateWhere', () => {
     it('should update a specific row', async () => {
-        jest.spyOn(connection, 'run').mockImplementation((query, params, callback) => {
-            callback(null);
+        // Mock für run mit explizitem this-Wert
+        jest.spyOn(connection, 'run').mockImplementation(function(query, params, callback) {
+            // Setze den Kontext (this) auf ein Objekt mit der 'changes' Eigenschaft
+            callback.call({ changes: 1 }, null);
         });
 
         await databaseAPI.updateWhere('users', { age: 40 }, 'name', 'Nils');
@@ -122,33 +123,36 @@ describe('updateWhere', () => {
         const row = await databaseAPI.selectWhere('users', 'name', 'Nils');
         expect(row.age).toBe(40);
     });
+
     it('should log and reject error', async () => {
         jest.spyOn(connection, 'run').mockImplementation((query, params, callback) => {
             callback(mockError, null);
         });
 
-        await expect(databaseAPI.updateWhere('users', 'name', 'Nils')).rejects.toThrow('Database error');
+        await expect(databaseAPI.updateWhere('users', { age: 40 }, 'name', 'Nils')).rejects.toThrow('Database error');
         expect(console.log).toHaveBeenCalledWith('Error: ' + mockError);
-    })
-    it('should reject if no row was updated', async () => {
-        jest.spyOn(connection, 'run').mockImplementationOnce(function(query, values, callback) {
-            const mockStatement = { changes: 0 };
-            callback.call(mockStatement, null);
-        });
-    
-        await expect(databaseAPI.updateWhere('users', { age: 40 }, 'name', 'Sven')).rejects.toThrow('No result found in table "users", where name = Sven');
     });
-    
+
+    it('should reject if no row was updated', async () => {
+        // Mock für run mit explizitem this-Wert und Änderungen von 0
+        jest.spyOn(connection, 'run').mockImplementationOnce(function(query, values, callback) {
+            callback.call({ changes: 0 }, null);  // Simuliere keine Änderungen
+        });
+
+        await expect(databaseAPI.updateWhere('users', { age: 40 }, 'name', 'Sven'))
+            .rejects.toThrow('No result found in table "users", where name = Sven');
+    });
 });
 
 describe('deleteWhere', () => {
     it('should delete a specific row from database table', async () => {
-        jest.spyOn(connection, 'run').mockImplementation((query, params, callback) => {
-            callback(null); 
+        // Mock für run mit explizitem this-Wert
+        jest.spyOn(connection, 'run').mockImplementation(function(query, params, callback) {
+            // Setze den Kontext (this) auf ein Objekt mit der 'changes' Eigenschaft
+            callback.call({ changes: 1 }, null);
         });
 
         const result = await databaseAPI.deleteWhere('users', 'name', 'Peter');
-        
         expect(result).toBe(true);
     });
 
@@ -162,13 +166,13 @@ describe('deleteWhere', () => {
     });
 
     it('should reject if no row was found to delete', async () => {
+        // Mock für run mit explizitem this-Wert und Änderungen von 0
         jest.spyOn(connection, 'run').mockImplementationOnce(function(query, values, callback) {
-            const mockStatement = { changes: 0 };
-            callback.call(mockStatement, null);
+            callback.call({ changes: 0 }, null);  // Keine Zeile zum Löschen
         });
 
         await expect(databaseAPI.deleteWhere('users', 'name', 'Peter')).rejects.toThrow('No result found in table "users", where name = Peter');
-    })
+    });
 });
 
 describe('deleteAllWhere', () => {
@@ -217,5 +221,3 @@ describe('insert', () => {
             .rejects.toThrow('Database error');
     });
 });
-
-

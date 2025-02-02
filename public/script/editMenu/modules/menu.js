@@ -1,7 +1,7 @@
 // checks if we are creating a new menu or editing a existing menu
 export const checkIfExists = (path) => {
     const regex = /^\/menus\/edit\/(\d+)$/;
-    return path.match(regex);
+    return regex.test(path);  // Gibt true zurück, wenn der Pfad übereinstimmt, ansonsten false.
 }
 
 export const getId = (path) => {

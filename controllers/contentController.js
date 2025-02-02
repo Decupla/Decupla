@@ -47,7 +47,7 @@ const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status,
-        describtion: req.body.describtion,
+        description: req.body.description,
         created: Date.now()
     };
 
@@ -98,7 +98,7 @@ const save = async (req, res) => {
     const data = {
         title: req.body.title,
         status: req.body.status,
-        describtion: req.body.describtion,
+        description: req.body.description,
         id,
         updated: Date.now()
     };

@@ -16,4 +16,3 @@ export const setupcontentSelection = () => {
 export const toggleContentSelection = () => {
     DOM.contentSelection.classList.toggle('visible');
 }
-

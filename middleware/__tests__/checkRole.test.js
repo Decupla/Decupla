@@ -58,6 +58,18 @@ describe('checkRole', () => {
 
         expect(next).toHaveBeenCalled();
     });
+    it('should render notAllowed template if user role could not be found', async () => {
+        const mockUser = { id: 2, email: 'peter@gmail.com', name: 'Peter', role: 1 };
+        User.get.mockResolvedValue(mockUser);
+        Role.get.mockResolvedValue(null);
+
+        await checkRole('manageMenus')(req, res, next);
+
+        expect(res.status).toHaveBeenCalledWith(403);
+        expect(res.render).toHaveBeenCalledWith('notAllowed', {
+            title: 'Not Allowed'
+        })
+    })
     it('should render notAllowed template if user does not have the required permission', async () => {
         const mockUser = { id: 2, email: 'peter@gmail.com', name: 'Peter', role: 1 };
         User.get.mockResolvedValue(mockUser);

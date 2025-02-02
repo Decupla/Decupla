@@ -57,24 +57,23 @@ const databaseAPI = {
             });
         });
     },
-    
-    
 
     updateWhere(table, data, identifier, value) {
         const columns = Object.keys(data);
         const values = Object.values(data);
         const placeholders = columns.map((column) => `${column} = ?`).join(', ');
-    
+
         return new Promise((resolve, reject) => {
             const query = `UPDATE ${table} SET ${placeholders} WHERE ${identifier} = ?`;
             values.push(value);
-    
+
             connection.run(query, values, function(error) {
                 if (error) {
                     console.log('Error: ' + error);
                     reject(error);
                 } else {
-                    if (this.changes === 0) {
+                    const changes = this.changes;
+                    if (changes === 0) {
                         reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
                     } else {
                         resolve(true);
@@ -83,29 +82,30 @@ const databaseAPI = {
             });
         });
     },
-    
+
     deleteWhere(table, identifier, value) {
-        return new Promise((resolve, reject)=>{
+        return new Promise((resolve, reject) => {
             const query = `DELETE FROM ${table} WHERE ${identifier} = ?`;
             connection.run(query, [value], function(error) {
                 if (error) {
                     console.log('Error: ' + error);
                     reject(error);
                 } else {
-                    if (this.changes === 0) {
+                    const changes = this.changes;
+                    if (changes === 0) {
                         reject(new Error(`No result found in table "${table}", where ${identifier} = ${value}`));
                     } else {
                         resolve(true);
                     }
                 }
-            })
-        })  
+            });
+        });
     },
 
     deleteAllWhere(table, identifier, value) {
         return new Promise((resolve, reject) => {
             const query = `DELETE FROM ${table} WHERE ${identifier} = ?`;
-            connection.all(query, [value], function (error, result) {
+            connection.all(query, [value], function(error, result) {
                 if (error) {
                     console.log('Error: ' + error);
                     reject(error);
@@ -116,27 +116,26 @@ const databaseAPI = {
                 }
             });
         });
-    },    
+    },
 
     insert(table, data) {
-        return new Promise((resolve,reject)=>{
+        return new Promise((resolve, reject) => {
             const columns = Object.keys(data);
             const values = Object.values(data);
-    
+
             const placeholders = columns.map(() => '?').join(', ');
             const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`;
-    
-            connection.run(query, values, function (error) {
+
+            connection.run(query, values, function(error) {
                 if (error) {
                     console.log('Error: ' + error);
                     reject(error);
                 } else {
                     resolve(this.lastID);
                 }
-            })
-        })
+            });
+        });
     }
-
-}
+};
 
 module.exports = databaseAPI;

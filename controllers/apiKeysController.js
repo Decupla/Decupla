@@ -25,6 +25,10 @@ const edit = async (req,res) => {
     const { id } = req.params;
     const data = await APIKey.get(id);
 
+    if(data===null){
+        res.redirect('/api-keys');
+    }
+
     res.status(200).render('editKey', {
         title: 'Edit API-Key',
         query: req.query,
