@@ -6,7 +6,7 @@ const isEmpty = require('../helpers/isEmpty');
 const index = async (req, res) => {
     const blocks = await Block.getAll();
 
-    res.status(200).render('Blocks', {
+    res.status(200).render('blocks', {
         title: 'Blocks',
         blocks,
         query: req.query

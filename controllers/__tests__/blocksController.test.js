@@ -34,7 +34,7 @@ describe('index', () => {
 
         await blocksController.index(req, res);
 
-        expect(res.render).toHaveBeenCalledWith('Blocks', {
+        expect(res.render).toHaveBeenCalledWith('blocks', {
             title: 'Blocks',
             blocks: mockBlocks,
             query: req.query,
