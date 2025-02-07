@@ -27,7 +27,7 @@ describe('GET /api/content/all', () => {
     const mockedRows = [{ id: 1, title: "Test", status: 1, created: 17366898406, updated: 1736797021987 }];
     const mockedBlocks = [{ id: 1, blockID: 1, priority: 1, output: JSON.stringify({ "headline": "Hello World", "text": "Test" }) }];
 
-    Content.getAllPublished.mockResolvedValue(mockedRows);
+    Content.getAll.mockResolvedValue(mockedRows);
     BlockInstance.getByContent.mockResolvedValue(mockedBlocks);
     Block.getKey.mockResolvedValue('textblock');
 

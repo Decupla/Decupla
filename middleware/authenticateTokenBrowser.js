@@ -2,10 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const authenticateTokenBrowser = (req, res, next) => {
 
-    // if (req.path === '/login' ) {
-    //     return next();
-    // }
-
     const token = req.session.authToken;
     req.session.allowLogin = true;
 
@@ -14,7 +10,7 @@ const authenticateTokenBrowser = (req, res, next) => {
     }
 
     try {
-        const currentUser = jwt.verify(token,process.env.TOKEN_SECRET);;
+        const currentUser = jwt.verify(token,process.env.TOKEN_SECRET);
         req.user = currentUser;
         req.session.allowLogin = false;
         next();

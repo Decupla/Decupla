@@ -826,6 +826,9 @@ header .logout-link img {
 #settings .settings-block .img-container .settings-icon.home-icon {
   width: 7rem;
 }
+#settings .settings-block .img-container .settings-icon.cors-icon {
+  width: 7rem;
+}
 #settings .settings-block .settings-title {
   color: white;
   text-align: center;

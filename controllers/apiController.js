@@ -4,7 +4,7 @@ const BlockInstance = require('../models/blockInstance');
 const Block = require('../models/block');
 
 const getAllContent = async (req, res) => {
-    const content = await Content.getAllPublished();
+    const content = await Content.getAll();
 
     for (let i = 0; i < content.length; i++) {
         const contentID = content[i].id;
@@ -68,6 +68,7 @@ const getAllMenus = async (req,res) => {
     const menus = await Menu.getAll();
     menus.forEach((menu)=>{
         menu.entries = JSON.parse(menu.entries);
+        menu.entries.sort((a, b) => a.priority - b.priority);
     })
     res.status(200).send(menus);
 }
@@ -82,6 +83,7 @@ const getMenuById = async (req,res) => {
     }
 
     menu.entries = JSON.parse(menu.entries);
+    menu.entries.sort((a, b) => a.priority - b.priority);
     res.status(200).send(menu);
 }
 
