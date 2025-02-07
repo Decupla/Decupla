@@ -1,5 +1,7 @@
 const app = require('./app');
 
-app.listen(5500, () => {
-    console.log(`Decupla running on port 5500`);
-  })
+const port = process.env.PORT || 5500;
+
+app.listen(port, () => {
+  console.log(`Decupla running on port ${port}`);
+});
