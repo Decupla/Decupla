@@ -36,7 +36,7 @@ describe('getAll', () => {
 
         const result = await Content.getAll();
 
-        expect(result).toBeUndefined();
+        expect(result).toEqual([]);
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError);
     })
 })
@@ -56,7 +56,7 @@ describe('getAllPublished', () => {
 
         const result = await Content.getAllPublished();
 
-        expect(result).toBeUndefined();
+        expect(result).toEqual([]);
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError);
     })
 })

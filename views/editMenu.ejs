@@ -29,7 +29,7 @@
                                     <th>Title</th>
                                 </tr>
                                 <% content.forEach(content=> { %>
-                                    <tr class="content" data-id="<%= content.id %>">
+                                    <tr class="content" data-id="<%= content.id %>" data-url="<%= content.url %>">
                                         <td class="content-title"><%= content.title %></td>
                                         <td class="d-flex justify-content-end"><button type="button" id="addEntry">+ add</button></td>
                                     </tr>

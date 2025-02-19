@@ -29,11 +29,7 @@ describe('saveMenu', () => {
 });
 
 describe('getMenuById', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
-
-    it('should call fetch and return JSON ', async () => {
+    it('should call fetch and return JSON', async () => {
         const mockResponse = { id: 123, name: 'Test Menu' };
         fetch.mockResolvedValue({
             json: jest.fn().mockResolvedValue(mockResponse),

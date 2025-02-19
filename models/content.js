@@ -5,8 +5,8 @@ const getAll = async () => {
         const rows = await db.selectAll('content');
         return rows;
     } catch (error) {
-        // to do: return wert bei fehler
         console.error('Error retrieving data: ', error);
+        return [];
     }
 }
 
@@ -15,8 +15,8 @@ const getAllPublished = async () => {
         const rows = await db.selectAllWhere('content','status',1);
         return rows;
     } catch (error) {
-        // to do: return wert bei fehler
         console.error('Error retrieving data: ', error);
+        return [];
     }
 }
 

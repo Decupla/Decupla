@@ -510,6 +510,9 @@ header .logout-link img {
   background-color: white;
   color: black;
 }
+#edit-content .block-form-container .input-fieldset .ql-editor {
+  min-height: 10rem;
+}
 #edit-content .block-form-container button[type=submit] {
   background-color: #3DA99A;
   color: white;
@@ -1008,7 +1011,7 @@ body {
 }
 
 #main-wrapper {
-  width: 100vw;
+  width: 100%;
   position: relative;
   display: flex;
   overflow-x: hidden;

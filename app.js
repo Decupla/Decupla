@@ -50,13 +50,19 @@ app.use(methodOverride(function (req, res) {
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true
-}))
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 1000 * 60 * 60 * 8
+  }
+}));
 
-app.use((req, res, next) => {
-  req.session.authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ik5pbHMiLCJpYXQiOjE3MzUzMTYzNjZ9.jIO6ZX1KS_HKt7LelEk3-QcHgcDVnfKwkuO2J1G-nrk';
-  next();
-});
+// app.use((req, res, next) => {
+//   req.session.authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ik5pbHMiLCJpYXQiOjE3MzUzMTYzNjZ9.jIO6ZX1KS_HKt7LelEk3-QcHgcDVnfKwkuO2J1G-nrk';
+//   next();
+// });
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));

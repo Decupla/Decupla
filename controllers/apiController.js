@@ -2,9 +2,10 @@ const Content = require('../models/content');
 const Menu = require('../models/menu');
 const BlockInstance = require('../models/blockInstance');
 const Block = require('../models/block');
+const Setting = require('../models/setting');
 
 const getAllContent = async (req, res) => {
-    const content = await Content.getAll();
+    const content = await Content.getAllPublished();
 
     for (let i = 0; i < content.length; i++) {
         const contentID = content[i].id;
@@ -40,6 +41,42 @@ const getContent = async (req,res) => {
     if (content===null) {
         return res.status(404).send({ error: `Content with ID ${id} not found` });
     }
+
+    const blockInstances = await BlockInstance.getByContent(content.id);
+
+    const blocks = [];
+
+    for (const instance of blockInstances) {
+        const blockKey = await Block.getKey(instance.blockID);
+
+        const blockData = {
+            instanceID: instance.id,
+            blockID: instance.blockID,
+            blockKey,
+            priority: instance.priority,
+            output: JSON.parse(instance.output),
+        };
+
+        blocks.push(blockData);
+    }
+
+    content.blocks = blocks;
+
+    res.status(200).send(content);
+}
+
+const getStartContent = async (req,res) => {
+    const startContent = await Setting.get('startContent');
+
+    if(startContent === null || startContent === 0){
+        return res.status(404).send({ error: 'Selected start content could not be found' });
+    }
+
+    const content = await Content.get(startContent);
+    if(content === null){
+        return res.status(404).send({ error: 'Selected start content could not be found' });
+    }
+
 
     const blockInstances = await BlockInstance.getByContent(content.id);
 
@@ -103,6 +140,7 @@ const getMenuByKey = async (req,res) => {
 module.exports = {
     getAllContent,
     getContent,
+    getStartContent,
     getAllMenus,
     getMenuById,
     getMenuByKey

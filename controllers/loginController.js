@@ -60,8 +60,7 @@ const authenticateUser = (user) => {
         name: user.name,
     };
 
-    // to do: expire
-    return jwt.sign(data,process.env.TOKEN_SECRET);
+    return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: '8h' });
 }
 
 const getAuthToken = (req,res) => {

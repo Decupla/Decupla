@@ -20,7 +20,7 @@ export const getEntriesData = async (id) => {
                 createEntryVisualization(entry);
             })
         } else {
-            // to do: fehlermeldung auf der Seite ausgebe
+            // to do: error message on page
             console.log(menuData.message);
         }
     } catch (error) {
@@ -37,7 +37,8 @@ export const addEntry = (content) => {
         entryID: getEntryId(),
         contentID: parseInt(content.dataset.id),
         priority: getPriority(),
-        title
+        title,
+        url: content.dataset.url
     }
 
     entries.push(entryData);

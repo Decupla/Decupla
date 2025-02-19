@@ -105,27 +105,27 @@ const save = async (req, res) => {
     };
 
     try {
+        const currentMedia = await Media.get(id);
+        if (!currentMedia) {
+            return res.status(500).render('editMedia', {
+                title: 'Edit Media',
+                messages: { error: 'Error retrieving current media. Please check the console for more information.' },
+                editingExisting: true,
+                data: req.body,
+                query: req.query
+            });
+        }
+
         if (req.files && req.files.file) {
             const file = req.files.file;
-            const filename = sanitizeFilename(file.name);
+            const filename = currentMedia.file;
             const filesize = (file.size / 1024).toFixed(2);
             const filetype = file.mimetype;
             data.file = filename;
             data.size = filesize;
             data.type = filetype;
 
-            const currentMedia = await Media.get(id);
-            if (!currentMedia) {
-                return res.status(500).render('editMedia', {
-                    title: 'Edit Media',
-                    messages: { error: 'Error retrieving current media. Please check the console for more information.' },
-                    editingExisting: true,
-                    data: req.body,
-                    query: req.query
-                });
-            }
-
-            const currentFilePath = path.join(process.cwd(), 'uploads', currentMedia.file);
+            const currentFilePath = path.join(process.cwd(), 'uploads', filename);
             if (fs.existsSync(currentFilePath)) {
                 fs.unlinkSync(currentFilePath);
             }
@@ -163,6 +163,7 @@ const save = async (req, res) => {
         });
     }
 };
+
 
 const remove = async (req,res) => {
     try {

@@ -15,8 +15,8 @@ const getAll = async () => {
         const rows = await db.selectAll('menus');
         return rows;
     } catch (error) {
-        // to do: return on error
         console.error('Error retrieving data: ', error);
+        return [];
     }
 }
 

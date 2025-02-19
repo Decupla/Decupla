@@ -61,8 +61,6 @@ const saveNew = async (req,res) => {
         messages.key = "Key already in use";
     }
 
-    // to do: validate if key is unique
-
     if (!isEmpty(messages)) {
         return res.status(400).send({
             validation: false,

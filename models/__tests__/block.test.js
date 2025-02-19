@@ -59,7 +59,7 @@ describe('getAll', () => {
 
         const result = await Block.getAll();
 
-        expect(result).toBeUndefined();
+        expect(result).toEqual([]);
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError);
 
     })

@@ -1,12 +1,12 @@
 module.exports = {
     roots: ['<rootDir>/public/script'],
     transform: {
-      '^.+\\.js$': 'babel-jest',  // Babel verwenden, um ES6+ zu kompilieren
+      '^.+\\.js$': 'babel-jest',
     },
-    testEnvironment: 'jsdom',  // Testumgebung für Frontend-Tests
+    testEnvironment: 'jsdom',
     testMatch: [
-      '**/public/script/**/__tests__/**/*.[jt]s?(x)',  // Testdateien im __tests__-Ordner
-      '**/?(*.)+(spec|test).[jt]s?(x)',  // Alternative: *.test.js oder *.spec.js
+      '**/public/script/**/__tests__/**/*.[jt]s?(x)',
+      '**/?(*.)+(spec|test).[jt]s?(x)',
     ],
     moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
   };  

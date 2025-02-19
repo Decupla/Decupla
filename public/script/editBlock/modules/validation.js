@@ -8,14 +8,17 @@ export const validateInput = (data, newName = false) => {
         setFieldMessage('name', '"name" is required.');
         isValid = false;
     }
-    if (data.name.includes(" ")) {
-        setFieldMessage('name', '"name" cannot contain spaces.')
+    
+    if (typeof data.name === "string" && data.name.includes(" ")) {
+        setFieldMessage('name', '"name" cannot contain spaces.');
         isValid = false;
     }
+    
     if (!data.label) {
         setFieldMessage('label', '"label" is required.');
         isValid = false;
     }
+    
     if (newName && nameExists(data.name)) {
         setFieldMessage('name', `Input with name "${data.name}" already exists`);
         isValid = false;
@@ -23,6 +26,7 @@ export const validateInput = (data, newName = false) => {
 
     return isValid;
 };
+
 
 export const setFieldMessage = (field, message, blockForm = false) => {
     let fieldMessageElement;

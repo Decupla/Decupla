@@ -11,18 +11,18 @@ DOM.keyInput = document.querySelector('input#key');
 DOM.fieldsArea = document.querySelector('#input-fields');
 DOM.messageSuccess = document.querySelector('#message-saved');
 
-DOM.inputFormFields = {}; //-
-DOM.inputFormFields.type = DOM.inputForm.querySelector('select#type'); //-
-DOM.inputFormFields.name = DOM.inputForm.querySelector('input#name'); //-
-DOM.inputFormFields.label = DOM.inputForm.querySelector('input#label'); //-
-DOM.inputFormFields.maxLength = DOM.inputForm.querySelector('input#max-length'); //-
+// DOM.inputFormFields = {}; //-
+// DOM.inputFormFields.type = DOM.inputForm.querySelector('select#type'); //-
+// DOM.inputFormFields.name = DOM.inputForm.querySelector('input#name'); //-
+// DOM.inputFormFields.label = DOM.inputForm.querySelector('input#label'); //-
+// DOM.inputFormFields.maxLength = DOM.inputForm.querySelector('input#max-length'); //-
 
 DOM.fieldMessages = {};
 DOM.fieldMessages.title = document.querySelector('#message-title');
 DOM.fieldMessages.key = document.querySelector('#message-key');
-DOM.fieldMessages.type = document.querySelector('.message-type'); //-
-DOM.fieldMessages.name = document.querySelector('.message-name'); //-
-DOM.fieldMessages.label = document.querySelector('.message-label'); //-
-DOM.fieldMessages.maxLength = document.querySelector('.message-max-length'); //-
+// DOM.fieldMessages.type = document.querySelector('.message-type'); //-
+// DOM.fieldMessages.name = document.querySelector('.message-name'); //-
+// DOM.fieldMessages.label = document.querySelector('.message-label'); //-
+// DOM.fieldMessages.maxLength = document.querySelector('.message-max-length'); //-
 
 export default DOM;

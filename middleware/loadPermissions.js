@@ -11,7 +11,7 @@ const loadPermissions = async (req, res, next) => {
     const user = await User.get(userID);
 
     if (user === null || user.role===undefined) {
-        // to do: fehlermeldung auf login seite?
+        // to do: error message on login page?
         req.session.allowLogin = true;
         return res.redirect('/login');
     }
@@ -27,7 +27,7 @@ const loadPermissions = async (req, res, next) => {
     const userRole = await Role.get(user.role);
 
     if (userRole === null) {
-        // to do: fehlermeldung auf login seite?
+        // to do: error message on login page?
         res.locals.permissions = [];
     } else {
         res.locals.permissions = userRole.perms.split(',');
