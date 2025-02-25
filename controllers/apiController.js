@@ -101,14 +101,31 @@ const getStartContent = async (req,res) => {
     res.status(200).send(content);
 }
 
-const getAllMenus = async (req,res) => {
-    const menus = await Menu.getAll();
-    menus.forEach((menu)=>{
-        menu.entries = JSON.parse(menu.entries);
-        menu.entries.sort((a, b) => a.priority - b.priority);
-    })
-    res.status(200).send(menus);
-}
+const getAllMenus = async (req, res) => {
+    try {
+        const menus = await Menu.getAll();
+
+        for (const menu of menus) {
+            menu.entries = JSON.parse(menu.entries);
+            menu.entries.sort((a, b) => a.priority - b.priority);
+
+            for (const entry of menu.entries) {
+                const content = await Content.get(entry.contentID);
+                if (!content) {
+                    continue;
+                }
+                entry.title = content.title;
+                entry.url = content.url;
+            }
+        }
+
+        res.status(200).send(menus);
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Menüs:", error);
+        res.status(500).send({ error: "Interner Serverfehler" });
+    }
+};
+
 
 const getMenuById = async (req,res) => {
     const {id} = req.params;
@@ -121,6 +138,17 @@ const getMenuById = async (req,res) => {
 
     menu.entries = JSON.parse(menu.entries);
     menu.entries.sort((a, b) => a.priority - b.priority);
+
+    for (const entry of menu.entries) {
+        const content = await Content.get(entry.contentID);
+        if (!content) {
+            continue;
+        }
+    
+        entry.url = content.url;
+        entry.title = content.title;
+    }
+
     res.status(200).send(menu);
 }
 
@@ -134,6 +162,18 @@ const getMenuByKey = async (req,res) => {
     }
 
     menu.entries = JSON.parse(menu.entries);
+    menu.entries.sort((a, b) => a.priority - b.priority);
+
+    for (const entry of menu.entries) {
+        const content = await Content.get(entry.contentID);
+        if (!content) {
+            continue;
+        }
+    
+        entry.url = content.url;
+        entry.title = content.title;
+    }
+
     res.status(200).send(menu);
 }
 
