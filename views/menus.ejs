@@ -12,13 +12,15 @@
         <% } %>
         <table class="collection">
             <tr class="py-2">
+                <th>ID</th>
                 <th>Title</th>
                 <th>Key</th>
             </tr>
         <% for(var i=0; i<menus.length; i++) {%>
             <tr>
+                <td><%= menus[i].id %></td>
                 <td><a href="/menus/edit/<%= menus[i].id %>"><%= menus[i].title %></a></td>
-                <td><%= menus[i].title %></td>
+                <td><%= menus[i].key %></td>
                 <td>
                     <div class="d-flex justify-content-end">
                         <a class="pr-1" href="/menus/edit/<%= menus[i].id %>"><button><img src="/images/icons/edit.png" alt="edit"></button></a>

@@ -75,7 +75,6 @@ export const createMediaBox = async (media) => {
 
     mediaBox.addEventListener('click',()=>{
         setSelected(mediaBox,media);
-        console.log(selectedMedia);
     })
 }
 

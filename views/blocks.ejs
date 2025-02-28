@@ -12,12 +12,14 @@
         <% } %>
         <table class="collection">
             <tr class="py-2">
+                <th>ID</th>
                 <th>Title</th>
                 <th>Created</th>
                 <th>Updated</th>
             </tr>
         <% for(var i=0; i<blocks.length; i++) {%>
             <tr>
+                <td><%= blocks[i].id %></td>
                 <td>
                     <a href="/blocks/edit/<%= blocks[i].id %>"><%= blocks[i].title %></a>
                 </td>

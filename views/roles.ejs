@@ -16,13 +16,16 @@
         <% } %>
         <table class="collection">
             <tr>
+                <th>ID</th>
                 <th>Name</th>
             </tr>
             <tr>
+                <td>0</td>
                 <td>Administrator</td>
             </tr>
         <% for(var i=0; i<roles.length; i++) {%>
             <tr>
+                <td><%= roles[i].id %></td>
                 <td>
                     <%= roles[i].name %>
                 </td>

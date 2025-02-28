@@ -16,11 +16,13 @@
         <% } %>
         <table class="collection">
             <tr class="py-2">
+                <th>ID</th>
                 <th>Name</th>
                 <th>Role</th>
             </tr>
         <% for(var i=0; i<users.length; i++) {%>
             <tr>
+                <td><%= users[i].id %></td>
                 <td>
                     <a href="/users/edit/<%= users[i].id %>">
                         <%= users[i].name %>

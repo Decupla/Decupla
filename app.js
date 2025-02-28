@@ -59,11 +59,6 @@ app.use(session({
   }
 }));
 
-// app.use((req, res, next) => {
-//   req.session.authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ik5pbHMiLCJpYXQiOjE3MzUzMTYzNjZ9.jIO6ZX1KS_HKt7LelEk3-QcHgcDVnfKwkuO2J1G-nrk';
-//   next();
-// });
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
@@ -86,7 +81,7 @@ app.use(authenticateTokenBrowser);
 app.use(loadPermissions);
 
 app.use('/content', useFormatDate, contentRouter);
-app.use('/blocks', useFormatDate, checkRole('manageBlocks'), blocksRouter);
+app.use('/blocks', useFormatDate, blocksRouter);
 app.use('/users', checkRole('manageUsers'), usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);

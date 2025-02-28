@@ -24,7 +24,7 @@ const connectDatabase = (file) => {
 const createTables = (database) => {
     database.exec(`
         CREATE TABLE users (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
             name TEXT NOT NULL,
             password TEXT NOT NULL,
@@ -32,7 +32,7 @@ const createTables = (database) => {
         );
         
         CREATE TABLE roles (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             perms TEXT NOT NULL
         );

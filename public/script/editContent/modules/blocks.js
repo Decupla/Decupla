@@ -53,7 +53,6 @@ export const getBlocks = async (id) => {
         }
 
         setLastVisualisation();
-        console.log("blocksData", blocksData);
 
     } catch (error) {
         console.error('Something went wrong:', error);
@@ -179,7 +178,6 @@ export const addNewBlock = (data, priority) => {
 
 export const saveBlockInstances = async (newID) => {
     for (const instance of blocksData) {
-        console.log(instance);
         const instanceData = {
             blockID: instance.blockID,
             output: JSON.stringify(instance.output),

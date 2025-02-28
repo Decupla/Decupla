@@ -24,8 +24,6 @@ const toolbarOptions = [
 ];
 
 export const createEditor = (container,name,value="") => {
-  console.log("name",name);
-
   const quill = new Quill(container, {
     theme: "snow",
     modules: {
