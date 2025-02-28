@@ -1,8 +1,6 @@
 const User = require('../models/user');
 
 const checkUserExistence = async (req, res, next) => {
-    console.log('user existence check');
-    console.log(req.session);
     try {
         const users = await User.getAll();
         if(users.length===0){
