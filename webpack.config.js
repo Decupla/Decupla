@@ -1,5 +1,5 @@
 const path = require('path');
-const scriptDir = path.resolve(__dirname, './public/script');
+const scriptDir = path.resolve(__dirname, './app/public/script');
 
 module.exports = {
     entry: {

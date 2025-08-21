@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "develope": "nodemon server.js & sass --watch public/style/scss/main.scss public/style/main.css & webpack --watch",
+    "develope": "nodemon server.js & sass --watch app/public/style/scss/main.scss app/public/style/main.css & webpack --watch",
     "test-frontend": "jest --config jest.frontend.config.js",
     "test-backend": "jest --coverage --config jest.backend.config.js",
     "build": "webpack"

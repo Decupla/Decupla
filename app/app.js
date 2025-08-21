@@ -18,7 +18,7 @@ const settingsRouter = require('./routes/settingsRoutes');
 const setupRouter = require('./routes/setupRoutes');
 const logoutRouter = require('./routes/logoutRoutes');
 const mediaRouter = require('./routes/mediaRoutes');
-const collectionRouter = require('./routes/collectionRoutes');
+const collectionsRouter = require('./routes/collectionsRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
@@ -86,7 +86,7 @@ app.use('/blocks', useFormatDate, blocksRouter);
 app.use('/users', checkRole('manageUsers'), usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);
-app.use('/collections', collectionRouter);
+app.use('/collections', collectionsRouter);
 app.use('/settings', checkRole('manageSettings'), settingsRouter);
 app.use('/media', checkRole('editContent'), mediaRouter);
 app.use('/logout', logoutRouter);

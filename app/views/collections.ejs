@@ -1,0 +1,25 @@
+<%- include('layout/layoutStart.ejs') %>
+    <main class="p-0">
+        <div class="main-container">
+            <div class="d-flex">
+                <h1>Collections</h1>
+                <% // if (permissions.includes('editContent')){ %>
+                <div class="ml-4">
+                    <a href="/content/create"><button class="add-new">+ add new</button></a>
+                </div>
+                <% // } %>
+            </div>
+            <% if (query.message==="deleted" ) { %>
+                <div class="alert alert-success mt-4">Collection was deleted!</div>
+                <% } %>
+                    <table class="collection">
+                        <tr class="py-2">
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                        </tr>
+                    </table>
+        </div>
+    </main>
+    <%- include('layout/layoutEnd.ejs') %>

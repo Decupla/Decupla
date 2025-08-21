@@ -71,6 +71,13 @@ const createTables = (database) => {
             entries TEXT NOT NULL
         );
 
+        CREATE TABLE collections (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            created INTEGER,
+            updated INTEGER
+        );
+
         CREATE TABLE media (
             id INTEGER PRIMARY KEY,
             file TEXT NOT NULL,
