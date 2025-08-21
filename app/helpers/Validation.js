@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const ucfirst = require('../helpers/ucfirst');
+const ucfirst = require('./ucfirst');
 
 class Validation {
     inputData = [];

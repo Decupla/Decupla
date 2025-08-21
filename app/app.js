@@ -18,6 +18,7 @@ const settingsRouter = require('./routes/settingsRoutes');
 const setupRouter = require('./routes/setupRoutes');
 const logoutRouter = require('./routes/logoutRoutes');
 const mediaRouter = require('./routes/mediaRoutes');
+const collectionRouter = require('./routes/collectionRoutes');
 
 const invalidRouteHandler = require('./middleware/invalidRouteHandler');
 const authenticateTokenBrowser = require('./middleware/authenticateTokenBrowser');
@@ -35,7 +36,7 @@ const app = express();
 dotenv.config();
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 app.use(cors());
@@ -85,6 +86,7 @@ app.use('/blocks', useFormatDate, blocksRouter);
 app.use('/users', checkRole('manageUsers'), usersRouter);
 app.use('/roles', checkRole('manageRoles'), rolesRouter);
 app.use('/menus', checkRole('manageMenus'), menusRouter);
+app.use('/collections', collectionRouter);
 app.use('/settings', checkRole('manageSettings'), settingsRouter);
 app.use('/media', checkRole('editContent'), mediaRouter);
 app.use('/logout', logoutRouter);

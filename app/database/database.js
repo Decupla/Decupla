@@ -1,6 +1,7 @@
+const path = require('path');
 const connectDatabase = require('./connection');
 
-let connection = connectDatabase('./database/sql.db');
+let connection = connectDatabase(path.join(__dirname, 'sql.db'));
 
 const setConnection = (newConnection) => {
     connection = newConnection;
