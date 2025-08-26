@@ -1,0 +1,29 @@
+<%- include('layout/layoutStart.ejs') %>
+<main id="edit-collection" class="p-0">
+    <div class="main-container">
+        <div class="breadcrumb-title">
+            <a href="/collections">Collections</a> > <strong>Edit Collection</strong>
+        </div>
+        <div class="edit-container">
+            <form method="POST" id="collection-form">
+                <div>
+                    <input placeholder="Collection Title" name="title" id="title" type="text" value="<%= data?.title?.trim() || '' %>">
+                    <div class="error-message" id="message-title" ></div>
+                </div>
+                <div class="input-container mt-4">
+                    <label for="key">Key</label>
+                    <input type="text" name="key" id="key" value="<%= data?.key?.trim() || '' %>">
+                    <div class="error-message" id="message-key"></div>
+                </div>
+
+                <label class="mt-4">Columns:</label>
+                <div id="entries"></div>
+                <button class="add-new" type="button" id="select-entry">+ add column</button>
+                <input class="d-block mt-4" id="save" type="submit" value="save">
+                <div class="alert alert-success message-saved mt-3" id="message-saved">Collection saved!</div>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="/script/dist/editCollection.bundle.js"></script>
+<%- include('layout/layoutEnd.ejs') %>

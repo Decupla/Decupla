@@ -6,6 +6,7 @@ module.exports = {
         editBlock: scriptDir + '/editBlock/main.js',
         editContent: scriptDir + '/editContent/main.js',
         editMenu: scriptDir + '/editMenu/main.js',
+        editCollection: scriptDir + '/editCollection/main.js'
     },
     output: {
         filename: '[name].bundle.js',

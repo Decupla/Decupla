@@ -1196,6 +1196,12 @@ table.collection button img {
   color: #db1c1c;
   margin-top: 0.3rem;
 }
+.edit-container .message-saved {
+  display: none;
+}
+.edit-container .message-saved.visible {
+  display: block;
+}
 
 .input-container label {
   display: block;

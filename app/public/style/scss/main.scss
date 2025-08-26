@@ -206,6 +206,14 @@ table.collection {
         color: #db1c1c;
         margin-top: 0.3rem;
     }
+
+    .message-saved {
+        display: none;
+
+        &.visible {
+            display: block;
+        }
+    }
 }
 
 .input-container {

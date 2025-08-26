@@ -74,6 +74,8 @@ const createTables = (database) => {
         CREATE TABLE collections (
             id INTEGER PRIMARY KEY,
             title TEXT NOT NULL,
+            key TEXT NOT NULL,
+            columns TEXT,
             created INTEGER,
             updated INTEGER
         );
