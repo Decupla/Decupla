@@ -1,7 +1,9 @@
 const collectionsController = require('../collectionsController');
+const Collection = require('../../models/collection');
 const Validation = require('../../helpers/Validation');
 
 jest.mock('../../helpers/Validation');
+jest.mock('../../models/collection');
 
 let req = {};
 const res = {
@@ -12,7 +14,7 @@ const res = {
 };
 
 beforeEach(() => {
-  Validation.mockClear();
+    Validation.mockClear();
 });
 
 afterEach(() => {
@@ -55,7 +57,7 @@ describe('saveNew', () => {
         }
 
         Validation.prototype.validate = jest.fn();
-        Validation.prototype.hasErrors = jest.fn(() => true);
+        Validation.prototype.hasErrors = jest.fn().mockReturnValue(true);
         Validation.prototype.errors = { key: 'Key cannot be empty' };
 
 
@@ -66,6 +68,157 @@ describe('saveNew', () => {
             success: false,
             messages: { key: 'Key cannot be empty' },
             validation: false
+        });
+    });
+    it('should save input and return new iD', async () => {
+        req = {
+            body: {
+                title: 'Test Collection',
+                key: 'test-collection'
+            }
+        };
+
+        Validation.prototype.validate = jest.fn();
+        Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
+
+        Collection.add.mockResolvedValue(1);
+
+        await collectionsController.saveNew(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.send).toHaveBeenCalledWith({
+            success: true,
+            validation: true,
+            newID: 1
+        });
+    })
+    it('should send error if no newID was returned', async () => {
+        req = {
+            body: {
+                title: 'Test Collection',
+                key: 'test-collection'
+            }
+        };
+
+        Validation.prototype.validate = jest.fn();
+        Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
+
+        Collection.add.mockResolvedValue(null);
+
+        await collectionsController.saveNew(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith({
+            success: false,
+            validation: true,
+            messages: { error: 'Something went wrong while trying to save the collection. Please check the console for more information.' }
+        });
+    })
+})
+
+describe('save', () => {
+    it('should validate input and send errors', async () => {
+        req = {
+            body: {
+                title: 'Test Collection Updated',
+                key: ''
+            },
+            params: {
+                id: 1
+            }
+        };
+
+        Validation.prototype.validate = jest.fn();
+        Validation.prototype.hasErrors = jest.fn().mockReturnValue(true);
+        Validation.prototype.errors = { key: 'Key cannot be empty' };
+
+
+        await collectionsController.save(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.send).toHaveBeenCalledWith({
+            success: false,
+            messages: { key: 'Key cannot be empty' },
+            validation: false
+        });
+    }),
+        it('should call Collection.update after successfull validation and send response', async () => {
+            req = {
+                body: {
+                    title: 'Test Collection Updated',
+                    key: 'test-collection-updated'
+                },
+                params: {
+                    id: 1
+                }
+            };
+
+            Validation.prototype.validate = jest.fn();
+            Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
+
+            Collection.update.mockResolvedValue(true);
+
+            await collectionsController.save(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(201);
+            expect(res.send).toHaveBeenCalledWith({
+                validation: true,
+                success: true,
+            });
+        });
+    it('should send error if Collection.update fails', async () => {
+        req = {
+            body: {
+                title: 'Test Collection Updated',
+                key: 'test-collection-updated'
+            },
+            params: {
+                id: 1
+            }
+        };
+
+        Validation.prototype.validate = jest.fn();
+        Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
+
+        Collection.update.mockResolvedValue(false);
+
+        await collectionsController.save(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith({
+            success: false,
+            validation: true,
+            message: 'Something went wrong while trying to update the collection. Please check the console for more information.'
+        });
+    })
+})
+
+describe('remove', () => {
+    req = {
+        params: {
+            id: 1
+        }
+    };
+
+    it('should call Collection.remove and redirect on success', async () => {
+        Collection.remove.mockReturnValue(true);
+
+        await collectionsController.remove(req, res);
+
+        expect(Collection.remove).toHaveBeenCalledWith(1);
+        expect(res.redirect).toHaveBeenCalledWith('/collections?message=deleted');
+    })
+
+    it('should render error page if Collection.remove fails', async () => {
+        Collection.remove.mockReturnValue(false);
+
+        await collectionsController.remove(req, res);
+
+        expect(Collection.remove).toHaveBeenCalledWith(1);
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.render).toHaveBeenCalledWith('error', {
+            title: 'Error',
+            message: 'Something went wrong while trying to delete the collection. Please check the console for more information.'
         });
     })
 })

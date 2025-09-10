@@ -4,10 +4,10 @@
             <div class="d-flex">
                 <h1>Collections</h1>
                 <% // if (permissions.includes('editContent')){ %>
-                <div class="ml-4">
-                    <a href="/collections/create"><button class="add-new">+ add new</button></a>
-                </div>
-                <% // } %>
+                    <div class="ml-4">
+                        <a href="/collections/create"><button class="add-new">+ add new</button></a>
+                    </div>
+                    <% // } %>
             </div>
             <% if (query.message==="deleted" ) { %>
                 <div class="alert alert-success mt-4">Collection was deleted!</div>
@@ -19,6 +19,34 @@
                             <th>Created</th>
                             <th>Updated</th>
                         </tr>
+                        <% for(var i=0; i<collections.length; i++) {%>
+                            <tr>
+                                <td>
+                                    <%= collections[i].id %>
+                                </td>
+                                <td>
+                                    <a href="/collections/edit/<%= collections[i].id %>">
+                                        <%= collections[i].title %>
+                                    </a>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-end">
+                                        <a class="pr-1" href="/collections/edit/<%= collections[i].id %>"><button><img
+                                                    src="/images/icons/edit.png" alt="edit"></button></a>
+                                        <form action="/collections/<%= collections[i].id %>" method="POST"
+                                            enctype="application/x-www-form-urlencoded">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit"><img src="/images/icons/delete_red.png"
+                                                    alt="delete"></button></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% } %>
                     </table>
         </div>
     </main>

@@ -263,7 +263,7 @@ describe('save', () => {
         });
     })
 
-    it('shoud call Block.add after successfull validation and send response', async () => {
+    it('shoud call Menu.update after successfull validation and send response', async () => {
         req = {
             body: {
                 title: 'Header Menu',

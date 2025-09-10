@@ -2,10 +2,13 @@ const Validation = require('../helpers/Validation');
 const Collection = require('../models/collection');
 const isEmpty = require('../helpers/isEmpty');
 
-const index = (req, res) => {
+const index = async (req, res) => {
+    const collections = await Collection.getAll();
+
     res.status(200).render('collections', {
         title: 'Content',
-        query: req.query
+        query: req.query,
+        collections
     });
 }
 
@@ -26,9 +29,9 @@ const saveNew = async (req, res) => {
 
     const validation = new Validation(data);
     validation.validate("title", "required|string");
-    validation.validate("key", "required");
+    validation.validate("key", "required|string|noSpaces|notNumericOnly");
 
-    if (!isEmpty(validation.errors)) {
+    if (validation.hasErrors()) {
         return res.status(400).send({
             success: false,
             validation: false,
@@ -51,8 +54,62 @@ const saveNew = async (req, res) => {
     });
 }
 
+const save = async (req, res) => {
+    const { id } = req.params;
+
+    const data = {
+        title: req.body.title,
+        key: req.body.key,
+        entries: req.body.entries,
+    };
+
+    const validation = new Validation(data);
+
+    validation.validate("title", "required|string");
+    validation.validate("key", "required|string|noSpaces|notNumericOnly");
+
+    if (validation.hasErrors()) {
+        return res.status(400).send({
+            success: false,
+            validation: false,
+            messages: validation.errors
+        });
+    }
+
+    const success = await Collection.update(id, data);
+
+    if (success) {
+        return res.status(201).send({
+            validation: true,
+            success: true,
+        })
+    } else {
+        return res.status(500).send({
+            success: false,
+            validation: true,
+            message: 'Something went wrong while trying to update the collection. Please check the console for more information.'
+        });
+    }
+}
+
+const remove = async (req, res) => {
+    const { id } = req.params;
+    const success = await Collection.remove(id);
+
+    if (success) {
+        res.redirect('/collections?message=deleted');
+    } else {
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Something went wrong while trying to delete the collection. Please check the console for more information.'
+        });
+    }
+}
+
 module.exports = {
     index,
     create,
-    saveNew
+    saveNew,
+    save,
+    remove
 }

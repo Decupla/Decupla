@@ -1,6 +1,7 @@
 import DOM from "./dom";
 import { saveCollection } from "./api";
 import { setFieldMessage, resetMessages } from "./validation";
+import { collectionExists, setCollectionExists, collectionID, setCollectionID } from "./data";
 
 export const handleCollectionSubmit = async (event) => {
     event.preventDefault();
@@ -11,6 +12,11 @@ export const handleCollectionSubmit = async (event) => {
 
     const url = '/collections';
     const method = 'POST';
+
+    if (collectionExists) {
+        method = "PUT";
+        url = `/menus/${collectionID}`;
+    }
 
     try {
         const response = await saveCollection(url, method, data)
@@ -26,6 +32,11 @@ export const handleCollectionSubmit = async (event) => {
             return;
         } else if (response.success) {
             DOM.messageSuccess.classList.add('visible');
+
+            if (!collectionExists) {
+                setCollectionID(response.newID);
+                setCollectionExists(true);
+            }
         } else {
             console.error('Something went wrong while trying to save the block');
         }
