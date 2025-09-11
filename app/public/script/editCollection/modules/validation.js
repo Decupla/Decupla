@@ -1,6 +1,8 @@
+import DOM from "./dom";
+
 export const setFieldMessage = (field, message, blockForm = false) => {
     let fieldMessageElement;
-    if(blockForm){
+    if (blockForm) {
         fieldMessageElement = document.querySelector(`#message-${field}`);
     } else {
         fieldMessageElement = submittedForm.querySelector(`.message-${field}`);
@@ -17,10 +19,16 @@ export const setFieldMessage = (field, message, blockForm = false) => {
 export const resetMessages = () => {
     const messages = document.querySelectorAll('.error-message');
 
-    messages.forEach((message)=>{
+    messages.forEach((message) => {
         message.innerText = "";
-        if(message.classList.contains('visible')){
+        if (message.classList.contains('visible')) {
             message.classList.remove('visible');
         }
     })
+}
+
+export const showSuccessMessage = () => {
+    DOM.messageSuccess.classList.remove('visible');
+    void DOM.messageSuccess.offsetWidth;
+    DOM.messageSuccess.classList.add('visible');
 }

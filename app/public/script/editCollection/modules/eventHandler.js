@@ -1,6 +1,6 @@
 import DOM from "./dom";
 import { saveCollection } from "./api";
-import { setFieldMessage, resetMessages } from "./validation";
+import { setFieldMessage, resetMessages, showSuccessMessage } from "./validation";
 import { collectionExists, setCollectionExists, collectionID, setCollectionID } from "./data";
 
 export const handleCollectionSubmit = async (event) => {
@@ -10,12 +10,12 @@ export const handleCollectionSubmit = async (event) => {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
-    const url = '/collections';
-    const method = 'POST';
+    let url = '/collections';
+    let method = 'POST';
 
     if (collectionExists) {
         method = "PUT";
-        url = `/menus/${collectionID}`;
+        url = `/collections/${collectionID}`;
     }
 
     try {
@@ -31,7 +31,7 @@ export const handleCollectionSubmit = async (event) => {
 
             return;
         } else if (response.success) {
-            DOM.messageSuccess.classList.add('visible');
+            showSuccessMessage();
 
             if (!collectionExists) {
                 setCollectionID(response.newID);

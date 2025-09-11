@@ -1,6 +1,6 @@
 const Validation = require('../helpers/Validation');
-const Collection = require('../models/collection');
 const isEmpty = require('../helpers/isEmpty');
+const Collection = require('../models/collection');
 
 const index = async (req, res) => {
     const collections = await Collection.getAll();
@@ -19,6 +19,21 @@ const create = async (req, res) => {
     });
 }
 
+const edit = async (req, res) => {
+    const { id } = req.params;
+    const data = await Collection.get(id);
+
+    if (data === null) {
+        res.redirect('/collections');
+    } else {
+        res.status(200).render('editCollection', {
+            title: 'Edit Collection',
+            data,
+            query: req.query,
+        })
+    }
+}
+
 const saveNew = async (req, res) => {
     const data = {
         title: req.body.title,
@@ -31,11 +46,17 @@ const saveNew = async (req, res) => {
     validation.validate("title", "required|string");
     validation.validate("key", "required|string|noSpaces|notNumericOnly");
 
-    if (validation.hasErrors()) {
+    let messages = { ...validation.errors };
+
+    if (!('key' in messages) && await Collection.keyExists(data.key)) {
+        messages.key = "Key already in use";
+    }
+
+    if (!isEmpty(messages)) {
         return res.status(400).send({
             success: false,
             validation: false,
-            messages: validation.errors
+            messages
         });
     }
 
@@ -59,8 +80,7 @@ const save = async (req, res) => {
 
     const data = {
         title: req.body.title,
-        key: req.body.key,
-        entries: req.body.entries,
+        key: req.body.key
     };
 
     const validation = new Validation(data);
@@ -68,11 +88,17 @@ const save = async (req, res) => {
     validation.validate("title", "required|string");
     validation.validate("key", "required|string|noSpaces|notNumericOnly");
 
-    if (validation.hasErrors()) {
+    let messages = { ...validation.errors };
+
+    if (!('key' in messages) && await Collection.keyChanged(id,data.key) && await Collection.keyExists(data.key)) {
+        messages.key = "Key already in use";
+    }
+
+    if (!isEmpty(messages)) {
         return res.status(400).send({
             success: false,
             validation: false,
-            messages: validation.errors
+            messages
         });
     }
 
@@ -109,6 +135,7 @@ const remove = async (req, res) => {
 module.exports = {
     index,
     create,
+    edit,
     saveNew,
     save,
     remove
