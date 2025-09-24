@@ -70,6 +70,28 @@ describe('saveNew', () => {
             validation: false
         });
     });
+    it('should send errors if key is already in use', async () => {
+        req = {
+            body: {
+                title: 'Test Collection',
+                key: 'test-collection'
+            }
+        }
+
+        Validation.prototype.validate = jest.fn();
+        Validation.prototype.errors = {};
+
+        Collection.keyExists.mockResolvedValue(true)
+
+        await collectionsController.saveNew(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.send).toHaveBeenCalledWith({
+            success: false,
+            messages: { key: 'Key already in use' },
+            validation: false
+        });
+    });
     it('should save input and return new iD', async () => {
         req = {
             body: {
@@ -79,8 +101,10 @@ describe('saveNew', () => {
         };
 
         Validation.prototype.validate = jest.fn();
+        Validation.prototype.errors = {}
         Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
 
+        Collection.keyExists.mockReturnValue(false);
         Collection.add.mockResolvedValue(1);
 
         await collectionsController.saveNew(req, res);
@@ -101,8 +125,10 @@ describe('saveNew', () => {
         };
 
         Validation.prototype.validate = jest.fn();
+        Validation.prototype.errors = {}
         Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
 
+        Collection.keyExists.mockReturnValue(false);
         Collection.add.mockResolvedValue(null);
 
         await collectionsController.saveNew(req, res);
@@ -142,30 +168,59 @@ describe('save', () => {
             validation: false
         });
     }),
-        it('should call Collection.update after successfull validation and send response', async () => {
+        it('should send errors if new key is already in use', async () => {
             req = {
                 body: {
-                    title: 'Test Collection Updated',
-                    key: 'test-collection-updated'
+                    title: 'Test Collection',
+                    key: 'test-collection',
                 },
                 params: {
                     id: 1
                 }
-            };
+            }
 
             Validation.prototype.validate = jest.fn();
-            Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
+            Validation.prototype.errors = {};
 
-            Collection.update.mockResolvedValue(true);
+            Collection.keyChanged.mockResolvedValue(true)
+            Collection.keyExists.mockResolvedValue(true)
 
             await collectionsController.save(req, res);
 
-            expect(res.status).toHaveBeenCalledWith(201);
+            expect(res.status).toHaveBeenCalledWith(400);
             expect(res.send).toHaveBeenCalledWith({
-                validation: true,
-                success: true,
+                success: false,
+                messages: { key: 'Key already in use' },
+                validation: false
             });
         });
+    it('should call Collection.update after successfull validation and send response', async () => {
+        req = {
+            body: {
+                title: 'Test Collection Updated',
+                key: 'test-collection-updated'
+            },
+            params: {
+                id: 1
+            }
+        };
+
+        Validation.prototype.validate = jest.fn();
+        Validation.prototype.errors = {};
+        Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
+
+        Collection.keyChanged.mockReturnValue(false);
+        Collection.keyExists.mockReturnValue(false);
+        Collection.update.mockResolvedValue(true);
+
+        await collectionsController.save(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.send).toHaveBeenCalledWith({
+            validation: true,
+            success: true,
+        });
+    });
     it('should send error if Collection.update fails', async () => {
         req = {
             body: {
@@ -180,6 +235,8 @@ describe('save', () => {
         Validation.prototype.validate = jest.fn();
         Validation.prototype.hasErrors = jest.fn().mockReturnValue(false);
 
+        Collection.keyChanged.mockReturnValue(false);
+        Collection.keyExists.mockReturnValue(false);
         Collection.update.mockResolvedValue(false);
 
         await collectionsController.save(req, res);
@@ -220,5 +277,35 @@ describe('remove', () => {
             title: 'Error',
             message: 'Something went wrong while trying to delete the collection. Please check the console for more information.'
         });
+    })
+})
+
+describe('edit', () => {
+    req = {
+        params: {
+            id: 1
+        }
+    };
+
+    it('should call Collection.get and render edit template', async () => {
+        const mockedRow = { id: 1, title: 'Found Collection', key: 'found-collection' };
+        Collection.get.mockResolvedValue(mockedRow);
+
+        await collectionsController.edit(req,res);
+
+        expect(Collection.get).toHaveBeenCalledWith(1);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.render).toHaveBeenCalledWith('editCollection', {
+            title: 'Edit Collection',
+            data: mockedRow,
+            query: req.query,
+        });
+    })
+    it('should redirect if Collection.get resolved null', async () => {
+        Collection.get.mockResolvedValue(null);
+
+        await collectionsController.edit(req,res);
+
+        expect(res.redirect).toHaveBeenCalledWith('/collections');
     })
 })

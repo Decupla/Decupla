@@ -21,6 +21,26 @@ jest.mock('../../database/database', () => ({
     deleteWhere: jest.fn()
 }));
 
+describe('get', () => {
+    it('should call db.selectWhere and return result', async () => {
+        const mockedRow = { id: 1, title: 'Found Collection', key: 'found-collection' };
+        db.selectWhere.mockResolvedValue(mockedRow);
+
+        const result = await Collection.get(1);
+
+        expect(result).toEqual(mockedRow);
+        expect(db.selectWhere).toHaveBeenCalledWith('collections', 'id', 1);
+    })
+    it('should log errors and return null', async () => {
+        db.selectWhere.mockRejectedValue(mockError);
+
+        const result = await Collection.get(1);
+
+        expect(result).toBeNull();
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError)
+    })
+})
+
 describe('getAll', () => {
     it('should call db.selectAll and return the found rows', async () => {
         const mockedRows = [{ id: 1, title: 'New Collection', key: 'new-collection' }];
@@ -97,6 +117,70 @@ describe('remove', () => {
         const answer = await Collection.remove(1);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error deleting data: ', mockError);
+        expect(answer).toBe(false);
+    })
+})
+
+describe('keyExists', () => {
+    it('should call the selectWhere function of the database with correct parameters and return true if result is not null', async () => {
+        const mockRow = { id: 1, title: 'New Collection', key: 'new-collection' };
+        db.selectWhere.mockResolvedValue(mockRow);
+
+        const answer = await Collection.keyExists('new-collection');
+
+        expect(db.selectWhere).toHaveBeenCalledWith('collections', 'key', 'new-collection');
+        expect(answer).toBe(true);
+    })
+    it('should return false if result is null', async () => {
+        db.selectWhere.mockResolvedValue(null);
+
+        const answer = await Collection.keyExists('new-collection');
+
+        expect(db.selectWhere).toHaveBeenCalledWith('collections', 'key', 'new-collection');
+        expect(answer).toBe(false);
+    })
+    it('should log errors and return false', async () => {
+        db.selectWhere.mockRejectedValue(mockError);
+
+        const answer = await Collection.keyExists('main-navigation');
+
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError);
+        expect(answer).toBe(false);
+    })
+})
+
+describe('keyChanged', () => {
+    it('should call db.selectWhere and return false if result equals parameter', async () => {
+        const mockRow = { id: 1, title: 'Found Collection', key: 'found-collection' };
+        db.selectWhere.mockResolvedValue(mockRow);
+
+        const answer = await Collection.keyChanged(1,'found-collection');
+
+        expect(db.selectWhere).toHaveBeenCalledWith('collections','id',1);
+        expect(answer).toBe(false);
+    })
+    it('should call db.selectWhere and return true if result does not equal parameter', async () => {
+        const mockRow = { id: 1, title: 'Found Collection', key: 'found-collection' };
+        db.selectWhere.mockResolvedValue(mockRow);
+
+        const answer = await Collection.keyChanged(1,'updated-collection');
+
+        expect(db.selectWhere).toHaveBeenCalledWith('collections','id',1);
+        expect(answer).toBe(true);
+    })
+    it('should return false if db.selectWhere returned null', async () => {
+        db.selectWhere.mockResolvedValue(null);
+
+        const answer = await Collection.keyChanged(1,'updated-collection');
+
+        expect(answer).toBe(false);
+    })
+    it('should log errors and return false', async () => {
+        db.selectWhere.mockRejectedValue(mockError);
+
+        const answer = await Collection.keyChanged(1,'updated-collection');
+
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError);
         expect(answer).toBe(false);
     })
 })
