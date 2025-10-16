@@ -7,7 +7,11 @@ jest.mock('../../models/content');
 jest.mock('../../models/setting');
 jest.mock('../../helpers/Validation');
 
-let req = {};
+let req = {
+    user: {
+        tenantID: 1
+    }
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -130,10 +134,10 @@ describe('save', () => {
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.render).toHaveBeenCalledWith('startContent', {
-          title: 'Edit Start Content',
-          content: mockContent,
-          selectedContent: '1',
-          messages: { error: 'Something went wrong while trying to save the start content' },
+            title: 'Edit Start Content',
+            content: mockContent,
+            selectedContent: '1',
+            messages: { error: 'Something went wrong while trying to save the start content' },
         });
     })
 })

@@ -96,13 +96,13 @@ describe('selectAllWhere', () => {
         expect(console.log).toHaveBeenCalledWith('Error: ' + mockError);
     });
 
-    it('should resolve null if no row was found', async () => {
+    it('should resolve empty array if no row was found', async () => {
         jest.spyOn(connection, 'all').mockImplementation((query, params, callback) => {
             callback(null, null);
         });
 
         const rows = await databaseAPI.selectAllWhere('users', 'age', 30);
-        expect(rows).toBeNull();
+        expect(rows).toEqual([]);
     });
 });
 

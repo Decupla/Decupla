@@ -39,6 +39,12 @@ describe('index', () => {
 
 describe('create', () => {
     it('should call Content.getAllPublished and render editMenu template', async () => {
+        req = {
+            user: {
+                tenantID: 1
+            }
+        }
+
         const mockRows = [
             { id: 1, title: 'Home', status: 1 },
             { id: 2, title: 'About', status: 1 }
@@ -58,16 +64,16 @@ describe('create', () => {
 })
 
 describe('edit', () => {
-    req.params = {
-        id: 1
-    }
-
     const mockContentRows = [
         { id: 1, title: 'Home', status: 1 },
         { id: 2, title: 'About', status: 1 }
     ]
 
     it('should call Menu.get / Content.getAllPublished and render editMenu template', async () => {
+        req.params = {
+            id: 1
+        }
+
         const mockMenuRow = { id: 1, title: 'Header Menu', key: 'header-menu', entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]' };
 
         Menu.get.mockReturnValue(mockMenuRow)
@@ -87,6 +93,10 @@ describe('edit', () => {
         });
     })
     it('should redirect if Menu.get returned null', async () => {
+        req.params = {
+            id: 1
+        }
+
         Menu.get.mockReturnValue(null);
         Content.getAllPublished.mockReturnValue(mockContentRows)
 
@@ -352,26 +362,26 @@ describe('get', () => {
     })
 })
 
-describe('remove',()=>{
+describe('remove', () => {
     req = {
         params: {
             id: 1
         }
     };
 
-    it('should call Menu.remove and redirect on success',async () => {
+    it('should call Menu.remove and redirect on success', async () => {
         Menu.remove.mockReturnValue(true);
 
-        await menusController.remove(req,res);
+        await menusController.remove(req, res);
 
         expect(Menu.remove).toHaveBeenCalledWith(1);
         expect(res.redirect).toHaveBeenCalledWith('/menus?message=deleted');
     })
 
-    it('should render error page if Menu.remove failed',async () => {
+    it('should render error page if Menu.remove failed', async () => {
         Menu.remove.mockReturnValue(false);
 
-        await menusController.remove(req,res);
+        await menusController.remove(req, res);
 
         expect(Menu.remove).toHaveBeenCalledWith(1);
         expect(res.status).toHaveBeenCalledWith(500);

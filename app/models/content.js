@@ -1,8 +1,8 @@
 const db = require('../database/database');
 
-const getAll = async () => {
+const getAll = async (tenantID) => {
     try {
-        const rows = await db.selectAll('content');
+        const rows = await db.selectAllWhere('content', 'tenantID', tenantID);
         return rows;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -10,9 +10,9 @@ const getAll = async () => {
     }
 }
 
-const getAllPublished = async () => {
+const getAllPublished = async (tenantID) => {
     try {
-        const rows = await db.selectAllWhere('content','status',1);
+        const rows = await db.selectAllWhere('content', 'status', 1, 'id', 'ASC', 'tenantID', tenantID);
         return rows;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -22,7 +22,7 @@ const getAllPublished = async () => {
 
 const get = async (id) => {
     try {
-        const result = await db.selectWhere('content','id',id);
+        const result = await db.selectWhere('content', 'id', id);
         return result;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -32,7 +32,7 @@ const get = async (id) => {
 
 const add = async (data) => {
     try {
-        const newId = await db.insert('content',data);
+        const newId = await db.insert('content', data);
         return newId;
     } catch (error) {
         console.error('Error inserting data: ', error);
@@ -40,9 +40,9 @@ const add = async (data) => {
     }
 }
 
-const update = async (id,data) => {
+const update = async (id, data) => {
     try {
-        await db.updateWhere('content',data,'id',id);
+        await db.updateWhere('content', data, 'id', id);
         return true;
     } catch (error) {
         console.error('Error updating data: ', error);
@@ -52,9 +52,9 @@ const update = async (id,data) => {
 
 const remove = async (id) => {
     try {
-        await db.deleteWhere('content','id',id);
+        await db.deleteWhere('content', 'id', id);
         return true;
-    } catch (error) {   
+    } catch (error) {
         console.error('Error deleting data: ', error);
         return false;
     }
@@ -63,7 +63,7 @@ const remove = async (id) => {
 const urlExists = async (url) => {
     try {
         const result = await db.selectWhere('content', 'url', url);
-        if(result===null){
+        if (result === null) {
             return false
         }
         return true;
@@ -73,13 +73,13 @@ const urlExists = async (url) => {
     }
 }
 
-const urlChanged = async (id,url) => {
+const urlChanged = async (id, url) => {
     try {
         const result = await db.selectWhere('content', 'id', id);
-        if(result===null){
+        if (result === null) {
             return false
         }
-        
+
         return result.url !== url;
     } catch (error) {
         console.error('Error retrieving data: ', error);

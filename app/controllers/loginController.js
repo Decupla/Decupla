@@ -58,6 +58,7 @@ const authenticateUser = (user) => {
     const data = {
         id: user.id,
         name: user.name,
+        tenantID: user.tenantID
     };
 
     return jwt.sign(data, process.env.TOKEN_SECRET, { expiresIn: '8h' });

@@ -8,7 +8,7 @@ const isEmpty = require('../helpers/isEmpty');
 const processUrl = require('../helpers/processUrl');
 
 const index = async (req, res) => {
-    const content = await Content.getAll();
+    const content = await Content.getAll(req.user.tenantID);
 
     res.status(200).render('content', {
         title: 'Content',
@@ -48,7 +48,8 @@ const saveNew = async (req, res) => {
         title: req.body.title,
         status: req.body.status,
         description: req.body.description,
-        created: Date.now()
+        created: Date.now(),
+        tenantID: req.user.tenantID
     };
 
     const validation = new Validation(data);

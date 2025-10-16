@@ -3,7 +3,7 @@ const Setting = require('../models/setting');
 const Validation = require('../helpers/Validation');
 
 const index = async (req,res) => {
-    const content = await Content.getAllPublished();
+    const content = await Content.getAllPublished(req.user.tenantID);
     const selectedContent = parseInt(await Setting.get('startContent'), 10) || 0;
 
     res.status(200).render('startContent', {
@@ -15,7 +15,7 @@ const index = async (req,res) => {
 }
 
 const save = async (req,res) => {
-    const content = await Content.getAllPublished();
+    const content = await Content.getAllPublished(req.user.tenantID);
     const selectedContent = parseInt(await Setting.get('startContent'), 10) || 0;
 
     const data = {

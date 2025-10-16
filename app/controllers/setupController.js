@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const Tenant = require('../models/tenant');
 
 const index = (req, res) => {
     res.render('setup', {
@@ -16,11 +17,14 @@ const index = (req, res) => {
 
 
 const validateSetup = async (req, res) => {
+    const tenantID = await Tenant.getNextTenantId()
+
     const data = {
         email: req.body.email,
         name: req.body.name,
         password: req.body.password,
-        role: 0
+        role: 0,
+        tenantID
     }
 
     const validation = new Validation(data);
@@ -47,7 +51,7 @@ const validateSetup = async (req, res) => {
         })
     }
 
-    const token = jwt.sign({ id: newID, name: data.name },process.env.TOKEN_SECRET);
+    const token = jwt.sign({ id: newID, name: data.name, tenantID },process.env.TOKEN_SECRET);
     req.session.authToken = token;
     res.redirect(`/content`);
 }

@@ -11,7 +11,11 @@ jest.mock('../../models/block');
 jest.mock('../../models/blockInstance');
 jest.mock('../../helpers/processUrl');
 
-let req = {};
+let req = {
+    user: {
+        tenantID: 1
+    }
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -126,10 +130,17 @@ describe('edit', () => {
 
 describe('saveNew', () => {
     it('should validate input and send errors', async () => {
+        req.user = {
+            tenantID: 1
+        }
+
         req = {
             body: {
                 title: 'Test Content',
                 url: ''
+            },
+            user: {
+                tenantID: 1
             }
         }
 
@@ -158,7 +169,11 @@ describe('saveNew', () => {
         req = {
             body: {
                 title: 'New Content',
-                status: 1
+                status: 1,
+                description: 'Lorem Ipsum'
+            },
+            user: {
+                tenantID: 1
             }
         }
 
@@ -181,7 +196,9 @@ describe('saveNew', () => {
             title: 'New Content',
             status: 1,
             created: 123456789,
-            url: 'test-content'
+            url: 'test-content',
+            description: 'Lorem Ipsum',
+            tenantID: 1
         });
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
@@ -196,6 +213,9 @@ describe('saveNew', () => {
             body: {
                 title: 'New Content',
                 status: 1
+            },
+            user: {
+                tenantID: 1
             }
         }
 

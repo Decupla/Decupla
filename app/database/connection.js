@@ -28,13 +28,15 @@ const createTables = (database) => {
             email TEXT UNIQUE NOT NULL,
             name TEXT NOT NULL,
             password TEXT NOT NULL,
-            role INTEGER NOT NULL
+            role INTEGER NOT NULL,
+            tenantID INTEGER NOT NULL
         );
         
         CREATE TABLE roles (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            perms TEXT NOT NULL
+            perms TEXT NOT NULL,
+            tenantID INTEGER NOT NULL
         );
 
         CREATE TABLE content (
@@ -44,7 +46,8 @@ const createTables = (database) => {
             url TEXT,
             description TEXT,
             created INTEGER,
-            updated INTEGER
+            updated INTEGER,
+            tenantID INTEGER NOT NULL
         );
 
         CREATE TABLE blocks (
@@ -53,7 +56,8 @@ const createTables = (database) => {
             title TEXT NOT NULL,
             input TEXT NOT NULL,
             created INTEGER,
-            updated INTEGER
+            updated INTEGER,
+            tenantID INTEGER NOT NULL
         );
 
         CREATE TABLE block_instances (
@@ -61,14 +65,16 @@ const createTables = (database) => {
             blockID INTEGER NOT NULL,
             contentID INTEGER NOT NULL,
             output TEXT NOT NULL,
-            priority INTEGER NOT NULL
+            priority INTEGER NOT NULL,
+            tenantID INTEGER NOT NULL
         );
 
         CREATE TABLE menus (
             id INTEGER PRIMARY KEY,
             title TEXT NOT NULL,
             key TEXT UNIQUE NOT NULL,
-            entries TEXT NOT NULL
+            entries TEXT NOT NULL,
+            tenantID INTEGER NOT NULL
         );
 
         CREATE TABLE collections (
@@ -77,7 +83,8 @@ const createTables = (database) => {
             key TEXT NOT NULL,
             columns TEXT,
             created INTEGER,
-            updated INTEGER
+            updated INTEGER,
+            tenantID INTEGER NOT NULL
         );
 
         CREATE TABLE media (
@@ -85,19 +92,22 @@ const createTables = (database) => {
             file TEXT NOT NULL,
             alt TEXT,
             type TEXT NOT NULL,
-            size INTEGER NOT NULL
+            size INTEGER NOT NULL,
+            tenantID INTEGER NOT NULL
         );
 
         CREATE TABLE api_keys (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
-            key TEXT NOT NULL
+            key TEXT NOT NULL,
+            tenantID INTEGER NOT NULL
         );
 
         CREATE TABLE settings (
             id INTEGER PRIMARY KEY,
             key TEXT NOT NULL,
-            value TEXT NOT NULL
+            value TEXT NOT NULL,
+            tenantID INTEGER NOT NULL
         );
     `, (error) => {
         if (error) {
@@ -106,8 +116,8 @@ const createTables = (database) => {
         }
 
         database.run(`
-            INSERT INTO settings (key, value) 
-            VALUES ('startContent', '0');
+            INSERT INTO settings (key, value, tenantID) 
+            VALUES ('startContent', '0', 1);
         `, (error) => {
             if (error) {
                 console.log("Error inserting default setting:", error);

@@ -3,10 +3,12 @@ const User = require('../../models/user');
 const Validation = require('../../helpers/Validation');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Tenant = require('../../models/tenant');
 
 
 jest.mock('../../helpers/Validation');
 jest.mock('../../models/user');
+jest.mock('../../models/tenant');
 jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
 
@@ -58,6 +60,7 @@ describe('validateSetup', () => {
         bcrypt.hash.mockResolvedValue('hashedPassword');
         User.add.mockResolvedValue(1);
         jwt.sign.mockReturnValue('usertoken');
+        Tenant.getNextTenantId.mockResolvedValue(1);
 
         await setupController.validateSetup(req, res);
 
@@ -69,9 +72,10 @@ describe('validateSetup', () => {
             email: 'nils@gmail.com',
             name: 'Nils',
             password: 'hashedPassword',
-            role: 0
+            role: 0,
+            tenantID: 1
         });
-        expect(jwt.sign).toHaveBeenCalledWith({ id: 1, name: 'Nils' }, process.env.TOKEN_SECRET);
+        expect(jwt.sign).toHaveBeenCalledWith({ id: 1, name: 'Nils', tenantID: 1 }, process.env.TOKEN_SECRET);
         expect(req.session.authToken).toBe('usertoken');
         expect(res.redirect).toHaveBeenCalledWith('/content');
     })
@@ -86,6 +90,7 @@ describe('validateSetup', () => {
         Validation.prototype.validate = jest.fn();
         Validation.prototype.hasErrors = jest.fn(() => true);
         Validation.prototype.errors = { email: ' Email is required ' };
+        Tenant.getNextTenantId.mockResolvedValue(1);
 
         await setupController.validateSetup(req, res);
 
@@ -98,7 +103,8 @@ describe('validateSetup', () => {
                 email: '',
                 name: 'Nils',
                 password: 'Password123',
-                role: 0
+                role: 0,
+                tenantID: 1
             }
         });
     });

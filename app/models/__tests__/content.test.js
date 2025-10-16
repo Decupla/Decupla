@@ -24,15 +24,15 @@ jest.mock('../../database/database', () => ({
 
 describe('getAll', () => {
     it('should get all content from database', async () => {
-        const mockRows = [{ ID: 1, title: 'Test Content', status: 1 }];
-        db.selectAll.mockResolvedValue(mockRows);
+        const mockRows = [{ ID: 1, title: 'Test Content', status: 1 , tenantID: 1}];
+        db.selectAllWhere.mockResolvedValue(mockRows);
 
-        const result = await Content.getAll();
+        const result = await Content.getAll(1);
         expect(result).toEqual(mockRows);
-        expect(db.selectAll).toHaveBeenCalledWith('content');
+        expect(db.selectAllWhere).toHaveBeenCalledWith('content','tenantID',1);
     });
     it('should log errors', async () => {
-        db.selectAll.mockRejectedValue(mockError);
+        db.selectAllWhere.mockRejectedValue(mockError);
 
         const result = await Content.getAll();
 
@@ -46,10 +46,10 @@ describe('getAllPublished', () => {
         const mockRows = [{ ID: 1, title: 'Test Content', status: 1 }];
         db.selectAllWhere.mockResolvedValue(mockRows);
 
-        const result = await Content.getAllPublished();
+        const result = await Content.getAllPublished(1);
 
         expect(result).toEqual(mockRows);
-        expect(db.selectAllWhere).toHaveBeenCalledWith('content', 'status', 1);
+        expect(db.selectAllWhere).toHaveBeenCalledWith('content', 'status', 1, "id", "ASC", "tenantID", 1);
     })
     it('should log errors', async () => {
         db.selectAllWhere.mockRejectedValue(mockError);
