@@ -7,7 +7,11 @@ const { validate } = require('webpack');
 jest.mock('../../models/block');
 jest.mock('../../models/blockInstance');
 
-let req = {};
+let req = {
+    user: {
+        tenantID: 1
+    }
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -58,10 +62,8 @@ describe('create', () => {
 describe('edit', () => {
     it('should call Block.get with correct parameters and should render editBlock template', async () => {
         const mockBlock = { id: 1, title: 'Block 1', status: 1 };
-        req = {
-            params: { id: 1 },
-            query: {}
-        };
+        req.params = { id: 1 };
+        req.query = {};
 
         Block.get.mockReturnValue(mockBlock);
 
@@ -77,10 +79,8 @@ describe('edit', () => {
     })
     it('should redirect if data is null', async () => {
         Block.get.mockReturnValue(null);
-        req = {
-            params: { id: 90 },
-            query: {}
-        };
+        req.params = { id: 90 };
+        req.query = {};
 
         await blocksController.edit(req, res);
 
@@ -91,11 +91,9 @@ describe('edit', () => {
 
 describe('saveNew', () => {
     it('should validate input and send errors', async () => {
-        req = {
-            body: {
-                status: 1,
-                input: ''
-            }
+        req.body = {
+            status: 1,
+            input: ''
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -118,12 +116,10 @@ describe('saveNew', () => {
         });
     })
     it('should send error if key already exists', async () => {
-        req = {
-            body: {
-                title: 'Test',
-                input: '',
-                key: 'existing-key'
-            }
+        req.body = {
+            title: 'Test',
+            input: '',
+            key: 'existing-key'
         }
 
         Block.keyExists.mockReturnValue(true);
@@ -138,7 +134,7 @@ describe('saveNew', () => {
             });
         });
 
-        await blocksController.saveNew(req,res);
+        await blocksController.saveNew(req, res);
 
         expect(Block.keyExists).toHaveBeenCalledWith('existing-key');
         expect(res.status).toHaveBeenCalledWith(400);
@@ -150,12 +146,10 @@ describe('saveNew', () => {
 
     })
     it('shoud call Block.add after sucsessfull validation and return new id', async () => {
-        req = {
-            body: {
-                title: 'Test',
-                key: 'test',
-                input: ''
-            }
+        req.body = {
+            title: 'Test',
+            key: 'test',
+            input: ''
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -178,7 +172,8 @@ describe('saveNew', () => {
             title: 'Test',
             key: 'test',
             input: '',
-            created: 123456789
+            created: 123456789,
+            tenantID: 1
         });
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
@@ -188,12 +183,10 @@ describe('saveNew', () => {
         });
     })
     it('should return 500 if saving block fails', async () => {
-        req = {
-            body: {
-                title: 'Test',
-                key: 'test',
-                input: ''
-            }
+        req.body = {
+            title: 'Test',
+            key: 'test',
+            input: ''
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -222,13 +215,11 @@ describe('saveNew', () => {
 
 describe('save', () => {
     it('should validate input and send errors', async () => {
-        req = {
-            body: {
-                status: 1
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            status: 1
+        };
+        req.params = {
+            id: 1
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -251,16 +242,14 @@ describe('save', () => {
         });
     })
     it('should send error if key was changed and new key already exists', async () => {
-        req = {
-            body: {
-                title: 'Test',
-                key: 'existing-key',
-                input: '',
-                id: 1
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            title: 'Test',
+            key: 'existing-key',
+            input: '',
+            id: 1
+        };
+        req.params = {
+            id: 1
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -276,9 +265,9 @@ describe('save', () => {
         Block.keyChanged.mockReturnValue(true);
         Block.keyExists.mockReturnValue(true);
 
-        await blocksController.save(req,res);
+        await blocksController.save(req, res);
 
-        expect(Block.keyChanged).toHaveBeenCalledWith(1,'existing-key');
+        expect(Block.keyChanged).toHaveBeenCalledWith(1, 'existing-key');
         expect(Block.keyExists).toHaveBeenCalledWith('existing-key');
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.send).toHaveBeenCalledWith({
@@ -288,16 +277,14 @@ describe('save', () => {
         });
     })
     it('shoud call Block.update after successfull validation and send response', async () => {
-        req = {
-            body: {
-                title: 'Test',
-                key: 'test',
-                input: '',
-                id: 1
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            title: 'Test',
+            key: 'test',
+            input: '',
+            id: 1
+        };
+        req.param = {
+            id: 1
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -316,7 +303,7 @@ describe('save', () => {
 
         await blocksController.save(req, res);
 
-        expect(Block.keyChanged).toHaveBeenCalledWith(1,'test');
+        expect(Block.keyChanged).toHaveBeenCalledWith(1, 'test');
         expect(Block.keyExists).toHaveBeenCalledWith('test');
         expect(Block.update).toHaveBeenCalledWith(1, {
             id: 1,
@@ -329,16 +316,14 @@ describe('save', () => {
         expect(res.send).toHaveBeenCalledWith({ success: true, validation: true });
     })
     it('should return 500 if saving block fails', async () => {
-        req = {
-            body: {
-                title: 'Test',
-                key: 'test',
-                input: '',
-                id: 1
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            title: 'Test',
+            key: 'test',
+            input: '',
+            id: 1
+        };
+        req.params = {
+            id: 1
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -366,10 +351,8 @@ describe('save', () => {
 
 describe('remove', () => {
     it('should call Block.remove and BlockInstance.deleteByBlock', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         Block.remove.mockReturnValue(true);
@@ -382,10 +365,8 @@ describe('remove', () => {
         expect(res.redirect).toHaveBeenCalledWith('/blocks?message=deleted');
     })
     it('should render error page if Block.remove failed', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         Block.remove.mockReturnValue(false);
@@ -400,10 +381,8 @@ describe('remove', () => {
         })
     })
     it('should render error page if BlockInstance.deleteByBlock failed', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         Block.remove.mockReturnValue(true);
@@ -423,10 +402,8 @@ describe('remove', () => {
 
 describe('get', () => {
     it('should call Block.get and send the result as response', async () => {
-        const req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         const mockRow = { id: 1, title: 'Block 1', status: 1 };
@@ -442,10 +419,8 @@ describe('get', () => {
         });
     })
     it('should send error if Block.get result is null', async () => {
-        const req = {
-            params: {
-                id: 90
-            }
+        req.params = {
+            id: 90
         }
 
         Block.get.mockReturnValue(null);
@@ -463,11 +438,9 @@ describe('get', () => {
 
 describe('saveNewInstance', () => {
     it('should valdidate input and send errors', async () => {
-        const req = {
-            body: {
-                contentID: 1,
-                blockID: 2
-            }
+        req.body = {
+            contentID: 1,
+            blockID: 2
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -489,13 +462,11 @@ describe('saveNewInstance', () => {
         })
     })
     it('should call BlockInstance.add and send newID as answer', async () => {
-        const req = {
-            body: {
-                contentID: 1,
-                blockID: 2,
-                output: '{"title": "Hello World"}',
-                priority: 1
-            }
+        req.body = {
+            contentID: 1,
+            blockID: 2,
+            output: '{"title": "Hello World"}',
+            priority: 1
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -521,13 +492,11 @@ describe('saveNewInstance', () => {
         })
     })
     it('should send error if BlockInstance.add returned null', async () => {
-        const req = {
-            body: {
-                contentID: 1,
-                blockID: 2,
-                output: '{"title": "Hello World"}',
-                priority: 1
-            }
+        req.body = {
+            contentID: 1,
+            blockID: 2,
+            output: '{"title": "Hello World"}',
+            priority: 1
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -555,15 +524,13 @@ describe('saveNewInstance', () => {
 
 describe('updateInstance', () => {
     it('should validate input and send errors', async () => {
-        const req = {
-            params: {
-                id: 1
-            },
-            body: {
-                contentID: 1,
-                output: '{"title": "Hello World"}'
-            }
-        }
+        req.params = {
+            id: 1
+        };
+        req.body = {
+            contentID: 1,
+            output: '{"title": "Hello World"}'
+        };
 
         jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
@@ -584,17 +551,15 @@ describe('updateInstance', () => {
         })
     })
     it('should call BlockInstance.update and send answer', async () => {
-        const req = {
-            params: {
-                id: 1
-            },
-            body: {
-                contentID: 1,
-                output: '{"title": "Hello World"}',
-                blockID: 2,
-                priority: 1
-            }
-        }
+        req.params = {
+            id: 1
+        };
+        req.body = {
+            contentID: 1,
+            output: '{"title": "Hello World"}',
+            blockID: 2,
+            priority: 1
+        };
 
         BlockInstance.update.mockReturnValue(true);
 
@@ -605,17 +570,15 @@ describe('updateInstance', () => {
         expect(res.send).toHaveBeenCalledWith({ success: true });
     })
     it('should send error if BlockInstance.update failed', async () => {
-        const req = {
-            params: {
-                id: 1
-            },
-            body: {
-                contentID: 1,
-                output: '{"title": "Hello World"}',
-                blockID: 2,
-                priority: 1
-            }
-        }
+        req.params = {
+            id: 1
+        };
+        req.body = {
+            contentID: 1,
+            output: '{"title": "Hello World"}',
+            blockID: 2,
+            priority: 1
+        };
 
         BlockInstance.update.mockReturnValue(false);
 
@@ -632,11 +595,9 @@ describe('updateInstance', () => {
 
 describe('removeInstance', () => {
     it('should call BlockInstance.remove and send response', async () => {
-        const req = {
-            params: {
-                id: 1
-            }
-        }
+        req.params = {
+            id: 1
+        };
 
         BlockInstance.remove.mockReturnValue(true);
 
@@ -649,11 +610,9 @@ describe('removeInstance', () => {
         })
     })
     it('should send error if BlockInstance.remove failed', async () => {
-        const req = {
-            params: {
-                id: 1
-            }
-        }
+        req.params = {
+            id: 1
+        };
 
         BlockInstance.remove.mockReturnValue(false);
 

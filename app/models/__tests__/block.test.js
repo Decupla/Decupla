@@ -17,6 +17,7 @@ afterEach(() => {
 jest.mock('../../database/database', () => ({
     selectAll: jest.fn(),
     selectWhere: jest.fn(),
+    selectAllWhere: jest.fn(),
     insert: jest.fn(),
     updateWhere: jest.fn(),
     deleteWhere: jest.fn()
@@ -47,17 +48,17 @@ describe('add', () => {
 
 describe('getAll', () => {
     it('should get all blocks from database', async () => {
-        const mockRows = [{ id: 1, title: 'New mocked block', key: 'mockedBlock', input: "", status: 1 }];
-        db.selectAll.mockResolvedValue(mockRows);
+        const mockRows = [{ id: 1, title: 'New mocked block', key: 'mockedBlock', input: "", tenantID: 1 }];
+        db.selectAllWhere.mockResolvedValue(mockRows);
 
-        const result = await Block.getAll();
+        const result = await Block.getAll(1);
         expect(result).toEqual(mockRows);
-        expect(db.selectAll).toHaveBeenCalledWith('blocks');
+        expect(db.selectAllWhere).toHaveBeenCalledWith('blocks','tenantID',1);
     })
     it('should log errors', async () => {
-        db.selectAll.mockRejectedValue(mockError);
+        db.selectAllWhere.mockRejectedValue(mockError);
 
-        const result = await Block.getAll();
+        const result = await Block.getAll(1);
 
         expect(result).toEqual([]);
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError);

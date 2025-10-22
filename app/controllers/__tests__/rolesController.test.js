@@ -4,7 +4,11 @@ const Role = require('../../models/role');
 
 jest.mock('../../models/role');
 
-let req = {};
+let req = {
+    user: {
+        tenantID: 1
+    }
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -53,10 +57,8 @@ describe('create', () => {
 
 describe('edit', () => {
     it('should call Role.get and render editRole template', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         const mockRow = { id: 1, name: 'Author', perms: 'editContent,editBlockInstances,manageMenus,manageRoles' };
@@ -76,10 +78,8 @@ describe('edit', () => {
         })
     })
     it('should redirect if Role.get returned null', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         Role.get.mockReturnValue(null);
@@ -93,13 +93,10 @@ describe('edit', () => {
 
 describe('saveNew', () => {
     it('should validate input and render template with errors', async () => {
-        const req = {
-            body: {
-                permissions: 'manageBlocks'
-            },
-            query: {
-            }
+        req.body = {
+            permissions: 'manageBlocks'
         }
+        req.query = {}
 
 
         jest.mock('../../helpers/Validation', () => {
@@ -125,10 +122,8 @@ describe('saveNew', () => {
         });
     })
     it('should render template with error if req.body.permissions is undefined', async () => {
-        const req = {
-            body: {
-                name: 'Author'
-            }
+        req.body = {
+            name: 'Author'
         }
 
         await rolesController.saveNew(req, res);
@@ -140,15 +135,13 @@ describe('saveNew', () => {
             data: req.body,
             rolePerms: [],
             editingExisting: false,
-            messages: {perms: 'Please set at least one permission'}
+            messages: { perms: 'Please set at least one permission' }
         });
     })
     it('should call Role.add and redirect on success', async () => {
-        const req = {
-            body: {
-                name: 'Author',
-                permissions: 'editContent'
-            }
+        req.body = {
+            name: 'Author',
+            permissions: 'editContent'
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -168,16 +161,15 @@ describe('saveNew', () => {
 
         expect(Role.add).toHaveBeenCalledWith({
             name: 'Author',
-            perms: 'editContent'
+            perms: 'editContent',
+            tenantID: 1
         });
         expect(res.redirect).toHaveBeenCalledWith(`/roles/edit/${mockNewID}?message=saved`);
     })
     it('should render error template if Role.add returned null', async () => {
-        const req = {
-            body: {
-                name: 'Author',
-                permissions: 'editContent'
-            }
+        req.body = {
+            name: 'Author',
+            permissions: 'editContent'
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -204,16 +196,13 @@ describe('saveNew', () => {
 
 describe('save', () => {
     it('should validate input and send errors', async () => {
-        const req = {
-            body: {
-                name: '',
-                permissions: 'editContent'
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            name: '',
+            permissions: 'editContent'
         }
-
+        req.params = {
+            id: 1
+        }
 
         jest.mock('../../helpers/Validation', () => {
             return jest.fn().mockImplementation(() => {
@@ -231,14 +220,12 @@ describe('save', () => {
         expect(res.render).toHaveBeenCalled();
     })
     it('should call Role.update and redirect on success', async () => {
-        const req = {
-            body: {
-                name: 'Author',
-                permissions: 'editContent'
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            name: 'Author',
+            permissions: 'editContent'
+        }
+        req.params = {
+            id: 1
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -263,14 +250,12 @@ describe('save', () => {
         expect(res.redirect).toHaveBeenCalledWith('/roles/edit/1?message=saved');
     })
     it('should render error template if Role.updated failed', async () => {
-        const req = {
-            body: {
-                name: 'Author',
-                permissions: 'editContent'
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            name: 'Author',
+            permissions: 'editContent'
+        }
+        req.params = {
+            id: 1
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -302,10 +287,8 @@ describe('save', () => {
 
 describe('remove', () => {
     it('should call Role.remove and redirect on success', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         Role.remove.mockReturnValue(true);
@@ -316,10 +299,8 @@ describe('remove', () => {
         expect(res.redirect).toHaveBeenCalledWith('/roles?message=deleted');
     })
     it('should render rror template if Role.delete failed', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         Role.remove.mockReturnValue(false);

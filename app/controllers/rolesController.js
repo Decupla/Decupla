@@ -57,7 +57,8 @@ const saveNew = async (req, res) => {
 
     const data = {
         name: req.body.name,
-        perms
+        perms,
+        tenantID: req.user.tenantID
     }
 
     const validation = new Validation(data);

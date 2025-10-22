@@ -4,7 +4,7 @@ const Validation = require('../helpers/Validation');
 const isEmpty = require('../helpers/isEmpty');
 
 const index = async (req, res) => {
-    const blocks = await Block.getAll();
+    const blocks = await Block.getAll(req.user.tenantID);
 
     res.status(200).render('blocks', {
         title: 'Blocks',
@@ -39,7 +39,8 @@ const saveNew = async (req, res) => {
         title: req.body.title,
         key: req.body.key,
         input: req.body.input,
-        created: Date.now()
+        created: Date.now(),
+        tenantID: req.user.tenantID
     }
 
     const validation = new Validation(data);
