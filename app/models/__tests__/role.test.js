@@ -16,6 +16,7 @@ afterEach(() => {
 jest.mock('../../database/database', () => ({
     selectAll: jest.fn(),
     selectWhere: jest.fn(),
+    selectAllWhere: jest.fn(),
     insert: jest.fn(),
     updateWhere: jest.fn(),
     deleteWhere: jest.fn()
@@ -45,18 +46,18 @@ describe('add',()=>{
 });
 
 describe('getAll',()=>{
-    it('should call db.selectAll and return found rows',async ()=>{
-        const mockRows = [{ id: 1, name: 'Mocked role', perms: "editContent,editBlockInstances"}];
-        db.selectAll.mockResolvedValue(mockRows);
+    it('should call db.selectAllWhere and return found rows',async ()=>{
+        const mockRows = [{ id: 1, name: 'Mocked role', perms: "editContent,editBlockInstances", tenantID: 1}];
+        db.selectAllWhere.mockResolvedValue(mockRows);
 
-        const result = await Role.getAll();
+        const result = await Role.getAll(1);
         expect(result).toEqual(mockRows);
-        expect(db.selectAll).toHaveBeenCalledWith('roles');
+        expect(db.selectAllWhere).toHaveBeenCalledWith('roles','tenantID',1);
     })
     it('should log errors',async ()=>{
-        db.selectAll.mockRejectedValue(mockError);
+        db.selectAllWhere.mockRejectedValue(mockError);
 
-        const result = await Role.getAll();
+        const result = await Role.getAll(1);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
 

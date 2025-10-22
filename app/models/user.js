@@ -2,7 +2,7 @@ const db = require('../database/database');
 
 const add = async (data) => {
     try {
-        const newId = await db.insert('users',data);
+        const newId = await db.insert('users', data);
         return newId;
     } catch (error) {
         console.error('Error inserting data: ', error);
@@ -10,7 +10,17 @@ const add = async (data) => {
     }
 }
 
-const getAll = async () => {
+const getAll = async (tenantID) => {
+    try {
+        const rows = await db.selectAllWhere('users', 'tenantID', tenantID);
+        return rows;
+    } catch (error) {
+        console.error('Error retrieving data: ', error);
+        return [];
+    }
+}
+
+const getAllGlobal = async () => {
     try {
         const rows = await db.selectAll('users');
         return rows;
@@ -22,7 +32,7 @@ const getAll = async () => {
 
 const get = async (id) => {
     try {
-        const result = await db.selectWhere('users','id',id);
+        const result = await db.selectWhere('users', 'id', id);
         return result;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -32,7 +42,7 @@ const get = async (id) => {
 
 const getByMail = async (email) => {
     try {
-        const result = await db.selectWhere('users','email',email);
+        const result = await db.selectWhere('users', 'email', email);
         return result;
     } catch (error) {
         console.error('Error retrieving data: ', error);
@@ -40,9 +50,9 @@ const getByMail = async (email) => {
     }
 }
 
-const update = async (id,data) => {
+const update = async (id, data) => {
     try {
-        await db.updateWhere('users',data,'id',id)
+        await db.updateWhere('users', data, 'id', id)
         return true;
     } catch (error) {
         console.error('Error updating data: ', error);
@@ -52,9 +62,9 @@ const update = async (id,data) => {
 
 const remove = async (id) => {
     try {
-        await db.deleteWhere('users','id',id);
+        await db.deleteWhere('users', 'id', id);
         return true;
-    } catch (error) {   
+    } catch (error) {
         console.error('Error deleting data: ', error);
         return false;
     }
@@ -62,33 +72,34 @@ const remove = async (id) => {
 
 const mailExists = async (mail) => {
     try {
-        const result = await db.selectWhere('users','email',mail);
-        if(result){
+        const result = await db.selectWhere('users', 'email', mail);
+        if (result) {
             return true;
         }
         return false;
-    } catch (error) {   
+    } catch (error) {
         console.error('Error while checking for email: ', error);
         return false;
     }
 }
 
-const emailChanged = async (id,email) => {
+const emailChanged = async (id, email) => {
     try {
-        const user = await db.selectWhere('users','id',id);
-        if(user){
-            return user.email!==email;
+        const user = await db.selectWhere('users', 'id', id);
+        if (user) {
+            return user.email !== email;
         }
         return false;
-    } catch (error) {   
+    } catch (error) {
         console.error('Error while checking name email: ', error);
         return false;
     }
-} 
+}
 
 module.exports = {
     add,
     getAll,
+    getAllGlobal,
     get,
     getByMail,
     update,

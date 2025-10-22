@@ -55,6 +55,9 @@
                     </select>
                 </div>
                 <input id="save" type="submit" value="save">
+                <% if (query.message==="saved") { %>
+                    <div class="alert alert-success mt-4">User was saved!</div>
+                <% } %>
             </form>
         </div>
     </div>

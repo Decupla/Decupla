@@ -15,9 +15,6 @@
                         <div class="error-message visible"><%= messages.name %></div>
                         <% } %>
                 </div>
-                <% if(query.message==="saved"){ %>
-                    <div class="alert alert-success">Role was saved successfully!</div>
-                <% } %>
                 <fieldset class="mt-4 mb-3">
                     <legend>Permissions</legend>
                     <div>    
@@ -50,6 +47,9 @@
                 </fieldset>
                 <input id="save" type="submit" value="save">
             </form>
+            <% if(query.message==="saved"){ %>
+                <div class="alert alert-success fade-out mt-4">Role was saved successfully!</div>
+            <% } %>
         </div>
     </div>
 </main>

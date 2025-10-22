@@ -2,7 +2,7 @@ const Validation = require('../helpers/Validation');
 const Role = require('../models/role');
 
 const index = async (req, res) => {
-    const roles = await Role.getAll();
+    const roles = await Role.getAll(req.user.tenantID);
 
     res.status(200).render('roles', {
         title: 'Roles',

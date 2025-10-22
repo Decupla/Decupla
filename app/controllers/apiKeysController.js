@@ -2,7 +2,7 @@ const APIKey = require('../models/APIKey');
 const Validation = require('../helpers/Validation');
 
 const index = async (req,res) => {
-    const keys = await APIKey.getAll();
+    const keys = await APIKey.getAll(req.user.tenantID);
 
     res.status(200).render('apiKeys', {
         title: 'API-Keys',
@@ -41,7 +41,8 @@ const edit = async (req,res) => {
 const saveNew = async (req,res) => {
     const data = {
         name: req.body.name,
-        key: req.body.key
+        key: req.body.key,
+        tenantID: req.user.tenantID
     }
 
     const validation = new Validation(data);

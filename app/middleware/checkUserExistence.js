@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 const checkUserExistence = async (req, res, next) => {
     try {
-        const users = await User.getAll();
+        const users = await User.getAllGlobal();
         if(users.length===0){
             req.session.allowSetup = true; 
             return res.redirect('/setup');

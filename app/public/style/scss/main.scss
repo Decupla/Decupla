@@ -322,6 +322,18 @@ input#save {
     }
 }
 
+.fade-out {
+  opacity: 1;
+  transition: opacity 1s ease-out;
+  animation: fadeOut 1s ease-out 3s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
 // Edit Block Page
 // #message,
 // #name-error {

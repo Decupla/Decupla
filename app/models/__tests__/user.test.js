@@ -16,6 +16,7 @@ afterEach(() => {
 jest.mock('../../database/database', () => ({
     selectAll: jest.fn(),
     selectWhere: jest.fn(),
+    selectAllWhere: jest.fn(),
     insert: jest.fn(),
     updateWhere: jest.fn(),
     deleteWhere: jest.fn()
@@ -45,18 +46,38 @@ describe('add',()=>{
 });
 
 describe('getAll',()=>{
-    it('should call db.selectAll and return found rows',async ()=>{
-        const mockRows = [{ id: 1, email: 'nils@gmail.com', name: 'Nils', password: "$hashedPassword",role:1}];
-        db.selectAll.mockResolvedValue(mockRows);
+    it('should call db.selectAllWhere and return found rows',async ()=>{
+        const mockRows = [{ id: 1, email: 'nils@gmail.com', name: 'Nils', password: "$hashedPassword",role:1, tenantID: 1}];
+        db.selectAllWhere.mockResolvedValue(mockRows);
+
+        const result = await User.getAll(1);
+        expect(result).toEqual(mockRows);
+        expect(db.selectAllWhere).toHaveBeenCalledWith('users','tenantID',1);
+    })
+    it('should log errors and return empty array',async ()=>{
+        db.selectAllWhere.mockRejectedValue(mockError);
 
         const result = await User.getAll();
+
+        expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
+        expect(result).toEqual([]);
+
+    })
+});
+
+describe('getAllGlobal',()=>{
+    it('should call db.selectAll and return found rows',async ()=>{
+        const mockRows = [{ id: 1, email: 'nils@gmail.com', name: 'Nils', password: "$hashedPassword",role:1, tenantID: 1}];
+        db.selectAll.mockResolvedValue(mockRows);
+
+        const result = await User.getAllGlobal();
         expect(result).toEqual(mockRows);
         expect(db.selectAll).toHaveBeenCalledWith('users');
     })
     it('should log errors and return empty array',async ()=>{
         db.selectAll.mockRejectedValue(mockError);
 
-        const result = await User.getAll();
+        const result = await User.getAllGlobal();
 
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ',mockError);
         expect(result).toEqual([]);

@@ -5,7 +5,7 @@ const isEmpty = require('../helpers/isEmpty');
 const bcrypt = require('bcrypt');
 
 const index = async (req, res) => {
-    const users = await User.getAll();
+    const users = await User.getAll(req.user.tenantID);
 
     for (const user of users) {
         if (user.role === 0) {
@@ -70,6 +70,7 @@ const saveNew = async (req, res) => {
         email: req.body.email,
         name: req.body.name,
         password: req.body.password,
+        tenantID: req.user.tenantID
     };
 
     if('role' in req.body){

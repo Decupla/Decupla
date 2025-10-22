@@ -8,7 +8,11 @@ jest.mock('../../models/user');
 jest.mock('../../models/role');
 jest.mock('bcrypt');
 
-let req = {};
+let req = {
+    user: {
+        tenantID: 1
+    }
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -69,10 +73,8 @@ describe('create', () => {
 
 describe('edit', () => {
     it('should call Role.getAll and User.get and should render editUser templates with roles and user data', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         const mockRoleRows = [
@@ -100,10 +102,8 @@ describe('edit', () => {
     })
 
     it('should redirect if User.get returned null', async () => {
-        req = {
-            params: {
-                id: 1
-            }
+        req.params = {
+            id: 1
         }
 
         const mockRoleRows = [
@@ -123,11 +123,9 @@ describe('edit', () => {
 
 describe('save new', () => {
     it('should validate input and render editUser template with error messages', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                password: 'loginsven',
-            }
+        req.body = {
+            email: 'sven@gmail.com',
+            password: 'loginsven',
         }
 
         const mockRoleRows = [
@@ -152,7 +150,7 @@ describe('save new', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.render).toHaveBeenCalledWith('editUser', {
             title: 'Create User',
-            data: req.body,
+            data: { email: 'sven@gmail.com', password: 'loginsven', tenantID: 1, name: undefined},
             messages: { name: 'Name is required', role: 'Role is required' },
             editingExisting: false,
             query: req.query,
@@ -160,13 +158,11 @@ describe('save new', () => {
         })
     })
     it('should use User.mailExists to check if user mail is already in use', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                name: 'Sven',
-                password: 'loginsven',
-                role: 1
-            }
+        req.body = {
+            email: 'sven@gmail.com',
+            name: 'Sven',
+            password: 'loginsven',
+            role: 1
         }
 
         const mockRoleRows = [
@@ -193,7 +189,7 @@ describe('save new', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.render).toHaveBeenCalledWith('editUser', {
             title: 'Create User',
-            data: req.body,
+            data: {...req.body,...req.user},
             messages: { email: 'Mail already in use' },
             editingExisting: false,
             query: req.query,
@@ -201,13 +197,11 @@ describe('save new', () => {
         })
     })
     it('should hash password, call User.add and redirect on success', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                name: 'Sven',
-                password: 'loginsven',
-                role: 1
-            }
+        req.body = {
+            email: 'sven@gmail.com',
+            name: 'Sven',
+            password: 'loginsven',
+            role: 1
         }
 
         const mockRoleRows = [
@@ -242,19 +236,18 @@ describe('save new', () => {
             email: 'sven@gmail.com',
             name: 'Sven',
             password: 'hashedpassword',
-            role: 1
+            role: 1,
+            tenantID: 1
         })
 
         expect(res.redirect).toHaveBeenCalledWith(`/users/edit/${mockNewID}?message=saved`)
     })
     it('should render error template of User.add returned null', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                name: 'Sven',
-                password: 'loginsven',
-                role: 1
-            }
+        req.body = {
+            email: 'sven@gmail.com',
+            name: 'Sven',
+            password: 'loginsven',
+            role: 1
         }
 
         const mockRoleRows = [
@@ -289,7 +282,8 @@ describe('save new', () => {
             email: 'sven@gmail.com',
             name: 'Sven',
             password: 'hashedpassword',
-            role: 1
+            role: 1,
+            tenantID: 1
         })
 
         expect(res.status).toHaveBeenCalledWith(500);
@@ -302,15 +296,13 @@ describe('save new', () => {
 
 describe('save', () => {
     it('should validate input and render editUser template with error messages', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                id: 3
-            },
-            params: {
-                id: 3
-            }
-        }
+        req.body = {
+            email: 'sven@gmail.com',
+            id: 3
+        };
+        req.params = {
+            id: 3
+        };
 
         const mockRoleRows = [
             { id: 1, name: 'Author', perms: 'editContent,editBlockInstances,manageMenus,manageRoles' },
@@ -342,17 +334,15 @@ describe('save', () => {
         })
     })
     it('should check if email was changed and if so, check if new email is already in use', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                name: 'Sven',
-                role: 1,
-                id: 3,
-            },
-            params: {
-                id: 3
-            }
-        }
+        req.body = {
+            email: 'sven@gmail.com',
+            name: 'Sven',
+            role: 1,
+            id: 3,
+        };
+        req.params = {
+            id: 3
+        };
 
         const mockRoleRows = [
             { id: 1, name: 'Author', perms: 'editContent,editBlockInstances,manageMenus,manageRoles' },
@@ -386,17 +376,15 @@ describe('save', () => {
         })
     })
     it('should validate new password if a new password was set', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                name: 'Sven',
-                newPassword: '123',
-                role: 1,
-                id: 3
-            },
-            params: {
-                id: 3
-            },
+        req.body = {
+            email: 'sven@gmail.com',
+            name: 'Sven',
+            newPassword: '123',
+            role: 1,
+            id: 3
+        };
+        req.params = {
+            id: 3
         };
 
         const mockRoleRows = [
@@ -440,17 +428,15 @@ describe('save', () => {
         });
     });
     it('should hash new password, call User.update and redirect on success', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                name: 'Sven',
-                newPassword: 'loginsven123',
-                role: 1,
-                id: 3
-            },
-            params: {
-                id: 3
-            },
+        req.body = {
+            email: 'sven@gmail.com',
+            name: 'Sven',
+            newPassword: 'loginsven123',
+            role: 1,
+            id: 3
+        };
+        req.params = {
+            id: 3
         };
 
         const mockRoleRows = [
@@ -486,21 +472,19 @@ describe('save', () => {
         expect(res.redirect).toHaveBeenCalledWith('/users/edit/3?message=saved');
     })
     it('should not hash password if newPasswordSet is false', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                name: 'Sven',
-                newPassword: '',
-                role: 1,
-                id: 3
-            },
-            params: {
-                id: 3
-            },
+        req.body = {
+            email: 'sven@gmail.com',
+            name: 'Sven',
+            newPassword: '',
+            role: 1,
+            id: 3
         };
-    
+        req.params = {
+            id: 3
+        };
+
         await usersController.save(req, res);
-    
+
         expect(bcrypt.hash).not.toHaveBeenCalled();
         expect(User.update).toHaveBeenCalledWith(3, {
             email: 'sven@gmail.com',
@@ -509,19 +493,17 @@ describe('save', () => {
             id: 3
         });
     });
-    
+
     it('should render error template if User.update failed', async () => {
-        req = {
-            body: {
-                email: 'sven@gmail.com',
-                name: 'Sven',
-                newPassword: 'loginsven123',
-                role: 1,
-                id: 3
-            },
-            params: {
-                id: 3
-            },
+        req.body = {
+            email: 'sven@gmail.com',
+            name: 'Sven',
+            newPassword: 'loginsven123',
+            role: 1,
+            id: 3
+        };
+        req.params = {
+            id: 3
         };
 
         const mockRoleRows = [
@@ -563,33 +545,29 @@ describe('save', () => {
 
 describe('remove', () => {
     it('should call User.remove and redirect on success', async () => {
-        req = {
-            params: {
-                id: 1
-            }
-        }
+        req.params = {
+            id: 1
+        };
 
         User.remove.mockReturnValue(true);
 
-        await usersController.remove(req,res);
+        await usersController.remove(req, res);
 
         expect(User.remove).toHaveBeenCalledWith(1);
         expect(res.redirect).toHaveBeenCalledWith('/users?message=deleted');
     })
     it('should render error template if User.remove failed', async () => {
-        req = {
-            params: {
-                id: 1
-            }
-        }
+        req.params = {
+            id: 1
+        };
 
         User.remove.mockReturnValue(false);
 
-        await usersController.remove(req,res);
+        await usersController.remove(req, res);
 
         expect(User.remove).toHaveBeenCalledWith(1);
         expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.render).toHaveBeenCalledWith('error',{
+        expect(res.render).toHaveBeenCalledWith('error', {
             title: 'Error',
             message: 'Something went wrong while trying to delete the user. Please check the console for more information.'
         });

@@ -5,11 +5,6 @@
             <a href="/settings">Settings</a> > <a href="/settings/api-keys">API-Keys</a> > <strong>Edit Key</strong>
         </div>
         <div class="edit-container">
-            <% if(query.message==="saved" ){ %>
-                <div class="alert alert-success message-saved my-4">
-                    API-Key was successfully saved
-                </div>
-            <% } %>
             <form action="<%= editingExisting ? `/settings/api-keys/${data.id}` : '/settings/api-keys' %>" method="POST" novalidate>
                 <% if(editingExisting){ %>
                     <input type="hidden" name="_method" value="PUT">
@@ -38,6 +33,11 @@
                     </div>
                 <% } %>
                 <input class="mt-5" id="save" type="submit" value="save">
+                <% if(query.message==="saved" ){ %>
+                    <div class="alert alert-success fade-out my-4">
+                        API-Key was successfully saved
+                    </div>
+                <% } %>
             </form>
         </div>
     </div>

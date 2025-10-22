@@ -43,7 +43,7 @@ describe('get', () => {
 })
 
 describe('getAll', () => {
-    it('should call db.selectAll and return the found rows', async () => {
+    it('should call db.selectAllWhere and return the found rows', async () => {
         const mockedRows = [{ id: 1, title: 'New Collection', key: 'new-collection', tenantID: 1 }];
         db.selectAllWhere.mockResolvedValue(mockedRows);
 

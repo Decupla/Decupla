@@ -66,7 +66,7 @@ describe('get', () => {
 })
 
 describe('getAll', () => {
-    it('should call db.selectAll and return found rows',async ()=>{
+    it('should call db.selectAllWhere and return found rows',async ()=>{
         const mockRows = [{ id: 1, file: 'mockedFile.png', alt: 'mockedAlt', type: 'image/png', size: '123', tenantID: 1 }];
         db.selectAllWhere.mockResolvedValue(mockRows);
 

@@ -16,6 +16,7 @@ afterEach(() => {
 jest.mock('../../database/database', () => ({
     selectAll: jest.fn(),
     selectWhere: jest.fn(),
+    selectAllWhere: jest.fn(),
     insert: jest.fn(),
     updateWhere: jest.fn(),
     deleteWhere: jest.fn()
@@ -45,16 +46,16 @@ describe('add', () => {
 })
 
 describe('getAll', () => {
-    it('should call db.selectAll and return found rows', async () => {
-        const mockRows = [{ id: 1, name: 'Mocked key', key: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat' }];
-        db.selectAll.mockResolvedValue(mockRows);
+    it('should call db.selectAllWhere and return found rows', async () => {
+        const mockRows = [{ id: 1, name: 'Mocked key', key: 'GgoeieCmbUnNJ5kfR32OMsuNkBF8rHat', tenantID: 1 }];
+        db.selectAllWhere.mockResolvedValue(mockRows);
 
-        const result = await APIKey.getAll();
+        const result = await APIKey.getAll(1);
         expect(result).toEqual(mockRows);
-        expect(db.selectAll).toHaveBeenCalledWith('api_keys');
+        expect(db.selectAllWhere).toHaveBeenCalledWith('api_keys','tenantID',1);
     }),
         it('should log errors and return empty array', async () => {
-            db.selectAll.mockRejectedValue(mockError);
+            db.selectAllWhere.mockRejectedValue(mockError);
 
             const result = await APIKey.getAll();
 

@@ -10,9 +10,9 @@ const add = async (data) => {
     }
 }
 
-const getAll = async () => {
+const getAll = async (tenantID) => {
     try {
-        const rows = await db.selectAll('api_keys');
+        const rows = await db.selectAllWhere('api_keys','tenantID',tenantID);
         return rows;
     } catch (error) {
         console.error('Error retrieving data: ', error);

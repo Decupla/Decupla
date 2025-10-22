@@ -5,7 +5,11 @@ const Validation = require('../../helpers/Validation');
 jest.mock('../../models/APIKey');
 jest.mock('../../helpers/Validation');
 
-let req = {}
+let req = {
+    user: {
+        tenantID: 1
+    }
+}
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -78,10 +82,8 @@ describe('edit', () => {
 
 describe('saveNew', () => {
     beforeEach(() => {
-        req = {
-            body: { name: 'newMockedKey', key: '5pMHnfQPQwGNj5v3kkoWnzAHkBPJW7vN' },
-            params: { id: '1' }
-        };
+        req.body = { name: 'newMockedKey', key: '5pMHnfQPQwGNj5v3kkoWnzAHkBPJW7vN' };
+        req.params = { id: 1 }
     });
 
     it('should validate input and render editKey template with errors', async () => {
@@ -98,7 +100,7 @@ describe('saveNew', () => {
             title: 'Create New API-Key',
             query: req.query,
             editingExisting: false,
-            data: req.body,
+            data: {...req.body,...req.user},
             messages: { name: 'Name is required' }
         });
     });
@@ -112,7 +114,7 @@ describe('saveNew', () => {
 
         await apiKeysController.saveNew(req, res);
 
-        expect(APIKey.add).toHaveBeenCalledWith(req.body);
+        expect(APIKey.add).toHaveBeenCalledWith({...req.body,...req.user});
         expect(res.redirect).toHaveBeenCalledWith('/settings/api-keys/edit/1?message=saved');
     });
     it('should render error template if APIKey.add returned null', async () => {
@@ -135,10 +137,8 @@ describe('saveNew', () => {
 
 describe('save', () => {
     beforeEach(() => {
-        req = {
-            body: { name: 'editedMockedKey', key: '5pMHnfQPQwGNj5v3kkoWnzAHkBPJW7vN' },
-            params: { id: 1 }
-        };
+        req.body = { name: 'editedMockedKey', key: '5pMHnfQPQwGNj5v3kkoWnzAHkBPJW7vN' };
+        req.params = { id: 1 };
     });
 
     it('should validate input and render editKey template with errors', async () => {

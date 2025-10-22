@@ -44,7 +44,7 @@ describe('add', () => {
 })
 
 describe('getAll', () => {
-    it('should call db.selectAll and return the found rows', async () => {
+    it('should call db.selectAllWhere and return the found rows', async () => {
         const mockedRows = [{ id: 1, title: 'Main Navigation', entries: '[1,3,3]', key: 'main-navigation', tenantID: 1 }];
         db.selectAllWhere.mockResolvedValue(mockedRows);
 
