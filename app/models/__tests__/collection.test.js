@@ -16,6 +16,7 @@ afterEach(() => {
 jest.mock('../../database/database', () => ({
     selectAll: jest.fn(),
     selectWhere: jest.fn(),
+    selectAllWhere: jest.fn(),
     insert: jest.fn(),
     updateWhere: jest.fn(),
     deleteWhere: jest.fn()
@@ -43,18 +44,18 @@ describe('get', () => {
 
 describe('getAll', () => {
     it('should call db.selectAll and return the found rows', async () => {
-        const mockedRows = [{ id: 1, title: 'New Collection', key: 'new-collection' }];
-        db.selectAll.mockResolvedValue(mockedRows);
+        const mockedRows = [{ id: 1, title: 'New Collection', key: 'new-collection', tenantID: 1 }];
+        db.selectAllWhere.mockResolvedValue(mockedRows);
 
-        const result = await Collection.getAll();
+        const result = await Collection.getAll(1);
 
         expect(result).toEqual(mockedRows);
-        expect(db.selectAll).toHaveBeenCalledWith('collections');
+        expect(db.selectAllWhere).toHaveBeenCalledWith('collections','tenantID',1);
     })
     it('should log errors', async () => {
-        db.selectAll.mockRejectedValue(mockError)
+        db.selectAllWhere.mockRejectedValue(mockError)
 
-        const result = await Collection.getAll();
+        const result = await Collection.getAll(1);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError)
     })

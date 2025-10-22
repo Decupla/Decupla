@@ -3,7 +3,7 @@ const isEmpty = require('../helpers/isEmpty');
 const Collection = require('../models/collection');
 
 const index = async (req, res) => {
-    const collections = await Collection.getAll();
+    const collections = await Collection.getAll(req.user.tenantID);
 
     res.status(200).render('collections', {
         title: 'Content',
@@ -40,6 +40,7 @@ const saveNew = async (req, res) => {
         key: req.body.key,
         // columns: req.body.columns,
         // created: Date.now()
+        tenantID: req.user.tenantID
     };
 
     const validation = new Validation(data);

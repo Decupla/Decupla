@@ -5,7 +5,11 @@ const Validation = require('../../helpers/Validation');
 jest.mock('../../helpers/Validation');
 jest.mock('../../models/collection');
 
-let req = {};
+let req = {
+    user: {
+        tenantID: 1
+    }
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -49,11 +53,9 @@ describe('create', () => {
 
 describe('saveNew', () => {
     it('should validate input and send errors', async () => {
-        req = {
-            body: {
-                title: 'Test Collection',
-                key: ''
-            }
+        req.body = {
+            title: 'Test Collection',
+            key: ''
         }
 
         Validation.prototype.validate = jest.fn();
@@ -71,11 +73,9 @@ describe('saveNew', () => {
         });
     });
     it('should send errors if key is already in use', async () => {
-        req = {
-            body: {
-                title: 'Test Collection',
-                key: 'test-collection'
-            }
+        req.body = {
+            title: 'Test Collection',
+            key: 'test-collection'
         }
 
         Validation.prototype.validate = jest.fn();
@@ -93,12 +93,10 @@ describe('saveNew', () => {
         });
     });
     it('should save input and return new iD', async () => {
-        req = {
-            body: {
-                title: 'Test Collection',
-                key: 'test-collection'
-            }
-        };
+        req.body = {
+            title: 'Test Collection',
+            key: 'test-collection'
+        }
 
         Validation.prototype.validate = jest.fn();
         Validation.prototype.errors = {}
@@ -117,12 +115,10 @@ describe('saveNew', () => {
         });
     })
     it('should send error if no newID was returned', async () => {
-        req = {
-            body: {
-                title: 'Test Collection',
-                key: 'test-collection'
-            }
-        };
+        req.body = {
+            title: 'Test Collection',
+            key: 'test-collection'
+        }
 
         Validation.prototype.validate = jest.fn();
         Validation.prototype.errors = {}
@@ -144,14 +140,12 @@ describe('saveNew', () => {
 
 describe('save', () => {
     it('should validate input and send errors', async () => {
-        req = {
-            body: {
-                title: 'Test Collection Updated',
-                key: ''
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            title: 'Test Collection Updated',
+            key: ''
+        };
+        req.params = {
+            id: 1
         };
 
         Validation.prototype.validate = jest.fn();
@@ -169,15 +163,13 @@ describe('save', () => {
         });
     }),
         it('should send errors if new key is already in use', async () => {
-            req = {
-                body: {
-                    title: 'Test Collection',
-                    key: 'test-collection',
-                },
-                params: {
-                    id: 1
-                }
-            }
+            req.body = {
+                title: 'Test Collection',
+                key: 'test-collection',
+            };
+            req.params = {
+                id: 1
+            };
 
             Validation.prototype.validate = jest.fn();
             Validation.prototype.errors = {};
@@ -195,14 +187,12 @@ describe('save', () => {
             });
         });
     it('should call Collection.update after successfull validation and send response', async () => {
-        req = {
-            body: {
-                title: 'Test Collection Updated',
-                key: 'test-collection-updated'
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            title: 'Test Collection Updated',
+            key: 'test-collection-updated'
+        };
+        req.params = {
+            id: 1
         };
 
         Validation.prototype.validate = jest.fn();
@@ -222,14 +212,12 @@ describe('save', () => {
         });
     });
     it('should send error if Collection.update fails', async () => {
-        req = {
-            body: {
-                title: 'Test Collection Updated',
-                key: 'test-collection-updated'
-            },
-            params: {
-                id: 1
-            }
+        req.body = {
+            title: 'Test Collection Updated',
+            key: 'test-collection-updated'
+        };
+        req.params = {
+            id: 1
         };
 
         Validation.prototype.validate = jest.fn();
@@ -251,10 +239,8 @@ describe('save', () => {
 })
 
 describe('remove', () => {
-    req = {
-        params: {
-            id: 1
-        }
+    req.params = {
+        id: 1
     };
 
     it('should call Collection.remove and redirect on success', async () => {
@@ -281,17 +267,15 @@ describe('remove', () => {
 })
 
 describe('edit', () => {
-    req = {
-        params: {
-            id: 1
-        }
+    req.params = {
+        id: 1
     };
 
     it('should call Collection.get and render edit template', async () => {
         const mockedRow = { id: 1, title: 'Found Collection', key: 'found-collection' };
         Collection.get.mockResolvedValue(mockedRow);
 
-        await collectionsController.edit(req,res);
+        await collectionsController.edit(req, res);
 
         expect(Collection.get).toHaveBeenCalledWith(1);
         expect(res.status).toHaveBeenCalledWith(200);
@@ -304,7 +288,7 @@ describe('edit', () => {
     it('should redirect if Collection.get resolved null', async () => {
         Collection.get.mockResolvedValue(null);
 
-        await collectionsController.edit(req,res);
+        await collectionsController.edit(req, res);
 
         expect(res.redirect).toHaveBeenCalledWith('/collections');
     })

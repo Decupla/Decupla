@@ -1,8 +1,8 @@
 const db = require('../database/database');
 
-const getAll = async () => {
+const getAll = async (tenantID) => {
     try {
-        const rows = await db.selectAll('collections');
+        const rows = await db.selectAllWhere('collections','tenantID',tenantID);
         return rows;
     } catch (error) {
         console.error('Error retrieving data: ', error);
