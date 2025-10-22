@@ -4,7 +4,7 @@ const Validation = require('../helpers/Validation');
 const isEmpty = require('../helpers/isEmpty');
 
 const index = async (req,res) => {
-    const menus = await Menu.getAll();
+    const menus = await Menu.getAll(req.user.tenantID);
 
     res.status(200).render('menus', {
         title: 'Menus',
@@ -43,7 +43,8 @@ const saveNew = async (req,res) => {
     const data = {
         title: req.body.title,
         key: req.body.key,
-        entries: req.body.entries
+        entries: req.body.entries,
+        tenantID: req.user.tenantID
     };
 
     const validation = new Validation(data);

@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 jest.mock('../../database/database', () => ({
-    selectAll: jest.fn(),
+    selectAllWhere: jest.fn(),
     selectWhere: jest.fn(),
     insert: jest.fn(),
     updateWhere: jest.fn(),
@@ -45,18 +45,18 @@ describe('add', () => {
 
 describe('getAll', () => {
     it('should call db.selectAll and return the found rows', async () => {
-        const mockedRows = [{ id: 1, title: 'Main Navigation', entries: '[1,3,3]', key: 'main-navigation' }];
-        db.selectAll.mockResolvedValue(mockedRows);
+        const mockedRows = [{ id: 1, title: 'Main Navigation', entries: '[1,3,3]', key: 'main-navigation', tenantID: 1 }];
+        db.selectAllWhere.mockResolvedValue(mockedRows);
 
-        const result = await Menu.getAll();
+        const result = await Menu.getAll(1);
 
         expect(result).toEqual(mockedRows);
-        expect(db.selectAll).toHaveBeenCalledWith('menus');
+        expect(db.selectAllWhere).toHaveBeenCalledWith('menus','tenantID',1);
     })
     it('should log errors', async () => {
-        db.selectAll.mockRejectedValue(mockError)
+        db.selectAllWhere.mockRejectedValue(mockError)
 
-        const result = await Menu.getAll();
+        const result = await Menu.getAll(1);
 
         expect(consoleSpy).toHaveBeenCalledWith('Error retrieving data: ', mockError)
     })

@@ -5,7 +5,7 @@ const Media = require('../models/media');
 const sanitizeFilename = require('../helpers/sanitizeFilename');
 
 const index = async (req, res) => {
-    const media = await Media.getAll();
+    const media = await Media.getAll(req.user.tenantID);
 
     res.status(200).render('media', {
         title: 'Media',
@@ -60,7 +60,7 @@ const saveNew = async (req, res) => {
     try {
         await new Promise((resolve, reject) => {
             $newPath = path.join(process.cwd(), 'uploads', filename);
-            file.mv(`${process.cwd()}/uploads/${filename}`, err => {
+            file.mv(`${process.cwd()}/app/uploads/${filename}`, err => {
                 if (err) return reject(err);
                 resolve();
             });
@@ -70,7 +70,8 @@ const saveNew = async (req, res) => {
             file: filename,
             alt: req.body.alt,
             size: filesize,
-            type: filetype
+            type: filetype,
+            tenantID: req.user.tenantID
         };
 
         const newID = await Media.add(data);

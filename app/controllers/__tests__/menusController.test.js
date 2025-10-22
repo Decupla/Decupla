@@ -6,7 +6,16 @@ const Validation = require('../../helpers/Validation');
 jest.mock('../../models/content');
 jest.mock('../../models/menu');
 
-let req = {};
+let req = {
+    user: {
+        tenantID: 1
+    },
+    query: {},
+    body: {},
+    params: {
+        id: 1
+    }
+};
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),
@@ -39,11 +48,11 @@ describe('index', () => {
 
 describe('create', () => {
     it('should call Content.getAllPublished and render editMenu template', async () => {
-        req = {
-            user: {
-                tenantID: 1
-            }
-        }
+        // req = {
+        //     user: {
+        //         tenantID: 1
+        //     }
+        // }
 
         const mockRows = [
             { id: 1, title: 'Home', status: 1 },
@@ -70,9 +79,9 @@ describe('edit', () => {
     ]
 
     it('should call Menu.get / Content.getAllPublished and render editMenu template', async () => {
-        req.params = {
-            id: 1
-        }
+        // req.params = {
+        //     id: 1
+        // }
 
         const mockMenuRow = { id: 1, title: 'Header Menu', key: 'header-menu', entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]' };
 
@@ -93,9 +102,9 @@ describe('edit', () => {
         });
     })
     it('should redirect if Menu.get returned null', async () => {
-        req.params = {
-            id: 1
-        }
+        // req.params = {
+        //     id: 1
+        // }
 
         Menu.get.mockReturnValue(null);
         Content.getAllPublished.mockReturnValue(mockContentRows)
@@ -178,7 +187,7 @@ describe('saveNew', () => {
 
         await menusController.saveNew(req, res);
 
-        expect(Menu.add).toHaveBeenCalledWith(req.body);
+        expect(Menu.add).toHaveBeenCalledWith({...req.body,...req.user});
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.send).toHaveBeenCalledWith({
             validation: true,
@@ -193,7 +202,7 @@ describe('saveNew', () => {
 
         await menusController.saveNew(req, res);
 
-        expect(Menu.add).toHaveBeenCalledWith(req.body);
+        expect(Menu.add).toHaveBeenCalledWith({...req.body,...req.user});
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith({
             validation: true,
@@ -205,15 +214,21 @@ describe('saveNew', () => {
 
 describe('save', () => {
     it('should validate input and send errors', async () => {
-        req = {
-            body: {
-                title: 'Header Menu',
-                key: 'header menu',
-                entries: ''
-            },
-            params: {
-                id: 1
-            }
+        // req = {
+        //     body: {
+        //         title: 'Header Menu',
+        //         key: 'header menu',
+        //         entries: ''
+        //     },
+        //     params: {
+        //         id: 1
+        //     }
+        // }
+
+        req.body = {
+            title: 'Header Menu',
+            key: 'header menu',
+            entries: ''
         }
 
         jest.mock('../../helpers/Validation', () => {
@@ -247,15 +262,21 @@ describe('save', () => {
     });
 
     it('should send error if key was changed and new key already exists', async () => {
-        req = {
-            body: {
-                title: 'Header Menu',
-                key: 'existingKey',
-                entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]'
-            },
-            params: {
-                id: 1
-            }
+        // req = {
+        //     body: {
+        //         title: 'Header Menu',
+        //         key: 'existingKey',
+        //         entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]'
+        //     },
+        //     params: {
+        //         id: 1
+        //     }
+        // }
+
+        req.body = {
+            title: 'Header Menu',
+            key: 'existingKey',
+            entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]'
         }
 
         Menu.keyChanged.mockReturnValue(true);
@@ -274,17 +295,25 @@ describe('save', () => {
     })
 
     it('shoud call Menu.update after successfull validation and send response', async () => {
-        req = {
-            body: {
-                title: 'Header Menu',
-                key: 'headerMenu',
-                entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]',
-                id: 1
-            },
-            params: {
-                id: 1
-            }
+        // req = {
+        //     body: {
+        //         title: 'Header Menu',
+        //         key: 'headerMenu',
+        //         entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]',
+        //         id: 1
+        //     },
+        //     params: {
+        //         id: 1
+        //     }
+        // }
+
+        req.body = {
+            title: 'Header Menu',
+            key: 'existingKey',
+            entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]',
+            id: 1
         }
+
 
         Menu.keyChanged.mockReturnValue(true);
         Menu.keyExists.mockReturnValue(false);
@@ -298,17 +327,24 @@ describe('save', () => {
     })
 
     it('should send error if Block.add failed', async () => {
-        req = {
-            body: {
-                title: 'Header Menu',
-                key: 'headerMenu',
-                entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]',
-                id: 1
-            },
-            params: {
-                id: 1
-            }
+        // req = {
+        //     body: {
+        //         title: 'Header Menu',
+        //         key: 'headerMenu',
+        //         entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]',
+        //         id: 1
+        //     },
+        //     params: {
+        //         id: 1
+        //     }
+        // }
+        req.body = {
+            title: 'Header Menu',
+            key: 'existingKey',
+            entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]',
+            id: 1
         }
+
 
         Menu.keyChanged.mockReturnValue(true);
         Menu.keyExists.mockReturnValue(false);
@@ -327,11 +363,11 @@ describe('save', () => {
 })
 
 describe('get', () => {
-    req = {
-        params: {
-            id: 1
-        }
-    };
+    // req = {
+    //     params: {
+    //         id: 1
+    //     }
+    // };
 
     it('should call Menu.get and return result', async () => {
         const mockMenuRow = { id: 1, title: 'Header Menu', key: 'header-menu', entries: '[{"entryID":1,"contentID":"1","priority":1,"title":"Home"}]' };
@@ -363,11 +399,11 @@ describe('get', () => {
 })
 
 describe('remove', () => {
-    req = {
-        params: {
-            id: 1
-        }
-    };
+    // req = {
+    //     params: {
+    //         id: 1
+    //     }
+    // };
 
     it('should call Menu.remove and redirect on success', async () => {
         Menu.remove.mockReturnValue(true);

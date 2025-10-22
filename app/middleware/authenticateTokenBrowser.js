@@ -15,6 +15,7 @@ const authenticateTokenBrowser = (req, res, next) => {
         req.session.allowLogin = false;
         next();
     } catch(error){
+        console.error('middleware error');
         console.log(error);
         return res.redirect('/login');
     }

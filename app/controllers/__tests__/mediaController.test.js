@@ -5,7 +5,11 @@ const sanitizeFilename = require('../../helpers/sanitizeFilename');
 jest.mock('../../models/media');
 jest.mock('../../helpers/sanitizeFilename');
 
-let req = {}
+let req = {
+    user: {
+        tenantID: 1
+    }
+}
 const res = {
     status: jest.fn().mockReturnThis(),
     render: jest.fn(),

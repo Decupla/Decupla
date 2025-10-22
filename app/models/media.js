@@ -20,9 +20,9 @@ const get = async (id) => {
     }
 }
 
-const getAll = async () => {
+const getAll = async (tenantID) => {
     try {
-        const rows = await db.selectAll('media');
+        const rows = await db.selectAllWhere('media','tenantID',tenantID);
         return rows;
     } catch (error) {
         console.error('Error retrieving data: ', error);
